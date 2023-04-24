@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  shorebird-docs:
+    build: .
+    container_name: shorebird-docs
+    stdin_open: true
+    tty: true
+    ports:
+      - 3000:3000
+      - 35729:35729
+    volumes:
+      - ./:/app
+    working_dir: /app

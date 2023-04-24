@@ -14,6 +14,7 @@ const config = {
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'shorebirdtech',
+  trailingSlash: false,
   projectName: 'docs',
   i18n: {
     defaultLocale: 'en',

@@ -45,7 +45,7 @@ const config = {
         title: 'Shorebird',
         logo: {
           alt: 'Shorebird Logo',
-          src: 'img/logo.svg',
+          src: 'img/logo.png',
         },
         items: [
           {

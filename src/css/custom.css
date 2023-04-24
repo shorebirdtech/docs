@@ -4,16 +4,16 @@
  * work well for content-centric websites.
  */
 
-/* You can override the default Infima variables here. */
+/* Color Scheme: https://coolors.co/0a0908-006989-f2f4f3-a9927d-007090 */
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #2a48df;
-  --ifm-color-primary-dark: #1f3ccf;
-  --ifm-color-primary-darker: #1d39c4;
-  --ifm-color-primary-darkest: #182fa1;
-  --ifm-color-primary-light: #415ce2;
-  --ifm-color-primary-lighter: #4d66e4;
-  --ifm-color-primary-lightest: #6f83e9;
+  --ifm-color-primary: #006989;
+  --ifm-color-primary-dark: #005f7b;
+  --ifm-color-primary-darker: #005974;
+  --ifm-color-primary-darkest: #004a60;
+  --ifm-color-primary-light: #007497;
+  --ifm-color-primary-lighter: #00799e;
+  --ifm-color-primary-lightest: #0089b2;
   --ifm-code-font-size: 95%;
   --ifm-footer-background-color: #f8f9fa;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
@@ -21,14 +21,14 @@
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #66fbd1;
-  --ifm-color-primary-dark: #44fac7;
-  --ifm-color-primary-darker: #32fac1;
-  --ifm-color-primary-darkest: #06f1af;
-  --ifm-color-primary-light: #88fcdb;
-  --ifm-color-primary-lighter: #9afce1;
-  --ifm-color-primary-lightest: #cdfef0;
-  --ifm-footer-background-color: #232938 !important;
+  --ifm-color-primary: #03b2e2;
+  --ifm-color-primary-dark: #03a0cb;
+  --ifm-color-primary-darker: #0397c0;
+  --ifm-color-primary-darkest: #027d9e;
+  --ifm-color-primary-light: #03c4f9;
+  --ifm-color-primary-lighter: #0cc8fc;
+  --ifm-color-primary-lightest: #2dd0fc;
+  --ifm-background-color: #0a0908;  
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
@@ -38,7 +38,7 @@ html .footer {
 }
 
 html[data-theme='dark'] .footer {
-  background-color: var(--ifm-footer-background-color);
+  background-color: var(--ifm-navbar-background-color);
 }
 
 /* GitHub Navbar Icon */

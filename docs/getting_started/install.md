@@ -13,8 +13,8 @@ curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/
 ```
 
 :::info
-Installing Shorebird CLI requires `git`.  We currently support only Mac and
-Linux.  Windows is [coming
+Installing Shorebird CLI requires `git`. We currently support only Mac and
+Linux. Windows is [coming
 soon](https://github.com/shorebirdtech/shorebird/issues/37).
 :::
 

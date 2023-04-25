@@ -8,7 +8,7 @@ description: Learn how to generate release builds of your Flutter app.
 
 :::info
 It is most common to use `shorebird release` and `shorebird patch` to release
-your app.  `shorebird build` is a lower level command.
+your app. `shorebird build` is a lower level command.
 :::
 
 You can use `shorebird build` to build a release version of your app including

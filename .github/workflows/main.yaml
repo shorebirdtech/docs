@@ -2,14 +2,7 @@ name: ci
 
 on:
   pull_request:
-    paths:
-      - '.github/workflows/main.yaml'
-      - 'site/**'
   push:
-    paths:
-      - '.github/workflows/main.yaml'
-      - 'site/**'
-
     branches:
       - main
 

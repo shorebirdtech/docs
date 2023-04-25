@@ -1,28 +1,35 @@
 ---
 sidebar_position: 1
 title: 📦 Install
-description: Learn how to install Shorebird CLI on your machine.
+description: Learn how to install Shorebird command line interface on your machine.
 ---
 
 # Installing Shorebird
 
-To install the Shorebird CLI use the following script:
+To install the Shorebird command line interface (CLI):
 
 ```
 curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | sh
 ```
 
 :::info
-Installing Shorebird CLI requires having `git` installed and currently only supports Mac and Linux hosts.
+Installing Shorebird CLI requires `git`. We currently support only Mac and
+Linux. Windows is [coming
+soon](https://github.com/shorebirdtech/shorebird/issues/37).
 :::
 
-This installs shorebird into `~/.shorebird/bin` and adds it to your `PATH`. It also installs a copy of Flutter and Dart inside `~/.shorebird/bin/cache/flutter`. These versions are not intended to be used for development (yet). You can continue to use the versions of Flutter and Dart you already have installed.
+This installs `shorebird` into `~/.shorebird/bin` and adds it to your `PATH`. It
+also installs a copy of Flutter and Dart inside
+`~/.shorebird/bin/cache/flutter`. The copy of Flutter is slightly modified to
+add Shorebird code push and is not intended to be added to your `PATH`. You can
+continue to use the versions of Flutter and Dart you already have installed.
 
 :::info
 The total installation is about 300mb.
 :::
 
-Once the installation has completed, you should have the `shorebird` command available:
+Once the installation has completed, `shorebird` should be available in your
+terminal:
 
 ```
 $ shorebird
@@ -54,11 +61,13 @@ Available commands:
 Run "shorebird help <command>" for more information about a command.
 ```
 
-Use the `shorebird doctor` command to ensure your environment is setup correctly:
+You can use the `shorebird doctor` to ensure things are set-up correctly:
 
 ```
 shorebird doctor
 ```
+
+Example output:
 
 ```
 $ shorebird doctor

@@ -6,19 +6,28 @@ description: Learn how to add code push to an existing Flutter project.
 
 # Initialize Shorebird
 
-To add code push to an existing Flutter project, run the `shorebird init` command at the root of a Flutter project:
+To configure an existing Flutter project, to use Shorebird, use `shorebird init`
+at the root of a Flutter project:
 
 ```
 shorebird init
 ```
 
-This will do several things:
+This does three things:
 
-1. Tells Shorebird that your app exists (e.g. so it can hold patches to it and vend them to devices when asked).
-1. Creates a `shorebird.yaml` file to your project. `shorebird.yaml` contains the `app_id` for your app, which is the unique identifier the app will send to Shorebird servers to identify which application to pull updates for.
-1. Adds the `shorebird.yaml` to the assets section of your `pubspec.yaml` file, ensuring `shorebird.yaml` is bundled into your app's assets.
+1. Tells Shorebird that your app exists (e.g. so it serve patches for your app
+   to devices when requested).
+1. Creates a `shorebird.yaml` file to your project. `shorebird.yaml` contains
+   the `app_id` for your app, which is the unique identifier the app will send
+   to Shorebird servers to identify which application to pull updates for.
+1. Adds the `shorebird.yaml` to the assets section of your `pubspec.yaml` file,
+   ensuring `shorebird.yaml` is bundled into your app's assets and available to
+   configure the Shorebird updater when your app runs.
 
-You can go ahead and commit these changes, they will be innocuous even if you don't end up using Shorebird with this application.
+You can safely commit these changes, they will have no affect on your app
+when not using Shorebird.
+
+Example output:
 
 ```
 $ shorebird init
@@ -41,7 +50,10 @@ For more information about Shorebird, visit https://shorebird.dev
 ```
 
 :::info
-Shorebird code push requires the internet permission to be added to your `AndroidManifest.xml` file. (located in `android/app/src/main/AndroidManifest.xml`.) This is required for the app to be able to communicate with the Shorebird servers to pull new patches.
+Shorebird code push requires the internet permission to be added to your
+`AndroidManifest.xml` file. (located in
+`android/app/src/main/AndroidManifest.xml`.) This is required for the app to be
+able to communicate with the Shorebird servers to pull new patches.
 
 ```xml
 <manifest ...>
@@ -50,5 +62,6 @@ Shorebird code push requires the internet permission to be added to your `Androi
 </manifest>
 ```
 
-Running `shorebird doctor` will check that your `AndroidManifest.xml` file is set up correctly.
+Running `shorebird doctor` will check that your `AndroidManifest.xml` file is
+set up correctly.
 :::

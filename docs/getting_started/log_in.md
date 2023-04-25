@@ -6,15 +6,22 @@ description: Learn how to login to an existing Shorebird account.
 
 # Log In
 
-Once you have created a Shorebird account, you can login using the `shorebird login` command:
+If you just created a Shorebird account, you can skip this section, as you
+are already logged in from `shorebird account create`.
+
+If you have an existing Shorebird account, you can login using the
+`shorebird login` command:
 
 ```
 shorebird login
 ```
 
+Example output:
+
 ```
 $ shorebird login
-The Shorebird CLI needs your authorization to manage apps, releases, and patches on your behalf.
+The Shorebird CLI needs your authorization to manage apps, releases, and patches
+on your behalf.
 
 In a browser, visit this URL to log in:
 

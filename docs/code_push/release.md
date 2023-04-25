@@ -6,13 +6,18 @@ description: Learn how to publish a new app release to Shorebird.
 
 # Publish a Release
 
-In order to start pushing updates, you will need to create a release using `shorebird release`.
+In order to start pushing updates, you will need to create a release using
+`shorebird release`.
 
 ```
 shorebird release
 ```
 
-Creating a release builds and submits your app to Shorebird. Shorebird saves the compiled Dart code from your application in order to make updates smaller in size.
+Creating a release builds and submits your app to Shorebird. Shorebird saves the
+compiled Dart code from your application in order to make updates smaller in
+size.
+
+Example output:
 
 ```
 $ shorebird release

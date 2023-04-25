@@ -6,15 +6,20 @@ description: Learn how to create a Shorebird account.
 
 # Sign Up
 
-Once you have Shorebird installed, you need to create a Shorebird account. To create a Shorebird account, use the `shorebird account create` command:
+Once you have Shorebird installed, you need to create a Shorebird account. To
+create a Shorebird account, use the `shorebird account create` command:
 
 ```
 shorebird account create
 ```
 
 :::info
-Currently Shorebird uses Google OAuth2 to authenticate users. If you need other auth methods, please [let us know](https://github.com/shorebirdtech/shorebird/issues/335).
+Currently Shorebird uses Google OAuth2 to authenticate users. If you need other
+auth methods, please [let us
+know](https://github.com/shorebirdtech/shorebird/issues/335).
 :::
+
+Example output:
 
 ```
 $ shorebird account create

@@ -11,4 +11,5 @@ services:
       - 35729:35729
     volumes:
       - ./:/app
+      - /app/node_modules
     working_dir: /app

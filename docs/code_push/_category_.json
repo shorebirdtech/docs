@@ -5,6 +5,6 @@
     "title": "Code Push",
     "slug": "code-push",
     "type": "generated-index",
-    "description": "Learn everything you need to add over the air updates (code push) to your Flutter application."
+    "description": "Learn everything you need to add code push (over the air updates) to your Flutter application."
   }
 }

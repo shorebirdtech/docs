@@ -8,8 +8,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/vsDark');
 const config = {
   title: 'Shorebird',
   tagline: 'Home of the Shorebird documentation.',
-  url: 'https://shorebirdtech.github.io',
-  baseUrl: '/docs/',
+  url: 'https://docs.shorebird.dev',
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',

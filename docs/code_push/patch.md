@@ -6,7 +6,8 @@ description: Learn how to push updates to an app with Shorebird.
 
 # Push Updates
 
-Once you have published a release of your app, you can push updates using the `shorebird patch` command:
+Once you have published a release of your app, you can push updates using the
+`shorebird patch` command:
 
 ```
 shorebird patch
@@ -19,6 +20,8 @@ This will do several things:
 1. Generates a patch using the diff between the release and the current changes.
 1. Uploads the patch artifacts to the Shorebird backend
 1. Promotes the patch to the stable channel.
+
+Example output:
 
 ```
 $ shorebird patch

@@ -7,6 +7,6 @@ title: 📚 Overview
 
 Welcome to Shorebird 👋
 
-At Shorebird, our focus is on Flutter for businesses.
+We build products to help businesses be successful with Flutter.
 
-We're building tools that fill that gaps businesses need to be successful with Flutter.
+Our first product is code push for Flutter.

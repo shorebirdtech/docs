@@ -32,8 +32,8 @@ powershell -exec bypass -c "(New-Object Net.WebClient).Proxy.Credentials=[Net.Cr
 Installing Shorebird CLI requires `git`.
 :::
 
-This installs `shorebird` into `~/.shorebird/bin` and (on Mac and Linux) adds
-it to your `PATH`. It also installs a copy of Flutter and Dart inside
+This installs `shorebird` into `~/.shorebird/bin` and adds it to your `PATH`. It
+also installs a copy of Flutter and Dart inside
 `~/.shorebird/bin/cache/flutter`. The copy of Flutter is slightly modified to
 add Shorebird code push and is not intended to be added to your `PATH`. You can
 continue to use the versions of Flutter and Dart you already have installed.

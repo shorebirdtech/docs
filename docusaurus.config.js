@@ -80,7 +80,7 @@ const config = {
             title: 'More',
             items: [
               {
-                label: 'Shorebird.dev',
+                label: 'shorebird.dev',
                 href: 'https://shorebird.dev',
               },
               {
@@ -89,11 +89,11 @@ const config = {
               },
               {
                 label: 'Discord',
-                href: 'https://github.com/shorebirdtech/shorebird',
+                href: 'https://discord.gg/9hKJcWGcaB',
               },
               {
                 label: 'Twitter',
-                href: 'https://github.com/shorebirdtech/shorebird',
+                href: 'https://twitter.com/shorebirddev',
               },
             ],
           },

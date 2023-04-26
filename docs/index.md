@@ -16,14 +16,20 @@ We'll help you quickly setup Shorebird so you can get started using our tools.
 
 To install the Shorebird command line interface (CLI):
 
-```
+## Mac/Linux
+
+```bash
 curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | sh
 ```
 
+## Windows
+
+```powershell
+powershell -exec bypass -c "(New-Object Net.WebClient).Proxy.Credentials=[Net.CredentialCache]::DefaultNetworkCredentials;iwr('https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1')|iex"
+```
+
 :::info
-Installing Shorebird CLI requires `git`. We currently support only Mac and
-Linux. Windows is [coming
-soon](https://github.com/shorebirdtech/shorebird/issues/37).
+Installing Shorebird CLI requires `git`.
 :::
 
 This installs `shorebird` into `~/.shorebird/bin` and adds it to your `PATH`. It
@@ -155,4 +161,26 @@ Waiting for your authorization...
 
 🔑 Credentials are stored in ./path/to/credentials.json.
 🚪 To logout use: "shorebird logout".
+```
+
+## Upgrade to a Paid Account ⬆️
+
+To use Shorebird, you must upgrade to a paid account using the `shorebird account subscribe` command. Once you have paid, your account will be automatically upgraded and you will be able to use Shorebird to build and deploy apps.
+
+```
+shorebird account subscribe
+```
+
+Example output:
+
+```
+$ shorebird account subscribe
+✓ Link generated! (0.8s)
+
+To purchase a Shorebird subscription, please visit the following link:
+https://buy.stripe.com/...
+
+Once Stripe has processed your payment, you will be able to use Shorebird to create and publish apps.
+
+Note: This payment link is specifically for your account. Do not share it with others.
 ```

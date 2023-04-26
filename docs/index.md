@@ -162,3 +162,25 @@ Waiting for your authorization...
 🔑 Credentials are stored in ./path/to/credentials.json.
 🚪 To logout use: "shorebird logout".
 ```
+
+## Upgrade to a Paid Account ⬆️
+
+To use Shorebird, you must upgrade to a paid account using the `shorebird account subscribe` command. Once you have paid, your account will be automatically upgraded and you will be able to use Shorebird to build and deploy apps.
+
+```
+shorebird account subscribe
+```
+
+Example output:
+
+```
+$ shorebird account subscribe
+✓ Link generated! (0.8s)
+
+To purchase a Shorebird subscription, please visit the following link:
+https://buy.stripe.com/...
+
+Once Stripe has processed your payment, you will be able to use Shorebird to create and publish apps.
+
+Note: This payment link is specifically for your account. Do not share it with others.
+```

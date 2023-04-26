@@ -16,18 +16,24 @@ We'll help you quickly setup Shorebird so you can get started using our tools.
 
 To install the Shorebird command line interface (CLI):
 
-```
+## Mac/Linux
+
+```bash
 curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | sh
 ```
 
+## Windows
+
+```powershell
+powershell -exec bypass -c "(New-Object Net.WebClient).Proxy.Credentials=[Net.CredentialCache]::DefaultNetworkCredentials;iwr('https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1')|iex"
+```
+
 :::info
-Installing Shorebird CLI requires `git`. We currently support only Mac and
-Linux. Windows is [coming
-soon](https://github.com/shorebirdtech/shorebird/issues/37).
+Installing Shorebird CLI requires `git`.
 :::
 
-This installs `shorebird` into `~/.shorebird/bin` and adds it to your `PATH`. It
-also installs a copy of Flutter and Dart inside
+This installs `shorebird` into `~/.shorebird/bin` and (on Mac and Linux) adds
+it to your `PATH`. It also installs a copy of Flutter and Dart inside
 `~/.shorebird/bin/cache/flutter`. The copy of Flutter is slightly modified to
 add Shorebird code push and is not intended to be added to your `PATH`. You can
 continue to use the versions of Flutter and Dart you already have installed.

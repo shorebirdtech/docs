@@ -6,7 +6,7 @@ description: Status of the Shorebird project.
 
 ## Open Beta
 
-Shorebird is currently "Open Beta".  A lot is still changing, but we're
+Shorebird is currently "Open Beta". A lot is still changing, but we're
 ready and interested for feedback from the general public.
 
 Our goal with this open beta is to shake out bugs and ensure that

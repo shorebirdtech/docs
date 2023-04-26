@@ -11,7 +11,7 @@ and can be disabled at any time with no effect on your users.
 
 ## Thank you
 
-Thank you for trying Shorebird.  If you'd like to continue using Shorebird
+Thank you for trying Shorebird. If you'd like to continue using Shorebird
 but have questions or concerns, please reach out to us on Discord or
 via email at [contact@shorebird.dev](mailto:contact@shorebird.dev).
 
@@ -23,8 +23,8 @@ To cancel your subscription:
 
 `shorebird account cancel`
 
-This will cancel your subscription.  Your access (and updates for your users)
-will continue until the end of the current billing period.  After which
+This will cancel your subscription. Your access (and updates for your users)
+will continue until the end of the current billing period. After which
 shorebird will not longer send updates to your apps, but your apps will
 continue function otherwise normally.
 

@@ -15,7 +15,7 @@ the latest stable release of Flutter and replace a few of the Flutter engine
 files with our modified copies.
 
 To implement our fork, we use `FLUTTER_STORAGE_BASE_URL` to point to
-`https://download.shorebird.dev` instead of download.flutter.dev.  We pass
+`https://download.shorebird.dev` instead of download.flutter.dev. We pass
 through unmodified output from the `flutter` tool so you will see a warning from
 Flutter:
 
@@ -29,7 +29,7 @@ For more information about why we had to fork Flutter see
 ## When do updates happen?
 
 Shorebird udpater is currently hard-coded to run on app startup. It runs on
-a background thread and does not block the UI thread.  Any updates will be
+a background thread and does not block the UI thread. Any updates will be
 installed while the user is using the app and will be applied the next time the
 app is restarted.
 
@@ -38,10 +38,10 @@ or the server is down or otherwise unreachable, the app will continue to run
 as normal. Should you ever choose to delete an update from our servers, all your
 clients will continue to run as normal.
 
-We have not yet added the ability to rollback patches.  For now, the simplest
+We have not yet added the ability to rollback patches. For now, the simplest
 thing is to simply push a new patch that reverts the changes you want to undo.
 
-We expect to add more control over update behavior in the future.  Please let us
+We expect to add more control over update behavior in the future. Please let us
 know if you have needs here, and we're happy to prioritize them.
 
 ## What information is sent to Shorebird servers?
@@ -79,14 +79,14 @@ publicly available (e.g. expo.dev & appcenter.ms). This is a well trodden path.
 
 ## What platforms does Shorebird support? Does it support iOS?
 
-Current Shorebird is Android-only.  We have plans to add iOS, but not yet
-implemented.  Using Shorebird for your Android builds does not affect
-your iOS builds.  You can successfully ship an appbundle build with `shorebird`
+Current Shorebird is Android-only. We have plans to add iOS, but not yet
+implemented. Using Shorebird for your Android builds does not affect
+your iOS builds. You can successfully ship an appbundle build with `shorebird`
 to Google Play and an ipa built with `flutter` to the App Store.
 The difference will be that you will be able to update your Android users
 sooner than you will your iOS users for now.
 
 We've focused on Android so far on the assumption that most Flutter developers
-are targeting Android first.  Shorebird can (relatively easily) be made to
-support Desktop or embedded targets.  If those are important to you, please let
+are targeting Android first. Shorebird can (relatively easily) be made to
+support Desktop or embedded targets. If those are important to you, please let
 us know.

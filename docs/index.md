@@ -16,14 +16,20 @@ We'll help you quickly setup Shorebird so you can get started using our tools.
 
 To install the Shorebird command line interface (CLI):
 
-```
+## Mac/Linux
+
+```bash
 curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | sh
 ```
 
+## Windows
+
+```powershell
+powershell -exec bypass -c "(New-Object Net.WebClient).Proxy.Credentials=[Net.CredentialCache]::DefaultNetworkCredentials;iwr('https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1')|iex"
+```
+
 :::info
-Installing Shorebird CLI requires `git`. We currently support only Mac and
-Linux. Windows is [coming
-soon](https://github.com/shorebirdtech/shorebird/issues/37).
+Installing Shorebird CLI requires `git`.
 :::
 
 This installs `shorebird` into `~/.shorebird/bin` and adds it to your `PATH`. It

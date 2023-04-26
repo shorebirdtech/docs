@@ -30,6 +30,7 @@ const config = {
           routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl: 'https://github.com/shorebirdtech/docs/tree/main/',
+          sidebarCollapsed: false,
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -69,14 +70,30 @@ const config = {
                 label: 'Getting Started',
                 to: '/',
               },
+              {
+                label: 'Code Push',
+                to: '/code-push',
+              },
             ],
           },
           {
             title: 'More',
             items: [
               {
+                label: 'shorebird.dev',
+                href: 'https://shorebird.dev',
+              },
+              {
                 label: 'GitHub',
                 href: 'https://github.com/shorebirdtech/shorebird',
+              },
+              {
+                label: 'Discord',
+                href: 'https://discord.gg/9hKJcWGcaB',
+              },
+              {
+                label: 'Twitter',
+                href: 'https://twitter.com/shorebirddev',
               },
             ],
           },

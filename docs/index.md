@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
 title: 📚 Overview
+description: The official documentation site for Shorebird.
 ---
 
 # Overview

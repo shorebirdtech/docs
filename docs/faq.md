@@ -65,7 +65,7 @@ Requests sent from the app to Shorebird servers include:
 Shorebird is designed to be compatible with the Play Store guidelines. However
 Shorebird is a tool, and as with any tool, can be abused. Deliberately abusing
 Shorebird to violate Play Store guidelines is in violation of the Shorebird
-[Terms of Service](shorebird.dev/terms) and can result in termination of
+[Terms of Service](https://shorebird.dev/terms) and can result in termination of
 your account.
 
 Examples of guidelines you should be aware of, include "Deceptive Behavior" and

@@ -79,8 +79,9 @@ publicly available (e.g. expo.dev & appcenter.ms). This is a well trodden path.
 
 ## What platforms does Shorebird support? Does it support iOS?
 
-Current Shorebird is Android-only. We have plans to add iOS, but not yet
-implemented. Using Shorebird for your Android builds does not affect
+Current Shorebird is Android-only. We have
+[plans to add iOS](https://github.com/shorebirdtech/shorebird/issues/381),
+but not yet implemented. Using Shorebird for your Android builds does not affect
 your iOS builds. You can successfully ship an appbundle build with `shorebird`
 to Google Play and an ipa built with `flutter` to the App Store.
 The difference will be that you will be able to update your Android users

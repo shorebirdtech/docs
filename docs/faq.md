@@ -76,7 +76,8 @@ Code push isn't needed for Flutter web as the web already works this way. When
 a user opens a web app it downloads the latest version from the server if
 needed.
 
-If you have a use case for code push with Fluter web, we'd love to know!
+If you have a use case for code push with Fluter web, we'd
+[love to know](https://github.com/shorebirdtech/shorebird/issues/new?assignees=&labels=feature&template=feature_request.md&title=feat%3A+)!
 
 ### Will this work on iOS, Android, Mac, Windows, Linux, etc?
 

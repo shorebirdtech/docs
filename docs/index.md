@@ -184,3 +184,13 @@ Once Stripe has processed your payment, you will be able to use Shorebird to cre
 
 Note: This payment link is specifically for your account. Do not share it with others.
 ```
+
+## Connect on Discord 🤝
+
+Shorebird has an active Discord where we're happy to help you:
+https://discord.com/invite/9hKJcWGcaB
+
+We also offer a private support channel for paying customers. We don't yet have
+an automated way to add you to the channel, so please message a member of our
+team on Discord and we'll happily add you to the customer support channel.
+https://github.com/shorebirdtech/shorebird/issues/308

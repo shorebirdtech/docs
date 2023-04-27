@@ -59,6 +59,17 @@ production.  We will use a variety of different techniques to make this possible
 depending on the platform.  Current demos execute ahead-of-time compiled Dart
 code and do not require a JIT Dart compiler.
 
+### What types of changes does Shorebird code push support?
+
+Code push only supports changing Dart code at this time.  We have plans to
+support changing Flutter asset files (from pubspec.yaml) in the near future:
+https://github.com/shorebirdtech/shorebird/issues/318
+
+We do not have plans to support changing
+native code (e.g. Java/Kotlin on Android or Objective-C/Swift on iOS), but we
+do have plans to warn about native code changes during patch creation:
+https://github.com/shorebirdtech/shorebird/issues/385
+
 ### Does this support Flutter Web?
 
 Code push isn't needed for Flutter web as the web already works this way.  When

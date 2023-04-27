@@ -4,6 +4,134 @@ title: ❓ FAQ
 description: Frequently asked questions.
 ---
 
+If you have questions not answered here, please ask! Both filing an issue
+or asking on [Discord](https://discord.gg/9hKJcWGcaB)) work.
+
+### What is "code push"?
+
+Code push, also referred to as "over the air updates" (OTA) is a cloud service
+we are building to enable Flutter developers to deploy updates directly to
+devices anywhere they have shipped Flutter. We've currently shown demos using
+Android, but since it's built with Flutter/Dart (and Rust) it can eventually
+work anywhere Flutter works.
+
+The easiest way to see is to watch the [demo
+video](https://www.youtube.com/watch?v=mmKvs0_Zu14&ab_channel=Shorebird).
+
+"Code Push" is a reference to the name of a deploy feature used by the React
+Native community from [Microsoft](https://appcenter.ms) and
+[Expo](https://expo.dev), neither of which support Flutter.
+
+### What is the roadmap?
+
+We try to keep: https://docs.shorebird.dev/status up to date with the status
+of the project.
+
+Our project boards are also public an found at:
+https://github.com/orgs/shorebirdtech/projects
+
+### How does this relate to Firebase Remote Config or Launch Darkly?
+
+Code push allows adding new code / replacing code on the device. Firebase
+Remote Config and Launch Darkly are both configuration systems. They allow you
+to change the configuration of your app without having to ship a new version.
+They are not intended to replace code.
+
+### How big of a dependency footprint does this add?
+
+I haven't measured recently, but I expect the code push library to add less than
+one megabyte to Flutter apps. `flutter build apk --release` vs.
+`shorebird build apk --release` should give you a rough idea. We know of ways
+we can make this smaller when that becomes a priority. If size is a blocker
+for you, please let us know!
+
+### How does this relate to Flutter Hot Reload?
+
+Flutter's Hot reload is a development-time-only feature. Code push is for
+production.
+
+Hot reload is a feature of Flutter that allows you to change code on the device
+during development. It requires building the Flutter engine with a debug-mode
+Dart VM which includes a just-in-time (JIT) Dart compiler.
+
+Code push is a feature that allows you to change code on the device in
+production. We will use a variety of different techniques to make this possible
+depending on the platform. Current demos execute ahead-of-time compiled Dart
+code and do not require a JIT Dart compiler.
+
+### What types of changes does Shorebird code push support?
+
+Code push only supports changing Dart code at this time. We have plans to
+support changing Flutter asset files (from pubspec.yaml) in the near future:
+https://github.com/shorebirdtech/shorebird/issues/318
+
+We do not have plans to support changing
+native code (e.g. Java/Kotlin on Android or Objective-C/Swift on iOS), but we
+do have plans to warn about native code changes during patch creation:
+https://github.com/shorebirdtech/shorebird/issues/385
+
+### Does this support Flutter Web?
+
+Code push isn't needed for Flutter web as the web already works this way. When
+a user opens a web app it downloads the latest version from the server if
+needed.
+
+If you have a use case for code push with Fluter web, we'd love to know!
+
+### Will this work on iOS, Android, Mac, Windows, Linux, etc?
+
+Yes.
+
+So far we've focused on Android support, but code push will eventually work
+everywhere Flutter works. We're ensuring we've built all the infrastructure
+needed to provide code push reliably, safely first before expanding to more
+platforms.
+
+There are different technical restrictions on some platforms (e.g. iOS) relative
+to Android, but we have several approaches we can use to solve them (Dart is an
+incredibly flexible language).
+
+### How does this relate to the App/Play Store review process or policies?
+
+Developers are bound by their agreements with store providers when they choose
+to use those stores. Code push is designed to allow developers to update their
+apps and still comply with store policies on iOS and Android. Similar to the
+variety of commercial products available to do so with React Native (e.g.
+[Microsoft](https://appcenter.ms), [Expo](https://expo.dev)).
+
+We will include more instructions and guidelines about how to both use code push
+and comply with store guidelines as we get closer to a public launch.
+
+### Does code push require the internet to work?
+
+Yes. One could imagine running a server to distribute the updates separately
+from the general internet, but some form of network connectivity is required to
+transport updates to the devices.
+
+### What happens if a user doesn't update for a long time and misses an update?
+
+Our implementation always sends an update specifically tailored for the device
+that is requesting it updating the requestor always to the latest version
+available. Thus if a user doesn't update for a while they will "miss"
+intermediate updates.
+
+The update server could be changed to support responding with either the next
+incremental version or the latest version depending on your application's needs.
+Please let us know if alternative update behaviors are important to you.
+
+### Why are some parts of the code push library written in Rust?
+
+Parts of the code push ("updater") system are written in Rust:
+
+1. Avoids starting two Dart VMs (one for the updater and one for the app).
+2. Allows accessing the updater code from multiple languages (e.g. both the C++
+   engine as well as a Dart/Flutter application, or even Kotlin/Swift code if
+   needed)
+
+See our [Languages
+Philosophy](https://github.com/shorebirdtech/handbook/blob/main/engineering.md#languages)
+for more information as to why we chose Rust.
+
 ## How does Shorebird relate to Flutter?
 
 Shorebird is a fork of Flutter that adds code push. Shorebird is not a
@@ -28,7 +156,7 @@ For more information about why we had to fork Flutter see
 
 ## When do updates happen?
 
-Shorebird udpater is currently hard-coded to run on app startup. It runs on
+Shorebird updater is currently hard-coded to run on app startup. It runs on
 a background thread and does not block the UI thread. Any updates will be
 installed while the user is using the app and will be applied the next time the
 app is restarted.

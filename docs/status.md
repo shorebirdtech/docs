@@ -36,18 +36,17 @@ account and apps.
 
 No support for:
 
+- iOS [issue](https://github.com/shorebirdtech/shorebird/issues/381)
+- Asset changes (images, icons, etc.) [issue](https://github.com/shorebirdtech/shorebird/issues/318)
 - Teams / Organizations sharing apps [issue](https://github.com/shorebirdtech/shorebird/issues/345)
-- Flutter channels (only latest stable 3.7.12 is supported)
+- Flutter beta or master channels (only latest stable 3.7.12 is supported)
 - Rollbacks ([issue](https://github.com/shorebirdtech/shorebird/issues/126))
 - Staged rollout of patches (channels or percentage based) [issue](https://github.com/shorebirdtech/shorebird/issues/110)
-- Async updates / downloads [issue](https://github.com/shorebirdtech/shorebird/issues/123)
-- Analytics
-- Web interface
 - CI/CD (GitHub Actions, etc.) integration
 - Patch signing [issue](https://github.com/shorebirdtech/shorebird/issues/112)
-- Asset changes (images, icons, etc.) [issue](https://github.com/shorebirdtech/shorebird/issues/318)
-- Plugin changes (java, kotlin, etc.) -- not planned.
-- iOS [issue](https://github.com/shorebirdtech/shorebird/issues/381)
+- Analytics
+- Web interface
+- "Native code" changes (java, kotlin, etc.) -- not planned.
 
 If these, or anything else is blocking your use of Shorebird, please let us know!
 https://github.com/shorebirdtech/shorebird/issues

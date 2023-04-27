@@ -11,7 +11,7 @@ or asking on [Discord](https://discord.gg/9hKJcWGcaB)) work.
 
 Code push, also referred to as "over the air updates" (OTA) is a cloud service
 we are building to enable Flutter developers to deploy updates directly to
-devices anywhere they have shipped Flutter.  We've currently shown demos using
+devices anywhere they have shipped Flutter. We've currently shown demos using
 Android, but since it's built with Flutter/Dart (and Rust) it can eventually
 work anywhere Flutter works.
 
@@ -32,36 +32,36 @@ https://github.com/orgs/shorebirdtech/projects
 
 ### How does this relate to Firebase Remote Config or Launch Darkly?
 
-Code push allows adding new code / replacing code on the device.  Firebase
-Remote Config and Launch Darkly are both configuration systems.  They allow you
+Code push allows adding new code / replacing code on the device. Firebase
+Remote Config and Launch Darkly are both configuration systems. They allow you
 to change the configuration of your app without having to ship a new version.
 They are not intended to replace code.
 
 ### How big of a dependency footprint does this add?
 
 I haven't measured recently, but I expect the code push library to add less than
-one megabyte to Flutter apps.  `flutter build apk --release` vs.
-`shorebird build apk --release` should give you a rough idea.  We know of ways
-we can make this smaller when that becomes a priority.  If size is a blocker
+one megabyte to Flutter apps. `flutter build apk --release` vs.
+`shorebird build apk --release` should give you a rough idea. We know of ways
+we can make this smaller when that becomes a priority. If size is a blocker
 for you, please let us know!
 
 ### How does this relate to Flutter Hot Reload?
 
-Flutter's Hot reload is a development-time-only feature.  Code push is for
+Flutter's Hot reload is a development-time-only feature. Code push is for
 production.
 
 Hot reload is a feature of Flutter that allows you to change code on the device
-during development.  It requires building the Flutter engine with a debug-mode
+during development. It requires building the Flutter engine with a debug-mode
 Dart VM which includes a just-in-time (JIT) Dart compiler.
 
 Code push is a feature that allows you to change code on the device in
-production.  We will use a variety of different techniques to make this possible
-depending on the platform.  Current demos execute ahead-of-time compiled Dart
+production. We will use a variety of different techniques to make this possible
+depending on the platform. Current demos execute ahead-of-time compiled Dart
 code and do not require a JIT Dart compiler.
 
 ### What types of changes does Shorebird code push support?
 
-Code push only supports changing Dart code at this time.  We have plans to
+Code push only supports changing Dart code at this time. We have plans to
 support changing Flutter asset files (from pubspec.yaml) in the near future:
 https://github.com/shorebirdtech/shorebird/issues/318
 
@@ -72,7 +72,7 @@ https://github.com/shorebirdtech/shorebird/issues/385
 
 ### Does this support Flutter Web?
 
-Code push isn't needed for Flutter web as the web already works this way.  When
+Code push isn't needed for Flutter web as the web already works this way. When
 a user opens a web app it downloads the latest version from the server if
 needed.
 
@@ -94,8 +94,8 @@ incredibly flexible language).
 ### How does this relate to the App/Play Store review process or policies?
 
 Developers are bound by their agreements with store providers when they choose
-to use those stores.  Code push is designed to allow developers to update their
-apps and still comply with store policies on iOS and Android.  Similar to the
+to use those stores. Code push is designed to allow developers to update their
+apps and still comply with store policies on iOS and Android. Similar to the
 variety of commercial products available to do so with React Native (e.g.
 [Microsoft](https://appcenter.ms), [Expo](https://expo.dev)).
 
@@ -104,7 +104,7 @@ and comply with store guidelines as we get closer to a public launch.
 
 ### Does code push require the internet to work?
 
-Yes.  One could imagine running a server to distribute the updates separately
+Yes. One could imagine running a server to distribute the updates separately
 from the general internet, but some form of network connectivity is required to
 transport updates to the devices.
 
@@ -112,7 +112,7 @@ transport updates to the devices.
 
 Our implementation always sends an update specifically tailored for the device
 that is requesting it updating the requestor always to the latest version
-available.  Thus if a user doesn't update for a while they will "miss"
+available. Thus if a user doesn't update for a while they will "miss"
 intermediate updates.
 
 The update server could be changed to support responding with either the next
@@ -122,6 +122,7 @@ Please let us know if alternative update behaviors are important to you.
 ### Why are some parts of the code push library written in Rust?
 
 Parts of the code push ("updater") system are written in Rust:
+
 1. Avoids starting two Dart VMs (one for the updater and one for the app).
 2. Allows accessing the updater code from multiple languages (e.g. both the C++
    engine as well as a Dart/Flutter application, or even Kotlin/Swift code if

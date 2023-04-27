@@ -156,7 +156,7 @@ For more information about why we had to fork Flutter see
 
 ## When do updates happen?
 
-Shorebird updater is currently hard-coded to run on app startup. It runs on
+The Shorebird updater is currently hard-coded to run on app startup. It runs on
 a background thread and does not block the UI thread. Any updates will be
 installed while the user is using the app and will be applied the next time the
 app is restarted.

@@ -175,7 +175,7 @@ know if you have needs here, and we're happy to prioritize them.
 
 ## Do I need to keep my app_id secret?
 
-No.  The `app_id` is included in your app and is safe to be public.  You can
+No. The `app_id` is included in your app and is safe to be public. You can
 check it into version control (even publicly) and not worry about someone
 else accessing it.
 

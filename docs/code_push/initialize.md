@@ -20,6 +20,7 @@ This does three things:
 1. Creates a `shorebird.yaml` file to your project. `shorebird.yaml` contains
    the `app_id` for your app, which is the unique identifier the app will send
    to Shorebird servers to identify which application to pull updates for.
+   `app_id`s do not need to be kept secret.
 1. Adds the `shorebird.yaml` to the assets section of your `pubspec.yaml` file,
    ensuring `shorebird.yaml` is bundled into your app's assets and available to
    configure the Shorebird updater when your app runs.

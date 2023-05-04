@@ -69,6 +69,11 @@ $ shorebird releases list
 
 ## Delete Releases
 
+:::warning
+Deleting a release will remove all associated patches and artifacts
+and is **not reversible**.
+:::
+
 You can delete a release for your current app (as defined by your
 shorebird.yaml) using `shorebird releases delete`.
 
@@ -80,8 +85,3 @@ $ shorebird releases delete --version 1.0.3
 Are you sure you want to delete release 1.0.3? (y/N) Yes
 ✓ Deleted release 1.0.3. (0.3s)
 ```
-
-:::warning
-Deleting a release will remove all associated patches and artifacts
-and is **not reversible**.
-:::

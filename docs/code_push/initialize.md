@@ -15,12 +15,11 @@ shorebird init
 
 This does three things:
 
-1. Tells Shorebird that your app exists (e.g. so it serve patches for your app
-   to devices when requested).
-1. Creates a `shorebird.yaml` file to your project. `shorebird.yaml` contains
-   the `app_id` for your app, which is the unique identifier the app will send
-   to Shorebird servers to identify which application to pull updates for.
-   `app_id`s do not need to be kept secret.
+1. Tells Shorebird to create a unique `app_id` for your app. This `app_id` is
+   how Shorebird identifies your app and knows which updates to send to it. It
+   does not need to be kept secret.
+1. Creates a `shorebird.yaml` file in your project's root directory.
+   `shorebird.yaml` contains the `app_id` mentioned above.
 1. Adds the `shorebird.yaml` to the assets section of your `pubspec.yaml` file,
    ensuring `shorebird.yaml` is bundled with your app's assets and is available
    to the Shorebird updater at runtime.
@@ -28,7 +27,7 @@ This does three things:
 You can safely commit these changes, they will have no affect on your app
 when not using Shorebird.
 
-Example output for an existing app named `shorebird_test`:
+Example output for an app named `shorebird_test`:
 
 ```sh
 $ shorebird init
@@ -64,5 +63,5 @@ able to communicate with the Shorebird servers to pull new patches.
 ```
 
 Running `shorebird doctor` will check that your `AndroidManifest.xml` file is
-set up correctly.
+set up correctly, and `shorebird doctor --fix` will add this permission for you.
 :::

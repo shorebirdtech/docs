@@ -6,10 +6,10 @@ description: Learn how to add code push to an existing Flutter project.
 
 # Initialize Shorebird
 
-To configure an existing Flutter project, to use Shorebird, use `shorebird init`
+To configure an existing Flutter project to use Shorebird, use `shorebird init`
 at the root of a Flutter project:
 
-```
+```sh
 shorebird init
 ```
 
@@ -22,15 +22,15 @@ This does three things:
    to Shorebird servers to identify which application to pull updates for.
    `app_id`s do not need to be kept secret.
 1. Adds the `shorebird.yaml` to the assets section of your `pubspec.yaml` file,
-   ensuring `shorebird.yaml` is bundled into your app's assets and available to
-   configure the Shorebird updater when your app runs.
+   ensuring `shorebird.yaml` is bundled with your app's assets and is available
+   to the Shorebird updater at runtime.
 
 You can safely commit these changes, they will have no affect on your app
 when not using Shorebird.
 
-Example output:
+Example output for an existing app named `shorebird_test`:
 
-```
+```sh
 $ shorebird init
 ? How should we refer to this app? (shorebird_test) shorebird_test
 ✓ Initialized Shorebird (38ms)

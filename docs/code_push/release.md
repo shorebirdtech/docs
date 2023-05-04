@@ -4,7 +4,9 @@ title: 📦 Release
 description: Learn how to publish a new app release to Shorebird.
 ---
 
-# Publish a Release
+# Releases
+
+## Publish a Release
 
 In order to start pushing updates, you will need to create a release using
 `shorebird release`.
@@ -46,9 +48,9 @@ See the following link for more information:
 https://support.google.com/googleplay/android-developer/answer/9859152?hl=en
 ```
 
-# Manage Releases
+## Manage Releases
 
-## List Releases
+### List Releases
 
 You can view all of your releases for your current app (as defined by
 your shorebird.yaml) using `shorebird releases list`.
@@ -67,7 +69,7 @@ $ shorebird releases list
 └─────────┴──────┘
 ```
 
-## Delete Releases
+### Delete Releases
 
 :::warning
 Deleting a release will remove all associated patches and artifacts

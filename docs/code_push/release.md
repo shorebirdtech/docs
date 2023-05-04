@@ -50,6 +50,6 @@ https://support.google.com/googleplay/android-developer/answer/9859152?hl=en
 `shorebird release` wraps `flutter build` and can take any argument
 `flutter build` can. To pass arguments to the underlying `flutter build` you
 need to put `flutter build` arguments after a `--` separator. For example:
-`shorebird build -- --dart-define="foo=bar"` will define the `"foo"` environment
+`shorebird release -- --dart-define="foo=bar"` will define the `"foo"` environment
 variable inside Dart as you might have done with `flutter build` directly.
 :::

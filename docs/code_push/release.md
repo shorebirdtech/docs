@@ -83,6 +83,12 @@ $ shorebird releases list
 └─────────┴──────┘
 ```
 
+If your application supports flavors, you can specify the flavor using the `--flavor` option:
+
+```
+shorebird releases list --flavor development
+```
+
 ### Delete Releases
 
 :::warning
@@ -100,4 +106,10 @@ $ shorebird releases delete --version 1.0.3
 ✓ Fetched releases. (54ms)
 Are you sure you want to delete release 1.0.3? (y/N) Yes
 ✓ Deleted release 1.0.3. (0.3s)
+```
+
+If your application supports flavors, you can specify the flavor using the `--flavor` option:
+
+```
+shorebird releases delete --flavor development
 ```

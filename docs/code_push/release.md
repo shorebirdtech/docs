@@ -48,6 +48,12 @@ See the following link for more information:
 https://support.google.com/googleplay/android-developer/answer/9859152?hl=en
 ```
 
+If your application supports flavors or multiple release targets, you can specify the flavor and target using the `--flavor` and `--target` options:
+
+```
+shorebird release --target ./lib/main_development.dart --flavor development
+```
+
 :::info
 `shorebird release` wraps `flutter build` and can take any argument
 `flutter build` can. To pass arguments to the underlying `flutter build` you

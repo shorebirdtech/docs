@@ -66,3 +66,7 @@ able to communicate with the Shorebird servers to pull new patches.
 Running `shorebird doctor` will check that your `AndroidManifest.xml` file is
 set up correctly.
 :::
+
+:::tip
+If you already have a `shorebird.yaml` and would like to re-initialize your project, use `shorebird init --force`.
+:::

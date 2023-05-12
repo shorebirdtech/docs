@@ -30,6 +30,21 @@ of the project.
 Our project boards are also public an found at:
 https://github.com/orgs/shorebirdtech/projects
 
+### Can I use Shorebird with my team?
+
+Shorebird supports multiple users per app on the backend, but we haven't
+yet exposed commands to add users to an app on the frontend.
+https://github.com/shorebirdtech/shorebird/issues/216 tracks making this
+self-serve. For now, you can reach out to us in #support for help adding
+additional users to your app.
+
+### Can I use Shorebird from my CI system?
+
+Yes. Shorebird is intended to be used from CI systems. We think there
+are probably missing pieces to making this easy, but we're happy to help
+you get it working. Please reach out to us in #support.
+https://github.com/shorebirdtech/shorebird/issues/484
+
 ### How does this relate to Firebase Remote Config or Launch Darkly?
 
 Code push allows adding new code / replacing code on the device. Firebase

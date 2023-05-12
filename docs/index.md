@@ -19,9 +19,6 @@ To install the Shorebird command line interface (CLI):
 ## Mac/Linux
 
 ```bash
-curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | sh
-
-# or alternative to Linux, if the command above not working. Use bash instead of sh.
 curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
 ```
 

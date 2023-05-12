@@ -30,11 +30,12 @@ We had to fork 3 Flutter repos to make Shorebird work:
 
 ### flutter/engine
 
-The engine is the C++ code that runs on the device. It is responsible for
-rendering the UI, handling input, and communicating with the host.
+The Flutter engine is the C++ code that runs on the device. It is responsible
+for rendering the UI, handling input, and communicating with the host.
 
-We forked this code to add the ability to have release versions of the Flutter
-engine be able to load new code from Shorebird's servers.
+We forked this code to add the
+[Shorebird updater](https://github.com/shorebirdtech/updater), which lets the
+Flutter engine load new code from Shorebird's servers.
 
 At time of writing, Shorebird's fork is based on Flutter 3.7.12. You can see
 our engine changes here:

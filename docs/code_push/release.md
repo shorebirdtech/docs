@@ -4,7 +4,9 @@ title: 📦 Release
 description: Learn how to publish a new app release to Shorebird.
 ---
 
-# Publish a Release
+# Releases
+
+## Publish a Release
 
 In order to start pushing updates, you will need to create a release using
 `shorebird release`.
@@ -44,4 +46,70 @@ Your next step is to upload the app bundle to the Play Store.
 
 See the following link for more information:
 https://support.google.com/googleplay/android-developer/answer/9859152?hl=en
+```
+
+If your application supports flavors or multiple release targets, you can specify the flavor and target using the `--flavor` and `--target` options:
+
+```
+shorebird release --target ./lib/main_development.dart --flavor development
+```
+
+:::info
+`shorebird release` wraps `flutter build` and can take any argument
+`flutter build` can. To pass arguments to the underlying `flutter build` you
+need to put `flutter build` arguments after a `--` separator. For example:
+`shorebird release -- --dart-define="foo=bar"` will define the `"foo"` environment
+variable inside Dart as you might have done with `flutter build` directly.
+:::
+
+## Manage Releases
+
+### List Releases
+
+You can view all of your releases for your current app (as defined by
+your shorebird.yaml) using `shorebird releases list`.
+
+Example output:
+
+```
+$ shorebird releases list
+🚀 Releases (675a3bf6-fdf9-4520-a5f5-f73493ef9034)
+┌─────────┬──────┐
+│ Version │ Name │
+├─────────┼──────┤
+│ 1.0.2   │ --   │
+├─────────┼──────┤
+│ 1.0.3   │ --   │
+└─────────┴──────┘
+```
+
+If your application supports flavors, you can specify the flavor using the `--flavor` option:
+
+```
+shorebird releases list --flavor development
+```
+
+### Delete Releases
+
+:::warning
+Deleting a release will remove all associated patches and artifacts
+and is **not reversible**.
+:::
+
+You can delete a release for your current app (as defined by your
+shorebird.yaml) using `shorebird releases delete`.
+
+Example output:
+
+```
+$ shorebird releases delete --version 1.0.3
+✓ Fetched releases. (54ms)
+Are you sure you want to delete release 1.0.3? (y/N) Yes
+✓ Deleted release 1.0.3. (0.3s)
+```
+
+If your application supports flavors, you can specify the flavor using the `--flavor` option:
+
+```
+shorebird releases delete --flavor development
 ```

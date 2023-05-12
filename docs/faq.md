@@ -173,6 +173,16 @@ thing is to simply push a new patch that reverts the changes you want to undo.
 We expect to add more control over update behavior in the future. Please let us
 know if you have needs here, and we're happy to prioritize them.
 
+## Do I need to keep my app_id secret?
+
+No. The `app_id` is included in your app and is safe to be public. You can
+check it into version control (even publicly) and not worry about someone
+else accessing it.
+
+Someone who has your `app_id` can fetch the latest version of your app from
+Shorebird servers, but they cannot push updates to your app or access any
+other aspect of your Shorebird account.
+
 ## What information is sent to Shorebird servers?
 
 Although Shorebird connects to the network, it does not send any personally

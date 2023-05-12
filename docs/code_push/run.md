@@ -17,8 +17,14 @@ root of a Flutter project:
 shorebird run
 ```
 
+If your application supports flavors or multiple release targets, you can specify the flavor and target using the `--flavor` and `--target` options:
+
+```
+shorebird run --target ./lib/main_development.dart --flavor development
+```
+
 :::info
 `shorebird run` wraps `flutter run` and can take any argument `flutter run` can.
 To pass arguments to the underlying `flutter run` use a `--` separator. For
-example: `shorebird run -- -d my_device` will run on a specific device.
+example: `shorebird run -- --no-pub` will not run `pub get`.
 :::

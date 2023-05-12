@@ -48,3 +48,9 @@ Would you like to continue? (y/N) Yes
 
 ✅ Published Patch!
 ```
+
+If your application supports flavors or multiple release targets, you can specify the flavor and target using the `--flavor` and `--target` options:
+
+```
+shorebird patch --target ./lib/main_development.dart --flavor development
+```

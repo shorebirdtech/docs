@@ -22,6 +22,12 @@ shorebird build appbundle
 shorebird build apk
 ```
 
+If your application supports flavors or multiple release targets, you can specify the flavor and target using the `--flavor` and `--target` options:
+
+```
+shorebird build appbundle --target ./lib/main_development.dart --flavor development
+```
+
 :::info
 `shorebird build` wraps `flutter build` and can take any argument
 `flutter build` can. To pass arguments to the underlying `flutter build` you

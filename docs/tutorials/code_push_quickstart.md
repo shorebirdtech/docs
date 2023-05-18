@@ -1,12 +1,14 @@
 ---
 sidebar_position: 1
-title: ☄️ Quickstart
-description: How to create a new Shorebird app.
+title: ☄️ Code Push Quickstart
+description: Try code push for yourself
 ---
 
 # Code Push Quickstart
 
-This guide shows you the fastest way to get started with Code Push.
+This guide shows you the fastest way to install Shorebird and try code push.
+
+This document is a (slightly) condensed version of our [code push](../code_push/) docs, all on one page.
 
 ## Sign up
 

@@ -260,3 +260,5 @@ git checkout main
 git branch -D v1.0.3+6-patch1
 git push origin --delete v1.0.3+6-patch1
 ```
+
+> Note: this change is still accessible via the `v1.0.3+6-patch1` tag.

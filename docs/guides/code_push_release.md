@@ -18,7 +18,7 @@ The app we will be releasing in this guide is [`Time Shift`](https://play.google
 
 ### Determine next release version
 
-We will start by running `shorebird releases list` to see the current set of releases:
+We will start by running `shorebird releases list` from the root directory of our project to see the current set of releases:
 
 ```
 bryanoltman@boltman ~/Shorebird/time_shift (main)

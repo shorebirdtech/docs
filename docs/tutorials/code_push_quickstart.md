@@ -45,14 +45,14 @@ Once you have registered and subscribed, you're ready to use Shorebird!
 Start by creating a new Flutter app:
 
 ```sh
-flutter create shorebird_app
+flutter create my_shorebird_app
 ```
 
 As with any Flutter app, you can verify this created the standard Counter app by
 following the instructions printed by `flutter create`:
 
 ```sh
-cd shorebird_app
+cd my_shorebird_app
 flutter run
 ```
 

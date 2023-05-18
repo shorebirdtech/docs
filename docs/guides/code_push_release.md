@@ -250,3 +250,13 @@ Would you like to continue? (y/N) Yes
 ```
 
 This patch will now be available to users with version `1.0.3+6` of the app.
+
+### Cleanup
+
+Delete the branch to keep the repository tidy:
+
+```sh
+git checkout main
+git branch -D v1.0.3+6-patch1
+git push origin --delete v1.0.3+6-patch1
+```

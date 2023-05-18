@@ -18,7 +18,7 @@ The app we will be releasing in this guide is [`Time Shift`](https://play.google
 
 ### Determine next release version
 
-We will start by running `shorebird releases list` to see what releases have been created:
+We will start by running `shorebird releases list` to see the current set of releases:
 
 ```
 bryanoltman@boltman ~/Shorebird/time_shift (main)
@@ -43,7 +43,7 @@ The release we are going to create is `1.0.3+6`.
 
 ### Make code changes
 
-Version `1.0.3+6` of Time Shift will change the default clock face from `particle` to `generative`.
+Version `1.0.3+6` of Time Shift will be a small patch that changes the default clock face from `particle` to `generative`.
 
 To make this change, we will edit `lib/main.dart`:
 
@@ -88,12 +88,12 @@ git add pubspec.yaml
 git commit -m "Update app version to 1.0.3+6"
 git tag v1.0.3+6
 git push # Push the commit
-git push --tags  # Push the tags
+git push --tags  # Push the tag
 ```
 
 ### Create a Shorebird release
 
-To create a release, run `shorebird release`. You should see output similar to the following:
+To create a Shorebird release, run `shorebird release`. You should see output similar to the following:
 
 ```
 bryanoltman@boltman ~/Shorebird/time_shift (main)
@@ -106,7 +106,7 @@ bryanoltman@boltman ~/Shorebird/time_shift (main)
 
 📱 App: time_shift (51751336-6a7c-4972-b4ec-8fc1591fb2b3)
 📦 Release Version: 1.0.3+6
-🕹️  Platform: android (arm64, arm32, x86_64)
+🕹️ Platform: android (arm64, arm32, x86_64)
 
 Would you like to continue? (y/N) Yes
 ✓ Fetching releases (70ms)
@@ -127,8 +127,8 @@ https://support.google.com/googleplay/android-developer/answer/9859152?hl=en
 
 As per the instructions above, we need to upload the generated `.aab` to the Play Store.
 
-1. Navigate to the [Play Console](https://play.google.com/console/developers)
-1. Choose your developer account (for us, it's Shorebirdbird.dev)
+1. Navigate to the [Play Console](https://play.google.com/console/developers).
+1. Choose your developer account (for us, it's Shorebirdbird.dev).
 1. Select the Time Shift app.
 1. Select "Testing -> Open Testing" from the side bar.
 1. Click the "Create new release" button.
@@ -137,10 +137,10 @@ As per the instructions above, we need to upload the generated `.aab` to the Pla
 
 You will now be prompted to upload the `.aab` file. You can find this file in `./build/app/outputs/bundle/release/app-release.aab`.
 
-1. From ~/Shorebird/time_shift, run `open ./build/app/outputs/bundle/release/` to open the folder containing the `.aab` in Finder.
+1. From `~/Shorebird/time_shift`, run `open ./build/app/outputs/bundle/release/` to open the folder containing the `.aab` in Finder.
 1. Drag `app-release.aab` into the Play Console to upload.
 
-The Play Store will recognize the new version as `6 (1.0.3)`.
+Once the uplaod completes, the Play Store will correctly recognize the new version as `6 (1.0.3)`.
 
 ![UploadedBundle](https://github.com/shorebirdtech/docs/assets/581764/1994cb5a-4cd6-4f1b-a88c-f5aaa3d1433d)
 

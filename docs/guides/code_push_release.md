@@ -1,7 +1,7 @@
 ---
 sidebar_position: 2
-title: 🚢 Release a code push app
-description: Release a code push app
+title: 🚢 Release a Code Push app
+description: Release a Code Push app
 ---
 
 # Releasing an code push app
@@ -148,7 +148,7 @@ We now wait for the Play Store to approve this release.
 
 ### Create a GitHub Release
 
-While we wait, we will create a GitHub release. For us, that looks like:
+We also want to create a GitHub release. For us, that looks like:
 
 1. Navigate to https://github.com/shorebirdtech/time_shift/releases.
 1. Click "Draft a new release".

@@ -168,3 +168,85 @@ We also want to create a GitHub release. For us, that looks like:
 1. Title the release "v1.0.3+6".
 1. Add a description of the release ("Changes the default clock face to 'generative'").
 1. Publish the release.
+
+## After the Release is Approved
+
+Once the release has been approved, you will be able to download it from the Play Store.
+
+## Creating a Patch
+
+Let's say we want to create a patch for `1.0.3+6` that fixes a bug.
+
+### Make the change
+
+We start by checking out the `v1.0.3+6` release tag:
+
+```sh
+git checkout v1.0.3+6
+```
+
+We will branch from here, as this change will represent a divergence from the `main` branch:
+
+```sh
+git checkout -b v1.0.3+6-patch1
+```
+
+For the purposes of this guide, we will change the default clock face back to `particle` in `lib/main.dart`:
+
+```diff
+     (clock) => clock.name == clockName,
+-    orElse: () => ClockFace.generative,
++    orElse: () => ClockFace.particle,
+   );
+```
+
+Commit this change and push the branch:
+
+```sh
+git add lib/main.dart
+git commit -m "Change default clock face to particle"
+git push --set-upstream origin v1.0.3+6-patch1
+```
+
+We will also tag this commit as `v1.0.3+6-patch1`:
+
+```sh
+git tag v1.0.3+6-patch1
+git push --tags
+```
+
+[On GitHub](https://github.com/shorebirdtech/time_shift/commit/cf4054bada74ff1c5ff84fb9aceb3f1e4442203f)
+
+### Create a Shorebird Patch
+
+We will now create a patch with `shorebird patch`. You should see output similar to the following:
+
+```
+bryanoltman@boltman ~/Shorebird/time_shift (main)
+⑆ shorebird patch
+✓ Building patch (17.2s)
+✓ Fetching apps (0.7s)
+✓ Detecting release version (0.2s)
+✓ Fetching release (99ms)
+✓ Fetching Flutter revision (13ms)
+✓ Fetching release artifacts (0.2s)
+✓ Downloading release artifacts (1.0s)
+✓ Creating artifacts (1.0s)
+
+🚀 Ready to publish a new patch!
+
+📱 App: time_shift (51751336-6a7c-4972-b4ec-8fc1591fb2b3)
+📦 Release Version: 1.0.3+6
+📺 Channel: stable
+🕹️  Platform: android [arm64 (135 B), arm32 (150 B), x86_64 (135 B)]
+
+Would you like to continue? (y/N) Yes
+✓ Creating patch (0.1s)
+✓ Uploading artifacts (0.9s)
+✓ Fetching channels (90ms)
+✓ Promoting patch to stable (61ms)
+
+✅ Published Patch!
+```
+
+This change will now be available to users with version `1.0.3+6` of the app.

@@ -245,3 +245,36 @@ We've focused on Android so far on the assumption that most Flutter developers
 are targeting Android first. Shorebird can (relatively easily) be made to
 support Desktop or embedded targets. If those are important to you, please let
 us know.
+
+## How does Shorebird interact with Play Testing Tracks or Apple TestFlight?
+
+Each of the app stores have separate mechanisms for distributing apps to limited
+groups of users (e.g. "internal testing", "closed beta", etc.). These are all
+mechanisms for segmenting your users into groups and distributing specific
+versions of your apps to each.
+
+Unfortunately, these not all of these mechanisms allow 3rd parties to detect
+when apps are installed in any specific Test Track or via TestFlight. Thus, we
+do not have reliable visibility into composition of these groups, and cannot
+reliably gate access to Shorebird patches based on these groups.
+https://stackoverflow.com/questions/53291007/can-an-android-application-identify-the-test-track-within-google-play
+https://stackoverflow.com/questions/26081543/how-to-tell-at-runtime-whether-an-ios-app-is-running-through-a-testflight-beta-i
+
+If you'd like to segment availability of Shorebird patches, we have 3 options:
+
+1.  Use separate binaries / bundle ids for each group. This is the most
+    straightforward approach, but requires you to manage multiple binaries.
+    On Android the easy way to accomplish this is through flavors. You may
+    already have a dev flavor and prod flavor with different availability. You
+    can thus patch your dev flavor, verify it and then separately patch your
+    prod flavor. We recommend using branches / tags in your version control
+    to help keep track of the sources associated with each release.
+2.  Shorebird could create its own opt-in mechanism on a per-device basis
+    (similar to Test Tracks or TestFlight, just platform agnostic). This
+    could allow your QA team to opt-in to patches before they're promoted to
+    the general public. If this is important to you, please let us know:
+    https://github.com/shorebirdtech/shorebird/issues/498
+3.  Shorebird plans to add percentage based rollouts. This does not let you
+    choose which devices to send to, but can help you roll out incrementally
+    and roll-back on sight of any problems.
+    https://github.com/shorebirdtech/shorebird/issues/497

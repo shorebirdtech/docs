@@ -35,7 +35,7 @@ bryanoltman@boltman ~/Shorebird/time_shift (main)
 └─────────┴──────┘
 ```
 
-From this, we can see that the most recent release is `1.0.2+5`. This corresponds with what we see in the Play Store console:
+We can see that the most recent release is `1.0.2+5`. This corresponds with what we see in the Play Store console:
 
 ![ReleaseVersion](https://github.com/shorebirdtech/docs/assets/581764/e6b6c276-49de-4142-8f32-dbf5e41379fa)
 

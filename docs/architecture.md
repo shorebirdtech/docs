@@ -1,5 +1,5 @@
 ---
-sidebar_position: 5
+sidebar_position: 6
 title: 🏛️ Architecture
 description: How Shorebird works.
 ---

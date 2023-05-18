@@ -1,11 +1,10 @@
 {
-    "label": "🎓 Tutorials",
-    "position": 2,
-    "link": {
-      "title": "Tutorials",
-      "slug": "tutorials",
-      "type": "generated-index",
-      "description": "A collection of guides that help you get the most out of Shorebird."
-    }
+  "label": "🎓 Tutorials",
+  "position": 2,
+  "link": {
+    "title": "Tutorials",
+    "slug": "tutorials",
+    "type": "generated-index",
+    "description": "A collection of guides that help you get the most out of Shorebird."
   }
-  
+}

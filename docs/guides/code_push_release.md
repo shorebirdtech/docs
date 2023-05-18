@@ -4,7 +4,7 @@ title: 🚢 Release a Code Push App
 description: Release a Code Push App
 ---
 
-# Releasing an code push app
+# Releasing a code push app
 
 This guide walks you through releasing a code push app to the Play Store and applying a patch to that release.
 

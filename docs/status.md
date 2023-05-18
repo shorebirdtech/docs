@@ -4,12 +4,12 @@ title: 👷 Status
 description: Status of the Shorebird project.
 ---
 
-## Open Beta
+## Beta
 
-Shorebird is currently "Open Beta". A lot is still changing, but we're
+Shorebird is currently available as a beta. A lot is still changing, but we're
 ready and interested for feedback from the general public.
 
-Our goal with this open beta is to shake out bugs and ensure that
+Our goal with this beta is to shake out bugs and ensure that
 we are building things people want. We _want_ your feedback. We _want_ you to
 break things. We _want_ you to tell us what you want to see next.
 
@@ -32,21 +32,24 @@ All users will update to the new version on next launch in the background
 We also have an extensive command line interface for managing your Shorebird
 account and apps.
 
-## What doesn't work?
+## What doesn't work yet?
 
 No support for:
 
 - iOS [issue](https://github.com/shorebirdtech/shorebird/issues/381)
 - Asset changes (images, icons, etc.) [issue](https://github.com/shorebirdtech/shorebird/issues/318)
-- Teams / Organizations sharing apps [issue](https://github.com/shorebirdtech/shorebird/issues/345)
-- Flutter beta or master channels (only latest stable 3.7.12 is supported)
+- Teams / Organizations sharing apps [issue](https://github.com/shorebirdtech/shorebird/issues/216)
+- Older Flutter versions or `beta` and `master` channels (only latest `stable` is supported): [issue](https://github.com/shorebirdtech/shorebird/issues/472)
 - Rollbacks ([issue](https://github.com/shorebirdtech/shorebird/issues/126))
 - Staged rollout of patches (channels or percentage based) [issue](https://github.com/shorebirdtech/shorebird/issues/110)
-- CI/CD (GitHub Actions, etc.) integration
+- CI/CD (GitHub Actions, etc.) integration [issue](https://github.com/shorebirdtech/shorebird/issues/484)
 - Patch signing [issue](https://github.com/shorebirdtech/shorebird/issues/112)
-- Analytics
+- Add-to-app integrations [issue](https://github.com/shorebirdtech/shorebird/issues/480)
+- Analytics [issue](https://github.com/shorebirdtech/shorebird/issues/197)
 - Web interface
 - "Native code" changes (java, kotlin, etc.) -- not planned.
+- Fastlane integration [issue](https://github.com/shorebirdtech/shorebird/issues/257)
+- Self-hosting or on-premises deployments [issue](https://github.com/shorebirdtech/shorebird/issues/485)
 
 If these, or anything else is blocking your use of Shorebird, please let us know!
 https://github.com/shorebirdtech/shorebird/issues

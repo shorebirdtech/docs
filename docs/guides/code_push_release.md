@@ -18,7 +18,7 @@ The app we will be releasing in this guide is [`Time Shift`](https://play.google
 
 ### Determine next release version
 
-We will start by running `shorebird releases list` to see the current set of releases:
+Start by running `shorebird releases list` to see the current set of releases:
 
 ```
 bryanoltman@boltman ~/Shorebird/time_shift (main)
@@ -35,17 +35,17 @@ bryanoltman@boltman ~/Shorebird/time_shift (main)
 └─────────┴──────┘
 ```
 
-We can see that the most recent release is `1.0.2+5`. This corresponds with what we see in the Play Store console:
+This shows that the most recent release is `1.0.2+5`. This corresponds with what we see in the Play Store console:
 
 ![ReleaseVersion](https://github.com/shorebirdtech/docs/assets/581764/e6b6c276-49de-4142-8f32-dbf5e41379fa)
 
-The release we are going to create is `1.0.3+6`.
+Next, we'll create a new release for version `1.0.3+6`.
 
 ### Make code changes
 
-Version `1.0.3+6` of Time Shift will be a small patch that changes the default clock face from `particle` to `generative`.
+Version `1.0.3+6` of Time Shift will change the default clock face from `particle` to `generative`.
 
-To make this change, we will edit `lib/main.dart`:
+To make this change, edit `lib/main.dart`:
 
 ```diff
    final clock = ClockFace.values.firstWhere(
@@ -55,9 +55,9 @@ To make this change, we will edit `lib/main.dart`:
    );
 ```
 
-We run the app using `shorebird run` to make sure this change does what we expect.
+Verify that this change does what we expect by running the app with `shorebird run`.
 
-After verifying, we will commit this change and push it to GitHub:
+Once this change has been verified, commit this change and push it to GitHub:
 
 ```sh
 git add lib/main.dart
@@ -69,7 +69,7 @@ git push
 
 ### Update app version
 
-We will now update the app version in `pubspec.yaml`:
+Next, bump the app version in `pubspec.yaml`:
 
 ```diff
 name: time_shift
@@ -83,7 +83,7 @@ environment:
   sdk: ">=2.19.4 <3.0.0"
 ```
 
-We will commit this change, tag it, and push it.
+Commit, tag, and push the change.
 
 ```sh
 git add pubspec.yaml
@@ -129,7 +129,7 @@ https://support.google.com/googleplay/android-developer/answer/9859152?hl=en
 
 ### Upload to the Play Store
 
-As per the instructions above, we need to upload the generated `.aab` to the Play Store.
+As per the instructions above, we must upload the generated `.aab` to the Play Store.
 
 1. Navigate to the [Play Console](https://play.google.com/console/developers).
 1. Choose your developer account (for us, it's Shorebirdbird.dev).
@@ -139,12 +139,12 @@ As per the instructions above, we need to upload the generated `.aab` to the Pla
 
 ![CreateNewRelease](https://github.com/shorebirdtech/docs/assets/581764/90c9c7ed-bc39-4731-bfec-524f89e2baf6)
 
-You will now be prompted to upload the `.aab` file. You can find this file in `./build/app/outputs/bundle/release/app-release.aab`.
+Upload the `.aab` file located at `./build/app/outputs/bundle/release/app-release.aab`.
 
-1. From `~/Shorebird/time_shift`, run `open ./build/app/outputs/bundle/release/` to open the folder containing the `.aab` in Finder.
+1. From the root directory of the project, run `open ./build/app/outputs/bundle/release/` to open the folder containing the `.aab` in Finder.
 1. Drag `app-release.aab` into the Play Console to upload.
 
-Once the uplaod completes, the Play Store will correctly recognize the new version as `6 (1.0.3)`.
+Once the upload completes, the Play Store will correctly recognize the new version as `6 (1.0.3)`.
 
 ![UploadedBundle](https://github.com/shorebirdtech/docs/assets/581764/1994cb5a-4cd6-4f1b-a88c-f5aaa3d1433d)
 
@@ -152,15 +152,15 @@ Click "Next" and then "Save" (both in the bottom-right corner) to submit.
 
 This will take you to the publishing overview page. Click "Submit for review" to submit the release for review.
 
-We should now see a release in the Play Store console with an "In review" status:
+You should now see a release in the Play Store console with an "In review" status:
 
 ![InReview](https://github.com/shorebirdtech/docs/assets/581764/4cfdc7fb-2049-4110-b1cd-da99c7a491f7)
 
-We will now wait for the Play Store to approve this release.
+Now you must wait for the Play Store to approve the release.
 
 ### Create a GitHub release
 
-We also want to create a GitHub release. For us, that looks like:
+It's recommended to create a GitHub release as well.
 
 1. Navigate to https://github.com/shorebirdtech/time_shift/releases.
 1. Click "Draft a new release".
@@ -175,17 +175,17 @@ Once the release has been approved, you will be able to download it from the Pla
 
 ## Creating a patch
 
-Let's say we want to create a patch for `1.0.3+6` that fixes a bug.
+Patches can be pushed to fix bugs in the `1.0.3+6` release without requiring a new submission to the Play Store.
 
 ### Make the change
 
-We start by checking out the `v1.0.3+6` release tag:
+Start by checking out the `v1.0.3+6` release tag:
 
 ```sh
 git checkout v1.0.3+6
 ```
 
-We will branch from here, as this change will represent a divergence from the `main` branch:
+Next, create a branch, as this change will represent a divergence from the `main` branch:
 
 ```sh
 git checkout -b v1.0.3+6-patch1
@@ -200,7 +200,7 @@ For the purposes of this guide, we will change the default clock face back to `p
    );
 ```
 
-Commit this change and push the branch:
+Commit the change and push our new patch branch:
 
 ```sh
 git add lib/main.dart
@@ -208,7 +208,7 @@ git commit -m "Change default clock face to particle"
 git push --set-upstream origin v1.0.3+6-patch1
 ```
 
-We will also tag this commit as `v1.0.3+6-patch1`:
+Tag this commit as `v1.0.3+6-patch1`:
 
 ```sh
 git tag v1.0.3+6-patch1
@@ -219,7 +219,7 @@ git push --tags
 
 ### Create a Shorebird patch
 
-We will now create a patch with `shorebird patch`. You should see output similar to the following:
+Finally, push the patch with `shorebird patch`. You should see output similar to the following:
 
 ```
 bryanoltman@boltman ~/Shorebird/time_shift (main)
@@ -249,4 +249,4 @@ Would you like to continue? (y/N) Yes
 ✅ Published Patch!
 ```
 
-This change will now be available to users with version `1.0.3+6` of the app.
+This patch will now be available to users with version `1.0.3+6` of the app.

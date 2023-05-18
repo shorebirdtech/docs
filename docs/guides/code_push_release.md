@@ -37,7 +37,7 @@ bryanoltman@boltman ~/Shorebird/time_shift (main)
 
 From this, we can see that the most recent release is `1.0.2+5`. This corresponds with what we see in the Play Store console:
 
-# TODO insert screenshot
+![ReleaseVersion](https://github.com/shorebirdtech/docs/assets/581764/e6b6c276-49de-4142-8f32-dbf5e41379fa)
 
 The release we are going to create is `1.0.3+6`.
 
@@ -133,6 +133,8 @@ As per the instructions above, we need to upload the generated `.aab` to the Pla
 1. Select "Testing -> Open Testing" from the side bar.
 1. Click the "Create new release" button.
 
+![CreateNewRelease](https://github.com/shorebirdtech/docs/assets/581764/90c9c7ed-bc39-4731-bfec-524f89e2baf6)
+
 You will now be prompted to upload the `.aab` file. You can find this file in `./build/app/outputs/bundle/release/app-release.aab`.
 
 1. From ~/Shorebird/time_shift, run `open ./build/app/outputs/bundle/release/` to open the folder containing the `.aab` in Finder.
@@ -140,11 +142,17 @@ You will now be prompted to upload the `.aab` file. You can find this file in `.
 
 The Play Store will recognize the new version as `6 (1.0.3)`.
 
+![UploadedBundle](https://github.com/shorebirdtech/docs/assets/581764/1994cb5a-4cd6-4f1b-a88c-f5aaa3d1433d)
+
 Click "Next" and then "Save" (both in the bottom-right corner) to submit.
 
 This will take you to the publishing overview page. Click "Submit for review" to submit the release for review.
 
-We now wait for the Play Store to approve this release.
+We should now see a release in the Play Store console with an "In review" status:
+
+![InReview](https://github.com/shorebirdtech/docs/assets/581764/4cfdc7fb-2049-4110-b1cd-da99c7a491f7)
+
+We will now wait for the Play Store to approve this release.
 
 ### Create a GitHub Release
 

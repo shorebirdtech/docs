@@ -70,6 +70,7 @@ Run `shorebird doctor` to ensure everything is set up correctly:
 ```sh
 shorebird doctor
 ```
+
 You will notice that this prints an error:
 
 ```sh

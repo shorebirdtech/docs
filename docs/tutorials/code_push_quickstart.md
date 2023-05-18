@@ -8,7 +8,7 @@ description: Try code push for yourself
 
 This guide shows you the fastest way to install Shorebird and try code push.
 
-This document is a (slightly) condensed version of our [code push](../code_push/) docs, all on one page.
+This document is a (slightly) condensed version of our [code push](../code-push/) docs, all on one page.
 
 ## Sign up
 

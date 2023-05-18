@@ -14,7 +14,7 @@ This guide assumes that you have an existing Shorebird app. If you don't have on
 
 The app we will be releasing in this guide is [`Time Shift`](https://play.google.com/store/apps/details?id=dev.shorebird.u_shorebird_clock), our demo code push app. ([source](https://github.com/shorebirdtech/time_shift/))
 
-## Creating a Release
+## Creating a release
 
 ### Determine next release version
 
@@ -158,7 +158,7 @@ We should now see a release in the Play Store console with an "In review" status
 
 We will now wait for the Play Store to approve this release.
 
-### Create a GitHub Release
+### Create a GitHub release
 
 We also want to create a GitHub release. For us, that looks like:
 
@@ -169,11 +169,11 @@ We also want to create a GitHub release. For us, that looks like:
 1. Add a description of the release ("Changes the default clock face to 'generative'").
 1. Publish the release.
 
-## After the Release is Approved
+## After the release is approved
 
 Once the release has been approved, you will be able to download it from the Play Store.
 
-## Creating a Patch
+## Creating a patch
 
 Let's say we want to create a patch for `1.0.3+6` that fixes a bug.
 
@@ -217,7 +217,7 @@ git push --tags
 
 [On GitHub](https://github.com/shorebirdtech/time_shift/commit/cf4054bada74ff1c5ff84fb9aceb3f1e4442203f)
 
-### Create a Shorebird Patch
+### Create a Shorebird patch
 
 We will now create a patch with `shorebird patch`. You should see output similar to the following:
 

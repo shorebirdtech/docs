@@ -6,7 +6,7 @@ description: Release a Code Push App
 
 # Releasing a code push app
 
-This guide walks you through releasing a code push app to the Play Store and applying a patch to that release.
+This guide walks through releasing a code push app to the Play Store and applying a patch to that release.
 
 ## Prerequisites
 

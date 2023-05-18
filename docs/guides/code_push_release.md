@@ -1,7 +1,7 @@
 ---
 sidebar_position: 2
-title: 🚢 Release a Code Push app
-description: Release a Code Push app
+title: 🚢 Release a Code Push App
+description: Release a Code Push App
 ---
 
 # Releasing an code push app
@@ -14,7 +14,7 @@ This guide assumes that you have an existing Shorebird app. If you don't have on
 
 The app we will be releasing in this guide is [`Time Shift`](https://play.google.com/store/apps/details?id=dev.shorebird.u_shorebird_clock), our demo code push app. ([source](https://github.com/shorebirdtech/time_shift/))
 
-## Creating a release
+## Creating a Release
 
 ### Determine next release version
 
@@ -65,6 +65,8 @@ git commit -m "Change default clock face to generative"
 git push
 ```
 
+[On GitHub](https://github.com/shorebirdtech/time_shift/commit/d1fe9451aa18a775163bce95dd9dab551aaf6259)
+
 ### Update app version
 
 We will now update the app version in `pubspec.yaml`:
@@ -90,6 +92,8 @@ git tag v1.0.3+6
 git push # Push the commit
 git push --tags  # Push the tag
 ```
+
+[On GitHub](https://github.com/shorebirdtech/time_shift/commit/3b25df1888c170c2418162ba64a9a5e6363c09af)
 
 ### Create a Shorebird release
 

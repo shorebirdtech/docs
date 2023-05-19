@@ -227,7 +227,7 @@ Run `shorebird apps list` to verify the patch was published:
 We can validate the patch by re-launching the internal release.
 
 :::warning
-If you are testing locally, DO NOT re-run `shorebird run`, instead just re-launch the app from the device or emulator directly.
+If you are testing locally, you don't need to re-run `shorebird run` -- just re-launch the app from the device or emulator directly.
 :::
 
 The first time the app is re-launched, we should still see the purple theme and shorebird will detect and install the patch in the background. Kill and re-launch the app a second time to see the applied patch.

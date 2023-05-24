@@ -60,6 +60,23 @@ one megabyte to Flutter apps. `flutter build apk --release` vs.
 we can make this smaller when that becomes a priority. If size is a blocker
 for you, please let us know!
 
+### What does Shorebird store on disk and where?
+
+The Shorebird updater (included in your application when you build your app with
+Shorebird) caches the latest downloaded patch in the same cache directory that
+Flutter uses for caching compiled shaders or compiled Dart code. On Android,
+this is located in `/data/user/0/com.example.app/code_cache/shorebird_updater`
+although the base of that path is provided by the Android system and can change
+dynamically at runtime.
+
+The Shorebird command line tools (e.g. `shorebird patch`) are installed on disk
+in `$HOME/.shorebird`, including bringing a copy of Flutter and Dart as well as
+the Shorebird release tools themselves. This is similar to how the `flutter`
+command works.
+
+[Uninstall](uninstall.md) has details on how to remove Shorebird from your
+system should you choose.
+
 ### How does this relate to Flutter Hot Reload?
 
 Flutter's Hot reload is a development-time-only feature. Code push is for
@@ -107,6 +124,13 @@ There are different technical restrictions on some platforms (e.g. iOS) relative
 to Android, but we have several approaches we can use to solve them (Dart is an
 incredibly flexible language).
 
+### What OS versions does Shorebird support?
+
+Shorebird supports the same versions of Android that Flutter supports.
+
+Flutter currently supports Android API level 19+ and iOS 11.0+:
+https://docs.flutter.dev/reference/supported-platforms
+
 ### How does this relate to the App/Play Store review process or policies?
 
 Developers are bound by their agreements with store providers when they choose
@@ -123,6 +147,20 @@ and comply with store guidelines as we get closer to a public launch.
 Yes. One could imagine running a server to distribute the updates separately
 from the general internet, but some form of network connectivity is required to
 transport updates to the devices.
+
+### How is Shorebird affected by lack of network connectivity?
+
+Shorebird updater (included in your application when you build your app with
+Shorebird) is designed to be resilient to network connectivity issues. When the
+application launches it alerts the Shorebird updater, which spawns a separate
+thread to make a network request to Shorebird's servers and ask for an update.
+We intentionally use a separate thread to avoid affecting blocking anything else
+the application might be doing. If the network request fails or times out, the
+updater will simply try to check again next time the application launches.
+
+Shorebird command line tools (e.g. `shorebird patch`) require network
+connectivity to function. If you are using Shorebird to distribute your app,
+you should ensure that your CI system has network connectivity.
 
 ### What happens if a user doesn't update for a long time and misses an update?
 
@@ -148,7 +186,7 @@ See our [Languages
 Philosophy](https://github.com/shorebirdtech/handbook/blob/main/engineering.md#languages)
 for more information as to why we chose Rust.
 
-## How does Shorebird relate to Flutter?
+### How does Shorebird relate to Flutter?
 
 Shorebird is a fork of Flutter that adds code push. Shorebird is not a
 replacement for Flutter, but rather a replacement for the Flutter engine. You
@@ -170,7 +208,7 @@ Flutter assets will be downloaded from http://download.shorebird.dev. Make sure 
 For more information about why we had to fork Flutter see
 [architecture.md](architecture.md).
 
-## When do updates happen?
+### When do updates happen?
 
 The Shorebird updater is currently hard-coded to run on app startup. It runs on
 a background thread and does not block the UI thread. Any updates will be
@@ -188,7 +226,7 @@ thing is to simply push a new patch that reverts the changes you want to undo.
 We expect to add more control over update behavior in the future. Please let us
 know if you have needs here, and we're happy to prioritize them.
 
-## Do I need to keep my app_id secret?
+### Do I need to keep my app_id secret?
 
 No. The `app_id` is included in your app and is safe to be public. You can
 check it into version control (even publicly) and not worry about someone
@@ -198,7 +236,7 @@ Someone who has your `app_id` can fetch the latest version of your app from
 Shorebird servers, but they cannot push updates to your app or access any
 other aspect of your Shorebird account.
 
-## What information is sent to Shorebird servers?
+### What information is sent to Shorebird servers?
 
 Although Shorebird connects to the network, it does not send any personally
 identifiable information. Including Shorebird should not affect your
@@ -214,7 +252,7 @@ Requests sent from the app to Shorebird servers include:
 - platform (e.g. 'android', needed to send down the right patch)
   That's it. The code for this is in `updater/library/src/network.rs`
 
-## Does Shorebird comply with Play Store guidelines?
+### Does Shorebird comply with Play Store guidelines?
 
 Shorebird is designed to be compatible with the Play Store guidelines. However
 Shorebird is a tool, and as with any tool, can be abused. Deliberately abusing
@@ -231,7 +269,7 @@ Code push services are widely used in the industry (all of the large apps
 I'm aware of use them) and there are multiple other code push services
 publicly available (e.g. expo.dev & appcenter.ms). This is a well trodden path.
 
-## What platforms does Shorebird support? Does it support iOS?
+### What platforms does Shorebird support? Does it support iOS?
 
 Current Shorebird is Android-only. We have
 [plans to add iOS](https://github.com/shorebirdtech/shorebird/issues/381),
@@ -246,7 +284,7 @@ are targeting Android first. Shorebird can (relatively easily) be made to
 support Desktop or embedded targets. If those are important to you, please let
 us know.
 
-## How does Shorebird interact with Play Testing Tracks or Apple TestFlight?
+### How does Shorebird interact with Play Testing Tracks or Apple TestFlight?
 
 Each of the app stores have separate mechanisms for distributing apps to limited
 groups of users (e.g. "internal testing", "closed beta", etc.). These are all

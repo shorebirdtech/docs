@@ -226,7 +226,7 @@ Run `shorebird apps list` to verify the patch was published:
 
 We can validate the patch by re-launching the internal release.
 
-:::warning
+:::caution
 If you are testing locally, you don't need to re-run `shorebird run` -- just re-launch the app from the device or emulator directly.
 :::
 

@@ -25,26 +25,27 @@ Example output:
 
 ```
 $ shorebird patch
-✓ Building patch (16.2s)
-✓ Fetching apps (0.1s)
-
-Which release is this patch for? (0.1.0) 0.1.0
+✓ Building patch (3.0s)
+✓ Fetching apps (0.2s)
+✓ Detecting release version (0.3s)
+✓ Fetching release (77ms)
+✓ Fetching Flutter revision (15ms)
+✓ Fetching release artifacts (0.3s)
+✓ Downloading release artifacts (1.9s)
+✓ Creating artifacts (4.1s)
 
 🚀 Ready to publish a new patch!
 
 📱 App: My App (61fc9c16)
-📦 Release Version: 0.1.0
+📦 Release Version: 0.1.0+1
 📺 Channel: stable
-🕹️ Platform: android (arm64, arm32, x86)
+🕹️  Platform: android [arm64 (166.20 KB), arm32 (161.78 KB), x86_64 (161.51 KB)]
 
 Would you like to continue? (y/N) Yes
-✓ Fetching release (41ms)
-✓ Fetching release artifacts (43ms)
-✓ Downloading release artifacts (0.2s)
-✓ Creating artifacts (0.3s)
-✓ Uploading artifacts (43ms)
-✓ Fetching channels (40ms)
-✓ Promoting patch to stable (43ms)
+✓ Creating patch (93ms)
+✓ Uploading artifacts (1.5s)
+✓ Fetching channels (86ms)
+✓ Promoting patch to stable (78ms)
 
 ✅ Published Patch!
 ```

@@ -2,9 +2,12 @@ FROM node:lts as base
 
 WORKDIR /app
 
-COPY . .
+COPY ./package.json ./
+COPY ./package-lock.json ./
 
 RUN npm install
+
+COPY . .
 
 EXPOSE 3000 35729
 

@@ -97,11 +97,11 @@ git push --tags  # Push the tag
 
 ### Create a Shorebird release
 
-To create a Shorebird release, run `shorebird release`. You should see output similar to the following:
+To create a Shorebird release, run `shorebird release android`. You should see output similar to the following:
 
 ```
 bryanoltman@boltman ~/Shorebird/time_shift (main)
-⑆ shorebird release
+⑆ shorebird release android
 ✓ Building release (17.0s)
 ✓ Fetching apps (0.3s)
 ✓ Detecting release version (0.2s)

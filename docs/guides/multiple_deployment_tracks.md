@@ -113,14 +113,14 @@ Use `shorebird doctor --fix` to automatically fix validation issues detected. If
 
 ## Create a release
 
-Now that we've created our apps on shorebird, we need to create releases (one for each track). To create a release, we'll use the `shorebird release` command.
+Now that we've created our apps on shorebird, we need to create releases (one for each track). To create a release, we'll use the `shorebird release android` command.
 
 ```sh
 # Create a release for the internal track
-shorebird release --flavor internal
+shorebird release android --flavor internal
 
 # Create a release for the stable track
-shorebird release --flavor stable
+shorebird release android --flavor stable
 ```
 
 We can verify the releases were created successfully by re-running `shorebird apps list`.

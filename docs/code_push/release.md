@@ -9,10 +9,10 @@ description: Learn how to publish a new app release to Shorebird.
 ## Publish a Release
 
 In order to start pushing updates, you will need to create a release using
-`shorebird release`.
+`shorebird release android`.
 
 ```
-shorebird release
+shorebird release android
 ```
 
 Creating a release builds and submits your app to Shorebird. Shorebird saves the

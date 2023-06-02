@@ -247,7 +247,7 @@ Requests sent from the app to Shorebird servers include:
 - app_id (specified `shorebird.yaml`)
 - channel (optional in `shorebird.yaml`)
 - release_version (versionName from AndroidManifest.xml)
-- patch_number (generated as part of `shorebird patch`)
+- patch_number (generated as part of `shorebird patch android`)
 - arch (e.g. 'aarch64', needed to send down the right patch)
 - platform (e.g. 'android', needed to send down the right patch)
   That's it. The code for this is in `updater/library/src/network.rs`

@@ -161,7 +161,7 @@ In addition to running the app locally, you should also [submit the generated ap
 
 ## Creating a patch
 
-Now that we have our internal and stable releases on the Play Store, we can create a patch using `shorebird patch`. For the sake of this example, let's adjust the app theme to use `deepOrange` as the seed color in `lib/main.dart`:
+Now that we have our internal and stable releases on the Play Store, we can create a patch using `shorebird patch android`. For the sake of this example, let's adjust the app theme to use `deepOrange` as the seed color in `lib/main.dart`:
 
 ```diff
 class MyApp extends StatelessWidget {
@@ -205,7 +205,7 @@ Typically `shorebird patch` should be used to fix critical bugs.
 Now that we've applied the changes, let's patch the `internal` variant:
 
 ```sh
-shorebird patch --flavor internal
+shorebird patch android --flavor internal
 ```
 
 :::tip
@@ -239,7 +239,7 @@ If all went well, you should see the patch was applied after re-launching the ap
 Once you have validated the patch internally, you can promote the patch to the stable variant via:
 
 ```sh
-shorebird patch --flavor stable
+shorebird patch android --flavor stable
 ```
 
 At this point, you have a setup which allows you to push patches to internal testers before promoting them to production 🎉

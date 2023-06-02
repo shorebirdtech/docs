@@ -219,11 +219,11 @@ git push --tags
 
 ### Create a Shorebird patch
 
-Finally, push the patch with `shorebird patch`. You should see output similar to the following:
+Finally, push the patch with `shorebird patch android`. You should see output similar to the following:
 
 ```
 bryanoltman@boltman ~/Shorebird/time_shift (main)
-⑆ shorebird patch
+⑆ shorebird patch android
 ✓ Building patch (17.2s)
 ✓ Fetching apps (0.7s)
 ✓ Detecting release version (0.2s)

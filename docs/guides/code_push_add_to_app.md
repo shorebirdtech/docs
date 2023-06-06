@@ -63,7 +63,8 @@ dependencyResolutionManagement {
 Even though we are replacing https://storage.googleapis.com/download.flutter.io.
 with https://download.shorebird.dev/download.flutter.io, any Flutter
 dependencies that are not unique to Shorebird will still be downloaded from
-https://storage.googleapis.com/download.flutter.io.
+https://storage.googleapis.com/download.flutter.io. This will only work for
+versions of Flutter that Shorebird supports.
 :::
 
 ## Update your Android app to use this version of the Flutter module

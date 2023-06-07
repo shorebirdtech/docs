@@ -6,25 +6,26 @@ description: Status of the Shorebird project.
 
 ## Beta
 
-Shorebird is currently available as a beta. A lot is still changing, but we're
-ready and interested for feedback from the general public.
+Shorebird is currently available in open beta. Many customers are using it in
+production, but we are still working on some features and ironing out bugs.
 
-Our goal with this beta is to shake out bugs and ensure that
-we are building things people want. We _want_ your feedback. We _want_ you to
+We're working closely with our customers to ensure we're building things
+they want. We _want_ your feedback. We _want_ you to
 break things. We _want_ you to tell us what you want to see next.
 
 Filing [issues](https://github.com/shorebirdtech/shorebird/issues) is a good way
 to provide feedback. Feedback via Discord is also welcome.
 
-Our guiding principle for these early days is "first, do no harm".
-It should be the case that using Shorebird is never worse than not using Shorebird.
-It is still possible using early versions of Shorebird could break your app in
-the wild. If you believe that's the case, please reach out, we're here to help.
+Our guiding principle for these early days is "first, do no harm". It should be
+the case that using Shorebird is never worse than not using Shorebird. It is
+still possible using early versions of Shorebird could break your app in the
+wild. If you believe that's the case, please reach out, we're here to help.
 
 ## What works today
 
 You can build and deploy new (release) versions of your app to all Android
-users via `shorebird` command line.
+users via `shorebird` command line. iOS support is
+[coming soon](https://www.youtube.com/watch?v=7KDgFvdogsE).
 
 All users will update to the new version on next launch in the background
 (no control over this behavior yet).
@@ -36,7 +37,7 @@ account and apps.
 
 No support for:
 
-- iOS [issue](https://github.com/shorebirdtech/shorebird/issues/381)
+- iOS [coming soon](https://www.youtube.com/watch?v=7KDgFvdogsE) [issue](https://github.com/shorebirdtech/shorebird/issues/381)
 - Asset changes (images, icons, etc.) [issue](https://github.com/shorebirdtech/shorebird/issues/318)
 - Teams / Organizations sharing apps [issue](https://github.com/shorebirdtech/shorebird/issues/216)
 - Older Flutter versions or `beta` and `master` channels (only latest `stable` is supported): [issue](https://github.com/shorebirdtech/shorebird/issues/472)

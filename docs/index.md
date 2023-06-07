@@ -8,9 +8,15 @@ description: The official documentation site for Shorebird.
 
 Welcome to the Shorebird Docs 👋
 
-At Shorebird, we build products to help businesses be successful with Flutter.
+This guide will walk you through [installing Shorebird](#install-📦),
+[creating an account](#sign-up-✍️),
+[subscribing to Shorebird](#upgrade-to-a-paid-account-⬆️) and
+deploying patches to you app.
 
-We'll help you quickly setup Shorebird so you can get started using our tools.
+:::info
+Currently all interactions with Shorebird are done via the `shorebird` command
+line tool. Shorebird does not yet have a web interface.
+:::
 
 ## Install 📦
 

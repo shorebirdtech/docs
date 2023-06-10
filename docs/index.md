@@ -6,8 +6,6 @@ description: The official documentation site for Shorebird.
 
 # Getting Started
 
-Welcome to the Shorebird Docs 👋
-
 This guide will walk you through [installing Shorebird](#install-📦),
 [creating an account](#sign-up-✍️),
 [subscribing to Shorebird](#upgrade-to-a-paid-account-⬆️) and

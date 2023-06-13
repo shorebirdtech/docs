@@ -32,13 +32,15 @@ Releases are created by running `shorebird release [platform]`, where `platform`
 
 ### Patch
 
-A patch is an over-the-air update which is applied to a specific [release](#release). Multiple patches can be published for a given release, although only one patch can be active at a time. Patches are identified by their associated release version and a patch number, which is an auto-incrementing integer.
+A patch is a change to a specific [release](#release), applied as an over-the-air update. For example, a patch could be a bug fix or a new feature. Multiple patches can be published for a given release, although only one patch can be active at a time. Patches are identified by their associated release version and a patch number, which is an auto-incrementing integer.
+
+When your application starts, it checks for available patches and applies the latest one. This patch will be visible the next time your application launches.
 
 Patches are created by running `shorebird patch [platform]`, where `platform` is `android`, `aar`, or `ios` (coming soon).
 
 ### Artifact
 
-Artifacts are the output of a build or patch operation. For example:
+An artifact is the output of a build or patch operation. For example:
 
 - `shorebird release android` generates and uploads several architecture-specific `libapp.so` files and an Android archive (.aab) file. These are **release artifacts**.
 - `shorebird patch android` generates and uploads diff files that capture differences between your Dart code at patch time and the code in the associated release. These are **patch artifacts**.

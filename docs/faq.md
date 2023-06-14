@@ -63,7 +63,7 @@ for you, please let us know!
 ### Does code push work with large applications?
 
 Yes. There is no limit on the size of the application that can be patched with
-code push. As noted [What types of changes does Shorebird code push](below),
+code push. As noted [below](#what-types-of-changes-does-shorebird-code-push-support),
 Shorebird can change any Dart code in your application no matter of size.
 
 ### What can I use Shorebird code push for?
@@ -75,13 +75,14 @@ We've seen a variety of uses, inculding:
 - Shipping constantly (e.g. every hour).
 
 Note that most app stores prohibit shipping code that changes the behavior of
-the app in a significant way. Please see [Does this comply with Play Store
-guidelines](below) for more information.
+the app in a significant way. Please see
+[below](#how-does-this-relate-to-the-appplay-store-review-process-or-policies)
+for more information.
 
 ### What can't we use Shorebird code push for?
 
 As above, Shorebird should not be used to violate app store polices. Please see
-[Does this comply with Play Store guidelines](below) for more information.
+[below](#does-shorebird-comply-with-play-store-guidelines) for more information.
 
 Also Shorebird does not support changing native code (e.g. Java/Kotlin on
 Android or Objective-C/Swift on iOS). The tool will warn you during an
@@ -92,6 +93,7 @@ attempted patch if you have changed native code.
 Shorebird does not currently support submitting to the app stores on your
 behalf. We have plans to add this in the future, but for now you will need to
 continue to use your existing processes to submit to the app stores.
+https://github.com/shorebirdtech/shorebird/issues/257
 
 ### What does Shorebird store on disk and where?
 

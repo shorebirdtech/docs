@@ -60,6 +60,41 @@ one megabyte to Flutter apps. `flutter build apk --release` vs.
 we can make this smaller when that becomes a priority. If size is a blocker
 for you, please let us know!
 
+### Does code push work with large applications?
+
+Yes. There is no limit on the size of the application that can be patched with
+code push. As noted [below](#what-types-of-changes-does-shorebird-code-push-support),
+Shorebird can change any Dart code in your application no matter of size.
+
+### What can I use Shorebird code push for?
+
+We've seen a variety of uses, inculding:
+
+- Emergency fixes to production apps.
+- Shipping bug fixes to users on older versions of your app.
+- Shipping constantly (e.g. every hour).
+
+Note that most app stores prohibit shipping code that changes the behavior of
+the app in a significant way. Please see
+[below](#how-does-this-relate-to-the-appplay-store-review-process-or-policies)
+for more information.
+
+### What can't we use Shorebird code push for?
+
+As above, Shorebird should not be used to violate app store polices. Please see
+[below](#does-shorebird-comply-with-play-store-guidelines) for more information.
+
+Also Shorebird does not support changing native code (e.g. Java/Kotlin on
+Android or Objective-C/Swift on iOS). The tool will warn you during an
+attempted patch if you have changed native code.
+
+### Does Shorebird submit to the stores for me?
+
+Shorebird does not currently support submitting to the app stores on your
+behalf. We have plans to add this in the future, but for now you will need to
+continue to use your existing processes to submit to the app stores.
+https://github.com/shorebirdtech/shorebird/issues/257
+
 ### What does Shorebird store on disk and where?
 
 The Shorebird updater (included in your application when you build your app with
@@ -97,10 +132,9 @@ Code push only supports changing Dart code at this time. We have plans to
 support changing Flutter asset files (from pubspec.yaml) in the near future:
 https://github.com/shorebirdtech/shorebird/issues/318
 
-We do not have plans to support changing
-native code (e.g. Java/Kotlin on Android or Objective-C/Swift on iOS), but we
-do have plans to warn about native code changes during patch creation:
-https://github.com/shorebirdtech/shorebird/issues/385
+We do not have plans to support changing native code (e.g. Java/Kotlin on
+Android or Objective-C/Swift on iOS), and the tool will warn you if it detects
+that you have changed native code as it will not be included in the patch.
 
 ### Does this support Flutter Web?
 
@@ -115,14 +149,10 @@ If you have a use case for code push with Fluter web, we'd
 
 Yes.
 
-So far we've focused on Android support, but code push will eventually work
-everywhere Flutter works. We're ensuring we've built all the infrastructure
+So far we've focused on Android and iOS support, but code push will eventually
+work everywhere Flutter works. We're ensuring we've built all the infrastructure
 needed to provide code push reliably, safely first before expanding to more
 platforms.
-
-There are different technical restrictions on some platforms (e.g. iOS) relative
-to Android, but we have several approaches we can use to solve them (Dart is an
-incredibly flexible language).
 
 ### What OS versions does Shorebird support?
 

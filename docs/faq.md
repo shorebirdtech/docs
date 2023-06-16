@@ -379,21 +379,17 @@ Code push services are widely used in the industry (all of the large apps
 I'm aware of use them) and there are multiple other code push services
 publicly available (e.g. expo.dev & appcenter.ms). This is a well trodden path.
 
-### What platforms does Shorebird support? Does it support iOS?
+### What platforms does Shorebird support?
 
-Current Shorebird is Android-only. We are working on
-[support for iOS](https://github.com/shorebirdtech/shorebird/issues/381),
-with intention to release a preview in July 2023 with full iOS support coming
-shortly thereafter.
+Currently, Shorebird supports iOS and Android. Android support is production
+ready, iOS support is in alpha with [known issues](status.md#ios-alpha).
 
-Using Shorebird for your Android builds does not affect
-your iOS builds. You can successfully ship an appbundle build with `shorebird`
-to Google Play and an ipa built with `flutter` to the App Store.
-The difference will be that you will be able to update your Android users
-sooner than you will your iOS users for now.
+Use of Shorebird for iOS or Android can be independent decisions. You can
+use `shorebird release` to ship to Google Play and an ipa built with
+`flutter build` to the App Store or vice versa.
 
-Shorebird can also (relatively easily) be made to support
-[Desktop](https://github.com/shorebirdtech/shorebird/issues/397) or embedded
+Shorebird can (relatively easily) be made to support
+[desktop](https://github.com/shorebirdtech/shorebird/issues/397) or embedded
 targets. If those are important to you, please let us know.
 
 ### How does Shorebird interact with Play Testing Tracks or Apple TestFlight?

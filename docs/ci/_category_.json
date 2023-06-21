@@ -1,0 +1,10 @@
+{
+  "label": "✅ Continuous Integration",
+  "position": 4,
+  "link": {
+    "title": "CI",
+    "slug": "ci",
+    "type": "generated-index",
+    "description": "Documentation on how to integrate Shorebird into your continuous integration pipeline."
+  }
+}

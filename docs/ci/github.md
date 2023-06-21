@@ -37,24 +37,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+        # Use the setup-shorebird action to configure Shorebird
       - name: 🐦 Setup Shorebird
         uses: shorebirdtech/setup-shorebird@v0
 
+        # Now we're able to use Shorebird CLI in our workflow
       - name: 🚀 Use Shorebird
         run: shorebird --version
 ```
 
-In the above workflow, we're using the `setup-shorebird` action to configure shorebird in our CI, and in subsequent steps we can execute any shorebird commands.
+In the above workflow, we're using the `setup-shorebird` action to configure shorebird in our CI and in subsequent steps we can execute any shorebird commands.
+
+:::info
+Currently `setup-shorebird` only supports the latest stable version of shorebird.
+:::
 
 ## Authentication
 
-Most shorebird functionality like creating releases and patches requires being authenticated. In order to authenticate with Shorebird in CI, you will need to generate a CI token.
+Most Shorebird functionality, like creating releases and patches, requires being authenticated. In order to authenticate with Shorebird in CI, you will need to generate a CI token.
 
 ```sh
 shorebird login:ci
 ```
 
-You will be prompted to go through a similar OAuth Flow as we using `shorebird login`, however, `shorebird login:ci` will not store any credentials on your device. Instead, a shorebird token will be generated for you to use in CI.
+You will be prompted to go through a similar OAuth Flow as when using `shorebird login`, however, `shorebird login:ci` will not store any credentials on your device. Instead, a shorebird token will be generated for you to use in CI.
 
 The output should look something like:
 
@@ -95,13 +101,13 @@ secret: <THE GENERATED SHOREBIRD_TOKEN>
 Now we can use the `SHOREBIRD_TOKEN` in our GitHub workflow:
 
 ```yaml
-name: Shorebird Workflow Example
+name: Shorebird Patch
 
 on:
   workflow_dispatch:
 
 jobs:
-  example:
+  patch:
     defaults:
       run:
         shell: bash

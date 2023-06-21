@@ -5,6 +5,6 @@
     "title": "CI",
     "slug": "ci",
     "type": "generated-index",
-    "description": "Documentation on how to integrate Shorebird into your continious integration pipeline."
+    "description": "Documentation on how to integrate Shorebird into your continuous integration pipeline."
   }
 }

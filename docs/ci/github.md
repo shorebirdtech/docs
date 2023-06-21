@@ -37,11 +37,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-        # Use the setup-shorebird action to configure Shorebird
+      # Use the setup-shorebird action to configure Shorebird
       - name: 🐦 Setup Shorebird
         uses: shorebirdtech/setup-shorebird@v0
 
-        # Now we're able to use Shorebird CLI in our workflow
+      # Now we're able to use Shorebird CLI in our workflow
       - name: 🚀 Use Shorebird
         run: shorebird --version
 ```

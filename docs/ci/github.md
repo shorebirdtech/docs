@@ -6,7 +6,7 @@ description: Integrate Shorebird into your GitHub workflow
 
 # GitHub Workflow Integration
 
-The [Setup Shorebird](https://github.com/shorebirdtech/setup-shorebird) GitHub Action allows you to integrate shorebird into your existing GitHub Workflows.
+The [Setup Shorebird](https://github.com/shorebirdtech/setup-shorebird) GitHub Action allows you to integrate Shorebird into your existing GitHub Workflows.
 
 ## Prerequisites
 
@@ -20,7 +20,7 @@ Refer to the [getting started](/) instructions for more information.
 
 ## Quick Start
 
-To integrate shorebird into your CI, use the `setup-shorebird` action. The `setup-shorebird` action downloads shorebird and adds it to the system path.
+To integrate Shorebird into your CI, use the `setup-shorebird` action. The `setup-shorebird` action downloads Shorebird and adds it to the system path.
 
 ```yaml
 name: Shorebird Workflow Example
@@ -46,7 +46,7 @@ jobs:
         run: shorebird --version
 ```
 
-In the above workflow, we're using the `setup-shorebird` action to configure shorebird in our CI and in subsequent steps we can execute any shorebird commands.
+In the above workflow, we're using the `setup-shorebird` action to configure Shorebird in our CI and in subsequent steps we can execute any Shorebird commands.
 
 :::info
 Currently `setup-shorebird` only supports the latest stable version of shorebird.
@@ -60,7 +60,7 @@ Most Shorebird functionality, like creating releases and patches, requires being
 shorebird login:ci
 ```
 
-You will be prompted to go through a similar OAuth Flow as when using `shorebird login`, however, `shorebird login:ci` will not store any credentials on your device. Instead, a shorebird token will be generated for you to use in CI.
+You will be prompted to go through a similar OAuth Flow as when using `shorebird login`, however, `shorebird login:ci` will not store any credentials on your device. Instead, a Shorebird token will be generated for you to use in CI.
 
 The output should look something like:
 

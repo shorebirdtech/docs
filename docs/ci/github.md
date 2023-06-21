@@ -98,7 +98,7 @@ name: SHOREBIRD_TOKEN
 secret: <THE GENERATED SHOREBIRD_TOKEN>
 ```
 
-Now we can use the `SHOREBIRD_TOKEN` in our GitHub workflow:
+Now we can use the `SHOREBIRD_TOKEN` in our GitHub workflow to perform authenticated functions such as creating patches 🎉
 
 ```yaml
 name: Shorebird Patch

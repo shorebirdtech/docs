@@ -1,10 +1,10 @@
 ---
 sidebar_position: 9
-title: ⚠️ Troubleshooting
+title: 🛠️ Troubleshooting
 description: Fixes for common Shorebird issues
 ---
 
-# ⚠️ Troubleshooting
+# 🛠️ Troubleshooting
 
 Find help for issues with Shorebird.
 

@@ -10,7 +10,8 @@ Find help for issues with Shorebird.
 
 ## I installed Shorebird, and now I can't run my app in VS Code
 
-If you see error output like the following:
+If you see error output like the following when using the Run or Debug button in
+VS Code:
 
 ```
 FAILURE: Build failed with an exception.

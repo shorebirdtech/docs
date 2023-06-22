@@ -34,3 +34,7 @@ add the line:
 Where "/path/to/flutter" is the path to your Flutter installation. You can get
 this by running `which flutter` in your terminal (or `where.exe flutter` on
 Windows) and removing the `/bin/flutter` from the end of that path.
+
+## Have a problem that's not addressed here?
+
+We're happy to help on [Discord](https://discord.gg/9hKJcWGcaB)!

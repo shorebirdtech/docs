@@ -172,6 +172,39 @@ variety of commercial products available to do so with React Native (e.g.
 We will include more instructions and guidelines about how to both use code push
 and comply with store guidelines as we get closer to a public launch.
 
+### Can I use Shorebird in my country?
+
+We have not attempted to restrict access to Shorebird from any country.
+
+We recognize that some countries have restrictions on what urls can be accessed
+from within the country. Shorebird currently uses Google Cloud for hosting,
+including Google Cloud Storage and Google Cloud Run.
+
+The following URLs are used by Shorebird:
+
+- https://api.shorebird.dev -- used by the `shorebird` command line tools to
+  interact with the Shorebird servers as well as the Shorbird updater on users'
+  devices to check for updates.
+- https://download.shorebird.dev -- used by the `shorebird` command line tool to
+  download Flutter artifacts for building releases and patches.
+- https://storage.googleapis.com -- used by the `shorebird` command line tool to
+  upload and download release and patch artifacts.
+
+If all of those URLs are accessible from your country, then Shorebird should work.
+
+If your region requires use of
+[FLUTTER_STORAGE_BASE_URL](https://docs.flutter.dev/community/china) Shorebird
+may not work for you at this time as we also use that environment variable as
+part of our implementation. We have plans to [remove this
+restriction](https://github.com/shorebirdtech/shorebird/issues/435), let us know
+if this is important to you.
+
+### Can I self-host Shorebird?
+
+Not currently. We intend to offer [cloud-prem and on-prem
+hosting](https://github.com/shorebirdtech/shorebird/issues/485) as an option on
+enterprise plans. Please contact us if such is required for your adoption.
+
 ### Does code push require the internet to work?
 
 Yes. One could imagine running a server to distribute the updates separately

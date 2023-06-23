@@ -24,9 +24,10 @@ Execution failed for task ':app:checkDebugAarMetadata'.
 ```
 
 It's possible that VS Code is incorrectly using Shorebird's version of Flutter
-instead of the Flutter on your path. You can fix this by explicitly providing
-VS Code with the path to your Flutter installation. In your `settings.json` file,
-add the line:
+instead of the Flutter on your path (see
+https://github.com/Dart-Code/Dart-Code/issues/4607). You can fix this by
+explicitly providing VS Code with the path to your Flutter installation. In your
+`settings.json` file, add the line:
 
 ```json
 "dart.flutterSdkPath": "/path/to/flutter"

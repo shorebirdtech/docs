@@ -89,7 +89,7 @@ const config = {
               },
               {
                 label: 'Discord',
-                href: 'https://discord.gg/9hKJcWGcaB',
+                href: 'https://discord.gg/shorebird',
               },
               {
                 label: 'Twitter',

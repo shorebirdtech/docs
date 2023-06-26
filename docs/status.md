@@ -21,11 +21,38 @@ the case that using Shorebird is never worse than not using Shorebird. It is
 still possible using early versions of Shorebird could break your app in the
 wild. If you believe that's the case, please reach out, we're here to help.
 
-## What works today
+## iOS Preview
 
-You can build and deploy new (release) versions of your app to all Android
-users via `shorebird` command line. iOS support is
-[coming soon](https://www.youtube.com/watch?v=7KDgFvdogsE).
+Shorebird is currently in preview on iOS.
+
+You can see a [demo of Shorebird](https://www.youtube.com/watch?v=7KDgFvdogsE)
+working on iOS, or subscribers can try it themselves with
+`shorebird release ios`, `shorebird run` and `shorebird patch ios`.
+
+Using Shorebird code push on iOS it is possible to deploy fixes to any Dart
+code in your app, instantly to your users.
+
+Performance and patch sizes from the iOS preview do not reflect the final
+product. We expect to reach parity with Shorebird on Android by mid September 2023.
+
+It is safe to ship with Shorebird iOS, so long as you're OK with the performance
+and size differences of the preview product.
+
+Known issues:
+
+- iOS apps built with `shorebird release ios` run about 10x slower than
+  `flutter build ipa --release` builds.
+  [issue](https://github.com/shorebirdtech/shorebird/issues/673)
+- iOS apps updated from `shoreibrd patch ios` run about 10x slower than
+  `flutter build --release` builds.
+  [issue](https://github.com/shorebirdtech/shorebird/issues/674)
+- iOS patches are proportional to the size of the app, rather than the size of
+  the change, and thus much larger than patches on Android.
+  [issue](https://github.com/shorebirdtech/shorebird/issues/675)
+- `shorebird patch ios` does not warn for non-Dart changes
+  [issue](https://github.com/shorebirdtech/shorebird/issues/679)
+
+## What works today
 
 All users will update to the new version on next launch in the background
 (no control over this behavior yet).
@@ -37,7 +64,6 @@ account and apps and CI/CD integration via GitHub Actions.
 
 No support for:
 
-- iOS [coming soon](https://www.youtube.com/watch?v=7KDgFvdogsE) [issue](https://github.com/shorebirdtech/shorebird/issues/381)
 - Asset changes (images, icons, etc.) [issue](https://github.com/shorebirdtech/shorebird/issues/318)
 - Teams / Organizations sharing apps [issue](https://github.com/shorebirdtech/shorebird/issues/216)
 - Older Flutter versions or `beta` and `master` channels (only latest `stable` is supported): [issue](https://github.com/shorebirdtech/shorebird/issues/472)

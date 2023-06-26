@@ -4,10 +4,10 @@ title: 👷 Status
 description: Status of the Shorebird project.
 ---
 
-## Beta
+## Stable
 
-Shorebird is currently available in open beta. Many customers are using it in
-production, but we are still working on some features and ironing out bugs.
+Shorebird is currently available to the general public and many customers are using it in
+production.
 
 We're working closely with our customers to ensure we're building things
 they want. We _want_ your feedback. We _want_ you to
@@ -31,7 +31,7 @@ All users will update to the new version on next launch in the background
 (no control over this behavior yet).
 
 We also have an extensive command line interface for managing your Shorebird
-account and apps.
+account and apps and CI/CD integration via GitHub Actions.
 
 ## What doesn't work yet?
 
@@ -43,9 +43,7 @@ No support for:
 - Older Flutter versions or `beta` and `master` channels (only latest `stable` is supported): [issue](https://github.com/shorebirdtech/shorebird/issues/472)
 - Rollbacks ([issue](https://github.com/shorebirdtech/shorebird/issues/126))
 - Staged rollout of patches (channels or percentage based) [issue](https://github.com/shorebirdtech/shorebird/issues/110)
-- CI/CD (GitHub Actions, etc.) integration [issue](https://github.com/shorebirdtech/shorebird/issues/484)
 - Patch signing [issue](https://github.com/shorebirdtech/shorebird/issues/112)
-- Add-to-app integrations [issue](https://github.com/shorebirdtech/shorebird/issues/480)
 - Analytics [issue](https://github.com/shorebirdtech/shorebird/issues/197)
 - Web interface
 - "Native code" changes (java, kotlin, etc.) -- not planned.

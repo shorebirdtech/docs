@@ -36,7 +36,7 @@ shorebird account subscribe
 This will generate a payment Stripe payment link. Follow the link and enter your
 payment information.
 
-Subscriptions are $20/month. You can cancel at any time.
+Subscriptions are usage based and billed monthly. You can cancel at any time.
 
 ## Create the app
 

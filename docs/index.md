@@ -166,7 +166,7 @@ Waiting for your authorization...
 ## Connect on Discord 🤝
 
 Shorebird has an active Discord where we're happy to help you:
-https://discord.com/invite/9hKJcWGcaB
+https://discord.gg/shorebird
 
 We also offer a private support channel for paying customers. We don't yet have
 an automated way to add you to the channel, so please message a member of our

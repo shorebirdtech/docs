@@ -12,7 +12,7 @@ This guide explains how to use Shorebird in an add-to-app scenario.
 
 This guide assumes you have already have an Android app and a Flutter module. Our Android app will be named `android_app` and our Flutter module will be named `flutter_module`.
 
-This guide also assumes that you have created a Shorebird account and subscribed to Shorebird. If you have not, please see our [code push guide](../code-push) for instructions.
+This guide also assumes that you have created a Shorebird account. If you have not, please see our [code push guide](../code-push) for instructions.
 
 The reference code for this guide is available at https://github.com/shorebirdtech/samples/tree/main/add_to_app.
 

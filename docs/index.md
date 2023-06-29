@@ -6,10 +6,7 @@ description: The official documentation site for Shorebird.
 
 # Getting Started
 
-This guide will walk you through [installing Shorebird](#install-📦),
-[creating an account](#sign-up-✍️),
-[subscribing to Shorebird](#upgrade-to-a-paid-account-⬆️) and
-deploying patches to you app.
+This guide will walk you through [installing Shorebird](#install-📦), [creating an account](#sign-up-✍️), and logging in.
 
 :::info
 Currently all interactions with Shorebird are done via the `shorebird` command
@@ -65,7 +62,6 @@ Available commands:
   apps           Manage your Shorebird apps.
   build          Build a new release of your application.
   cache          Manage the Shorebird cache.
-  channels       Manage the channels for your Shorebird app.
   doctor         Show information about the installed tooling.
   init           Initialize Shorebird.
   login          Login as a new Shorebird user.
@@ -131,7 +127,7 @@ Tell us your name to finish creating your account: Jane Doe
 🎉 Welcome to Shorebird, Jane Doe!
 🔑 Credentials are stored in ./path/to/credentials.json.
 🚪 To logout, use: "shorebird logout".
-⬆️ To upgrade your account, use: "shorebird account subscribe".
+⬆️ To upgrade your account, use: "shorebird account upgrade".
 
 Enjoy! Please let us know via Discord if we can help.
 ```
@@ -167,32 +163,10 @@ Waiting for your authorization...
 🚪 To logout use: "shorebird logout".
 ```
 
-## Upgrade to a Paid Account ⬆️
-
-To use Shorebird, you must upgrade to a paid account using the `shorebird account subscribe` command. Once you have paid, your account will be automatically upgraded and you will be able to use Shorebird to build and deploy apps.
-
-```
-shorebird account subscribe
-```
-
-Example output:
-
-```
-$ shorebird account subscribe
-✓ Link generated! (0.8s)
-
-To purchase a Shorebird subscription, please visit the following link:
-https://buy.stripe.com/...
-
-Once Stripe has processed your payment, you will be able to use Shorebird to create and publish apps.
-
-Note: This payment link is specifically for your account. Do not share it with others.
-```
-
 ## Connect on Discord 🤝
 
 Shorebird has an active Discord where we're happy to help you:
-https://discord.com/invite/9hKJcWGcaB
+https://discord.gg/shorebird
 
 We also offer a private support channel for paying customers. We don't yet have
 an automated way to add you to the channel, so please message a member of our

@@ -25,19 +25,6 @@ shorebird account create
 This will generate a Google sign in link. Follow the link and sign in with your
 Google account.
 
-### Subscribe
-
-Code push is currently only available to paid subscribers. To subscribe, run:
-
-```sh
-shorebird account subscribe
-```
-
-This will generate a payment Stripe payment link. Follow the link and enter your
-payment information.
-
-Subscriptions are usage based and billed monthly. You can cancel at any time.
-
 ## Create the app
 
 Once you have registered and subscribed, you're ready to use Shorebird!

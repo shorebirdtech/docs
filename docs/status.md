@@ -26,8 +26,9 @@ You can build and deploy new (release) versions of your app to all Android
 users via `shorebird` command line. iOS support is
 [coming soon](https://www.youtube.com/watch?v=7KDgFvdogsE).
 
-All users will update to the new version on next launch in the background
-(no control over this behavior yet).
+All users will update to the new version on next launch in the background.
+Your app can check for updates and download them using the
+[shorebird_code_push](https://pub.dev/packages/shorebird_code_push) package.
 
 We also have an extensive command line interface for managing your Shorebird
 account and apps and CI/CD integration via GitHub Actions.

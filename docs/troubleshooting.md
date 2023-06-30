@@ -39,4 +39,4 @@ Windows) and removing the `/bin/flutter` from the end of that path.
 
 ## Have a problem that's not addressed here?
 
-We're happy to help on [Discord](https://discord.gg/9hKJcWGcaB)!
+We're happy to help on [Discord](https://discord.gg/shorebird)!

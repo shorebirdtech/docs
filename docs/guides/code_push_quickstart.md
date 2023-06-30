@@ -89,7 +89,7 @@ Now kill the app on your device or emulator.
 We will create a release using the unmodified Counter app. Run:
 
 ```sh
-shorebird release
+shorebird release android
 ```
 
 When prompted, use the suggested version number (`1.0.0+1`), and enter `y` when
@@ -131,7 +131,7 @@ class MyApp extends StatelessWidget {
 After making this change, save the file and run:
 
 ```sh
-shorebird patch
+shorebird patch android
 ```
 
 When prompted, use the suggested release version (`1.0.0+1`), and enter `y` when

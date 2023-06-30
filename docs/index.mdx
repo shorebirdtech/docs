@@ -4,6 +4,9 @@ title: 🚀 Getting Started
 description: The official documentation site for Shorebird.
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Getting Started
 
 This guide will walk you through [installing Shorebird](#install-📦), [creating an account](#sign-up-✍️), and logging in.
@@ -17,17 +20,26 @@ line tool. Shorebird does not yet have a web interface.
 
 To install the Shorebird command line interface (CLI):
 
-## Mac/Linux
+<Tabs>
+  <TabItem value="maclinux" label="Mac/Linux" default>
+
+Open a terminal and run:
 
 ```bash
 curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
 ```
 
-## Windows
+  </TabItem>
+  <TabItem value="windows" label="Windows" default>
+Open a PowerShell terminal and run:
 
 ```powershell
-powershell -exec bypass -c "(New-Object Net.WebClient).Proxy.Credentials=[Net.CredentialCache]::DefaultNetworkCredentials;iwr -UseBasicParsing 'https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1'|iex"
+Set-ExecutionPolicy RemoteSigned -scope CurrentUser # Needed to execute remote scripts
+iwr -UseBasicParsing 'https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1'|iex
 ```
+
+  </TabItem>
+</Tabs>
 
 :::info
 Installing Shorebird CLI requires `git`.

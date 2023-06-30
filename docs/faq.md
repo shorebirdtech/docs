@@ -50,11 +50,17 @@ or priorities via Github issues or Discord.
 
 ### Can I use Shorebird with my team?
 
-Shorebird supports multiple users per app on the backend, but we haven't
-yet exposed commands to add users to an app on the frontend.
-https://github.com/shorebirdtech/shorebird/issues/216 tracks making this
-self-serve. For now, you can reach out to us in #support for help adding
-additional users to your app.
+Yes! The Shorebird free "Hobby" tier only supports a single developer, but all
+other plans support unlimited developers.
+
+A subscribed account can add unlimited collaborators to an app using
+`shorebird collaborators add`.
+
+Each app maintains a separate list of collaborators. If you need to share
+multiple apps with a team, you will need to add each app separately. If this
+isn't working for you, please let us know and we're happy to look at adding
+support for sharing groups of apps:
+https://github.com/shorebirdtech/shorebird/issues/739
 
 ### Can I use Shorebird from my CI system?
 
@@ -414,3 +420,43 @@ If you'd like to segment availability of Shorebird patches, we have 3 options:
     choose which devices to send to, but can help you roll out incrementally
     and roll-back on sight of any problems.
     https://github.com/shorebirdtech/shorebird/issues/497
+
+## Billing
+
+### How do I upgrade or downgrade my plan?
+
+You can upgrade or downgrade your plan at any time by running `shorebird
+account upgrade` or `shorebird account downgrade`.
+
+### When does my billing period reset?
+
+Billing periods are reset automatically every month on the month you first
+subscribed to Shorebird. For example, if you subscribed on the 15th of the
+month, your billing period will reset on the 15th of every month.
+
+### How do I cancel my subscription?
+
+You can cancel your subscription at any time by running `shorebird account
+downgrade`. You will continue to have all the features of a paid account until
+the end of your billing period.
+
+### Can I pay for a year in advance?
+
+Currently we have not yet implemented yearly billing. We don't expect it
+will be hard, we just aren't quite sure what customers expect in terms
+of overage charges on a yearly plan. If you have thoughts on this, please
+let us know:
+https://github.com/shorebirdtech/shorebird/issues/733
+
+### What counts as a "patch install" for Shorebird?
+
+A "patch install" is counted when a patch is successfully installed on a
+user's device. Currently our counting is per-download, not per-install
+but we intend to change this in the future to only charge for confirmed
+successful installs. This is done simply because we do not currently report
+patch install success back to our servers. We will need to do this for
+analytics anyways and once we do we can adjust our accounting.
+https://github.com/shorebirdtech/shorebird/issues/740
+
+If you believe you've been charged for failed installs, please let us know
+we're happy to refund you any difference.

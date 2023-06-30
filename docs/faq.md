@@ -22,6 +22,20 @@ video](https://www.youtube.com/watch?v=mmKvs0_Zu14&ab_channel=Shorebird).
 Native community from [Microsoft](https://appcenter.ms) and
 [Expo](https://expo.dev), neither of which support Flutter.
 
+### What is the difference between a patch and a release?
+
+We use the term "release" to mean preparing a binary for the app stores. In
+order to later generate a patch Shorebird needs to know the exact binary that
+was shipped to the app stores. The `shorebird release` command is used to
+prepare a binary for the app stores which includes the Shorebird updater.
+
+We use the term "patch" to mean a binary that can be applied to a release to
+update it to a new version. The `shorebird patch` command is used to generate
+a patch from your new local code which is then diffed with the release binary
+to generate a patch which is then shipped to your users.
+
+We explain more of these terms in [Concepts](concepts.md).
+
 ### What is the roadmap?
 
 We try to keep: https://docs.shorebird.dev/status up to date with the status
@@ -29,6 +43,10 @@ of the project.
 
 Our project boards are also public an found at:
 https://github.com/orgs/shorebirdtech/projects
+
+Our team also operates in the public, so you can see what we're working
+on at any time. We're happy to answer any questions you have about our roadmap
+or priorities via Github issues or Discord.
 
 ### Can I use Shorebird with my team?
 
@@ -40,10 +58,11 @@ additional users to your app.
 
 ### Can I use Shorebird from my CI system?
 
-Yes. Shorebird is intended to be used from CI systems. We think there
-are probably missing pieces to making this easy, but we're happy to help
-you get it working. Please reach out to us in #support.
-https://github.com/shorebirdtech/shorebird/issues/484
+Yes. Shorebird is intended to be used from CI systems. We've published a
+guide for [Github Actions](ci/github.md), other CI systems should be similar.
+
+Please don't hestiate to reach out over Github issues or Discord if you
+encounter any issues.
 
 ### How does this relate to Firebase Remote Config or Launch Darkly?
 
@@ -160,6 +179,20 @@ Shorebird supports the same versions of Android that Flutter supports.
 
 Flutter currently supports Android API level 19+ and iOS 11.0+:
 https://docs.flutter.dev/reference/supported-platforms
+
+### What versions of Flutter does Shorebird support?
+
+Shorebird currently supports only the latest stable release of Flutter. We could
+support older versions of Flutter as well, we just haven't built out the
+infrastructure necessary to maintain such over time. We intend to support
+more versions of Flutter in the future, including any version for our
+enterprise customers.
+https://github.com/shorebirdtech/shorebird/issues/472
+
+Shorebird tracks Flutter stable and generally updates within a few hours of
+any stable release. Our system for doing these updates is automated takes
+a few minutes to run. We then do an extra manual verification step before
+publishing to our servers.
 
 ### How does this relate to the App/Play Store review process or policies?
 
@@ -334,18 +367,20 @@ publicly available (e.g. expo.dev & appcenter.ms). This is a well trodden path.
 
 ### What platforms does Shorebird support? Does it support iOS?
 
-Current Shorebird is Android-only. We have
-[plans to add iOS](https://github.com/shorebirdtech/shorebird/issues/381),
-but not yet implemented. Using Shorebird for your Android builds does not affect
+Current Shorebird is Android-only. We are working on
+[support for iOS](https://github.com/shorebirdtech/shorebird/issues/381),
+with intention to release a preview in July 2023 with full iOS support coming
+shortly thereafter.
+
+Using Shorebird for your Android builds does not affect
 your iOS builds. You can successfully ship an appbundle build with `shorebird`
 to Google Play and an ipa built with `flutter` to the App Store.
 The difference will be that you will be able to update your Android users
 sooner than you will your iOS users for now.
 
-We've focused on Android so far on the assumption that most Flutter developers
-are targeting Android first. Shorebird can (relatively easily) be made to
-support Desktop or embedded targets. If those are important to you, please let
-us know.
+Shorebird can also (relatively easily) be made to support
+[Desktop](https://github.com/shorebirdtech/shorebird/issues/397) or embedded
+targets. If those are important to you, please let us know.
 
 ### How does Shorebird interact with Play Testing Tracks or Apple TestFlight?
 

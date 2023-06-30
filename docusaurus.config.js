@@ -100,7 +100,7 @@ const config = {
         ],
       },
       prism: {
-        additionalLanguages: ['bash', 'dart', 'yaml'],
+        additionalLanguages: ['bash', 'dart', 'powershell', 'yaml'],
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
       },

@@ -205,7 +205,7 @@ Typically `shorebird patch` should be used to fix critical bugs.
 Now that we've applied the changes, let's patch the `internal` variant:
 
 ```sh
-shorebird patch android android --flavor internal
+shorebird patch android --flavor internal
 ```
 
 :::tip

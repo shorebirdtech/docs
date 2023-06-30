@@ -325,8 +325,13 @@ clients will continue to run as normal.
 We have not yet added the ability to rollback patches. For now, the simplest
 thing is to simply push a new patch that reverts the changes you want to undo.
 
-We expect to add more control over update behavior in the future. Please let us
-know if you have needs here, and we're happy to prioritize them.
+We also provide a package to allow you to run the updater at any time
+(e.g. in response to a push notification to your app):
+https://pub.dev/packages/shorebird_code_push
+
+However it's not yet possible to disable the default behavior of updating
+on startup.  If that's important to you, please let us know:
+https://github.com/shorebirdtech/shorebird/issues/716
 
 ### Do I need to keep my app_id secret?
 

@@ -56,36 +56,42 @@ export SHOREBIRD_TOKEN="$SHOREBIRD_TOKEN" && shorebird patch android
 The `SHOREBIRD_TOKEN` is a secret and should not be committed directly in your source code or shared publicly.
 :::
 
-Next, copy the generated `SHOREBIRD_TOKEN` and navigate to your Codemagic secrets via:
+Next, copy the generated `SHOREBIRD_TOKEN` and navigate to your Codemagic
+secrets via:
 
 1. Go to "Environment Variables"
-2. Enter as variable name `SHOREBIRD_TOKEN`
+2. Enter `SHOREBIRD_TOKEN` as variable name
 3. Paste the token into the variable value field
-4. Select or create new group, like "shorebird"
-5. Make sure "Secure" is checked
+4. Select or create new group, such as "shorebird"
+5. Ensure "Secure" is checked
 
-It's recommended to use the variable name `SHOREBIRD_TOKEN` because it's the
-default name used by the Shorebird CLI. Otherwise, you will need to care about
-setting the `SHOREBIRD_TOKEN` environment variable in your Codemagic workflow.
+We recommend using the variable name `SHOREBIRD_TOKEN` as it's the default name
+used by the Shorebird CLI. If you choose a different name, you'll need to set
+the `SHOREBIRD_TOKEN` environment variable in your Codemagic workflow manually.
 
-![Screenshot of the "Environment Variables" tab in Codemagic](https://github.com/shorebirdtech/docs/assets/24459435/a2f1ee39-686b-4473-8f3e-d720e835824f)
+![Screenshot of the "Environment Variables" tab in
+Codemagic](https://github.com/shorebirdtech/docs/assets/24459435/a2f1ee39-686b-4473-8f3e-d720e835824f)
 
 ## Codemagic Workflow Editor
 
-_If you are using the `codemagic.yaml`, please follow the instructions in [Codemagic YAML](#codemagic-yaml)._
+_If you're using the `codemagic.yaml`, please follow the instructions in the
+[Codemagic YAML](#codemagic-yaml) section._
 
-The docs for the Workflow Editor are coming soon. Please refer to the [Codemagic YAML](#codemagic-yaml) instructions in the meantime.
+The documentation for the Workflow Editor is currently under development. Please
+refer to the [Codemagic YAML](#codemagic-yaml) instructions in the meantime.
 
 ## Codemagic YAML
 
-_If you are using Workflow Editor, please follow the instructions in [Codemagic Workflow Editor](#codemagic-workflow-editor)._
+_If you are using Workflow Editor, please follow the instructions in [Codemagic
+Workflow Editor](#codemagic-workflow-editor) section._
 
 In the `codemagic.yaml` file, specify the `SHOREBIRD_TOKEN` under `environment`.
 
 <Tabs>
   <TabItem value="maclinux" label="Mac/Linux" default>
 
-1. Add the group "shorebird" to your environment groups. If you use a different group name, use that instead.
+1. Add the group "shorebird" to your environment groups. If you're using a
+   different group name, use that instead.
 
 ```yaml
 workflows:
@@ -97,7 +103,8 @@ workflows:
         - shorebird
 ```
 
-2. Add a script to your workflow to set up Shorebird. This script will install Shorebird and add it to your PATH.
+2. Add a script to your workflow to set up Shorebird. This script will install
+   Shorebird and add it to your PATH.
 
 ```yaml
 scripts:
@@ -120,7 +127,8 @@ scripts:
 
 ### Full Example
 
-Here is an example of a full `codemagic.yaml` file:
+Here's an example of a complete `codemagic.yaml` file:
+
 ```yaml
 workflows:
   example:
@@ -141,19 +149,20 @@ workflows:
         script: shorebird patch android --force
 ```
 
-You can find here a repository with a working example: [codemagic-shorebird-demo](https://github.com/nilsreichardt/codemagic-shorebird-demo)
+You can find a working example in this repository:
+[codemagic-shorebird-demo](https://github.com/nilsreichardt/codemagic-shorebird-demo)
 
   </TabItem>
   <TabItem value="windows" label="Windows" default>
-The docs for Windows are coming soon.
+The documentation for Windows is under development and will be available soon.
 
   </TabItem>
 </Tabs>
 
 ### Advanced Example
 
-If you want to specify the type (patch or release) from the outside, you can use
-environment variables in your workflow.
+If you want to specify the operation type (patch or release) externally, you can
+use environment variables in your workflow.
 
 ```yaml
 workflows:
@@ -161,7 +170,7 @@ workflows:
     name: Advanced Example
     environment:
       vars:
-        TYPE: "patch" # patch or release
+        TYPE: "patch" # Can be "patch" or "release"
       groups:
         # Exports the SHOREBIRD_TOKEN environment variable
         - shorebird
@@ -178,9 +187,9 @@ workflows:
         script: |
           echo "➡️ Using type: $TYPE"
 
-          # If type is not patch or release, exit with error
+          # If type is neither "patch" nor "release", exit with error
           if [ "$TYPE" != "patch" ] && [ "$TYPE" != "release" ]; then
-            echo "TYPE must be either patch or release"
+            echo "TYPE must be either 'patch' or 'release'"
             exit 1
           fi
 
@@ -197,7 +206,7 @@ workflows:
           fi
 ```
 
-Now you can execute the workflow, like:
+Now, you can execute the workflow, as shown below:
 
 ```sh
 curl --location 'https://api.codemagic.io/builds' \
@@ -215,7 +224,8 @@ curl --location 'https://api.codemagic.io/builds' \
 }'
 ```
 
-This will run the release command. If you want to run the patch command, change
-the `TYPE` variable to `patch`.
+This command will run the release command. If you want to run the patch command,
+change the `TYPE` variable to `patch`.
 
-To get your `x-auth-token`, please follow the [Codemagic API authentication docs](https://docs.codemagic.io/rest-api/codemagic-rest-api/#authentication).
+To obtain your `x-auth-token`, please follow the [Codemagic API authentication
+docs](https://docs.codemagic.io/rest-api/codemagic-rest-api/#authentication).

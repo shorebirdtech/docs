@@ -33,6 +33,10 @@ Your app can check for updates and download them using the
 We also have an extensive command line interface for managing your Shorebird
 account and apps and CI/CD integration via GitHub Actions.
 
+We also have a [console](https://console.shorebird.dev) through which you can
+sign up, login, and view your apps. The console will expose more functionality
+and information in the near future.
+
 ## What doesn't work yet?
 
 No support for:
@@ -44,7 +48,6 @@ No support for:
 - Staged rollout of patches (channels or percentage based) [issue](https://github.com/shorebirdtech/shorebird/issues/110)
 - Patch signing [issue](https://github.com/shorebirdtech/shorebird/issues/112)
 - Analytics [issue](https://github.com/shorebirdtech/shorebird/issues/197)
-- Web interface
 - "Native code" changes (java, kotlin, etc.) -- not planned.
 - Fastlane integration [issue](https://github.com/shorebirdtech/shorebird/issues/257)
 - Self-hosting or on-premises deployments [issue](https://github.com/shorebirdtech/shorebird/issues/485)

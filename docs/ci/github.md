@@ -12,7 +12,7 @@ The [Setup Shorebird](https://github.com/shorebirdtech/setup-shorebird) GitHub A
 
 ✅ Shorebird CLI is installed on your machine
 
-✅ You are logged into a paid account.
+✅ You are logged into a Shorebird account.
 
 :::info
 Refer to the [getting started](/) instructions for more information.

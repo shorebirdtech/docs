@@ -9,12 +9,11 @@ import TabItem from '@theme/TabItem';
 
 # Getting Started
 
-This guide will walk you through [installing Shorebird](#install-📦), [creating an account](#sign-up-✍️), and logging in.
+This guide will walk you through [creating an account](#sign-up-), [installing Shorebird](#install-), and [logging in](#log-in-).
 
-:::info
-Currently all interactions with Shorebird are done via the `shorebird` command
-line tool. Shorebird does not yet have a web interface.
-:::
+## Sign Up ✍️
+
+To create an account, head over to the [Shorebird Console](https://console.shorebird.dev) and authenticate with your Google account.
 
 ## Install 📦
 
@@ -108,49 +107,9 @@ Shorebird Engine • revision d470ae25d21f583abe128f7b838476afd5e45bde
 No issues detected!
 ```
 
-## Sign Up ✍️
-
-Once you have Shorebird installed, you need to create a Shorebird account. To
-create a Shorebird account, use the `shorebird account create` command:
-
-```
-shorebird account create
-```
-
-:::info
-Currently Shorebird uses Google OAuth2 to authenticate users. If you need other
-auth methods, please [let us
-know](https://github.com/shorebirdtech/shorebird/issues/335).
-:::
-
-Example output:
-
-```
-$ shorebird account create
-Shorebird currently requires a Google account for authentication. If you'd like to use a different kind of auth, please let us know: https://github.com/shorebirdtech/shorebird/issues/335.
-
-Follow the link below to authenticate:
-
-https://accounts.google.com/o/oauth2/v2/auth...
-
-Waiting for your authorization...
-Tell us your name to finish creating your account: Jane Doe
-
-🎉 Welcome to Shorebird, Jane Doe!
-🔑 Credentials are stored in ./path/to/credentials.json.
-🚪 To logout, use: "shorebird logout".
-⬆️ To upgrade your account, use: "shorebird account upgrade".
-
-Enjoy! Please let us know via Discord if we can help.
-```
-
 ## Log In 🔑
 
-If you just created a Shorebird account, you can skip this section, as you
-are already logged in from `shorebird account create`.
-
-If you have an existing Shorebird account, you can login using the
-`shorebird login` command:
+You can login using the `shorebird login` command:
 
 ```
 shorebird login
@@ -175,7 +134,11 @@ Waiting for your authorization...
 🚪 To logout use: "shorebird logout".
 ```
 
-## Connect on Discord 🤝
+That's it 🎉
+
+You now have a Shorebird account, have installed Shorebird CLI on your machine, and are ready to start using Shorebird.
+
+## Connect on Discord 💬
 
 Shorebird has an active Discord where we're happy to help you:
 https://discord.gg/shorebird

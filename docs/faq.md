@@ -70,14 +70,6 @@ guide for [Github Actions](ci/github.md), other CI systems should be similar.
 Please don't hestiate to reach out over GitHub issues or Discord if you
 encounter any issues.
 
-### What types of changes does Shorebird support?
-
-Shorebird can change any Dart code in your application. This includes app code,
-generated code, and code in packages.
-
-We do not support changes to assets (images, fonts, etc.) or non-Dart code
-(Java or Kotlin) at this time.
-
 ### How does this relate to Firebase Remote Config or Launch Darkly?
 
 Code push allows adding new code / replacing code on the device. Firebase
@@ -161,9 +153,12 @@ code and do not require a JIT Dart compiler.
 
 ### What types of changes does Shorebird code push support?
 
-Code push only supports changing Dart code at this time. We have plans to
-support changing Flutter asset files (from pubspec.yaml) in the near future:
-https://github.com/shorebirdtech/shorebird/issues/318
+Shorebird can change any Dart code in your application. This includes app code
+and generated code. You can also update dependencies in `pubspec.yaml` as long
+as they don't require native code changes.
+
+We have plans to support changing Flutter asset files (from pubspec.yaml) in the
+near future: https://github.com/shorebirdtech/shorebird/issues/318
 
 We do not have plans to support changing native code (e.g. Java/Kotlin on
 Android or Objective-C/Swift on iOS), and the tool will warn you if it detects

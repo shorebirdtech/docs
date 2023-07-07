@@ -70,6 +70,14 @@ guide for [Github Actions](ci/github.md), other CI systems should be similar.
 Please don't hestiate to reach out over Github issues or Discord if you
 encounter any issues.
 
+### What types of changes does Shorebird support?
+
+Shorebird can change any Dart code in your application. This includes app code,
+generated code, and code in packages.
+
+We do not support changes to assets (images, fonts, etc.) or non-Dart code
+(Java or Kotlin) at this time.
+
 ### How does this relate to Firebase Remote Config or Launch Darkly?
 
 Code push allows adding new code / replacing code on the device. Firebase

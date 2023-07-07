@@ -48,12 +48,14 @@ by looking in the device logs for:
 Sending patch check request: PatchCheckRequest {
   app_id: "<your app id>",
   channel: "stable",
-  release_version: "1.0.3+16", <--- this is the release version
+  release_version: "1.0.3+16", <-- this is the release version
   patch_number: <some patch number>,
   platform: "android",
   arch: "aarch64"
 }
 ```
+
+Only patches created for this release version will be compatible with your app.
 
 ## I installed Shorebird, and now I can't run my app in VS Code
 

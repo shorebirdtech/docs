@@ -8,6 +8,55 @@ description: Fixes for common Shorebird issues
 
 Find help for issues with Shorebird.
 
+## I created a patch, but it's not showing up in my app
+
+There are several reasons this might be happening. Common causes are:
+
+### The app you're running on your device/emulator was not built using one of the `shorebird build` or `shorebird release` commands.
+
+#### How to tell if this is the problem
+
+You can check this by checking your device logs for output from Shorebird. If
+you don't see anything like `Starting Shorebird update` or `Sending patch check
+request`, you are not running a Shorebird-built app.
+
+To check your device logs, run `adb logcat` in your terminal. You can filter the
+output to only show Flutter logs by running `adb logcat | grep flutter`.
+
+#### How to fix it
+
+Create a release using `shorebird release android --artifact=apk` commands and
+install the apk produced by that command on your device/emulator. When running
+this apk, you should see Shorebird logs in your device logs.
+
+### The patch was created for a different release version than the one running on your device/emulator.
+
+Patches are only compatible with the release version they were created for. If
+you create a patch for version `1.0.0+1`, it will not work on version `1.0.0+2`.
+
+#### How to tell if this is the problem
+
+You will see `Shorebird updater: no active patch` in your device logs.
+
+#### How to fix it
+
+Ensure that the version of your app on your device/emulator matches the version
+of the patch you created. You can see what release version your app is running
+by looking in the device logs for:
+
+```
+Sending patch check request: PatchCheckRequest {
+  app_id: "<your app id>",
+  channel: "stable",
+  release_version: "1.0.3+16", <-- this is the release version
+  patch_number: <some patch number>,
+  platform: "android",
+  arch: "aarch64"
+}
+```
+
+Only patches created for this release version will be compatible with your app.
+
 ## I installed Shorebird, and now I can't run my app in VS Code
 
 If you see error output like the following when using the Run or Debug button in

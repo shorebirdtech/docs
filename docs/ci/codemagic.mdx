@@ -191,14 +191,11 @@ workflows:
             exit 1
           fi
 
-          # If type is patch, run patch command
+          # Check type and run corresponding command
           if [ "$TYPE" == "patch" ]; then
             echo "🩹 Running patch command"
             shorebird patch android --force
-          fi
-
-          # If type is release, run release command
-          if [ "$TYPE" == "release" ]; then
+          elif [ "$TYPE" == "release" ]; then
             echo "🚀 Running release command"
             shorebird release android --force
           fi

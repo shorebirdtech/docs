@@ -1,0 +1,226 @@
+---
+sidebar_position: 2
+title: ✨ Codemagic
+description: Integrate Shorebird into your Codemagic workflow
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Codemagic Workflow Integration
+
+This guide will help you integrate Shorebird into your Codemagic Workflow using the [Codemagic YAML](https://docs.codemagic.io/yaml-basic-configuration/yaml-getting-started/).
+
+## Prerequisites
+
+✅ Shorebird CLI is installed on your machine
+
+✅ You are logged into a Shorebird account.
+
+:::info
+Refer to the [getting started](/) instructions for more information.
+:::
+
+## Authentication
+
+Most Shorebird functionality, like creating releases and patches, requires being authenticated. In order to authenticate with Shorebird in CI, you will need to generate a CI token.
+
+```sh
+shorebird login:ci
+```
+
+You will be prompted to go through a similar OAuth Flow as when using `shorebird login`, however, `shorebird login:ci` will not store any credentials on your device. Instead, a Shorebird token will be generated for you to use in CI.
+
+The output should look something like:
+
+```sh
+$ shorebird login:ci
+The Shorebird CLI needs your authorization to manage apps, releases, and patches on your behalf.
+
+In a browser, visit this URL to log in:
+
+https://accounts.google.com/o/oauth2/v2/auth...
+
+Waiting for your authorization...
+
+🎉 Success! Use the following token to login on a CI server:
+
+<SHOREBIRD_TOKEN>
+
+Example:
+
+export SHOREBIRD_TOKEN="$SHOREBIRD_TOKEN" && shorebird patch android
+```
+
+:::caution
+The `SHOREBIRD_TOKEN` is a secret and should not be committed directly in your source code or shared publicly.
+:::
+
+Next, copy the generated `SHOREBIRD_TOKEN` and navigate to your Codemagic
+secrets via:
+
+1. Go to "Environment Variables"
+2. Enter `SHOREBIRD_TOKEN` as variable name
+3. Paste the token into the variable value field
+4. Select or create new group, such as "shorebird"
+5. Ensure "Secure" is checked
+
+We recommend using the variable name `SHOREBIRD_TOKEN` as it's the default name
+used by the Shorebird CLI. If you choose a different name, you'll need to set
+the `SHOREBIRD_TOKEN` environment variable in your Codemagic workflow manually.
+
+![Screenshot of the "Environment Variables" tab in
+Codemagic](https://github.com/shorebirdtech/docs/assets/24459435/a2f1ee39-686b-4473-8f3e-d720e835824f)
+
+## Codemagic Workflow Editor
+
+Unfortunately, the Codemagic Workflow Editor doesn't support changing the build
+command. As a result, you will need to use the [Codemagic YAML](#codemagic-yaml)
+file to integrate Shorebird into your workflow.
+
+## Codemagic YAML
+
+If you don't know how to use the Codemagic YAML, please refer to the [Codemagic
+YAML documentation](https://docs.codemagic.io/yaml-basic-configuration/yaml-getting-started/).
+
+In the `codemagic.yaml` file, specify the `SHOREBIRD_TOKEN` under `environment`.
+
+<Tabs>
+  <TabItem value="maclinux" label="Mac/Linux" default>
+
+1. Add the group "shorebird" to your environment groups. If you're using a
+   different group name, use that instead.
+
+```yaml
+workflows:
+  example:
+    name: Example
+    environment:
+      groups:
+        # Exports the SHOREBIRD_TOKEN environment variable
+        - shorebird
+```
+
+2. Add a script to your workflow to set up Shorebird. This script will install
+   Shorebird and add it to your PATH.
+
+```yaml
+scripts:
+  - name: 🐦 Setup Shorebird
+    script: |
+      # Install Shorebird
+      curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+
+      # Add Shorebird to PATH
+      echo PATH="/Users/builder/.shorebird/bin:$PATH" >> $CM_ENV
+```
+
+3. Execute Shorebird commands in your workflow.
+
+```yaml
+scripts:
+  - name: 🚀 Shorebird Patch
+    script: shorebird patch android --force
+```
+
+### Full Example
+
+Here's an example of a complete `codemagic.yaml` file:
+
+```yaml
+workflows:
+  example:
+    name: Example
+    environment:
+      groups:
+        - shorebird
+      flutter: stable
+    scripts:
+      - name: 🐦 Setup Shorebird
+        script: |
+          # Install Shorebird
+          curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+
+          # Add Shorebird to PATH
+          echo PATH="/Users/builder/.shorebird/bin:$PATH" >> $CM_ENV
+      - name: 🚀 Shorebird Patch
+        script: shorebird patch android --force
+```
+
+You can find a working example in this repository:
+[codemagic-shorebird-demo](https://github.com/nilsreichardt/codemagic-shorebird-demo)
+
+  </TabItem>
+  <TabItem value="windows" label="Windows" default>
+The documentation for Windows is under development and will be available soon.
+
+  </TabItem>
+</Tabs>
+
+### Advanced Example
+
+If you want to specify the operation type (patch or release) externally, you can
+use environment variables in your workflow.
+
+```yaml
+workflows:
+  advanced-example:
+    name: Advanced Example
+    environment:
+      vars:
+        TYPE: 'patch' # Can be 'patch' or 'release'
+      groups:
+        # Exports the SHOREBIRD_TOKEN environment variable
+        - shorebird
+      flutter: stable
+    scripts:
+      - name: 🐦 Setup Shorebird
+        script: |
+          # Install Shorebird
+          curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+
+          # Add Shorebird to PATH
+          echo PATH="/Users/builder/.shorebird/bin:$PATH" >> $CM_ENV
+      - name: 🙌 Shorebird Build
+        script: |
+          echo "➡️ Using type: $TYPE"
+
+          # If type is neither "patch" nor "release", exit with error
+          if [ "$TYPE" != "patch" ] && [ "$TYPE" != "release" ]; then
+            echo "TYPE must be either 'patch' or 'release'"
+            exit 1
+          fi
+
+          # Check type and run corresponding command
+          if [ "$TYPE" == "patch" ]; then
+            echo "🩹 Running patch command"
+            shorebird patch android --force
+          elif [ "$TYPE" == "release" ]; then
+            echo "🚀 Running release command"
+            shorebird release android --force
+          fi
+```
+
+Now, you can execute the workflow, as shown below:
+
+```sh
+curl --location 'https://api.codemagic.io/builds' \
+--header 'x-auth-token: YOUR-AUTH-TOKEN' \
+--header 'Content-Type: application/json' \
+--data '{
+    "appId": "YOUR-APP-ID",
+    "workflowId": "advanced-example",
+    "branch": "main",
+    "environment": {
+        "variables": {
+            "TYPE": "release"
+        }
+    }
+}'
+```
+
+This command will run the release command. If you want to run the patch command,
+change the `TYPE` variable to `patch`.
+
+To obtain your `x-auth-token`, please follow the [Codemagic API authentication
+docs](https://docs.codemagic.io/rest-api/codemagic-rest-api/#authentication).

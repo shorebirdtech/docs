@@ -27,7 +27,7 @@ Google account.
 
 ## Create the app
 
-Once you have registered and subscribed, you're ready to use Shorebird!
+Once you have registered, you're ready to use Shorebird!
 
 Start by creating a new Flutter app:
 

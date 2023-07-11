@@ -12,7 +12,7 @@ Find help for issues with Shorebird.
 
 There are several reasons this might be happening. Common causes are:
 
-### The app you're running on your device/emulator was not built using one of the `shorebird build` or `shorebird release` commands.
+### The app you're running on your device/emulator was not built using one of the `shorebird release` commands.
 
 #### How to tell if this is the problem
 

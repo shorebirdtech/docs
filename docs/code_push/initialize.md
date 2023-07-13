@@ -42,9 +42,9 @@ $ shorebird init
 
 Reference the following commands to get started:
 
-🚙 To run your project use: "shorebird run".
 📦 To create a new release use: "shorebird release".
 🚀 To push an update use: "shorebird patch".
+👀 To preview a release use: "shorebird preview".
 
 For more information about Shorebird, visit https://shorebird.dev
 ```

@@ -137,21 +137,21 @@ $ shorebird apps list
 └─────────────────────────────────┴──────────────────────────────────────┴─────────┴───────┘
 ```
 
-## Running the app
+## Preview the release
 
-Next, run the app locally on a device or emulator, use `shorebird run`.
+Next, preview the app release locally on a device or emulator, use `shorebird preview`.
 
 ```sh
-# Run the app for the internal track.
-shorebird run --flavor internal
+# Preview the release for the internal track.
+shorebird preview --app-id ee322dc4-3dc2-4324-90a9-04c40a62ae76 --release-version 1.0.0+1
 
-# Run the app for the stable track.
-shorebird run --flavor stable
+# Preview the release for the stable track.
+shorebird preview --app-id 904bd3d5-3526-4c1c-a832-7ac23c95302d --release-version 1.0.0+1
 ```
 
-This will create a release build and run it on your device.
+This will download the releases and run them on your device.
 
-In addition to running the app locally, you should also [submit the generated app bundles to the Play Store](/guides/code_push_release#upload-to-the-play-store). In this case, both apps can be part of the internal test track and only the stable variant should be promoted to production.
+In addition to previewing the releases locally, you should also [submit the generated app bundles to the Play Store](/guides/code_push_release#upload-to-the-play-store). In this case, both apps can be part of the internal test track and only the stable variant should be promoted to production.
 
 :::info
 

@@ -1,5 +1,5 @@
 ---
-sidebar_position: 3
+sidebar_position: 2
 title: 📦 Release
 description: Learn how to publish a new app release to Shorebird.
 ---

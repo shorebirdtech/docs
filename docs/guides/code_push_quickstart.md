@@ -73,17 +73,6 @@ You can fix this issue by running:
 shorebird doctor --fix
 ```
 
-### Run the app with Shorebird
-
-To run the app with Shorebird (that is, with [Shorebird's fork of the Flutter
-engine](/faq#how-does-shorebird-relate-to-flutter)), run:
-
-```sh
-shorebird run
-```
-
-Now kill the app on your device or emulator.
-
 ### Create a release
 
 We will create a release using the unmodified Counter app. Run:
@@ -94,6 +83,17 @@ shorebird release android
 
 When prompted, use the suggested version number (`1.0.0+1`), and enter `y` when
 asked if you would like to continue.
+
+### Preview the release
+
+To preview the release with Shorebird (that is, with [Shorebird's fork of the Flutter
+engine](/faq#how-does-shorebird-relate-to-flutter)), run:
+
+```sh
+shorebird preview
+```
+
+Now kill the app on your device or emulator.
 
 ### Create a patch
 

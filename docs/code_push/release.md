@@ -60,7 +60,7 @@ need to put `flutter build` arguments after a `--` separator. For example:
 variable inside Dart as you might have done with `flutter build` directly.
 :::
 
-By default, `shorebird release android` builds an AppBundle (`.aab`). If you would like to generate an APK use the following command:
+By default, `shorebird release android` builds an AppBundle (`.aab`). If you would like to generate an Android Package Kit (`.apk`), use the following command:
 
 ```
 shorebird release android --artifact apk

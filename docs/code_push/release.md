@@ -22,7 +22,7 @@ size.
 Example output:
 
 ```
-$ shorebird release
+$ shorebird release android
 ✓ Building release (5.1s)
 ✓ Fetching apps (0.2s)
 
@@ -58,6 +58,21 @@ shorebird release --target ./lib/main_development.dart --flavor development
 need to put `flutter build` arguments after a `--` separator. For example:
 `shorebird release android -- --dart-define="foo=bar"` will define the `"foo"` environment
 variable inside Dart as you might have done with `flutter build` directly.
+:::
+
+By default, `shorebird release android` builds an AppBundle (`.aab`). If you would like to generate an APK use the following command:
+
+```
+shorebird release android --artifact apk
+```
+
+:::tip
+If you would like to disable prompts and publish a release without confirmation, you can use the `--force` flag. This is especially useful when using `shorebird release android` in a CI environment.
+
+```
+shorebird release android --force
+```
+
 :::
 
 ## Manage Releases

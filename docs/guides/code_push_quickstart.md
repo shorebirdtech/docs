@@ -16,18 +16,13 @@ Before you can create a Shorebird app, you will need to sign up for Shorebird.
 
 ### Create an account
 
-To register as a Shorebird user, run:
+To create an account, head over to the [Shorebird Console](https://console.shorebird.dev) and authenticate with your Google account.
 
-```sh
-shorebird account create
-```
-
-This will generate a Google sign in link. Follow the link and sign in with your
-Google account.
+Once you have logged into the console, follow the instructions to install the Shorebird CLI on your machine.
 
 ## Create the app
 
-Once you have registered, you're ready to use Shorebird!
+Once you have registered and installed the CLI, you're ready to use code push!
 
 Start by creating a new Flutter app:
 

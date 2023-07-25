@@ -29,10 +29,15 @@ when not using Shorebird.
 
 Example output for an app named `shorebird_test`:
 
-```sh
+```
 $ shorebird init
+✓ Detecting product flavors (0.6s)
 ? How should we refer to this app? (shorebird_test) shorebird_test
-✓ Initialized Shorebird (38ms)
+✓ Shorebird is up-to-date (0.6s)
+✓ Flutter install is correct (4.5s)
+✓ AndroidManifest.xml files contain INTERNET permission (23ms)
+
+No issues detected!
 
 🐦 Shorebird initialized successfully!
 
@@ -82,9 +87,11 @@ The `app_id` is a required field in every `shorebird.yaml`. In the case of flavo
 
 :::info
 Shorebird code push requires the internet permission to be added to your
-`AndroidManifest.xml` file. (located in
-`android/app/src/main/AndroidManifest.xml`.) This is required for the app to be
-able to communicate with the Shorebird servers to pull new patches.
+`AndroidManifest.xml` file (located in
+`android/app/src/main/AndroidManifest.xml`). This is required for the app to be
+able to communicate with the Shorebird servers to download patches.
+
+`shorebird init` will add this permission if it is not already present.
 
 ```xml
 <manifest ...>
@@ -93,8 +100,6 @@ able to communicate with the Shorebird servers to pull new patches.
 </manifest>
 ```
 
-Running `shorebird doctor` will check that your `AndroidManifest.xml` file is
-set up correctly, and `shorebird doctor --fix` will add this permission for you.
 :::
 
 :::tip

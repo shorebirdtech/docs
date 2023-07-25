@@ -4,14 +4,31 @@ title: ☁️ Patch
 description: Learn how to push updates to an app with Shorebird.
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Push Updates
 
-Once you have published a release of your app, you can push updates using the
-`shorebird patch android` command:
+Once you have published a release of your app, you can push updates using one
+of the `shorebird patch` commands.
+
+<Tabs>
+  <TabItem value="patch-command-android" label="Android">
 
 ```
 shorebird patch android
 ```
+
+</TabItem>
+
+<TabItem value="patch-command-ios" label="iOS (alpha)">
+
+```
+shorebird patch ios-preview
+```
+
+</TabItem>
+</Tabs>
 
 This will do several things:
 

@@ -49,24 +49,7 @@ shorebird init
 This will create a `shorebird.yaml` file in the root of your project. This file
 contains your Shorebird `app_id`.
 
-Run `shorebird doctor` to ensure everything is set up correctly:
-
-```sh
-shorebird doctor
-```
-
-You will notice that this prints an error:
-
-```sh
-[✗] android/app/src/main/AndroidManifest.xml is missing the INTERNET permission.
-```
-
-This is because Shorebird requires the internet permission to download patches.
-You can fix this issue by running:
-
-```sh
-shorebird doctor --fix
-```
+This will also run `shorebird doctor` to ensure everything is set up correctly.
 
 ### Create a release
 

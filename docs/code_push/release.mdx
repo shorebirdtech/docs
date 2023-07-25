@@ -4,16 +4,30 @@ title: 📦 Release
 description: Learn how to publish a new app release to Shorebird.
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Releases
 
 ## Publish a Release
 
-In order to start pushing updates, you will need to create a release using
-`shorebird release android`.
+In order to start pushing updates, you will need to create a release.
 
-```
-shorebird release android
-```
+<Tabs>
+
+<TabItem value="release-android" label="Android">
+
+`shorebird release android`
+
+</TabItem>
+
+<TabItem value="release-ios" label="iOS (alpha)">
+
+`shorebird release ios-preview`
+
+</TabItem>
+
+</Tabs>
 
 Creating a release builds and submits your app to Shorebird. Shorebird saves the
 compiled Dart code from your application in order to make updates smaller in
@@ -21,30 +35,73 @@ size.
 
 Example output:
 
+<Tabs>
+
+<TabItem value="release-output-android" label="Android">
+
 ```
 $ shorebird release android
-✓ Building release (5.1s)
+✓ Building release (9.6s)
 ✓ Fetching apps (0.2s)
+✓ Detecting release version (0.2s)
+✓ Fetching releases (68ms)
 
 🚀 Ready to create a new release!
 
-📱 App: My App (30370f27-dbf1-4673-8b20-fb096e38dffa)
+📱 App: new_flutter_app (7a29188a-9363-426a-9a36-74a5e166373d)
 📦 Release Version: 1.0.0+1
-🕹️ Platform: android (arm64, arm32, x86)
+🕹️  Platform: android (arm64, arm32, x86_64)
 
 Would you like to continue? (y/N) Yes
-✓ Fetching releases (55ms)
-✓ Creating release (45ms)
-✓ Creating artifacts (4.6s)
+✓ Fetching Flutter revision (30ms)
+✓ Updating release status (67ms)
+✓ Creating artifacts (2.8s)
+✓ Updating release status (62ms)
 
 ✅ Published Release!
 
 Your next step is to upload the app bundle to the Play Store.
-./build/app/outputs/bundle/release/app-release.aab
+build/app/outputs/bundle/release/app-release.aab
 
 See the following link for more information:
 https://support.google.com/googleplay/android-developer/answer/9859152?hl=en
 ```
+
+</TabItem>
+
+<TabItem value="release-output-ios" label="iOS (alpha)">
+
+```
+$ shorebird release ios-preview
+✓ Fetching apps (0.2s)
+✓ Building release (59.0s)
+✓ Getting release version (40ms)
+✓ Fetching releases (0.1s)
+🚀 Ready to create a new release!
+📱 App: My App (7a29188a-9363-426a-9a36-74a5e166373d)
+📦 Release Version: 1.0.0+1
+🕹️  Platform: ios
+
+Would you like to continue? (y/N) Yes
+✓ Fetching Flutter revision (40ms)
+✓ Creating release (0.1s)
+✓ Creating artifacts (5.1s)
+✓ Updating release status (57ms)
+
+✅ Published Release!
+
+Your next step is to upload the ipa to App Store Connect.
+build/ios/ipa/new_flutter_app.ipa
+
+To upload to the App Store either:
+    1. Drag and drop the "build/ios/ipa/new_flutter_app.ipa" bundle into the Apple Transporter macOS app (https://apps.apple.com/us/app/transporter/id1450874784)
+    2. Run xcrun altool --upload-app --type ios -f build/ios/ipa/new_flutter_app.ipa --apiKey your_api_key --apiIssuer your_issuer_id.
+       See "man altool" for details about how to authenticate with the App Store Connect API key.
+```
+
+</TabItem>
+
+</Tabs>
 
 If your application supports flavors or multiple release targets, you can specify the flavor and target using the `--flavor` and `--target` options:
 
@@ -71,6 +128,12 @@ If you would like to disable prompts and publish a release without confirmation,
 
 ```
 shorebird release android --force
+```
+
+or
+
+```
+shorebird release ios-preview --force
 ```
 
 :::

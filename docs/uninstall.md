@@ -21,7 +21,7 @@ Otherwise, we hope you'll consider trying Shorebird again in the future.
 
 To cancel your subscription:
 
-`shorebird account cancel`
+`shorebird account downgrade`
 
 This will cancel your subscription. Your access (and updates for your users)
 will continue until the end of the current billing period. After which

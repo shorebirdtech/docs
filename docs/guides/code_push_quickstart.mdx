@@ -4,6 +4,9 @@ title: ☄️ Code Push Quickstart
 description: Try code push for yourself
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Code Push Quickstart
 
 This guide shows you the fastest way to install Shorebird and try code push.
@@ -55,9 +58,24 @@ This will also run `shorebird doctor` to ensure everything is set up correctly.
 
 We will create a release using the unmodified Counter app. Run:
 
+<Tabs>
+
+<TabItem value="android" label="Android">
+
 ```sh
 shorebird release android
 ```
+
+</TabItem>
+
+<TabItem value="ios" label="iOS (alpha)">
+
+```sh
+shorebird release ios-alpha
+```
+
+</TabItem>
+</Tabs>
 
 When prompted, use the suggested version number (`1.0.0+1`), and enter `y` when
 asked if you would like to continue.
@@ -108,9 +126,25 @@ class MyApp extends StatelessWidget {
 
 After making this change, save the file and run:
 
+<Tabs>
+
+<TabItem value="android" label="Android">
+
 ```sh
 shorebird patch android
 ```
+
+</TabItem>
+
+<TabItem value="ios" label="iOS (alpha)">
+
+```sh
+shorebird patch ios-alpha
+```
+
+</TabItem>
+
+</Tabs>
 
 When prompted, use the suggested release version (`1.0.0+1`), and enter `y` when
 asked if you'd like to continue.
@@ -120,3 +154,7 @@ asked if you'd like to continue.
 Launch the app from your device or emulator. The app will still have the
 original blue theme, but it will be downloading the patch we just created in the
 background. Kill and launch the app again, and the app will be green! 🎉
+
+```
+
+```

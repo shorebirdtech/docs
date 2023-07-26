@@ -29,7 +29,7 @@ working on iOS, or try it yourself with
 `shorebird release ios-alpha`, `shorebird preview` and
 `shorebird patch ios-alpha`.
 
-Using Shorebird code push on iOS it is possible to deploy fixes to any Dart
+Using Shorebird code push on iOS, it is possible to deploy fixes to any Dart
 code in your app, instantly to your users.
 
 Performance and patch sizes from the iOS alpha do not reflect the final

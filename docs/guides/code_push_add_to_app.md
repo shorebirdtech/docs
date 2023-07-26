@@ -1,5 +1,5 @@
 ---
-sidebar_position: 4
+sidebar_position: 5
 title: ➕ Code Push Add to App
 description: Use code push in an add-to-app scenario
 ---

@@ -1,18 +1,18 @@
 ---
 sidebar_position: 2
-title: 🚢 Release a Code Push App
-description: Release a Code Push App
+title: 🤖 Release a Code Push App (Android)
+description: Release a Code Push App (Android)
 ---
 
-# Releasing a code push app
+# Releasing a code push app to the Google Play Store
 
-This guide walks through releasing a code push app to the Play Store and applying a patch to that release.
+This guide walks through releasing a code push app to the Google Play Store and applying a patch to that release.
+
+The app we will be releasing in this guide is [`Time Shift`](https://play.google.com/store/apps/details?id=dev.shorebird.u_shorebird_clock), our demo code push app. ([source](https://github.com/shorebirdtech/time_shift/))
 
 ## Prerequisites
 
 This guide assumes that you have an existing Shorebird app. If you don't have one, you can create one by following the [code push quickstart](./code_push_quickstart/) guide.
-
-The app we will be releasing in this guide is [`Time Shift`](https://play.google.com/store/apps/details?id=dev.shorebird.u_shorebird_clock), our demo code push app. ([source](https://github.com/shorebirdtech/time_shift/))
 
 ## Creating a release
 

@@ -1,5 +1,5 @@
 ---
-sidebar_position: 3
+sidebar_position: 4
 title: 🛤️ Multiple Deployment Tracks
 description: Push patches to multiple deployment tracks
 ---
@@ -151,7 +151,7 @@ shorebird preview --app-id 904bd3d5-3526-4c1c-a832-7ac23c95302d --release-versio
 
 This will download the releases and run them on your device.
 
-In addition to previewing the releases locally, you should also [submit the generated app bundles to the Play Store](/guides/code_push_release#upload-to-the-play-store). In this case, both apps can be part of the internal test track and only the stable variant should be promoted to production.
+In addition to previewing the releases locally, you should also [submit the generated app bundles to the Play Store](/guides/code_push_release_play_store#upload-to-the-play-store). In this case, both apps can be part of the internal test track and only the stable variant should be promoted to production.
 
 :::info
 

@@ -68,7 +68,6 @@ Update the version in `pubspec.yaml` to `1.0.4+1`:
 Create a Shorebird release by running the `shorebird release ios-alpha` command:
 
 ```
-bryanoltman@boltman ~/Shorebird/time_shift
 ⑆ shorebird release ios-alpha
 [WARN] iOS support is in an alpha state. See https://docs.shorebird.dev/faq#ios-alpha for more information.
 ✓ Fetching apps (0.1s)

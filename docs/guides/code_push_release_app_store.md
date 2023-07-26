@@ -68,7 +68,7 @@ Update the version in `pubspec.yaml` to `1.0.4+1`:
 Create a Shorebird release by running the `shorebird release ios-alpha` command:
 
 ```
-⑆ shorebird release ios-alpha
+$ shorebird release ios-alpha
 [WARN] iOS support is in an alpha state. See https://docs.shorebird.dev/faq#ios-alpha for more information.
 ✓ Fetching apps (0.1s)
 ✓ Building release (56.2s)
@@ -142,7 +142,7 @@ For the purposes of this guide, we will change the default clock face to `genera
 To make this patch available to your users, run `shorebird patch ios-alpha`.
 
 ```
-⑆ shorebird patch ios-alpha
+$ shorebird patch ios-alpha
 [WARN] iOS support is in an alpha state. See https://docs.shorebird.dev/faq#ios-alpha for more information.
 ✓ Fetching apps (0.4s)
 ✓ Building release (61.5s)

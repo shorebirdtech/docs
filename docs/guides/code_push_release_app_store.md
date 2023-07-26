@@ -142,7 +142,6 @@ For the purposes of this guide, we will change the default clock face to `genera
 To make this patch available to your users, run `shorebird patch ios-alpha`.
 
 ```
-bryanoltman@boltman ~/Shorebird/time_shift
 ⑆ shorebird patch ios-alpha
 [WARN] iOS support is in an alpha state. See https://docs.shorebird.dev/faq#ios-alpha for more information.
 ✓ Fetching apps (0.4s)

@@ -110,9 +110,22 @@ scripts:
     script: |
       # Install Shorebird
       curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+      
+      OS=$(uname)
 
-      # Add Shorebird to PATH
-      echo PATH="/Users/builder/.shorebird/bin:$PATH" >> $CM_ENV
+      if [ "$OS" == "Darwin" ]; then
+        echo PATH="/Users/builder/.shorebird/bin:$PATH" >> $CM_ENV
+        export PATH="/Users/builder/.shorebird/bin:$PATH"
+      elif [ "$OS" == "Linux" ]; then
+        echo PATH="/home/builder/.shorebird/bin:$PATH" >> $CM_ENV
+        export PATH="/home/builder/.shorebird/bin:$PATH"
+      else
+        echo "Unsupported OS"
+        exit 1
+      fi
+
+      # Test
+      echo "Sucessfully installed Shorebird version $(shorebird --version)"
 ```
 
 3. Execute Shorebird commands in your workflow.

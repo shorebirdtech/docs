@@ -70,7 +70,7 @@ Create a Shorebird release by running the `shorebird release ios-alpha` command:
 ```
 bryanoltman@boltman ~/Shorebird/time_shift
 ⑆ shorebird release ios-alpha
-[WARN] iOS support is in an experimental state and will not work without Flutter engine changes that have not yet been published.
+[WARN] iOS support is in an alpha state. See https://docs.shorebird.dev/faq#ios-alpha for more information.
 ✓ Fetching apps (0.1s)
 ✓ Building release (56.2s)
 ✓ Getting release version (37ms)
@@ -145,7 +145,7 @@ To make this patch available to your users, run `shorebird patch ios-alpha`.
 ```
 bryanoltman@boltman ~/Shorebird/time_shift
 ⑆ shorebird patch ios-alpha
-[WARN] iOS support is in an experimental state and will not work without Flutter engine changes that have not yet been published.
+[WARN] iOS support is in an alpha state. See https://docs.shorebird.dev/faq#ios-alpha for more information.
 ✓ Fetching apps (0.4s)
 ✓ Building release (61.5s)
 ✓ Detected release version 1.0.4+1 (44ms)

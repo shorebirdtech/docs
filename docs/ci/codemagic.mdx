@@ -112,7 +112,7 @@ scripts:
       curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
 
       # Add Shorebird to PATH
-      echo PATH="/Users/builder/.shorebird/bin:$PATH" >> $CM_ENV
+      echo PATH="$HOME/.shorebird/bin:$PATH" >> $CM_ENV
 ```
 
 3. Execute Shorebird commands in your workflow.
@@ -142,7 +142,7 @@ workflows:
           curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
 
           # Add Shorebird to PATH
-          echo PATH="/Users/builder/.shorebird/bin:$PATH" >> $CM_ENV
+          echo PATH="$HOME/.shorebird/bin:$PATH" >> $CM_ENV
       - name: 🚀 Shorebird Patch
         script: shorebird patch android --force
 ```
@@ -181,7 +181,7 @@ workflows:
           curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
 
           # Add Shorebird to PATH
-          echo PATH="/Users/builder/.shorebird/bin:$PATH" >> $CM_ENV
+          echo PATH="$HOME/.shorebird/bin:$PATH" >> $CM_ENV
       - name: 🙌 Shorebird Build
         script: |
           echo "➡️ Using type: $TYPE"

@@ -20,11 +20,37 @@ the case that using Shorebird is never worse than not using Shorebird. It is
 still possible using early versions of Shorebird could break your app in the
 wild. If you believe that's the case, please reach out, we're here to help.
 
-## What works today
+## iOS Alpha
 
-You can build and deploy new (release) versions of your app to all Android
-users via `shorebird` command line. iOS support is
-[coming soon](https://www.youtube.com/watch?v=7KDgFvdogsE).
+Shorebird is currently in alpha on iOS.
+
+You can see a [demo of Shorebird](https://www.youtube.com/watch?v=7KDgFvdogsE)
+working on iOS, or try it yourself with
+`shorebird release ios-alpha`, `shorebird preview` and
+`shorebird patch ios-alpha`.
+
+Using Shorebird code push on iOS, it is possible to deploy fixes to any Dart
+code in your app, instantly to your users.
+
+Performance and patch sizes from the iOS alpha do not reflect the final
+product. We expect to reach parity with Shorebird on Android around September 2023.
+
+It is safe to ship with Shorebird on iOS. Please note the performance
+and size differences of the alpha product when making your decision.
+
+Known issues:
+
+- iOS apps built with `shorebird release ios-alpha` may run Dart code up to 10x
+  slower than `flutter build ipa --release` builds.
+  issues [1](https://github.com/shorebirdtech/shorebird/issues/673)
+  [2]https://github.com/shorebirdtech/shorebird/issues/674]
+- iOS patches are proportional to the size of the app, rather than the size of
+  the change, and thus larger than patches on Android.
+  [issue](https://github.com/shorebirdtech/shorebird/issues/675)
+- `shorebird patch ios-alpha` does not warn for non-Dart changes
+  [issue](https://github.com/shorebirdtech/shorebird/issues/679)
+
+## What works today
 
 All users will update to the new version on next launch in the background.
 Your app can check for updates and download them using the
@@ -41,7 +67,6 @@ and information in the near future.
 
 No support for:
 
-- iOS [coming soon](https://www.youtube.com/watch?v=7KDgFvdogsE) [issue](https://github.com/shorebirdtech/shorebird/issues/381)
 - Asset changes (images, icons, etc.) [issue](https://github.com/shorebirdtech/shorebird/issues/318)
 - Older Flutter versions or `beta` and `master` channels (only latest `stable` is supported): [issue](https://github.com/shorebirdtech/shorebird/issues/472)
 - Rollbacks ([issue](https://github.com/shorebirdtech/shorebird/issues/126))

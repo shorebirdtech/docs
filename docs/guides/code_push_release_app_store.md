@@ -8,17 +8,19 @@ description: Release a Code Push App (iOS)
 
 This guide walks through releasing a code push app to the Apple App Store and applying a patch to that release.
 
-The app we will be releasing in this guide is [`Shorebird Clock`](TODO), our demo code push app. ([source](https://github.com/shorebirdtech/time_shift/))
+The app we will be releasing in this guide is Shorebird Clock, our demo code push app. ([source](https://github.com/shorebirdtech/time_shift/))
 
 ## Prequisites
 
 To follow along with this guide, you will need the following:
 
 1. An existing Shorebird app. If you don't have one, you can create one by following the [code push quickstart](./code_push_quickstart/) guide.
-2. Access to hardware running macOS. This is required to build iOS apps.
-3. A valid Apple Developer account. This is required to release iOS apps.
-4. An app in [App Store Connect](https://appstoreconnect.apple.com/). See the [official documentation](https://developer.apple.com/help/app-store-connect/create-an-app-record/add-a-new-app) for more information about how to create one.
-5. The [Transporter app](https://apps.apple.com/us/app/transporter/id1450874784). We will be using this to upload our app to the App Store.
+1. Access to hardware running macOS. This is required to build iOS apps.
+1. A valid Apple Developer account. This is required to release iOS apps.
+1. An app in [App Store Connect](https://appstoreconnect.apple.com/). See the [official documentation](https://developer.apple.com/help/app-store-connect/create-an-app-record/add-a-new-app) for more information about how to create one.
+1. An iOS Distribution certificate. You can create one at [https://developer.apple.com/account/resources/certificates/add](https://developer.apple.com/account/resources/certificates/add).
+1. An iOS App Store provisioning profile. See the [official documentation](https://developer.apple.com/help/account/manage-provisioning-profiles/create-an-app-store-provisioning-profile) for instructions on how to create one.
+1. The [Transporter app](https://apps.apple.com/us/app/transporter/id1450874784). We will be using this to upload our app to the App Store.
 
 ## Creating a release
 
@@ -43,6 +45,12 @@ This shows that the most recent release is `1.0.3+1`. Our next version will be `
 Because the App Store does not include the build number (the `+1` part of `1.0.4+1`) in app versions, this will show up in the App Store as `1.0.4`. Follow the instructions in the [official documentation](https://developer.apple.com/help/app-store-connect/update-your-app/create-a-new-version) to create a new version in App Store Connect.
 
 ![App Store Connect version](https://github.com/shorebirdtech/docs/assets/581764/549a42ac-0202-4c72-a9a9-d0196a0308b6)
+
+### Specify a development team in Xcode
+
+To create a release, we need to specify a development team in Xcode. Open `ios/Runner.xcworkspace` in Xcode and select the `Runner` target:
+
+![Xcode development team](https://github.com/shorebirdtech/docs/assets/581764/786b1def-6198-4be0-90ac-d307e9b1a289)
 
 ### Update the version in `pubspec.yaml`
 

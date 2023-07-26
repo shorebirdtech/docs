@@ -33,17 +33,17 @@ Using Shorebird code push on iOS, it is possible to deploy fixes to any Dart
 code in your app, instantly to your users.
 
 Performance and patch sizes from the iOS alpha do not reflect the final
-product. We expect to reach parity with Shorebird on Android around September
-2023.
+product. We expect to reach parity with Shorebird on Android around September 2023.
 
-It is safe to ship with Shorebird iOS, just note the performance
-and size differences of the alpha product.
+It is safe to ship with Shorebird on iOS. Please note the performance
+and size differences of the alpha product when making your decision.
 
 Known issues:
 
-- iOS apps built with `shorebird release ios-alpha` run Dart code up to 10x
+- iOS apps built with `shorebird release ios-alpha` may run Dart code up to 10x
   slower than `flutter build ipa --release` builds.
-  issues [1](https://github.com/shorebirdtech/shorebird/issues/673) [2]https://github.com/shorebirdtech/shorebird/issues/674]
+  issues [1](https://github.com/shorebirdtech/shorebird/issues/673)
+  [2]https://github.com/shorebirdtech/shorebird/issues/674]
 - iOS patches are proportional to the size of the app, rather than the size of
   the change, and thus larger than patches on Android.
   [issue](https://github.com/shorebirdtech/shorebird/issues/675)

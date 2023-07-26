@@ -77,7 +77,7 @@ $ shorebird release ios-alpha
 🚀 Ready to create a new release!
 📱 App: time_shift (f2184ee6-9a85-498c-bfeb-114d638c462e)
 📦 Release Version: 1.0.4+1
-🕹️  Platform: ios
+🕹️ Platform: ios
 
 Would you like to continue? (y/N) Yes
 ✓ Fetching Flutter revision (36ms)
@@ -155,7 +155,7 @@ $ shorebird patch ios-alpha
 📱 App: time_shift (f2184ee6-9a85-498c-bfeb-114d638c462e)
 📦 Release Version: 1.0.4+1
 📺 Channel: stable
-🕹️  Platform: ios [aarch64 (4.17 MB)]
+🕹️ Platform: ios [aarch64 (4.17 MB)]
 
 Would you like to continue? (y/N) Yes
 ✓ Creating patch (72ms)

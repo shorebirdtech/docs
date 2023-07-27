@@ -54,8 +54,8 @@ Commonly requested features on iOS and Android:
 
 iOS "alpha" specific issues (which will be resolved before production):
 
-- iOS apps built with `shorebird release ios-alpha` may run Dart code up to 10x
-  slower than `flutter build ipa --release` builds.
+- iOS apps built with `shorebird release ios-alpha` may run Dart code slower
+  than regular Flutter release builds.
   issues [1](https://github.com/shorebirdtech/shorebird/issues/673)
   [2]https://github.com/shorebirdtech/shorebird/issues/674]
 - iOS patches are proportional to the size of the app, rather than the size of

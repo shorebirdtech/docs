@@ -22,6 +22,12 @@ To follow along with this guide, you will need the following:
 1. An iOS App Store provisioning profile. See the [official documentation](https://developer.apple.com/help/account/manage-provisioning-profiles/create-an-app-store-provisioning-profile) for instructions on how to create one.
 1. The [Transporter app](https://apps.apple.com/us/app/transporter/id1450874784). We will be using this to upload our app to the App Store.
 
+### Specify a development team in Xcode
+
+To build an iOS app for distribution, we need to specify a development team in Xcode. Open `ios/Runner.xcworkspace` in Xcode and select the `Runner` target:
+
+![Xcode development team](https://github.com/shorebirdtech/docs/assets/581764/786b1def-6198-4be0-90ac-d307e9b1a289)
+
 ## Creating a release
 
 ### Determine the release version
@@ -45,12 +51,6 @@ This shows that the most recent release is `1.0.3+1`. Our next version will be `
 Because the App Store does not include the build number (the `+1` part of `1.0.4+1`) in app versions, this will show up in the App Store as `1.0.4`. Follow the instructions in the [official documentation](https://developer.apple.com/help/app-store-connect/update-your-app/create-a-new-version) to create a new version in App Store Connect.
 
 ![App Store Connect version](https://github.com/shorebirdtech/docs/assets/581764/549a42ac-0202-4c72-a9a9-d0196a0308b6)
-
-### Specify a development team in Xcode
-
-To create a release, we need to specify a development team in Xcode. Open `ios/Runner.xcworkspace` in Xcode and select the `Runner` target:
-
-![Xcode development team](https://github.com/shorebirdtech/docs/assets/581764/786b1def-6198-4be0-90ac-d307e9b1a289)
 
 ### Update the version in `pubspec.yaml`
 

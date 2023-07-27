@@ -143,7 +143,7 @@ To make this patch available to your users, run `shorebird patch ios-alpha`.
 
 ```
 $ shorebird patch ios-alpha
-[WARN] iOS support is in an alpha state. See https://docs.shorebird.dev/faq#ios-alpha for more information.
+[WARN] iOS support is in an alpha state. See https://docs.shorebird.dev/status#ios-alpha for more information.
 ✓ Fetching apps (0.4s)
 ✓ Building release (61.5s)
 ✓ Detected release version 1.0.4+1 (44ms)

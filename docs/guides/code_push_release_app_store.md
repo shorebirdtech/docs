@@ -69,7 +69,7 @@ Create a Shorebird release by running the `shorebird release ios-alpha` command:
 
 ```
 $ shorebird release ios-alpha
-[WARN] iOS support is in an alpha state. See https://docs.shorebird.dev/faq#ios-alpha for more information.
+[WARN] iOS support is in an alpha state. See https://docs.shorebird.dev/status#ios-alpha for more information.
 ✓ Fetching apps (0.1s)
 ✓ Building release (56.2s)
 ✓ Getting release version (37ms)

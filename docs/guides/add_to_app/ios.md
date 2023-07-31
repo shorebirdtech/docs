@@ -15,7 +15,7 @@ iOS app will be named `IosCodePushDemo` and our Flutter module will be named
 `flutter_module`.
 
 This guide also assumes that you have created a Shorebird account. If you have
-not created a Shorebird account, please see our [code push guide](../code-push)
+not created a Shorebird account, please see our [code push guide](../../code-push)
 for instructions.
 
 The reference code for this guide is available at

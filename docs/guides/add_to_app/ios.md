@@ -89,8 +89,8 @@ release version of your archive. This is similar to running
 
 ## Verify that your app runs
 
-In Xcode, update the active build variant to release and run your app.
-Your app should work as before with no differences.
+In Xcode, update the current scheme's build configuration to "Release" and run
+your app. Your app should work as before with no differences.
 
 ## Submit your app to the App Store
 

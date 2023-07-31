@@ -1,12 +1,12 @@
 ---
-sidebar_position: 5
-title: ➕ Code Push Add to App
-description: Use code push in an add-to-app scenario
+sidebar_position: 1
+title: 🤖 Android
+description: Use code push in an add-to-app scenario with an Android app
 ---
 
 # Code Push With Add-to-App
 
-This guide explains how to use Shorebird in an add-to-app scenario.
+This guide explains how to use Shorebird in an Android add-to-app scenario.
 
 ## Prerequisites
 

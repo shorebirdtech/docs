@@ -1,0 +1,10 @@
+{
+  "label": "🚢 Release a Code Push App",
+  "position": 3,
+  "link": {
+    "title": "Release a Code Push App",
+    "slug": "release",
+    "type": "generated-index",
+    "description": "Guides that show you how to release a Code Push app to a store."
+  }
+}

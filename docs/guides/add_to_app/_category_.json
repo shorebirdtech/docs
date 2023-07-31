@@ -1,0 +1,10 @@
+{
+  "label": "➕ Code Push Add to App",
+  "position": 3,
+  "link": {
+    "title": "Code Push Add to App",
+    "slug": "add-to-app",
+    "type": "generated-index",
+    "description": "Guides that show how to use Shorebird in an add-to-app scenario"
+  }
+}

@@ -1,6 +1,7 @@
 ---
 sidebar_position: 2
-title: 🍎 iOS | Release a Code Push App
+title: iOS | Release a Code Push App
+sidebar_label: 🍎 iOS
 description: Release a Code Push App to the Apple App Store
 ---
 

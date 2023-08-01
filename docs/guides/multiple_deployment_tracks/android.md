@@ -1,7 +1,8 @@
 ---
-sidebar_position: 4
-title: 🛤️ Multiple Deployment Tracks
-description: Push patches to multiple deployment tracks
+sidebar_position: 1
+title: Android | Multiple Deployment Tracks
+sidebar_label: 🤖 Android
+description: Push patches to multiple deployment tracks on Android
 ---
 
 # Multiple Deployment Tracks

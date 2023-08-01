@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: 🍎 iOS
+title: 🍎 iOS | Code Push Add to App
 description: Use code push in an add-to-app scenario with an iOS app
 ---
 

@@ -1,11 +1,11 @@
 ---
 sidebar_position: 1
-title: Android | Multiple Deployment Tracks
+title: Android | Flavors
 sidebar_label: 🤖 Android
 description: Push patches to multiple deployment tracks on Android
 ---
 
-# Multiple Deployment Tracks
+# Flavors
 
 This guide will walk through how to setup an app in which there are 2 deployment tracks: `internal` and `stable`. It will cover how to validate a patch on the internal track and then promote the patch to the stable track on Android.
 

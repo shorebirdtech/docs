@@ -1,11 +1,11 @@
 ---
 sidebar_position: 2
-title: iOS | Multiple Deployment Tracks
+title: iOS | Flavors
 sidebar_label: 🍎 iOS
 description: Push patches to multiple deployment tracks on iOS
 ---
 
-# Multiple Deployment Tracks
+# Flavors
 
 This guide will walk through how to setup an app in which there are 2 deployment tracks: `internal` and `stable`. It will cover how to validate a patch on the internal track and then promote the patch to the stable track on iOS.
 

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: 🤖 Android
+title: 🤖 Android | Release a Code Push App
 description: Release a Code Push App to the Google Play Store
 ---
 

@@ -7,7 +7,7 @@ description: Push patches to multiple deployment tracks on Android
 
 # Multiple Deployment Tracks
 
-This guide will walk through how to setup an app in which there are 2 deployment tracks: `internal` and `stable`. It will cover how to validate a patch on the internal track and then promote the patch to the stable track on Android.
+This guide will walk through how to setup an app in which there are 2 deployment tracks: `internal` and `stable`. It will cover how to validate a patch on the internal track and then promote the patch to the stable track on iOS.
 
 ## Prerequisites
 
@@ -23,42 +23,7 @@ Create a new project using `flutter create multiple_deployments`.
 
 ## Configure Flavors
 
-Next, edit the `android/app/build.gradle` to contain two productFlavors:
-
-```diff
-defaultConfig {
-    ...
-}
-
-+    flavorDimensions "track"
-+    productFlavors {
-+        internal {
-+            dimension "track"
-+            applicationIdSuffix ".internal"
-+            manifestPlaceholders = [applicationLabel: "[Internal] Shorebird Example"]
-+        }
-+        stable {
-+            dimension "track"
-+            manifestPlaceholders = [applicationLabel: "Shorebird Example"]
-+        }
-+    }
-
-buildTypes {
-  ...
-}
-```
-
-Lastly, edit `android/app/src/main/AndroidManifest.xml` to use the `applicationLabel` so that we can differentiate the two apps easily:
-
-```diff
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
--  <application android:label="multiple_deployments" android:name="${applicationName}" android:icon="@mipmap/ic_launcher">
-+  <application android:label="${applicationLabel}" android:name="${applicationName}" android:icon="@mipmap/ic_launcher">
-```
-
-:::info
-To learn more about configuring `productFlavors` refer to the [Android Developer documentation](https://developer.android.com/build/build-variants#product-flavors).
-:::
+Next, edit the iOS project to support two flavors: `internal` and `stable` by following the instructions in the [Flutter documentation](https://docs.flutter.dev/deployment/flavors#creating-flavors-in-ios).
 
 ## Initialize Shorebird
 
@@ -91,14 +56,14 @@ You can view your apps at [console.shorebird.dev](https://console.shorebird.dev)
 
 ## Create a release
 
-Now that we've created our apps on shorebird, we need to create releases (one for each track). To create a release, we'll use the `shorebird release android` command.
+Now that we've created our apps on shorebird, we need to create releases (one for each track). To create a release, we'll use the `shorebird release ios-alpha` command.
 
 ```sh
 # Create a release for the internal track
-shorebird release android --flavor internal
+shorebird release ios-alpha --flavor internal
 
 # Create a release for the stable track
-shorebird release android --flavor stable
+shorebird release ios-alpha --flavor stable
 ```
 
 We can verify the releases were created successfully by re-running `shorebird apps list`.
@@ -129,7 +94,7 @@ shorebird preview --app-id 904bd3d5-3526-4c1c-a832-7ac23c95302d --release-versio
 
 This will download the releases and run them on your device.
 
-In addition to previewing the releases locally, you should also [submit the generated app bundles to the Play Store](/guides/release/android#upload-to-the-play-store). In this case, both apps can be part of the internal test track and only the stable variant should be promoted to production.
+In addition to previewing the releases locally, you should also [submit the generated app bundles to the App Store](/guides/release/ios#upload-to-the-app-store). In this case, both apps can be part of the internal test track and only the stable variant should be promoted to production.
 
 :::info
 
@@ -139,7 +104,7 @@ In addition to previewing the releases locally, you should also [submit the gene
 
 ## Creating a patch
 
-Now that we have our internal and stable releases on the Play Store, we can create a patch using `shorebird patch android`. For the sake of this example, let's adjust the app theme to use `deepOrange` as the seed color in `lib/main.dart`:
+Now that we have our internal and stable releases on the Play Store, we can create a patch using `shorebird patch ios-alpha`. For the sake of this example, let's adjust the app theme to use `deepOrange` as the seed color in `lib/main.dart`:
 
 ```diff
 class MyApp extends StatelessWidget {
@@ -183,7 +148,7 @@ Typically `shorebird patch` should be used to fix critical bugs.
 Now that we've applied the changes, let's patch the `internal` variant:
 
 ```sh
-shorebird patch android --flavor internal
+shorebird patch ios-alpha --flavor internal
 ```
 
 :::tip
@@ -205,7 +170,7 @@ Run `shorebird apps list` to verify the patch was published:
 We can validate the patch by re-launching the internal release.
 
 :::note
-If you are testing locally, you don't need to re-run `shorebird run` -- just re-launch the app from the device or emulator directly.
+If you are testing locally, you don't need to re-run `shorebird preview` -- just re-launch the app from the device or emulator directly.
 :::
 
 The first time the app is re-launched, we should still see the purple theme and shorebird will detect and install the patch in the background. Kill and re-launch the app a second time to see the applied patch.
@@ -217,7 +182,7 @@ If all went well, you should see the patch was applied after re-launching the ap
 Once you have validated the patch internally, you can promote the patch to the stable variant via:
 
 ```sh
-shorebird patch android --flavor stable
+shorebird patch ios-alpha --flavor stable
 ```
 
 At this point, you have a setup which allows you to push patches to internal testers before promoting them to production 🎉

@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
-title: 🤖 Android | Code Push Add to App
+title: Android | Code Push Add to App
+sidebar_label: 🤖 Android
 description: Use code push in an add-to-app scenario with an Android app
 ---
 

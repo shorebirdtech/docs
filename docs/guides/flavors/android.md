@@ -11,7 +11,7 @@ This guide will walk through how to setup an app in which there are 2 deployment
 
 ## Prerequisites
 
-This guide assumes the Shorebird CLI is installed on your machine and that you are logged into an account. Refer to the [getting started](/) instructions for more information.
+This guide assumes the Shorebird command-line is installed on your machine and that you are logged into an account. Refer to the [getting started](/) instructions for more information.
 
 ## Create a Project
 

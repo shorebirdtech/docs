@@ -2,12 +2,12 @@
 sidebar_position: 1
 title: Android | Flavors
 sidebar_label: 🤖 Android
-description: Push patches to multiple deployment tracks on Android
+description: Push patches to multiple flavors on Android
 ---
 
 # Flavors
 
-This guide will walk through how to setup an app in which there are 2 deployment tracks: `internal` and `stable`. It will cover how to validate a patch on the internal track and then promote the patch to the stable track on Android.
+This guide will walk through how to setup an app in which there are 2 deployment flavors: `internal` and `stable`. It will cover how to validate a patch on the internal flavor and then promote the patch to the stable flavor on Android.
 
 ## Prerequisites
 
@@ -62,7 +62,7 @@ To learn more about configuring `productFlavors` refer to the [Android Developer
 
 ## Initialize Shorebird
 
-Next, initialize shorebird in the current project via `shorebird init`.
+Next, initialize Shorebird in the current project via `shorebird init`.
 
 ```
 shorebird init
@@ -104,13 +104,13 @@ $ shorebird apps list
 
 ## Create a release
 
-Now that we've created our apps on shorebird, we need to create releases (one for each track). To create a release, we'll use the `shorebird release android` command.
+Now that we've created our apps on shorebird, we need to create releases (one for each flavor). To create a release, we'll use the `shorebird release android` command.
 
 ```sh
-# Create a release for the internal track
+# Create a release for the internal flavor
 shorebird release android --flavor internal
 
-# Create a release for the stable track
+# Create a release for the stable flavor
 shorebird release android --flavor stable
 ```
 
@@ -133,16 +133,16 @@ $ shorebird apps list
 Next, preview the app release locally on a device or emulator, use `shorebird preview`.
 
 ```sh
-# Preview the release for the internal track.
+# Preview the release for the internal flavor.
 shorebird preview --app-id ee322dc4-3dc2-4324-90a9-04c40a62ae76 --release-version 1.0.0+1
 
-# Preview the release for the stable track.
+# Preview the release for the stable flavor.
 shorebird preview --app-id 904bd3d5-3526-4c1c-a832-7ac23c95302d --release-version 1.0.0+1
 ```
 
 This will download the releases and run them on your device.
 
-In addition to previewing the releases locally, you should also [submit the generated app bundles to the Play Store](/guides/release/android#upload-to-the-play-store). In this case, both apps can be part of the internal test track and only the stable variant should be promoted to production.
+In addition to previewing the releases locally, you should also [submit the generated app bundles to the Play Store](/guides/release/android#upload-to-the-play-store). In this case, both apps can be part of the internal test flavor and only the stable variant should be promoted to production.
 
 :::info
 

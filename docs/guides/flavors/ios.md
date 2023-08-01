@@ -2,12 +2,12 @@
 sidebar_position: 2
 title: iOS | Flavors
 sidebar_label: 🍎 iOS
-description: Push patches to multiple deployment tracks on iOS
+description: Push patches to multiple flavors on iOS
 ---
 
 # Flavors
 
-This guide will walk through how to setup an app in which there are 2 deployment tracks: `internal` and `stable`. It will cover how to validate a patch on the internal track and then promote the patch to the stable track on iOS.
+This guide will walk through how to setup an app in which there are 2 flavors: `internal` and `stable`. It will cover how to validate a patch on the internal flavor and then promote the patch to the stable flavor on iOS.
 
 ## Prerequisites
 
@@ -27,7 +27,7 @@ Next, edit the iOS project to support two flavors: `internal` and `stable` by fo
 
 ## Initialize Shorebird
 
-Next, initialize shorebird in the current project via `shorebird init`.
+Next, initialize Shorebird in the current project via `shorebird init`.
 
 ```
 shorebird init
@@ -56,13 +56,13 @@ You can view your apps at [console.shorebird.dev](https://console.shorebird.dev)
 
 ## Create a release
 
-Now that we've created our apps on shorebird, we need to create releases (one for each track). To create a release, we'll use the `shorebird release ios-alpha` command.
+Now that we've created our apps on shorebird, we need to create releases (one for each flavor). To create a release, we'll use the `shorebird release ios-alpha` command.
 
 ```sh
-# Create a release for the internal track
+# Create a release for the internal flavor
 shorebird release ios-alpha --flavor internal
 
-# Create a release for the stable track
+# Create a release for the stable flavor
 shorebird release ios-alpha --flavor stable
 ```
 
@@ -85,16 +85,16 @@ $ shorebird apps list
 Next, preview the app release locally on a device or emulator, use `shorebird preview`.
 
 ```sh
-# Preview the release for the internal track.
+# Preview the release for the internal flavor.
 shorebird preview --app-id ee322dc4-3dc2-4324-90a9-04c40a62ae76 --release-version 1.0.0+1
 
-# Preview the release for the stable track.
+# Preview the release for the stable flavor.
 shorebird preview --app-id 904bd3d5-3526-4c1c-a832-7ac23c95302d --release-version 1.0.0+1
 ```
 
 This will download the releases and run them on your device.
 
-In addition to previewing the releases locally, you should also [submit the generated app bundles to the App Store](/guides/release/ios#upload-to-the-app-store). In this case, both apps can be part of the internal test track and only the stable variant should be promoted to production.
+In addition to previewing the releases locally, you should also [submit the generated app bundles to the App Store](/guides/release/ios#upload-to-the-app-store). In this case, both apps can be part of the internal test flavor and only the stable variant should be promoted to production.
 
 :::info
 
@@ -173,7 +173,7 @@ We can validate the patch by re-launching the internal release.
 If you are testing locally, you don't need to re-run `shorebird preview` -- just re-launch the app from the device or emulator directly.
 :::
 
-The first time the app is re-launched, we should still see the purple theme and shorebird will detect and install the patch in the background. Kill and re-launch the app a second time to see the applied patch.
+The first time the app is re-launched, we should still see the purple theme and Shorebird will detect and install the patch in the background. Kill and re-launch the app a second time to see the applied patch.
 
 If all went well, you should see the patch was applied after re-launching the app a second time. All devices that have the internal variant of the app installed should also receive the patch 🎉
 

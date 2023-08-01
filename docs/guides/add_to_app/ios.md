@@ -112,7 +112,7 @@ you will see a "hash mismatch" error if you run the app from Xcode.
 :::
 
 As with the `release` command, the release version should be the version of the
-iOs app that uses this module.
+iOS app that uses this module.
 
 Now run the app directly from the a device (_not_ launched from Xcode), navigate
 to the Flutter screen, and verify that the patch is recognized and applied.

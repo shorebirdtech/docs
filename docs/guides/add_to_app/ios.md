@@ -44,7 +44,7 @@ to the official docs.
 ### Add the path to your .xcframeworks to Framework Search Paths
 
 In your app target's build settings in Xcode, add the path to your Flutter
-module's Release .xcframeworks directory to Framework Search Paths. The value
+module's Release `.xcframeworks` directory to Framework Search Paths. The value
 you use for this path will be the path to the `Release` directory and will be
 relative to your app's `.xcodeproj` file.
 

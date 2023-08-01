@@ -1,9 +1,9 @@
 {
-  "label": "🛤️ Multiple Deployment Tracks",
+  "label": "🍧 Flavors",
   "position": 3,
   "link": {
-    "title": "Multiple Deployment Tracks",
-    "slug": "multiple-deployment-tracks",
+    "title": "Flavors",
+    "slug": "guides/flavors",
     "type": "generated-index",
     "description": "Guides that show how to use flavors to push patches to multiple deployment tracks"
   }

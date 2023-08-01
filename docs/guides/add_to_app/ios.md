@@ -53,7 +53,7 @@ relative to your app's `.xcodeproj` file.
 ### Embed App.xcframework and Flutter.xcframework in your app
 
 In the Build Phases tab of your app target, add the `App.xcframework` and
-Flutter.xcframework from your Flutter module to the "Embed Frameworks" build
+`Flutter.xcframework` from your Flutter module to the "Embed Frameworks" build
 phase:
 
 ![Xcode embed frameworks](https://github.com/shorebirdtech/shorebird/assets/581764/39ccbe94-6f66-45da-b8f1-345df929d80c)

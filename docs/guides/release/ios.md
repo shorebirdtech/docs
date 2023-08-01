@@ -1,7 +1,7 @@
 ---
-sidebar_position: 3
-title: 🍎 Release a Code Push App (iOS)
-description: Release a Code Push App (iOS)
+sidebar_position: 2
+title: 🍎 iOS | Release a Code Push App
+description: Release a Code Push App to the Apple App Store
 ---
 
 # Releasing a code push app to the Apple App Store
@@ -14,7 +14,7 @@ The app we will be releasing in this guide is Shorebird Clock, our demo code pus
 
 To follow along with this guide, you will need the following:
 
-1. An existing Shorebird app. If you don't have one, you can create one by following the [code push quickstart](./code_push_quickstart/) guide.
+1. An existing Shorebird app. If you don't have one, you can create one by following the [code push quickstart](../code_push_quickstart/) guide.
 1. Access to hardware running macOS. This is required to build iOS apps.
 1. A valid Apple Developer account. This is required to release iOS apps.
 1. An app in [App Store Connect](https://appstoreconnect.apple.com/). See the [official documentation](https://developer.apple.com/help/app-store-connect/create-an-app-record/add-a-new-app) for more information about how to create one.

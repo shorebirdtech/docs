@@ -1,7 +1,7 @@
 ---
 sidebar_position: 2
-title: 🤖 Release a Code Push App (Android)
-description: Release a Code Push App (Android)
+title: 🤖 Android | Release a Code Push App
+description: Release a Code Push App to the Google Play Store
 ---
 
 # Releasing a code push app to the Google Play Store
@@ -12,7 +12,7 @@ The app we will be releasing in this guide is [`Time Shift`](https://play.google
 
 ## Prerequisites
 
-This guide assumes that you have an existing Shorebird app. If you don't have one, you can create one by following the [code push quickstart](./code_push_quickstart/) guide.
+This guide assumes that you have an existing Shorebird app. If you don't have one, you can create one by following the [code push quickstart](../code_push_quickstart/) guide.
 
 ## Creating a release
 

@@ -1,18 +1,18 @@
 ---
-sidebar_position: 5
-title: ➕ Code Push Add to App
-description: Use code push in an add-to-app scenario
+sidebar_position: 1
+title: 🤖 Android | Code Push Add to App
+description: Use code push in an add-to-app scenario with an Android app
 ---
 
 # Code Push With Add-to-App
 
-This guide explains how to use Shorebird in an add-to-app scenario.
+This guide explains how to use Shorebird in an Android add-to-app scenario.
 
 ## Prerequisites
 
 This guide assumes you have already have an Android app and a Flutter module. Our Android app will be named `android_app` and our Flutter module will be named `flutter_module`.
 
-This guide also assumes that you have created a Shorebird account. If you have not, please see our [code push guide](../code-push) for instructions.
+This guide also assumes that you have created a Shorebird account. If you have not, please see our [code push guide](../../code-push) for instructions.
 
 The reference code for this guide is available at https://github.com/shorebirdtech/samples/tree/main/add_to_app.
 

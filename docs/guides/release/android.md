@@ -5,7 +5,7 @@ sidebar_label: 🤖 Android
 description: Release a Code Push App to the Google Play Store
 ---
 
-# Releasing a code push app to the Google Play Store
+# Releasing to the Google Play Store
 
 This guide walks through releasing a code push app to the Google Play Store and applying a patch to that release.
 

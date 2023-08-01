@@ -5,7 +5,7 @@ sidebar_label: 🍎 iOS
 description: Release a Code Push App to the Apple App Store
 ---
 
-# Releasing a code push app to the Apple App Store
+# Releasing to the Apple App Store
 
 This guide walks through releasing a code push app to the Apple App Store and applying a patch to that release.
 

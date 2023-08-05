@@ -152,13 +152,85 @@ You can find a working example in this repository:
 
   </TabItem>
   <TabItem value="windows" label="Windows" default>
-The documentation for Windows is under development.
-<a href="https://github.com/shorebirdtech/docs/issues/98">
-Contributions welcome</a>.
+
+1. Add the group "shorebird" to your environment groups. If you're using a
+   different group name, use that instead.
+
+```yaml
+workflows:
+  example:
+    name: Example
+    environment:
+      groups:
+        # Exports the SHOREBIRD_TOKEN environment variable
+        - shorebird
+      flutter: stable
+      vars:
+        # Workaround for
+        # https://github.com/orgs/codemagic-ci-cd/discussions/1921#discussioncomment-6582318 
+        shorebird: "C:\\Users\\builder\\.shorebird\\bin\\shorebird.ps1"
+```
+
+2. Add a script to your workflow to set up Shorebird. This script will install
+   Shorebird.
+
+```yaml
+scripts:
+  - name: 🐦 Setup Shorebird
+    script: |
+      Set-ExecutionPolicy RemoteSigned -scope CurrentUser # Needed to execute remote scripts
+      iwr -UseBasicParsing 'https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1'|iex
+```
+
+3. Run Shorebird commands with `& $env:shorebird` instead of just `shorebird` as a workaround for [codemagic-ci-cd/discussions/1921](https://github.com/orgs/codemagic-ci-cd/discussions/1921#discussioncomment-6582318).
+
+```yaml
+scripts:
+  - name: 🚀 Shorebird Patch
+    script: |
+      & $env:shorebird patch android --force
+```
+
+### Full Example
+
+Here's an example of a complete `codemagic.yaml` file:
+
+```yaml
+workflows:
+  example:
+    name: Example
+    environment:
+      groups:
+        # Exports the SHOREBIRD_TOKEN environment variable
+        - shorebird
+      flutter: stable
+      vars:
+        # Workaround for
+        # https://github.com/orgs/codemagic-ci-cd/discussions/1921#discussioncomment-6582318 
+        shorebird: "C:\\Users\\builder\\.shorebird\\bin\\shorebird.ps1"
+    instance_type: windows_x2
+    scripts:
+      - name: 🐦 Setup Shorebird
+        script: |
+          Set-ExecutionPolicy RemoteSigned -scope CurrentUser # Needed to execute remote scripts
+          iwr -UseBasicParsing 'https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1'|iex
+      - name: 🚀 Shorebird Release
+        script: |
+          & $env:shorebird release android --force
+```
+
+You can find a working example in this repository:
+[codemagic-shorebird-demo](https://github.com/nilsreichardt/codemagic-shorebird-demo/tree/windows)
+
   </TabItem>
 </Tabs>
 
 ### Advanced Example
+
+:::note
+If you're using Windows machines, you'll need to adjust the setup
+and the execution of Shorebird commands. See the Windows tab above.
+:::
 
 If you want to specify the operation type (patch or release) externally, you can
 use environment variables in your workflow.

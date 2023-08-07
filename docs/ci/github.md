@@ -107,7 +107,7 @@ on:
   workflow_dispatch:
     inputs:
       release_version:
-        description: 'The release version to patch'
+        description: The release version to patch
         required: true
 
 jobs:

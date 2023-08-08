@@ -105,6 +105,10 @@ name: Shorebird Patch
 
 on:
   workflow_dispatch:
+    inputs:
+      release_version:
+        description: The release version to patch
+        required: true
 
 jobs:
   patch:
@@ -122,7 +126,7 @@ jobs:
         uses: shorebirdtech/setup-shorebird@v0
 
       - name: 🚀 Shorebird Patch
-        run: shorebird patch android --force
+        run: shorebird patch android --release-version ${{ inputs.release_version }} --force
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 ```

@@ -93,7 +93,7 @@ Powershell handles the `--` separator differently than other shells (see
 info). To work around this, you can quote the `--` separator. For example:
 
 ```sh
-shorebird release android "--" --dart-define=foo=bar
+shorebird release android '--' --dart-define=foo=bar
 ```
 
 ## Shorebird fails to install

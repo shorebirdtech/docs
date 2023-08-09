@@ -86,6 +86,23 @@ Where "/path/to/flutter" is the path to your Flutter installation. You can get
 this by running `which flutter` in your terminal (or `where.exe flutter` on
 Windows) and removing the `/bin/flutter` from the end of that path.
 
+## Shorebird fails to install
+
+There are a number of reasons this might happen. Common causes are:
+
+### I see a message saying that `git stat` failed because a file was too long
+
+This can happen on Windows due to Windows' limit of 260 characters for a filename.
+
+You can fix this by running:
+
+```sh
+git config --system core.longpaths true
+```
+
+You may need to run this as an administrator, and you will need to restart your
+terminal after running this command.
+
 ## Have a problem that's not addressed here?
 
 We're happy to help on [Discord](https://discord.gg/shorebird)!

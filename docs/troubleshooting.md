@@ -88,12 +88,12 @@ Windows) and removing the `/bin/flutter` from the end of that path.
 
 ## Could not find an option named "dart define" when using the `--` separator
 
-This is a known issue on Windows. We have filed a
-[bug](https://github.com/dart-lang/args/issues/252) with the `args` package,
-but for now, the workaround is to escape the `--` separator with backticks.
+Powershell handles the `--` separator differently than other shells (see
+[this StackOverflow answer](https://stackoverflow.com/a/15788023) for more
+info). To work around this, you can quote the `--` separator. For example:
 
 ```sh
-shorebird release android `-`- --dart-define=foo=bar
+shorebird release android "--" --dart-define=foo=bar
 ```
 
 ## Shorebird fails to install

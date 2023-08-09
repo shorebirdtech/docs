@@ -86,6 +86,16 @@ Where "/path/to/flutter" is the path to your Flutter installation. You can get
 this by running `which flutter` in your terminal (or `where.exe flutter` on
 Windows) and removing the `/bin/flutter` from the end of that path.
 
+## Could not find an option named "dart define" when using the `--` separator
+
+This is a known issue on Windows. We have filed a
+[bug](https://github.com/dart-lang/args/issues/252) with the `args` package,
+but for now, the workaround is to escape the `--` separator with backticks.
+
+```sh
+shorebird release android `-`- --dart-define=foo=bar
+```
+
 ## Shorebird fails to install
 
 There are a number of reasons this might happen. Common causes are:

@@ -66,7 +66,7 @@ At this time, not all functionality is supported for each Flutter version. Refer
 | Android                     |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |
 | iOS                         |   ✗    |   ✗    |   ✗    |   ✗    |   ✗    |   ✗    |   ✓    |
 | package:shorebird_code_push |   ✗    |   ✗    |   ✗    |   ✗    |   ✗    |   ✗    |   ✓    |
-| Flavors                     |   ✗    |   ✗    |   ✗    |   ✗    |   ✗    |   ✗    |   ✓    |
+| Flavors                     |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |
 | Add to App                  |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |
 
 :::info

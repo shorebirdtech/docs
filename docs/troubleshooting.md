@@ -1,5 +1,5 @@
 ---
-sidebar_position: 9
+sidebar_position: 11
 title: 🛠️ Troubleshooting
 description: Fixes for common Shorebird issues
 ---

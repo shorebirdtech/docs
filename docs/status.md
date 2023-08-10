@@ -1,5 +1,5 @@
 ---
-sidebar_position: 5
+sidebar_position: 7
 title: 👷 Status
 description: Status of the Shorebird project.
 ---

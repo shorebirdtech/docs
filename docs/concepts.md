@@ -1,5 +1,5 @@
 ---
-sidebar_position: 4
+sidebar_position: 6
 title: 🎓 Concepts
 description: Concepts used in Shorebird's code push product
 ---

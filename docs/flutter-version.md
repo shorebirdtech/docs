@@ -7,7 +7,7 @@ description: How to manage your Shorebird Flutter version
 # Flutter Version Management
 
 When Shorebird CLI is installed, it pulls down the latest stable version of Shorebird's Flutter.
-In this section, we'll take a look at how to list and change Flutter versions used by Shorebird CLI.
+In this section, we'll take a look at how to list and change the Flutter version used by Shorebird CLI.
 
 ## List Flutter Versions
 

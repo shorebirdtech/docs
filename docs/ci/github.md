@@ -130,3 +130,15 @@ jobs:
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 ```
+
+:::tip
+The `setup-shorebird` action also supports specifying a Flutter version:
+
+```yaml
+- name: 🐦 Setup Shorebird
+  uses: shorebirdtech/setup-shorebird@v0
+  with:
+    flutter-version: 3.10.6
+```
+
+:::

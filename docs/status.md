@@ -27,7 +27,7 @@ library). Please let us know if you encounter any issues.
 ## iOS Alpha
 
 Shorebird is currently in alpha on iOS. Instructions for using Shorebird on
-iOS are available in the [Getting Started](/docs/getting-started) guide.
+iOS are available in the [Getting Started](/) guide.
 
 It is safe to ship with Shorebird on iOS. Please note there may be performance
 (currently slower than Android) and patch size (larger than Android) differences

@@ -89,7 +89,8 @@ In the `codemagic.yaml` file, specify the `SHOREBIRD_TOKEN` under `environment`.
   <TabItem value="maclinux" label="Mac/Linux" default>
 
 1. Add the group "shorebird" to your environment groups. If you're using a
-   different group name, use that instead.
+   different group name, use that instead. Also add the `CONTINUOUS_INTEGRATION`
+   variable to skip confirmation prompts.
 
 ```yaml
 workflows:
@@ -99,6 +100,9 @@ workflows:
       groups:
         # Exports the SHOREBIRD_TOKEN environment variable
         - shorebird
+      vars:
+        # Skip confirmation prompts
+        CONTINUOUS_INTEGRATION: 'true'
 ```
 
 2. Add a script to your workflow to set up Shorebird. This script will install
@@ -120,7 +124,7 @@ scripts:
 ```yaml
 scripts:
   - name: 🚀 Shorebird Patch
-    script: shorebird patch android --force
+    script: shorebird patch android
 ```
 
 ### Full Example
@@ -135,6 +139,8 @@ workflows:
       groups:
         - shorebird
       flutter: stable
+      vars:
+        CONTINUOUS_INTEGRATION: 'true'
     scripts:
       - name: 🐦 Setup Shorebird
         script: |
@@ -144,7 +150,7 @@ workflows:
           # Add Shorebird to PATH
           echo PATH="$HOME/.shorebird/bin:$PATH" >> $CM_ENV
       - name: 🚀 Shorebird Patch
-        script: shorebird patch android --force
+        script: shorebird patch android
 ```
 
 You can find a working example in this repository:
@@ -155,7 +161,8 @@ You can find a working example in this repository:
 
 1. Add the group containing `SHOREBIRD_TOKEN` to your environment groups (in our
    case, the "shorebird" group we created above). Also add a variable named `shorebird`
-   with the path to the Shorebird executable.
+   with the path to the Shorebird executable and a variable named
+   `CONTINUOUS_INTEGRATION` with a value of `true` to skip confirmation prompts.
 
 ```yaml
 workflows:
@@ -170,6 +177,7 @@ workflows:
         # Workaround for
         # https://github.com/orgs/codemagic-ci-cd/discussions/1921#discussioncomment-6582318
         shorebird: "C:\\Users\\builder\\.shorebird\\bin\\shorebird.ps1"
+        CONTINUOUS_INTEGRATION: 'true'
 ```
 
 2. Add a script to your workflow to set up Shorebird. This script will install
@@ -189,7 +197,7 @@ scripts:
 scripts:
   - name: 🚀 Shorebird Release
     script: |
-      & $env:shorebird release android --force
+      & $env:shorebird release android
 ```
 
 ### Full Example
@@ -217,7 +225,7 @@ workflows:
           iwr -UseBasicParsing 'https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1'|iex
       - name: 🚀 Shorebird Release
         script: |
-          & $env:shorebird release android --force
+          & $env:shorebird release android
 ```
 
 You can find a working example in this repository:
@@ -243,6 +251,7 @@ workflows:
     environment:
       vars:
         TYPE: 'patch' # Can be 'patch' or 'release'
+        CONTINUOUS_INTEGRATION: 'true'
       groups:
         # Exports the SHOREBIRD_TOKEN environment variable
         - shorebird
@@ -268,10 +277,10 @@ workflows:
           # Check type and run corresponding command
           if [ "$TYPE" == "patch" ]; then
             echo "🩹 Running patch command"
-            shorebird patch android --force
+            shorebird patch android
           elif [ "$TYPE" == "release" ]; then
             echo "🚀 Running release command"
-            shorebird release android --force
+            shorebird release android
           fi
 ```
 

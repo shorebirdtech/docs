@@ -100,6 +100,9 @@ secret: <THE GENERATED SHOREBIRD_TOKEN>
 
 Now we can use the `SHOREBIRD_TOKEN` in our GitHub workflow to perform authenticated functions such as creating patches 🎉
 
+We also set the `CONTINUOUS_INTEGRATION` environment variable to `true` to
+prevent Shorebird from prompting for confirmation.
+
 ```yaml
 name: Shorebird Patch
 
@@ -109,6 +112,9 @@ on:
       release_version:
         description: The release version to patch
         required: true
+
+env:
+  CONTINUOUS_INTEGRATION: true
 
 jobs:
   patch:
@@ -126,7 +132,7 @@ jobs:
         uses: shorebirdtech/setup-shorebird@v0
 
       - name: 🚀 Shorebird Patch
-        run: shorebird patch android --release-version ${{ inputs.release_version }} --force
+        run: shorebird patch android --release-version ${{ inputs.release_version }}
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 ```

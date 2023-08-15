@@ -126,7 +126,7 @@ jobs:
         uses: shorebirdtech/setup-shorebird@v0
 
       - name: 🚀 Shorebird Patch
-        run: shorebird patch android --release-version ${{ inputs.release_version }} --force
+        run: shorebird patch android --release-version ${{ inputs.release_version }}
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 ```

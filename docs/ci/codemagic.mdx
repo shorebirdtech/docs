@@ -120,7 +120,7 @@ scripts:
 ```yaml
 scripts:
   - name: 🚀 Shorebird Patch
-    script: shorebird patch android --force
+    script: shorebird patch android
 ```
 
 ### Full Example
@@ -144,7 +144,7 @@ workflows:
           # Add Shorebird to PATH
           echo PATH="$HOME/.shorebird/bin:$PATH" >> $CM_ENV
       - name: 🚀 Shorebird Patch
-        script: shorebird patch android --force
+        script: shorebird patch android
 ```
 
 You can find a working example in this repository:
@@ -189,7 +189,7 @@ scripts:
 scripts:
   - name: 🚀 Shorebird Release
     script: |
-      & $env:shorebird release android --force
+      & $env:shorebird release android
 ```
 
 ### Full Example
@@ -217,7 +217,7 @@ workflows:
           iwr -UseBasicParsing 'https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1'|iex
       - name: 🚀 Shorebird Release
         script: |
-          & $env:shorebird release android --force
+          & $env:shorebird release android
 ```
 
 You can find a working example in this repository:
@@ -268,10 +268,10 @@ workflows:
           # Check type and run corresponding command
           if [ "$TYPE" == "patch" ]; then
             echo "🩹 Running patch command"
-            shorebird patch android --force
+            shorebird patch android
           elif [ "$TYPE" == "release" ]; then
             echo "🚀 Running release command"
-            shorebird release android --force
+            shorebird release android
           fi
 ```
 

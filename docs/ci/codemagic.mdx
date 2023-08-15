@@ -89,9 +89,7 @@ In the `codemagic.yaml` file, specify the `SHOREBIRD_TOKEN` under `environment`.
   <TabItem value="maclinux" label="Mac/Linux" default>
 
 1. Add the group "shorebird" to your environment groups. If you're using a
-   different group name, use that instead. Also add the `CONTINUOUS_INTEGRATION`
-   variable to skip confirmation prompts.
-
+   different group name, use that instead.
 ```yaml
 workflows:
   example:
@@ -100,9 +98,6 @@ workflows:
       groups:
         # Exports the SHOREBIRD_TOKEN environment variable
         - shorebird
-      vars:
-        # Skip confirmation prompts
-        CONTINUOUS_INTEGRATION: 'true'
 ```
 
 2. Add a script to your workflow to set up Shorebird. This script will install
@@ -139,8 +134,6 @@ workflows:
       groups:
         - shorebird
       flutter: stable
-      vars:
-        CONTINUOUS_INTEGRATION: 'true'
     scripts:
       - name: 🐦 Setup Shorebird
         script: |
@@ -161,8 +154,7 @@ You can find a working example in this repository:
 
 1. Add the group containing `SHOREBIRD_TOKEN` to your environment groups (in our
    case, the "shorebird" group we created above). Also add a variable named `shorebird`
-   with the path to the Shorebird executable and a variable named
-   `CONTINUOUS_INTEGRATION` with a value of `true` to skip confirmation prompts.
+   with the path to the Shorebird executable.
 
 ```yaml
 workflows:
@@ -177,7 +169,6 @@ workflows:
         # Workaround for
         # https://github.com/orgs/codemagic-ci-cd/discussions/1921#discussioncomment-6582318
         shorebird: "C:\\Users\\builder\\.shorebird\\bin\\shorebird.ps1"
-        CONTINUOUS_INTEGRATION: 'true'
 ```
 
 2. Add a script to your workflow to set up Shorebird. This script will install
@@ -251,7 +242,6 @@ workflows:
     environment:
       vars:
         TYPE: 'patch' # Can be 'patch' or 'release'
-        CONTINUOUS_INTEGRATION: 'true'
       groups:
         # Exports the SHOREBIRD_TOKEN environment variable
         - shorebird

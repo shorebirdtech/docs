@@ -100,9 +100,6 @@ secret: <THE GENERATED SHOREBIRD_TOKEN>
 
 Now we can use the `SHOREBIRD_TOKEN` in our GitHub workflow to perform authenticated functions such as creating patches 🎉
 
-We also set the `CONTINUOUS_INTEGRATION` environment variable to `true` to
-prevent Shorebird from prompting for confirmation.
-
 ```yaml
 name: Shorebird Patch
 
@@ -112,9 +109,6 @@ on:
       release_version:
         description: The release version to patch
         required: true
-
-env:
-  CONTINUOUS_INTEGRATION: true
 
 jobs:
   patch:

@@ -228,7 +228,7 @@ The Play Store offers two restrictions relating to update tools.
     uses the Dart Virtual Machine).
     https://support.google.com/googleplay/android-developer/answer/9888379?hl=en
 
-    ```
+```
     An app distributed via Google Play may not modify, replace, or update itself
     using any method other than Google Play's update mechanism. Likewise, an app
     may not download executable code (such as dex, JAR, .so files) from a
@@ -240,15 +240,14 @@ The Play Store offers two restrictions relating to update tools.
     Apps or third-party code, like SDKs, with interpreted languages (JavaScript,
     Python, Lua, etc.) loaded at run time (for example, not packaged with the
     app) must not allow potential violations of Google Play policies.
-    ```
+```
 
-````
 2.  Changes to the app must not be deceptive (e.g. changing the purpose of
-  the app via update).
-  https://support.google.com/googleplay/android-developer/answer/9888077
-  Please be clear with your users about what you are providing with your
-  application and do not violate their expectations with
-  significant behavioral changes through the use of Shorebird.
+    the app via update).
+    https://support.google.com/googleplay/android-developer/answer/9888077
+    Please be clear with your users about what you are providing with your
+    application and do not violate their expectations with
+    significant behavioral changes through the use of Shorebird.
 
 Shorebird is designed to be compatible with the Play Store guidelines. However
 Shorebird is a tool, and as with any tool, can be abused. Deliberately abusing
@@ -271,7 +270,8 @@ Yes.
 Similar to the Play Store, the App Store offers both technical and policy
 restrictions.
 
-``` 3.2.2
+```
+3.2.2
 ... interpreted code may be downloaded to an Application but only so long as
 such code:
 (a) does not change the primary purpose of the Application by providing
@@ -279,7 +279,7 @@ features or functionality that are inconsistent with the intended and
 advertised purpose of the Application as submitted to the App Store,
 (b) does not create a store or storefront for other code or applications, and
 (c) does not bypass signing, sandbox, or other security features of the OS.
-````
+```
 
 Shorebird uses a custom Dart interpreter to comply with the interpreter-only
 restriction for updates on iOS. So long as your application is not engaging

@@ -9,19 +9,13 @@ description: Status of the Shorebird project.
 Shorebird is available on Android and iOS (alpha), with many apps shipping
 to the Play Store and App Store.
 
-We're working closely with our customers to ensure we're building things they
-want. We _want_ your feedback. We _want_ you to tell us what you want to see
-next.
-
-Filing [issues](https://github.com/shorebirdtech/shorebird/issues) is a good way
-to provide feedback. Feedback via [Discord](https://discord.gg/shorebird) is
-also welcome.
-
 Our guiding principle has been "first, do no harm". It should be
-the case that using Shorebird is never worse than not using Shorebird. Of the
-thousands of apps have already tried Shorebird this year we're only aware
-of two having seen issues with Shorebird in the wild (one with a bad interaction
-with a third party library and another with crasher in iOS alpha).
+the case that using Shorebird is never worse than not using Shorebird.
+
+We're working closely with our early customers and we would love to hear from
+you. Shorebird operates publicly on [Discord](https://discord.gg/shorebird)
+every day and we welcome your feedback. Filing
+[issues](https://github.com/shorebirdtech/shorebird/issues) works well too.
 
 ## iOS Alpha
 

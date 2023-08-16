@@ -472,7 +472,7 @@ reliably gate access to Shorebird patches based on these groups.
 https://stackoverflow.com/questions/53291007/can-an-android-application-identify-the-test-track-within-google-play
 https://stackoverflow.com/questions/26081543/how-to-tell-at-runtime-whether-an-ios-app-is-running-through-a-testflight-beta-i
 
-If you'd like to segment availability of Shorebird patches, we have 4 options:
+If you'd like to segment availability of Shorebird patches, there are 4 potential options:
 
 1.  Use separate binaries / bundle ids for each group. This is the most
     straightforward approach, but requires you to manage multiple binaries.

@@ -9,20 +9,13 @@ description: Status of the Shorebird project.
 Shorebird is available on Android and iOS (alpha), with many apps shipping
 to the Play Store and App Store.
 
-We're working closely with our customers to ensure we're building things they
-want. We _want_ your feedback. We _want_ you to tell us what you want to see
-next.
+Our guiding principle has been "first, do no harm". It should be
+the case that using Shorebird is never worse than not using Shorebird.
 
-Filing [issues](https://github.com/shorebirdtech/shorebird/issues) is a good way
-to provide feedback. Feedback via [Discord](https://discord.gg/shorebird) is
-also welcome.
-
-Our guiding principle for these early days is "first, do no harm". It should be
-the case that using Shorebird is never worse than not using Shorebird. It is
-still possible using early versions of Shorebird could break your app in the
-wild. However thousands of apps have already tried Shorebird this year and we
-have only ever seen one break in the wild (a bad interaction with a third party
-library). Please let us know if you encounter any issues.
+We're working closely with our early customers and we would love to hear from
+you. Shorebird operates publicly on [Discord](https://discord.gg/shorebird)
+every day and we welcome your feedback. Filing
+[issues](https://github.com/shorebirdtech/shorebird/issues) works well too.
 
 ## iOS Alpha
 
@@ -42,14 +35,14 @@ GitHub](https://github.com/shorebirdtech/shorebird/issues?q=is%3Aopen+is%3Aissue
 
 Commonly requested features on iOS and Android:
 
+- Self-hosting or on-premises deployments [issue](https://github.com/shorebirdtech/shorebird/issues/485)
 - Asset changes (images, icons, etc.) [issue](https://github.com/shorebirdtech/shorebird/issues/318)
-- Older Flutter versions or `beta` and `master` channels (only latest `stable` is supported): [issue](https://github.com/shorebirdtech/shorebird/issues/472)
+- Older Flutter versions (only recent stable versions are currently supported) [issue](https://github.com/shorebirdtech/shorebird/issues/1100)
+- Analytics [issue](https://github.com/shorebirdtech/shorebird/issues/197)
 - Manual rollbacks (automatic single-device rollbacks on errors already work) ([issue](https://github.com/shorebirdtech/shorebird/issues/126))
 - Staged rollout of patches (channels or percentage based) [issue](https://github.com/shorebirdtech/shorebird/issues/110)
 - Patch signing (patch hashes are already checked) [issue](https://github.com/shorebirdtech/shorebird/issues/112)
-- Analytics [issue](https://github.com/shorebirdtech/shorebird/issues/197)
 - Fastlane integration [issue](https://github.com/shorebirdtech/shorebird/issues/257)
-- Self-hosting or on-premises deployments [issue](https://github.com/shorebirdtech/shorebird/issues/485)
 - "Native code" changes (java, kotlin, etc.) -- not planned.
 
 iOS "alpha" specific issues (which will be resolved before production):

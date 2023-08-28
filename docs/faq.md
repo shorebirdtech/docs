@@ -59,6 +59,15 @@ isn't working for you, please let us know and we're happy to look at adding
 support for sharing groups of apps:
 https://github.com/shorebirdtech/shorebird/issues/739
 
+### Does Shorebird store my source code?
+
+No. Shorebird servers never see your source code. When you run
+`shorebird release` or `shorebird patch` it only stores the same compiled Dart
+binary that you ship to the app stores. Shorebird does not store your source
+code, nor do our servers have access to your source code at any time.
+
+See also our privacy policy: https://shorebird.dev/privacy
+
 ### Can I use Shorebird from my CI system?
 
 Yes. Shorebird is intended to be used from CI systems. We've published a

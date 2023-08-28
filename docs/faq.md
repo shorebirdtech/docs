@@ -73,7 +73,7 @@ See also our privacy policy: https://shorebird.dev/privacy
 Yes. Shorebird is intended to be used from CI systems. We've published a
 guide for [Github Actions](ci/github.md), other CI systems should be similar.
 
-Please don't hestiate to reach out over GitHub issues or Discord if you
+Please don't hesitate to reach out over GitHub issues or Discord if you
 encounter any issues.
 
 ### How does this relate to Firebase Remote Config or Launch Darkly?

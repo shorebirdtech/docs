@@ -62,9 +62,9 @@ https://github.com/shorebirdtech/shorebird/issues/739
 ### Does Shorebird store my source code?
 
 No. Shorebird servers never see your source code. When you run
-`shorebird release` or `shorebird patch` it only stores the same compiled Dart
-binary that you ship to the app stores. Shorebird does not store your source
-code, nor do our servers have access to your source code at any time.
+`shorebird release` or `shorebird patch` the `shorebird` tool only uploads the
+same compiled app binary that you send to the app stores. Shorebird servers
+never store your source code at any time.
 
 See also our privacy policy: https://shorebird.dev/privacy
 

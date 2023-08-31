@@ -1,4 +1,10 @@
-# Update Strategies
+---
+sidebar_position: 5
+title: ⬆️ Update Strategies
+description: Ways to use Shorebird to update your app
+---
+
+# ⬆️ Update Strategies
 
 By default, Shorebird checks for, and silently
 installs any, updates in the background on launch. It does this via a

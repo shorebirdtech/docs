@@ -22,7 +22,7 @@ until they've updated to the latest version. For example, if you've made a
 breaking change between your app and your server, or if you app communicates
 between peers and you've made a breaking change to the protocol.
 
-For such cases, we've developed package:shorebird_code_push which provides
+For such cases, we've developed `package:shorebird_code_push` which provides
 you programmatic control over the Shorebird updater. You can use this package
 to check for updates at a time of your choosing, and to prompt the user to
 update if you wish.
@@ -45,7 +45,7 @@ default behavior and instead check for updates only when you want to.
 
 # Triggering updates via notification
 
-As mentioned above, Shorebird provides a package:shorebird_code_push which
+As mentioned above, Shorebird provides a `package:shorebird_code_push` which
 allows you to additional control over when updates are applied.
 
 One use case for this would be to use a notification system to trigger updates.
@@ -61,7 +61,7 @@ of the Flutter engine when the notification comes in. When the Flutter engine
 is launched, the default auto_update behavior will run. Thus when a
 notification is received if the app is not already running it will update as
 part of launching. More reliable however is to use the
-package:shorebird_code_push to trigger the update from within a notification handler.
+`package:shorebird_code_push` to trigger the update from within a notification handler.
 
 # Patches vs. Releases
 
@@ -97,30 +97,30 @@ branches, and ran `shorebird patch` for each of those branches. We would like
 to[support something like this](https://github.com/shorebirdtech/shorebird/issues/860) out of the box for
 you in the future, but do not yet.
 
-# How should Shorebird interact with other update systems (e.g. in_app_update)?
+# How should Shorebird interact with other update systems (e.g. `in_app_update`)?
 
 For applications which are already enforcing users are always on the latest
-version e.g. with in_app_update, you will likely want to write some code to
+version e.g. with `in_app_update`, you will likely want to write some code to
 coordinate between Shorebird and your existing update system.
 
-package:shorebird_code_push can help you here. For example, with in_app_update
+`package:shorebird_code_push` can help you here. For example, with `in_app_update`
 which is a system on Android whereby the Play Store will automatically prompt
-users to update your app, you could use package:shorebird_code_push to check
+users to update your app, you could use `package:shorebird_code_push` to check
 if the user has already applied the necessary patch and _not_ then prompt
 them to update.
 
 Shorebird patches are typically much smaller than full playstore updates (e.g.
 a few hundred bytes, or a few kilobytes), so it is likely better for your users
 (saves them data) if you can use Shorebird to deliver patches instead of
-in_app_update. However there are changes which Shorebird cannot make, such as
+`in_app_update`. However there are changes which Shorebird cannot make, such as
 changes to "native" code (Java, Kotlin, Swift, ObjC) or changes to the Flutter
 engine itself. So you may still want to encourage users to update via
-in_app_update in some cases. Again, you will want to write some code to
+`in_app_update` in some cases. Again, you will want to write some code to
 coordinate between Shorebird and your existing update system to make this
 determination.
 
 Shorebird "patches" also do not change the version number of your app, so
-in_app_update will not see them as a new version. This is by design, patches
+`in_app_update` will not see them as a new version. This is by design, patches
 are applied "to" releases, rather than being new releases themselves. This
 can complicate your analytics/reporting code as you will have the case where
 e.g. `1.0.1+13, patch 1` has identical dart code to `1.0.1+13, no patches`.

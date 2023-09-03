@@ -122,7 +122,7 @@ see a "hash mismatch" error if you run the app from Android Studio.
 
 :::note
 If you provided a build number to the `shorebird release aar` command using the
-`--build-number` argument, you must also provide that same build nubmer to the
+`--build-number` argument, you must also provide that same build number to the
 `shorebird patch aar` command.
 :::
 

@@ -118,7 +118,7 @@ variable inside Dart as you might have done with `flutter build` directly.
 :::
 
 By default, `shorebird release android` builds an AppBundle (`.aab`).
-If you would like to *also* generate an Android Package Kit (`.apk`), use the
+If you would like to _also_ generate an Android Package Kit (`.apk`), use the
 following command:
 
 ```
@@ -197,16 +197,16 @@ shorebird releases delete --flavor development
 A common question we get asked, is does Shorebird require publishing to the
 App Store or Play Store?
 
-No.  Shorebird works fine with side-loading and mobile device management (MDM)
-on Android.  We've not had anyone try Shorebird with iOS Developer Enterprise
+No. Shorebird works fine with side-loading and mobile device management (MDM)
+on Android. We've not had anyone try Shorebird with iOS Developer Enterprise
 program, but we expect it to work just as well.
 
 To build Shorebird for distribution via APK (e.g. side-loading), use the
-`--artifact` flag with the `shorebird release` command.  For example:
+`--artifact` flag with the `shorebird release` command. For example:
 
 ```bash
 shorebird release android --artifact=apk
 ```
 
-That will produce *both* .apk and .aab files.  You can distribute either
+That will produce _both_ .apk and .aab files. You can distribute either
 or both as needed.

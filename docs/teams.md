@@ -22,7 +22,11 @@ remove collaborators.
 ## Adding a Collaborator
 
 Currently collaborators must be added and removed using the Shorebird
-command line tool. To add a collaborator, run:
+command line tool. We intend to add support for adding and removing
+collaborators via the Shorebird console in the future.
+<https://github.com/shorebirdtech/shorebird/issues/1221>
+
+To add a collaborator, run:
 
 ```bash
 shorebird collaborators add --email <email>
@@ -31,6 +35,13 @@ shorebird collaborators add --email <email>
 `--app-id` is optional if you are in a directory with a Shorebird app it
 will infer the app ID from `shorebird.yaml`. Otherwise you can specify
 `--app-id <app-id>`.
+
+Collaborators must already have created a Shorebird account with the email
+address you are adding. They can do so by loading the Shorebird console
+and clicking "Continue with Google".
+
+We intend to add the ability to invite collaborators via email in the future.
+<https://github.com/shorebirdtech/shorebird/issues/1221>
 
 ## Removing a Collaborator
 
@@ -46,4 +57,4 @@ Each app maintains a separate list of collaborators. If you need to share
 multiple apps with a team, you will need to add each app separately. If this
 isn't working for you, please let us know and we're happy to look at adding
 support for sharing groups of apps:
-https://github.com/shorebirdtech/shorebird/issues/739
+<https://github.com/shorebirdtech/shorebird/issues/739>

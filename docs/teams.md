@@ -58,3 +58,11 @@ multiple apps with a team, you will need to add each app separately. If this
 isn't working for you, please let us know and we're happy to look at adding
 support for sharing groups of apps:
 <https://github.com/shorebirdtech/shorebird/issues/739>
+
+## Transferring Ownership
+
+We do not currently have an automated way to transfer ownership of an app.
+However you're welcome to [contact us](mailto:contact@shorebird.dev) and we
+will be happy to help you transfer ownership of an app.
+
+<https://github.com/shorebirdtech/shorebird/issues/1225>

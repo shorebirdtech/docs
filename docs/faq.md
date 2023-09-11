@@ -49,15 +49,7 @@ or priorities via Github issues or [Discord](https://discord.gg/shorebird).
 Yes! The Shorebird free "Hobby" tier only supports a single developer, but all
 other plans support unlimited developers.
 
-A subscribed account can add unlimited collaborators to an app using
-`shorebird collaborators add`. All accounts (including free) can collaborate
-on any number of apps.
-
-Each app maintains a separate list of collaborators. If you need to share
-multiple apps with a team, you will need to add each app separately. If this
-isn't working for you, please let us know and we're happy to look at adding
-support for sharing groups of apps:
-https://github.com/shorebirdtech/shorebird/issues/739
+See [Teams](teams.md) for more information.
 
 ### Does Shorebird store my source code?
 

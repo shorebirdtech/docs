@@ -237,3 +237,57 @@ shorebird patch android --flavor stable
 At this point, you have a setup which allows you to push patches to internal testers before promoting them to production 🎉
 
 The full source code for this example can be found [here](https://github.com/shorebirdtech/samples/tree/main/flavors).
+
+## Adding new flavors
+
+If you want to add a new flavor to your project after initializing Shorebird, you can do so by following the same steps as before.
+
+In build.gradle:
+
+```diff
+defaultConfig {
+    ...
+}
+
+    flavorDimensions "track"
+    productFlavors {
+        internal {
+            dimension "track"
+            applicationIdSuffix ".internal"
+            manifestPlaceholders = [applicationLabel: "[Internal] Shorebird Example"]
+        }
++       beta {
++           dimension "track"
++           applicationIdSuffix ".beta"
++           manifestPlaceholders = [applicationLabel: "[Beta] Shorebird Example"]
++       }
+        stable {
+            dimension "track"
+            manifestPlaceholders = [applicationLabel: "Shorebird Example"]
+        }
+    }
+
+buildTypes {
+  ...
+}
+```
+
+Add this to your `shorebird.yaml` by running `shorebird init`:
+
+```
+$ shorebird init
+✓ Detecting product flavors (0.6s)
+New flavors detected: beta
+✓ Fetching apps (0.1s)
+✓ Flavors added to shorebird.yaml (0.2s)
+```
+
+The resulting shorebird yaml:
+
+```diff
+app_id: ee322dc4-3dc2-4324-90a9-04c40a62ae76
+flavors:
+  internal: ee322dc4-3dc2-4324-90a9-04c40a62ae76
+  stable: 904bd3d5-3526-4c1c-a832-7ac23c95302d
++ beta: a41f8226-4b46-45d6-9e19-b14d0cf17bdc
+```

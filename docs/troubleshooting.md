@@ -113,7 +113,7 @@ git config --system core.longpaths true
 You may need to run this as an administrator, and you will need to restart your
 terminal after running this command.
 
-## My iOS build changes when I make a patch
+## My iOS build number increments when I try to make a patch
 
 This is likely because you are providing an export options .plist file that
 sets `manageAppVersionAndBuildNumber` to true. This is incompatible with

@@ -113,6 +113,15 @@ git config --system core.longpaths true
 You may need to run this as an administrator, and you will need to restart your
 terminal after running this command.
 
+## My iOS build number increments when I try to make a release or patch
+
+This is likely because you are providing an export options .plist file that
+sets `manageAppVersionAndBuildNumber` to true. This is incompatible with
+Shorebird because Shorebird requires that you maintain control over your app's
+version and build numbers in order to target patches at specific releases. You
+can fix this problem by either setting `manageAppVersionAndBuildNumber` to false
+or removing the value from your export options .plist file.
+
 ## Have a problem that's not addressed here?
 
 We're happy to help on [Discord](https://discord.gg/shorebird)!

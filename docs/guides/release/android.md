@@ -19,28 +19,9 @@ This guide assumes that you have an existing Shorebird app. If you don't have on
 
 ### Determine next release version
 
-Start by running `shorebird releases list` to see the current set of releases:
-
-```
-bryanoltman@boltman ~/Shorebird/time_shift (main)
-⑆ shorebird releases list
-🚀 Releases (51751336-6a7c-4972-b4ec-8fc1591fb2b3)
-┌─────────┬──────┐
-│ Version │ Name │
-├─────────┼──────┤
-│ 1.0.1   │ --   │
-├─────────┼──────┤
-│ 1.0.2+1 │ --   │
-├─────────┼──────┤
-│ 1.0.2+5 │ --   │
-└─────────┴──────┘
-```
-
-This shows that the most recent release is `1.0.2+5`. This corresponds with what we see in the Play Store console:
-
-![ReleaseVersion](https://github.com/shorebirdtech/docs/assets/581764/e6b6c276-49de-4142-8f32-dbf5e41379fa)
-
-Next, we'll create a new release for version `1.0.3+6`.
+Navigate to your app on the [Shorebird console](https://console.shorebird.dev/)
+to see the current set of releases. For our app, we see that the latest release
+version is `1.0.2+5`, so the version of our next release will be `1.0.3+6`.
 
 ### Make code changes
 

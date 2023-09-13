@@ -33,19 +33,9 @@ To build an iOS app for distribution, we need to specify a development team in X
 
 ### Determine the release version
 
-Run `shorebird releases list` to see the current set of releases:
-
-```
-⑆ shorebird releases list
-🚀 Releases (f2184ee6-9a85-498c-bfeb-114d638c462e)
-┌─────────┬──────┐
-│ Version │ Name │
-├─────────┼──────┤
-│ 1.0.3+1 │ --   │
-└─────────┴──────┘
-```
-
-This shows that the most recent release is `1.0.3+1`. Our next version will be `1.0.4+1`.
+Navigate to your app on the [Shorebird console](https://console.shorebird.dev/)
+to see the current set of releases. For our app, we see that the latest release
+version is `1.0.3.+1`, so the version of our next release will be `1.0.4+1`.
 
 ### Create a release in App Store Connect
 

@@ -113,6 +113,15 @@ git config --system core.longpaths true
 You may need to run this as an administrator, and you will need to restart your
 terminal after running this command.
 
+## My iOS build changes when I make a patch
+
+This is likely because you are providing an export options .plist file that
+sets `manageAppVersionAndBuildNumber` to true. This is incompatible with
+Shorebird, as the build and version number of a patch needs to match that of the
+release it was created for. You can fix this problem by either setting
+`manageAppVersionAndBuildNumber` to false or removing the value from your
+export options .plist file.
+
 ## Have a problem that's not addressed here?
 
 We're happy to help on [Discord](https://discord.gg/shorebird)!

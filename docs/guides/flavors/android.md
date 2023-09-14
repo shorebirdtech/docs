@@ -83,7 +83,7 @@ flavors:
   stable: 904bd3d5-3526-4c1c-a832-7ac23c95302d
 ```
 
-Since the project contains flavors, `shorebird init` generates an app per flavor and you can validate the release flavor by visiting [Shorebird console](https://console.shorebird.dev/).
+Because the project contains flavors, `shorebird init` generates an app per flavor and you can validate the release flavor by visiting [Shorebird console](https://console.shorebird.dev/).
 
 ## Create a release
 

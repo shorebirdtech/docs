@@ -83,7 +83,7 @@ flavors:
   stable: 904bd3d5-3526-4c1c-a832-7ac23c95302d
 ```
 
-Since the project contains flavors, `shorebird init` generates an app per flavor.
+Since the project contains flavors, `shorebird init` generates an app per flavor and you can validate the release flavor by visiting [Shorebird console](https://console.shorebird.dev/).
 
 ## Create a release
 
@@ -171,7 +171,7 @@ Now that we've applied the changes, let's patch the `internal` variant:
 shorebird patch android --flavor internal
 ```
 
-We can validate the patch by re-launching the internal release.
+We can validate the patch by visiting [Shorebird console](https://console.shorebird.dev/) then select the internal release or re-launching the internal release.
 
 :::note
 If you are testing locally, you don't need to re-run `shorebird preview` -- just re-launch the app from the device or emulator directly.

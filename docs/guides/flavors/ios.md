@@ -139,7 +139,7 @@ Now that we've applied the changes, let's patch the `internal` variant:
 shorebird patch ios-alpha --flavor internal
 ```
 
-We can validate the patch by re-launching the internal release.
+We can validate the patch by visiting [Shorebird console](https://console.shorebird.dev/) then select the internal release or re-launching the internal release.
 
 :::note
 If you are testing locally, you don't need to re-run `shorebird preview` -- just re-launch the app from the device or emulator directly.

@@ -98,16 +98,14 @@ Open the .xcarchive in Xcode and use the "Distribute App" flow:
 
 ![Xcode Organizer](https://github.com/shorebirdtech/shorebird/assets/581764/eafebdee-0e26-410a-8997-4eed056d4b6d)
 
-You will need to select the appropriate development team, provisioning profile, and signing certificate.
-
 As of Xcode 14.3, you will make the following choices:
 
 1. "App Store Connect" as the distribution method.
 1. "Upload" as the destination.
 1. A few distribution options that are up to you. Importantly, **Manage Version and Build Number must be unchecked for Shorebird to work**. Because Shorebird targets patches at specific release versions, changing the version or build number will prevent your app from receiving patches.
    ![Xcode distribution options](https://github.com/shorebirdtech/shorebird/assets/581764/c6ae0857-7ad8-4a8f-ae8b-55d05d52f3b3)
-1. Automatically manage signing or manually manage signing. This is up to you.
-1. Upload.
+1. Automatically manage signing or manually manage signing. This is up to you. If you choose to manually manage signing, you will need to select the appropriate development team, provisioning profile, and signing certificate for your app.
+1. Confirm the upload.
 
 Xcode will upload your archive, and if no issues are found, will show a message telling you that the upload was successful:
 

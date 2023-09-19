@@ -121,6 +121,8 @@ jobs:
       - name: 🐦 Setup Shorebird
         uses: shorebirdtech/setup-shorebird@v0
 
+      # Note: all signing information (key.properties, etc.) must be set up on
+      # this runner for `shorebird patch android` to work.
       - name: 🚀 Shorebird Patch
         run: shorebird patch android
         env:

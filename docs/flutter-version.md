@@ -16,6 +16,7 @@ To list all supported Flutter versions, use the `shorebird flutter versions list
 ```
 $ shorebird flutter versions list
 📦 Flutter Versions
+  3.13.4
   3.13.3
   3.13.2
   3.13.1
@@ -51,6 +52,7 @@ $ shorebird flutter versions use 3.10.3
 ```
 $ shorebird flutter versions list
 📦 Flutter Versions
+  3.13.4
   3.13.3
   3.13.2
   3.13.1
@@ -71,13 +73,13 @@ This will install and cache the corresponding revision of Flutter on your machin
 
 At this time, not all functionality is supported for each Flutter version. Refer to the following table for the status of each feature across Flutter versions:
 
-|                             | 3.10.0 | 3.10.1 | 3.10.2 | 3.10.3 | 3.10.4 | 3.10.5 | 3.10.6 | 3.10.7 | 3.13.0 | 3.13.1 | 3.13.2 | 3.13.3 |
-| --------------------------- | :----: | :----: | :----: | :----: | :----: | :----: | :----: | :----: | :----: | :----: | :----: | :----: |
-| Android                     |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |
-| iOS                         |   ✗    |   ✗    |   ✗    |   ✗    |   ✗    |   ✗    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |
-| package:shorebird_code_push |   ✗    |   ✗    |   ✗    |   ✗    |   ✗    |   ✗    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |
-| Flavors                     |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |
-| Add to App                  |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |
+|                             | 3.10.0 | 3.10.1 | 3.10.2 | 3.10.3 | 3.10.4 | 3.10.5 | 3.10.6 | 3.10.7 | 3.13.0 | 3.13.1 | 3.13.2 | 3.13.3 | 3.13.4 |
+| --------------------------- | :----: | :----: | :----: | :----: | :----: | :----: | :----: | :----: | :----: | :----: | :----: | :----: | :----: |
+| Android                     |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |
+| iOS                         |   ✗    |   ✗    |   ✗    |   ✗    |   ✗    |   ✗    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |
+| package:shorebird_code_push |   ✗    |   ✗    |   ✗    |   ✗    |   ✗    |   ✗    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |
+| Flavors                     |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |
+| Add to App                  |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |
 
 :::info
 We are working bringing all functionality to all currently supported Flutter versions. If there are older versions of Flutter which you need Shorebird to support, please [let us know](https://github.com/shorebirdtech/shorebird/issues/new/choose).

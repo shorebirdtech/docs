@@ -21,7 +21,6 @@ To follow along with this guide, you will need the following:
 1. An app in [App Store Connect](https://appstoreconnect.apple.com/). See the [official documentation](https://developer.apple.com/help/app-store-connect/create-an-app-record/add-a-new-app) for more information about how to create one.
 1. An iOS Distribution certificate. You can create one at [https://developer.apple.com/account/resources/certificates/add](https://developer.apple.com/account/resources/certificates/add).
 1. An iOS App Store provisioning profile. See the [official documentation](https://developer.apple.com/help/account/manage-provisioning-profiles/create-an-app-store-provisioning-profile) for instructions on how to create one.
-1. The [Transporter app](https://apps.apple.com/us/app/transporter/id1450874784). We will be using this to upload our app to the App Store.
 
 ### Specify a development team in Xcode
 
@@ -78,22 +77,39 @@ Would you like to continue? (y/N) Yes
 
 ✅ Published Release!
 
-Your next step is to upload the ipa to App Store Connect.
-build/ios/ipa/time_shift.ipa
+Your next step is to upload your app to App Store Connect.
 
-To upload to the App Store either:
-    1. Drag and drop the "build/ios/ipa/time_shift.ipa" bundle into the Apple Transporter macOS app (https://apps.apple.com/us/app/transporter/id1450874784)
-    2. Run xcrun altool --upload-app --type ios -f build/ios/ipa/time_shift.ipa --apiKey your_api_key --apiIssuer your_issuer_id.
+To upload to the App Store, do one of the following:
+    1. Open build/ios/archive/Runner.xcarchive in Xcode and use the "Distribute App" flow.
+    2. Drag and drop the build/ios/ipa/time_shift.ipa bundle into the Apple Transporter macOS app (https://apps.apple.com/us/app/transporter/id1450874784).
+    3. Run xcrun altool --upload-app --type ios -f build/ios/ipa/time_shift.ipa --apiKey your_api_key --apiIssuer your_issuer_id.
        See "man altool" for details about how to authenticate with the App Store Connect API key.
 ```
 
+:::note
+
+If you perform your own codesigning and do not want Shorebird to codesign your app, you can pass the `--no-codesign` flag to the `shorebird release ios-alpha` command. Because only signed code can be run on iOS devices, **releases created this way will not be previewable using the `shorebird preview` command.** You can still download and run these releases through TestFlight.
+
+:::
+
 ## Upload to the App Store
 
-Open the Transporter app and drag the generated `ipa` file into the app. This will upload the app to the App Store.
+Open the .xcarchive in Xcode and use the "Distribute App" flow:
 
-Once the upload has completed, you will see the new build under the "Delivered" header:
+![Xcode Organizer](https://github.com/shorebirdtech/shorebird/assets/581764/eafebdee-0e26-410a-8997-4eed056d4b6d)
 
-![Transport upload](https://github.com/shorebirdtech/docs/assets/581764/f4740937-d38e-44a7-adde-c0debc254337)
+As of Xcode 14.3, you will make the following choices:
+
+1. "App Store Connect" as the distribution method.
+1. "Upload" as the destination.
+1. A few distribution options that are up to you. Importantly, **Manage Version and Build Number must be unchecked for Shorebird to work**. Because Shorebird targets patches at specific release versions, changing the version or build number will prevent your app from receiving patches.
+   ![Xcode distribution options](https://github.com/shorebirdtech/shorebird/assets/581764/c6ae0857-7ad8-4a8f-ae8b-55d05d52f3b3)
+1. Automatically manage signing or manually manage signing. This is up to you. If you choose to manually manage signing, you will need to select the appropriate development team, provisioning profile, and signing certificate for your app.
+1. Confirm the upload.
+
+Xcode will upload your archive, and if no issues are found, will show a message telling you that the upload was successful:
+
+![Xcode upload succeeded](https://github.com/shorebirdtech/shorebird/assets/581764/678354e5-a445-4c55-94fc-7608ff0b241d)
 
 After a short delay (usually a minute or two), you will see the build listed as "Processing" in App Store Connect:
 

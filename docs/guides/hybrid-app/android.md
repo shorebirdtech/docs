@@ -1,13 +1,17 @@
 ---
 sidebar_position: 1
-title: Android | Code Push Add to App
+title: Android | Hybrid App
 sidebar_label: 🤖 Android
-description: Use code push in an add-to-app scenario with an Android app
+description: Use code push in an hybrid app scenario with an Android app
 ---
 
-# Code Push With Add-to-App
+# Code Push In Hybrid Apps
 
-This guide explains how to use Shorebird in an Android add-to-app scenario.
+This guide explains how to use Shorebird in an Android hybird app scenario (that is, your app embeds Flutter UI in non-Flutter UI).
+
+:::note
+If your app is a pure Flutter app, follow the [standard code push guide](../../code-push) instead.
+:::
 
 ## Prerequisites
 

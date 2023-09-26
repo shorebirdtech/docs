@@ -122,6 +122,29 @@ version and build numbers in order to target patches at specific releases. You
 can fix this problem by either setting `manageAppVersionAndBuildNumber` to false
 or removing the value from your export options .plist file.
 
+## I see a `The release artifact contains native changes` warning when running `shorebird patch`, even though I haven't changed Swift/Objective-C/Kotlin/Java code {#unexpected-native-changes}
+
+The `shorebird patch` command will print this warning if it detects changes to
+files in your compiled app that correspond to native code changes (`.dex` files
+on Android, files in the `Runner.app` directory on iOS). This does not always
+mean that your patch will not work, but because shorebird cannot be sure that
+the changes are safe, and because shorebird can't patch non-Dart code, it prints
+a warning.
+
+This can be caused by a number of things. The most common causes are:
+
+1. A dependency/plugin you are using has changed its native code. **You should
+   use caution when publishing patches that include changes to native code from
+   plugins. In the worst case, these changes my cause your patched app to
+   crash.**
+2. A dependency/plugin produces a different output on every build. This can
+   happen if the dependency it includes a timestamp indicating when it was
+   built, for example. This kind of change is usually safe to publish, but you
+   should be sure this is the only reason you are seeing this warning.
+
+If you are confident that the changes are safe, you can ignore this warning by
+passing the `--force` flag to `shorebird patch`.
+
 ## Have a problem that's not addressed here?
 
 We're happy to help on [Discord](https://discord.gg/shorebird)!

@@ -1,0 +1,10 @@
+{
+  "label": "🦿 Hybrid Apps",
+  "position": 3,
+  "link": {
+    "title": "Hybrid Apps",
+    "slug": "guides/hybrid-app",
+    "type": "generated-index",
+    "description": "Guides that show how to use Shorebird in an hybrid app scenario"
+  }
+}

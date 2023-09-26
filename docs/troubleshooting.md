@@ -124,11 +124,12 @@ or removing the value from your export options .plist file.
 
 ## I see a `The release artifact contains native changes` warning when running `shorebird patch`, even though I haven't changed Swift/Objective-C/Kotlin/Java code
 
-The `shorebird patch` will print this warning if it detects changes to files in
-your app that correspond to native code changes (`.dex` files on Android, files
-in the `Runner.app` directory on iOS). This does not always mean that your patch
-will not work, but because shorebird cannot be sure that the changes are safe,
-and because Shorebird can't patch non-Dart code, it prints a warning.
+The `shorebird patch` command will print this warning if it detects changes to
+files in your app that correspond to native code changes (`.dex` files on
+Android, files in the `Runner.app` directory on iOS). This does not always mean
+that your patch will not work, but because shorebird cannot be sure that the
+changes are safe, and because Shorebird can't patch non-Dart code, it prints a
+warning.
 
 This can be caused by a number of things. The most common causes are:
 

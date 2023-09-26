@@ -98,8 +98,9 @@ Open the .xcarchive in Xcode and use the "Distribute App" flow:
 
 ![Xcode Organizer](https://github.com/shorebirdtech/shorebird/assets/581764/eafebdee-0e26-410a-8997-4eed056d4b6d)
 
-As of Xcode 14.3, you will make the following choices:
+As of Xcode 15, you will make the following choices:
 
+1. "Custom" as the distribution method.
 1. "App Store Connect" as the distribution method.
 1. "Upload" as the destination.
 1. A few distribution options that are up to you. Importantly, **Manage Version and Build Number must be unchecked for Shorebird to work**. Because Shorebird targets patches at specific release versions, changing the version or build number will prevent your app from receiving patches.

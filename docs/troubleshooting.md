@@ -133,9 +133,10 @@ a warning.
 
 This can be caused by a number of things. The most common causes are:
 
-1. A dependency/plugin you are using has changed its native code. _You should
+1. A dependency/plugin you are using has changed its native code. **You should
    use caution when publishing patches that include changes to native code from
-   plugins, as your app may not function._
+   plugins. In the worst case, these changes my cause your patched app to
+   crash.**
 2. A dependency/plugin produces a different output on every build. This can
    happen if the dependency it includes a timestamp indicating when it was
    built, for example. This kind of change is safe to publish, but you should

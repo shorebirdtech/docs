@@ -139,8 +139,8 @@ This can be caused by a number of things. The most common causes are:
    crash.**
 2. A dependency/plugin produces a different output on every build. This can
    happen if the dependency it includes a timestamp indicating when it was
-   built, for example. This kind of change is safe to publish, but you should
-   be sure this is the only reason you are seeing this warning.
+   built, for example. This kind of change is usually safe to publish, but you
+   should be sure this is the only reason you are seeing this warning.
 
 If you are confident that the changes are safe, you can ignore this warning by
 passing the `--force` flag to `shorebird patch`.

@@ -26,7 +26,7 @@ It is safe to ship with Shorebird on iOS. Please note there may be performance
 (currently slower than Android) and patch size (larger than Android) differences
 in the alpha product.
 
-We expect to reach parity with Shorebird on Android around September 2023.
+We expect to reach parity with Shorebird on Android around October 2023.
 
 You can see all open issues for iOS [on
 GitHub](https://github.com/shorebirdtech/shorebird/issues?q=is%3Aopen+is%3Aissue+label%3Aios)

@@ -525,12 +525,4 @@ https://github.com/shorebirdtech/shorebird/issues/733
 ### What counts as a "patch install" for Shorebird?
 
 A "patch install" is counted when a patch is successfully installed on a
-user's device. Currently our counting is per-download, not per-install
-but we intend to change this in the future to only charge for confirmed
-successful installs. This is done simply because we do not currently report
-patch install success back to our servers. We will need to do this for
-analytics anyways and once we do we can adjust our accounting.
-https://github.com/shorebirdtech/shorebird/issues/740
-
-If you believe you've been charged for failed installs, please let us know
-we're happy to refund you any difference.
+user's device.

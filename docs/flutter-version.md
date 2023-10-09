@@ -109,7 +109,7 @@ to the following table for the status of each feature across Flutter versions:
 | 3.10.0  |    ✓    |  ✗  |              ✗              |
 
 :::info
-Over time we would like to bring Shorebird support to more Flutter versions. If
+We would like Shorebird to support to as many Flutter versions as possible. If
 there are older versions of Flutter which you need Shorebird to support, please
 [let us know](https://github.com/shorebirdtech/shorebird/issues/1100).
 :::

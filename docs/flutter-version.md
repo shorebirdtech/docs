@@ -15,10 +15,7 @@ Shorebird currently focuses our efforts on support for the latest stable version
 of Flutter. When we make changes to Shorebird we do not currently backport those
 changes to previous release of Flutter.
 
-We do make our previous releases of Flutter available back to 3.10.0. Publishing
-a new app with an older Shorebird Flutter is supported, but it may not contain
-all of the most recent Shorebird features. We recommend using the latest stable
-version of Flutter whenever possible.
+While we support creating a release with older versions of Flutter (back to 3.10.0), a release created with one of these versions may not contain all of the most recent Shorebird features. Because of this, we recommend using the latest stable version of Flutter whenever possible.
 
 ## List Flutter Versions
 

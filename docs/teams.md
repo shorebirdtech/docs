@@ -20,6 +20,8 @@ hesitate to reach out to contact@shorebird.dev.
 
 ### Collaborator (aka "Developer")
 
+The Collaborator role can:
+
 - Read app information
 - View collaborators
 - Create releases and patches

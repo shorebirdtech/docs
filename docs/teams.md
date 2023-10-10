@@ -13,11 +13,35 @@ to the Teams tier to add collaborators via a link in the
 
 ## Permissions
 
-Each app has an owner, who is the person who created the app. The owner can
-invite collaborators to the app, and can remove collaborators from the app.
+Permissions are internally stored per-app. Not all permissions are publicly
+editable at this time, we plan to expose more controls soon. If you have any
+changes you need done to your app in the meanwhile, please do not
+hesitate to reach out to contact@shorebird.dev.
 
-Collaborators can publish patches. They cannot delete the app, or add or
-remove collaborators.
+### Collaborator (aka "Developer")
+
+- Read app information
+- View collaborators
+- Create releases and patches
+- View insights
+
+Collaborators can be added and removed by any Admin, see below.
+
+### Admin (automatically assigned to the account which created the app)
+
+- Everything a Developer can do
+- Create and Delete Apps
+- Add and Remove Collaborator for an App
+
+Admin permissions cannot currently be modified directly. Please email us
+if you need to add/remove Admins from an app.
+
+### Billing account (aka Owner)
+
+- Billing is tied to Owner
+- Owner can be either a Developer or Admin, by default is an Admin
+
+Owner can be changed by contacting us.
 
 ## Adding a Collaborator
 

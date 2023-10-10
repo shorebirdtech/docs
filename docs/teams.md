@@ -14,8 +14,8 @@ to the Teams tier to add collaborators via a link in the
 ## Permissions
 
 Permissions are internally stored per-app. Not all permissions are publicly
-editable at this time, we plan to expose more controls soon. If you have any
-changes you need done to your app in the meanwhile, please do not
+editable at this time, we plan to expose more controls soon. If you would
+like to make changes to your app in the meantime, please do not
 hesitate to reach out to contact@shorebird.dev.
 
 ### Collaborator (aka "Developer")

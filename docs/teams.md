@@ -40,7 +40,7 @@ The Admin role can:
 Admin permissions cannot currently be modified directly. Please email us
 if you need to add/remove Admins from an app.
 
-### Billing account (aka Owner)
+### Billing account (aka App Owner)
 
 - Billing is tied to Owner
 - Owner can be either a Developer or Admin, by default is an Admin

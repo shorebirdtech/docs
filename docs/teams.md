@@ -31,6 +31,8 @@ Collaborators can be added and removed by any Admin, see below.
 
 ### Admin (automatically assigned to the account which created the app)
 
+The Admin role can:
+
 - Everything a Developer can do
 - Create and Delete Apps
 - Add and Remove Collaborator for an App

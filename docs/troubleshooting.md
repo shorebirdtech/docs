@@ -122,9 +122,63 @@ version and build numbers in order to target patches at specific releases. You
 can fix this problem by either setting `manageAppVersionAndBuildNumber` to false
 or removing the value from your export options .plist file.
 
+## I see a `The release artifact contains native changes` warning when running `shorebird release` (#native-changes)
+
+The `shorebird patch` command will print a warning if it detects changes to
+files in your compiled app that correspond to native code changes (`.dex` files
+on Android, files in the `Runner.app` directory on iOS). This does not always
+mean that your patch will not work, but because shorebird cannot be sure that
+the changes are safe, and because shorebird can't patch non-Dart code, it prints
+a warning.
+
+An example of this warning:
+
+```
+✓ Verifying patch can be applied to release (4.0s)
+[WARN] The release artifact contains asset changes, which will not be included in the patch.
+    Added files:
+        base/assets/flutter_assets/assets/images/bg_button_disable.png
+    Changed files:
+        base/assets/flutter_assets/AssetManifest.bin
+        base/assets/flutter_assets/AssetManifest.json
+        base/assets/flutter_assets/fonts/MaterialIcons-Regular.otf
+Continue anyways? (y/N)
+```
+
+So what does this mean?  In this case, it means I added a new image to my app
+and Shorebird does not (yet) have the
+[https://github.com/shorebirdtech/shorebird/issues/318](ability to patch assets)
+so it is warning you that you might be patching Dart code which *depends* on
+those assets.  It can be safe to ignore this kind of warning if you're removing
+an asset, or your Dart code knows how to handle the asset being missing.
+
+Also included in the above changes are the `AssetManifest` files.  These files
+change any time you add or remove an asset from your app, and are generally
+a symptom rather than the cause of the warning.
+
+The final file changed above is the `MaterialIcons-Regular.otf` font file,
+which can happen if your app uses more or fewer icons from the Dart code.
+Flutter will automatically "tree shake" your fonts, so if you don't use an icon
+in your Dart code, it will not be included in the final app.  You can
+disable this behavior with `--no-tree-shake-icons` at the risk of increasing
+your app size.  This type of change will also go away once we're able to patch
+assets.
+
+A type of change not shown above is one which changes .dex files on Android or
+the `Runner.app` directory on iOS.  These changes represent changes to the
+native code of your app, and are not patchable by Shorebird.  If you see this
+warning, you should be very careful about publishing your patch, as it may
+cause your app to crash when the Dart code tries to call into native code
+which operates differently than expected.
+
+One way to test is to create the patch with `--staging` and then use
+`shorebird preview --staging` to install the patch on your device.  That way
+you can see exactly what changes are being made to your app before you publish
+the patch to your users.
+
 ## I see a `The release artifact contains native changes` warning when running `shorebird patch`, even though I haven't changed Swift/Objective-C/Kotlin/Java code {#unexpected-native-changes}
 
-The `shorebird patch` command will print this warning if it detects changes to
+The `shorebird patch` command will print a warning if it detects changes to
 files in your compiled app that correspond to native code changes (`.dex` files
 on Android, files in the `Runner.app` directory on iOS). This does not always
 mean that your patch will not work, but because shorebird cannot be sure that

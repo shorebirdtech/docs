@@ -145,34 +145,34 @@ An example of this warning:
 Continue anyways? (y/N)
 ```
 
-So what does this mean?  In this case, it means I added a new image to my app
+So what does this mean? In this case, it means I added a new image to my app
 and Shorebird does not (yet) have the
 [https://github.com/shorebirdtech/shorebird/issues/318](ability to patch assets)
-so it is warning you that you might be patching Dart code which *depends* on
-those assets.  It can be safe to ignore this kind of warning if you're removing
+so it is warning you that you might be patching Dart code which _depends_ on
+those assets. It can be safe to ignore this kind of warning if you're removing
 an asset, or your Dart code knows how to handle the asset being missing.
 
-Also included in the above changes are the `AssetManifest` files.  These files
+Also included in the above changes are the `AssetManifest` files. These files
 change any time you add or remove an asset from your app, and are generally
 a symptom rather than the cause of the warning.
 
 The final file changed above is the `MaterialIcons-Regular.otf` font file,
 which can happen if your app uses more or fewer icons from the Dart code.
 Flutter will automatically "tree shake" your fonts, so if you don't use an icon
-in your Dart code, it will not be included in the final app.  You can
+in your Dart code, it will not be included in the final app. You can
 disable this behavior with `--no-tree-shake-icons` at the risk of increasing
-your app size.  This type of change will also go away once we're able to patch
+your app size. This type of change will also go away once we're able to patch
 assets.
 
 A type of change not shown above is one which changes .dex files on Android or
-the `Runner.app` directory on iOS.  These changes represent changes to the
-native code of your app, and are not patchable by Shorebird.  If you see this
+the `Runner.app` directory on iOS. These changes represent changes to the
+native code of your app, and are not patchable by Shorebird. If you see this
 warning, you should be very careful about publishing your patch, as it may
 cause your app to crash when the Dart code tries to call into native code
 which operates differently than expected.
 
 One way to test is to create the patch with `--staging` and then use
-`shorebird preview --staging` to install the patch on your device.  That way
+`shorebird preview --staging` to install the patch on your device. That way
 you can see exactly what changes are being made to your app before you publish
 the patch to your users.
 

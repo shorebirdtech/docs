@@ -127,7 +127,7 @@ or removing the value from your export options .plist file.
 The `shorebird patch` command will print a warning if it detects changes to
 files in your compiled app that correspond to asset changes (e.g. added or
 removed images, fonts, etc.). This does not always mean that your patch will not
-work, but because shorebird cannot be sure that the changes are safe.
+work, but shorebird cannot be sure that the changes are safe.
 
 Shorebird does not (yet) have the
 [https://github.com/shorebirdtech/shorebird/issues/318](ability to patch assets)

@@ -25,6 +25,8 @@ To list all Flutter versions Shorebird has published, use the
 ```
 $ shorebird flutter versions list
 📦 Flutter Versions
+  3.13.8
+  3.13.7
   3.13.6
   3.13.5
   3.13.4
@@ -64,6 +66,8 @@ $ shorebird flutter versions use 3.10.3
 ```
 $ shorebird flutter versions list
 📦 Flutter Versions
+  3.13.8
+  3.13.7
   3.13.6
   3.13.5
   3.13.4
@@ -92,6 +96,8 @@ to the following table for the status of each feature across Flutter versions:
 
 | Version | Android | iOS | package:shorebird_code_push |
 | ------- | :-----: | :-: | :-------------------------: |
+| 3.13.8  |    ✓    |  ✓  |              ✓              |
+| 3.13.7  |    ✓    |  ✓  |              ✓              |
 | 3.13.6  |    ✓    |  ✓  |              ✓              |
 | 3.13.5  |    ✓    |  ✓  |              ✓              |
 | 3.13.4  |    ✓    |  ✓  |              ✓              |

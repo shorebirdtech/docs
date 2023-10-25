@@ -202,6 +202,17 @@ This can be caused by a number of things. The most common causes are:
 If you are confident that the changes are safe, you can ignore this warning by
 passing the `--force` flag to `shorebird patch`.
 
+## "Invalid `Podfile` file: cannot load such file" when running `pod install`
+
+You might see this error message if the `FLUTTER_ROOT` definition in your
+project's `ios/Flutter/Generated.xcconfig` points to a Shorebird Flutter
+installation. This can be fixed by running any of:
+
+1. `flutter clean`, or
+2. `flutter build ios` in your project's root directory, or
+3. `flutter run` in your project's root directory and targeting an iOS
+   simulator/device.
+
 ## Have a problem that's not addressed here?
 
 We're happy to help on [Discord](https://discord.gg/shorebird)!

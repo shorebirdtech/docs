@@ -14,3 +14,7 @@ shorebird preview
 ```
 
 This will download the release artifacts for the selected app release version, install the app on the selected device, and start the application.
+
+:::tip
+`shorebird preview` can be used on any computer that is configured for Flutter development, not just the computer that was used to create the release. This is useful for verifying releases that were created on a CI/CD server.
+:::

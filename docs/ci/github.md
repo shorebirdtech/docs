@@ -100,11 +100,77 @@ secret: <THE GENERATED SHOREBIRD_TOKEN>
 
 Now we can use the `SHOREBIRD_TOKEN` in our GitHub workflow to perform authenticated functions such as creating patches 🎉
 
+## Create Releases
+
+The simplest way to create a release is using the official Shorebird GitHub Actions:
+
+- [Setup Shorebird GitHub Action](https://github.com/marketplace/actions/setup-shorebird).
+- [Shorebird Release GitHub Action](https://github.com/marketplace/actions/shorebird-release).
+
+```yaml
+name: Shorebird Release
+
+on:
+  workflow_dispatch:
+
+env:
+  SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+
+jobs:
+  release:
+    defaults:
+      run:
+        shell: bash
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📚 Git Checkout
+        uses: actions/checkout@v3
+
+      - name: 🐦 Setup Shorebird
+        uses: shorebirdtech/setup-shorebird@v0
+
+      - name: 🚀 Shorebird Release
+        uses: shorebirdtech/shorebird-release@v0
+```
+
+:::tip
+The `setup-shorebird` action also supports specifying a Flutter version:
+
+```yaml
+- name: 🐦 Setup Shorebird
+  uses: shorebirdtech/setup-shorebird@v0
+  with:
+    flutter-version: 3.10.6
+```
+
+:::
+
+:::tip
+The `shorebird-release` action also outputs the release version:
+
+```yaml
+- name: 🚀 Shorebird Release
+  id: shorebird-release
+  uses: shorebirdtech/shorebird-release@v0
+
+- name: 📝 Output Release Version
+  run: echo ${{ steps.shorebird-release.outputs.release-version }}
+```
+
+:::
+
+## Create Patches
+
 ```yaml
 name: Shorebird Patch
 
 on:
   workflow_dispatch:
+
+env:
+  SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 
 jobs:
   patch:
@@ -125,18 +191,4 @@ jobs:
       # this runner for `shorebird patch android` to work.
       - name: 🚀 Shorebird Patch
         run: shorebird patch android
-        env:
-          SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 ```
-
-:::tip
-The `setup-shorebird` action also supports specifying a Flutter version:
-
-```yaml
-- name: 🐦 Setup Shorebird
-  uses: shorebirdtech/setup-shorebird@v0
-  with:
-    flutter-version: 3.10.6
-```
-
-:::

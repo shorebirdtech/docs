@@ -8,7 +8,7 @@ description: A high-level explanation of what Code Push is and how it works.
 
 ## What is Code Push?
 
-Code Push is a tool that allows you to update your Flutter app's Dart code instantly over the air, without going through the store update process. This allows you to deploy fixes and new features to your end users.
+Code Push is a tool that allows you to update your Flutter app instantly over the air, without going through the store update process. This allows you to deploy fixes and new features to your end users.
 
 ## How does Code Push work?
 

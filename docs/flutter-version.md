@@ -1,5 +1,5 @@
 ---
-sidebar_position: 4
+sidebar_position: 5
 title: 🐦 Flutter Version
 description: How to manage your Shorebird Flutter version
 ---

@@ -33,9 +33,9 @@ notably on [iOS speed](https://github.com/shorebirdtech/shorebird/issues/674).
 iOS is alpha for two reasons:
 
 - Our iOS alpha product is slower than our Android product. In testing, many
-  apps do not notice notice a difference, some feel a bit slower.  Our internal
+  apps do not notice notice a difference, some feel a bit slower. Our internal
   benchmarks suggest we can make the Dart code execute up to 100x faster than it
-  currently does in ios-alpha and  we've built an new Dart runtime to solve this
+  currently does in ios-alpha and we've built an new Dart runtime to solve this
   speed issue, but it's not ready yet. We update our progress on
   https://github.com/shorebirdtech/shorebird/issues/674 every week and on
   Discord https://discord.gg/shorebird every day.

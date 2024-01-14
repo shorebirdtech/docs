@@ -19,14 +19,15 @@ Otherwise, we hope you'll consider trying Shorebird again in the future.
 
 ## Canceling your subscription
 
-To cancel your subscription:
+To cancel your subscription, navigate to the [Account](https://console.shorebird.dev/account)
+page on the Shorebird console, select the "Edit" dropdown, and click "Cancel Subscription".
 
-`shorebird account downgrade`
+![Screenshot 2024-01-09 at 10 37 23 AM](https://github.com/shorebirdtech/docs/assets/581764/f7abc03d-7dd7-465f-b1f6-7d963bd5aaab)
 
-This will cancel your subscription. Your access (and updates for your users)
-will continue until the end of the current billing period. After which
-shorebird will not longer send updates to your apps, but your apps will
-continue function otherwise normally.
+This will take you to a Stripe page that will allow you to cancel your subscription.
+After cancelling, your access (and updates for your users) will continue until the
+end of the current billing period. After this, Shorebird will not longer send updates
+to your apps, but your apps will continue function otherwise normally.
 
 ## Uninstalling Shorebird
 

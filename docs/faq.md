@@ -118,7 +118,7 @@ Note that depending on how you distribute your apps, some store agreements
 expect feature changes to go through store review.
 Notably Apple's App Store requires that an update "does not change the
 primary purpose of the Application by providing features or functionality
-that are inconsistent with the intended and advertised purpose of the Application.
+that are inconsistent with the intended and advertised purpose of the Application."
 Also note that more Dart code changes will result in larger patch sizes.
 
 ### Does Shorebird submit to the stores for me?

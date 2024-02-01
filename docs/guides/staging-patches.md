@@ -52,7 +52,7 @@ Now that we've created our apps on shorebird, we need to create releases (one fo
 shorebird release android
 
 # Create a release for iOS
-shorebird release ios-alpha
+shorebird release ios
 ```
 
 We can verify the releases were created successfully by visiting [Shorebird console](https://console.shorebird.dev).
@@ -95,7 +95,7 @@ Now that we've applied the changes, let's create a patch:
 shorebird patch android --staging
 
 # Stage a patch on iOS
-shorebird patch ios-alpha --staging
+shorebird patch ios --staging
 ```
 
 ## Preview the release

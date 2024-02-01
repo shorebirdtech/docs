@@ -23,7 +23,7 @@ Shorebird is currently Beta on iOS. Instructions for using Shorebird on
 iOS are available in the [Getting Started](/) guide.
 
 iOS is currently marked beta because some applications experiance a noticable
-slowdown after patching.  We expect to have a solution to this problem in the next few months.
+slowdown after patching. We expect to have a solution to this problem in the next few months.
 
 ## Roadmap
 

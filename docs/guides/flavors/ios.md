@@ -56,14 +56,14 @@ You can view your apps at [console.shorebird.dev](https://console.shorebird.dev)
 
 ## Create a release
 
-Now that we've created our apps on shorebird, we need to create releases (one for each flavor). To create a release, we'll use the `shorebird release ios-alpha` command.
+Now that we've created our apps on shorebird, we need to create releases (one for each flavor). To create a release, we'll use the `shorebird release ios` command.
 
 ```sh
 # Create a release for the internal flavor
-shorebird release ios-alpha --flavor internal
+shorebird release ios --flavor internal
 
 # Create a release for the stable flavor
-shorebird release ios-alpha --flavor stable
+shorebird release ios --flavor stable
 ```
 
 We can verify the releases were created successfully by visiting [Shorebird console](https://console.shorebird.dev/).
@@ -92,7 +92,7 @@ In addition to previewing the releases locally, you should also [submit the gene
 
 ## Creating a patch
 
-Now that we have our internal and stable releases on the Play Store, we can create a patch using `shorebird patch ios-alpha`. For the sake of this example, let's adjust the app theme to use `deepOrange` as the seed color in `lib/main.dart`:
+Now that we have our internal and stable releases on the Play Store, we can create a patch using `shorebird patch ios`. For the sake of this example, let's adjust the app theme to use `deepOrange` as the seed color in `lib/main.dart`:
 
 ```diff
 class MyApp extends StatelessWidget {
@@ -136,7 +136,7 @@ Typically `shorebird patch` should be used to fix critical bugs.
 Now that we've applied the changes, let's patch the `internal` variant:
 
 ```sh
-shorebird patch ios-alpha --flavor internal
+shorebird patch ios --flavor internal
 ```
 
 We can validate the patch by visiting [Shorebird console](https://console.shorebird.dev/) then select the internal release or re-launching the internal release.
@@ -154,7 +154,7 @@ If all went well, you should see the patch was applied after re-launching the ap
 Once you have validated the patch internally, you can promote the patch to the stable variant via:
 
 ```sh
-shorebird patch ios-alpha --flavor stable
+shorebird patch ios --flavor stable
 ```
 
 At this point, you have a setup which allows you to push patches to internal testers before promoting them to production 🎉

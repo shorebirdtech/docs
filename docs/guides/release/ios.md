@@ -55,11 +55,12 @@ Update the version in `pubspec.yaml` to `1.0.4+1`:
 
 ### Create a Shorebird release
 
-Create a Shorebird release by running the `shorebird release ios-alpha` command:
+Create a Shorebird release by running the `shorebird release ios` command:
 
 ```
-$ shorebird release ios-alpha
-[WARN] iOS support is in an alpha state. See https://docs.shorebird.dev/status#ios-alpha for more information.
+$ shorebird release ios
+[WARN] iOS support is beta. Some apps may run slower after patching.
+See https://docs.shorebird.dev/status for more information.
 ✓ Fetching apps (0.1s)
 ✓ Building release (56.2s)
 ✓ Getting release version (37ms)
@@ -88,7 +89,7 @@ To upload to the App Store, do one of the following:
 
 :::note
 
-If you perform your own codesigning and do not want Shorebird to codesign your app, you can pass the `--no-codesign` flag to the `shorebird release ios-alpha` command. Because only signed code can be run on iOS devices, **releases created this way will not be previewable using the `shorebird preview` command.** You can still download and run these releases through TestFlight.
+If you perform your own codesigning and do not want Shorebird to codesign your app, you can pass the `--no-codesign` flag to the `shorebird release ios` command. Because only signed code can be run on iOS devices, **releases created this way will not be previewable using the `shorebird preview` command.** You can still download and run these releases through TestFlight.
 
 :::
 
@@ -150,11 +151,12 @@ For the purposes of this guide, we will change the default clock face to `genera
 
 ### Create a Shorebird patch
 
-To make this patch available to your users, run `shorebird patch ios-alpha`.
+To make this patch available to your users, run `shorebird patch ios`.
 
 ```
-$ shorebird patch ios-alpha
-[WARN] iOS support is in an alpha state. See https://docs.shorebird.dev/status#ios-alpha for more information.
+$ shorebird patch ios
+[WARN] iOS support is beta. Some apps may run slower after patching.
+See https://docs.shorebird.dev/status for more information.
 ✓ Fetching apps (0.4s)
 ✓ Building release (61.5s)
 ✓ Detected release version 1.0.4+1 (44ms)

@@ -28,7 +28,7 @@ A release is a specific version of an [application](#application), identified by
 
 A release can have zero or more [patches](#patch) applied to it.
 
-Releases are created by running `shorebird release [platform]`, where `platform` is `android`, `aar`, or `ios-alpha`.
+Releases are created by running `shorebird release [platform]`, where `platform` is `android`, `aar`, or `ios`.
 
 ### Patch
 
@@ -36,7 +36,7 @@ A patch is a change to a specific [release](#release), applied as an over-the-ai
 
 When your application starts, it checks for available patches and applies the latest one. This patch will be visible the next time your application launches.
 
-Patches are created by running `shorebird patch [platform]`, where `platform` is `android`, `aar`, or `ios-alpha`.
+Patches are created by running `shorebird patch [platform]`, where `platform` is `android`, `aar`, or `ios`.
 
 ### Artifact
 

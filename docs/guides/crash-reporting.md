@@ -44,6 +44,8 @@ https://download.shorebird.dev/flutter_infra_release/flutter/974eae888fdedd890b7
 
 ## Symbols for Android
 
-Assuming engine hash `974eae888fdedd890b74c84e55a454bb7fcbd7de`, the Android symbols can be downloaded from the following URL:
+Assuming engine hash `974eae888fdedd890b74c84e55a454bb7fcbd7de`, the Android symbols can be downloaded from the following URLs:
 
-https://download.shorebird.dev/flutter_infra_release/flutter/974eae888fdedd890b74c84e55a454bb7fcbd7de/android-release/flutter-974eae888fdedd890b74c84e55a454bb7fcbd7de-symbols.zip
+https://download.shorebird.dev/flutter_infra_release/flutter/974eae888fdedd890b74c84e55a454bb7fcbd7de/android-arm64-release/symbols.zip
+https://download.shorebird.dev/flutter_infra_release/flutter/974eae888fdedd890b74c84e55a454bb7fcbd7de/android-arm-release/symbols.zip
+https://download.shorebird.dev/flutter_infra_release/flutter/974eae888fdedd890b74c84e55a454bb7fcbd7de/android-x64-release/symbols.zip

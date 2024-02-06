@@ -405,6 +405,15 @@ Someone who has your `app_id` can fetch the latest version of your app from
 Shorebird servers, but they cannot push updates to your app or access any
 other aspect of your Shorebird account.
 
+### Can I use Dart defines with Shorebird?
+
+Yes. The `shorebird` command line tool passes through all Dart defines to the
+`flutter` tool. For example,
+`shorebird release android -- --dart-define=MY_DEFINE=foo` and
+`shorebird release android -- --dart-define-from-file=config.json` will both
+work as expected. Because Dart defines are compiled into your app's Dart code,
+they can be updated via patches.
+
 ### What information is sent to Shorebird servers?
 
 Although Shorebird connects to the network, it does not send any personally

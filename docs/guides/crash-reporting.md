@@ -8,7 +8,7 @@ description: Use Shorebird with crash reporting tools
 
 # Integrating with Crash Reporting Tools
 
-Shorebird uses a fork of Flutter to build your app.  This means we've built
+Shorebird uses a fork of Flutter to build your app. This means we've built
 our own copy of Flutter's engine which means that the symbols included in
 the Flutter.framework or libflutter.so are slightly different from the
 upstream Flutter engine.
@@ -24,8 +24,9 @@ https://docs.flutter.dev/cookbook/maintenance/error-reporting
 # Getting Symbols for Shorebird's Flutter Fork
 
 For a given Flutter version you will need the Flutter engine hash
-to download the symbols.  This hash is displayed in `shorebird doctor`
+to download the symbols. This hash is displayed in `shorebird doctor`
 output:
+
 ```
 % shorebird doctor
 Shorebird 0.24.1 • git@github.com:shorebirdtech/shorebird.git

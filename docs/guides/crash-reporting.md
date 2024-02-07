@@ -1,5 +1,5 @@
 ---
-sidebar_position: 3
+sidebar_position: 6
 slug: crash-reporting
 title: Crash Reporting
 sidebar_label: 🚑 Crash Reporting

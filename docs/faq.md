@@ -7,17 +7,6 @@ description: Frequently asked questions.
 If you have questions not answered here, please ask! Both filing an issue
 or asking on [Discord](https://discord.gg/shorebird)) work.
 
-### What is "code push"?
-
-Code push, also referred to as "over the air updates" (OTA) is a cloud service
-enabling Flutter developers to deploy updates to their apps in production.
-Shorebird currently works on Android and iOS (alpha) and will eventually work
-everywhere Flutter works.
-
-"Code Push" is a reference to the name of a deploy feature used by the React
-Native community from [Microsoft](https://appcenter.ms) and
-[Expo](https://expo.dev), neither of which support Flutter.
-
 ### What is the difference between a patch and a release?
 
 We use the term "release" to mean preparing a binary for the app stores. In
@@ -270,22 +259,6 @@ Code push is a feature that allows you to change code on the device in
 production. We will use a variety of different techniques to make this possible
 depending on the platform. Current demos execute ahead-of-time compiled Dart
 code and do not require a JIT Dart compiler.
-
-### What types of changes does Shorebird code push support?
-
-Shorebird can change any Dart code in your application. This includes app code
-and generated code. You can also update dependencies in `pubspec.yaml` as long
-as they don't require native code changes.
-
-We have plans to support changing Flutter asset files (from pubspec.yaml) in the
-near future: https://github.com/shorebirdtech/shorebird/issues/318
-
-We do not have plans to support changing native code (e.g. Java/Kotlin on
-Android or Objective-C/Swift on iOS), and the tool will warn you if it detects
-that you have changed native code as it will not be included in the patch.
-
-Shorebird also cannot change your app's Flutter version in a patch, as the
-Flutter engine is native code.
 
 ### Does Shorebird support Flutter Web?
 

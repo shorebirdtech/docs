@@ -185,8 +185,9 @@ for you, please let us know!
 ### Does code push work with large applications?
 
 Yes. There is no limit on the size of the application that can be patched with
-code push. As noted [below](#what-types-of-changes-does-shorebird-code-push-support),
-Shorebird can change any Dart code in your application no matter of size.
+code push. As noted in
+[Concepts](concepts#what-types-of-changes-can-be-included-in-a-patch), Shorebird
+can change any Dart code in your application no matter of size.
 
 ### What can I use Shorebird code push for?
 

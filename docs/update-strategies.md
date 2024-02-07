@@ -83,7 +83,7 @@ Shorebird patches are typically much smaller than full app downloads (a few KB
 on Android, a few hundred KB on iOS), so it is likely better for your users if
 you can use Shorebird to deliver patches instead of `in_app_update`. However,
 there are [changes which Shorebird cannot
-make](faq#what-types-of-changes-does-shorebird-code-push-support), so
+make](concepts#what-types-of-changes-can-be-included-in-a-patch), so
 `in_app_update` may be the best solution in some cases.
 
 Shorebird "patches" also do not change the version number of your app, so

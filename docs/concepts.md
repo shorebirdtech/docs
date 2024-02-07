@@ -32,7 +32,7 @@ Patches can change any Dart code in your application. This includes:
 
 - App code
 - Generated code
-- Dependencies in `pubspec.yaml` as long as they don't require native code
+- Dependencies in `pubspec.yaml`, as long as they don't include native code
   changes.
 
 This does **not** include:

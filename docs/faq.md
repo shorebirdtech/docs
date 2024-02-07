@@ -284,6 +284,9 @@ We do not have plans to support changing native code (e.g. Java/Kotlin on
 Android or Objective-C/Swift on iOS), and the tool will warn you if it detects
 that you have changed native code as it will not be included in the patch.
 
+Shorebird also cannot change your app's Flutter version in a patch, as the
+Flutter engine is native code.
+
 ### Does Shorebird support Flutter Web?
 
 Code push isn't needed for Flutter web. When a user opens a web app it downloads

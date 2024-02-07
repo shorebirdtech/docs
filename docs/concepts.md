@@ -8,6 +8,40 @@ description: Concepts used in Shorebird's code push product
 
 An explanation of the concepts used in Shorebird's code push product.
 
+## Code Push
+
+Code push, also referred to as "over the air updates" (OTA) is a cloud service
+enabling Flutter developers to deploy updates to their apps in production.
+Shorebird currently works on Android and iOS (alpha) and will eventually work
+everywhere Flutter works.
+
+"Code Push" is a reference to the name of a deploy feature used by the React
+Native community from [Microsoft](https://appcenter.ms) and
+[Expo](https://expo.dev), neither of which support Flutter.
+
+## Patching
+
+Patching is the process of updating an application's code without requiring the
+user to download a new version from the App Store or Play Store. This is done by
+creating a patch, which is a set of changes to the application's code that can
+be applied over-the-air.
+
+### What types of changes can be included in a patch?
+
+Patches can change any Dart code in your application. This includes:
+
+- App code
+- Generated code
+- Dependencies in `pubspec.yaml`, as long as they don't include native code
+  changes.
+
+This does **not** include:
+
+- Asset files (images, fonts, etc.), although we have plans to support this in
+  the near future (see https://github.com/shorebirdtech/shorebird/issues/318).
+- Native code (e.g. Java/Kotlin on Android or Objective-C/Swift on iOS).
+- Flutter engine changes (i.e., changes the Flutter version of your app).
+
 ## Glossary
 
 ### Application

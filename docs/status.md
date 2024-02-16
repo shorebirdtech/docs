@@ -22,15 +22,15 @@ every day and we welcome your feedback. Filing
 Shorebird is currently Beta on iOS. Instructions for using Shorebird on
 iOS are available in the [Getting Started](/) guide.
 
-iOS is currently marked beta because some applications experiance a noticable
-slowdown after patching. We expect to have a solution to this problem in the next few months.
+iOS is currently marked beta because some applications experiance a
+slowdown after patching. We expect to resolve this after-patch-slowdown in the
+next few weeks and ship 1.0 at that time. [issue](https://github.com/shorebirdtech/shorebird/issues/674)
 
 ## Common Feature Requests
 
 - Patch signing (hashes are checked for download integrity) [issue](https://github.com/shorebirdtech/shorebird/issues/112)
 - Asset changes (images, icons, etc.) [issue](https://github.com/shorebirdtech/shorebird/issues/318)
-  [issue](https://github.com/shorebirdtech/shorebird/issues/1100)
-- Manual rollbacks (automatic single-device rollbacks on errors already work) ([issue](https://github.com/shorebirdtech/shorebird/issues/126))
+- Manual rollbacks (on-device rollback-on-launch-failure already exists) ([issue](https://github.com/shorebirdtech/shorebird/issues/126))
 - Staged rollout of patches (channels or percentage based) [issue](https://github.com/shorebirdtech/shorebird/issues/110)
 - Self-hosting or on-premises deployments [issue](https://github.com/shorebirdtech/shorebird/issues/485)
 - "Native code" changes (java, kotlin, etc.) -- not planned.

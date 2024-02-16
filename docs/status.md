@@ -22,7 +22,7 @@ every day and we welcome your feedback. Filing
 Shorebird is currently Beta on iOS. Instructions for using Shorebird on
 iOS are available in the [Getting Started](/) guide.
 
-iOS is currently marked beta because some applications experiance a
+iOS is currently marked beta because some applications experience a
 slowdown after patching. We expect to resolve this after-patch-slowdown in the
 next few weeks and ship 1.0 at that time. [issue](https://github.com/shorebirdtech/shorebird/issues/674)
 

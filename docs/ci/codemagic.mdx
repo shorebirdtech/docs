@@ -91,6 +91,10 @@ YAML documentation](https://docs.codemagic.io/yaml-basic-configuration/yaml-gett
 
 In the `codemagic.yaml` file, specify the `SHOREBIRD_TOKEN` under `environment`.
 
+:::note
+You need to specify the ios build machine in order to build ios releases and patches.
+:::
+
 <Tabs>
   <TabItem value="maclinux" label="Mac/Linux" default>
 
@@ -107,7 +111,19 @@ workflows:
         - shorebird
 ```
 
-2. Add a script to your workflow to set up Shorebird. This script will install
+2. If your target is `ios`, you need to specify the code signing mechanism. First you need to setup provisional profile and certificate for that. You may find the setup [here](https://docs.codemagic.io/yaml-code-signing/signing-ios/).
+
+```yaml
+workflows:
+  example:
+    name: Example
+    environment:
+      ios_signing:
+        distribution_type: ad_hoc #app_store # or | development | enterprise
+        bundle_identifier: your package name # for wildcard provisional profiles
+```
+
+3. Add a script to your workflow to set up Shorebird. This script will install
    Shorebird and add it to your PATH.
 
 ```yaml
@@ -121,7 +137,7 @@ scripts:
       echo PATH="$HOME/.shorebird/bin:$PATH" >> $CM_ENV
 ```
 
-3. Execute Shorebird commands in your workflow.
+4. Execute Shorebird commands in your workflow.
 
 ```yaml
 scripts:
@@ -138,8 +154,16 @@ workflows:
   example:
     name: Example
     environment:
+      # if target is ios use below signing configuration
+      ios_signing:
+       distribution_type: ad_hoc #app_store # or | development | enterprise
+       bundle_identifier: your package name # for wildcard provisional profiles
       groups:
         - shorebird
+      # if your target is ios add signing configuration
+      ios_signing:
+        distribution_type: ad_hoc #app_store # or: ad_hoc | development | enterprise
+        bundle_identifier: your package name # for wildcard provisional profiles
       flutter: stable
     scripts:
       - name: 🐦 Setup Shorebird
@@ -150,6 +174,7 @@ workflows:
           # Add Shorebird to PATH
           echo PATH="$HOME/.shorebird/bin:$PATH" >> $CM_ENV
       - name: 🚀 Shorebird Patch
+        # shorebird patch ios if ios
         script: shorebird patch android
 ```
 

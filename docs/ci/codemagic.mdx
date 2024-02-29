@@ -92,7 +92,17 @@ YAML documentation](https://docs.codemagic.io/yaml-basic-configuration/yaml-gett
 In the `codemagic.yaml` file, specify the `SHOREBIRD_TOKEN` under `environment`.
 
 :::note
-You need to specify the ios build machine in order to build ios releases and patches.
+Please use the ios build machine in order to build ios releases and patches.
+```yaml
+workflows:
+  example:
+    name: Example
+    instance_type: mac_mini_m1
+    environment:
+      groups:
+        # Exports the SHOREBIRD_TOKEN environment variable
+        - shorebird
+```
 :::
 
 <Tabs>
@@ -119,7 +129,7 @@ workflows:
     name: Example
     environment:
       ios_signing:
-        distribution_type: ad_hoc #app_store # or | development | enterprise
+        distribution_type: ad_hoc # or app_store | development | enterprise
         bundle_identifier: your package name # for wildcard provisional profiles
 ```
 
@@ -156,13 +166,13 @@ workflows:
     environment:
       # if target is ios use below signing configuration
       ios_signing:
-       distribution_type: ad_hoc #app_store # or | development | enterprise
+       distribution_type: ad_hoc # or app_store | development | enterprise
        bundle_identifier: your package name # for wildcard provisional profiles
       groups:
         - shorebird
       # if your target is ios add signing configuration
       ios_signing:
-        distribution_type: ad_hoc #app_store # or: ad_hoc | development | enterprise
+        distribution_type: ad_hoc # or app_store | development | enterprise
         bundle_identifier: your package name # for wildcard provisional profiles
       flutter: stable
     scripts:
@@ -174,7 +184,7 @@ workflows:
           # Add Shorebird to PATH
           echo PATH="$HOME/.shorebird/bin:$PATH" >> $CM_ENV
       - name: 🚀 Shorebird Patch
-        # shorebird patch ios if ios
+        #  'shorebird patch ios' if ios
         script: shorebird patch android
 ```
 

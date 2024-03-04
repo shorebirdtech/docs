@@ -29,6 +29,10 @@ After cancelling, your access (and updates for your users) will continue until t
 end of the current billing period. After this, Shorebird will not longer send updates
 to your apps, but your apps will continue function otherwise normally.
 
+## Deleting your account
+
+To delete your account, email us at contact@shorebird.dev. We'll be happy to help.
+
 ## Uninstalling Shorebird
 
 Building with `shorebird build` will include Shorebird code push in your app.

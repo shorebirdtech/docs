@@ -31,6 +31,16 @@ To list all Flutter versions Shorebird has published, use the
 ```
 $ shorebird flutter versions list
 📦 Flutter Versions
+✓ 3.19.2
+  3.19.1
+  3.19.0-0.4.pre
+  3.19.0
+  3.16.9
+  3.16.7
+  3.16.5
+  3.16.4
+  3.16.3
+  3.13.9
   3.13.8
   3.13.7
   3.13.6
@@ -40,8 +50,7 @@ $ shorebird flutter versions list
   3.13.2
   3.13.1
   3.13.0
-  3.10.7
-✓ 3.10.6
+  3.10.6
   3.10.5
   3.10.4
   3.10.3
@@ -79,7 +88,7 @@ At this time, not all functionality is supported for each Flutter version.
 
 Android requires Flutter 3.10.0 or later.
 
-package:shorebird_code_push requires Flutter 3.10.6 or later.
+`package:shorebird_code_push` requires Flutter 3.10.6 or later.
 
 iOS requires Flutter 3.16.9 or later.
 

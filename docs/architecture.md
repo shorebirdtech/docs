@@ -183,7 +183,7 @@ is a Rust library which we link into the engine. The way we do that is via
 a C-API on a static library (libupdater.a). The default flags for linking
 for the Flutter engine hide all symbols from linked static libraries. We
 need to be able to expose the shorebird\_\* symbols from libupdater.a up through
-FFI to the Dart code. We did that my making one change to buildroot and then
+FFI to the Dart code. We did that by making one change to buildroot and then
 a second change to the engine to place the symbols on the allow-list.
 
 https://github.com/flutter/buildroot/compare/3.16.9...shorebirdtech:buildroot:flutter_release/3.16.9

@@ -6,7 +6,7 @@ description: Status of the Shorebird project.
 
 ## Stable
 
-Shorebird is available on Android and iOS (alpha), with many apps shipping
+Shorebird is available on Android and iOS (beta), with many apps shipping
 to the Play Store and App Store.
 
 Our guiding principle has been "first, do no harm". It should be

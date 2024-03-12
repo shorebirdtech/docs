@@ -87,7 +87,7 @@ your account.
 
 Code push services are widely used in the industry (all of the large
 apps I'm aware of use them) and there are multiple other code push services
-publicly available (e.g. expo.dev & appcenter.ms). This is a well trodden path.
+publicly available (e.g. appcenter.ms). This is a well trodden path.
 
 Microsoft also publishes a guide on how their React Native "codepush" library
 complies with the app stores:

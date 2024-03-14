@@ -77,6 +77,13 @@ so in the event of a conflict between the docs here and the official docs, defer
 to the official docs.
 :::
 
+:::note
+`ShorebirdFlutter.xcframework` is nearly identically to `Flutter.xcframework`
+from Google, but as part of compliance with Apple's signing requirements, we've
+renamed the framework when applying Shorebird (legally Code Town, Inc's) digital
+signature.
+:::
+
 ### Add the path to your .xcframeworks to Framework Search Paths
 
 In Xcode:

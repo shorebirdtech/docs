@@ -34,9 +34,40 @@ First, run `shorebird init` in your Flutter module:
 shorebird init
 ```
 
+## Create a Shorebird release
+
+First, we need to package our Flutter module for release. This will produce an
+.xcframework that we can embed in our iOS app and provide Shorebird with the
+information it needs to apply patches.
+
+To create a release, run the following the root directory of your Flutter module:
+
+```
+shorebird release ios-framework --release-version 1.2.3+4
+```
+
+The `release-version` parameter needs to match the version of the iOS app
+that uses this module (i.e., `version+build` from the Xcode settings, or
+`CFBundleShortVersionString+CFBundleVersion` from your app's Info.plist).
+
+![Xcode build version](https://github.com/shorebirdtech/shorebird/assets/581764/314289ed-b3bd-46fa-b49a-cea7d482d831)
+
+_The version number for this app would be 1.2.3+4_
+
+The `ShorebirdFlutter.xcframework` and `App.xcframework` artifacts produced by
+the `shorebird release` command will be placed in the `release` directory in the
+root of your Flutter module.
+
+:::note
+Because Shorebird only works with release builds, this will only produce a
+release version of your archive. This is similar to running
+`flutter build ios-framework --no-debug --no-profile`.
+:::
+
 ## Embed the Flutter module in your iOS app
 
-Shorebird requires that your Flutter module be embedded in your iOS app as an
+While there are multiple ways to embed a Flutter module in an iOS app, Shorebird
+requires that your Flutter module be embedded in your iOS app as an
 .xcframework.
 
 :::info
@@ -46,56 +77,50 @@ so in the event of a conflict between the docs here and the official docs, defer
 to the official docs.
 :::
 
+:::note
+`ShorebirdFlutter.xcframework` is nearly identically to `Flutter.xcframework`
+from Google, but as part of compliance with Apple's signing requirements, we've
+renamed the framework when applying Shorebird (legally Code Town, Inc's) digital
+signature.
+:::
+
 ### Add the path to your .xcframeworks to Framework Search Paths
 
-In your app target's build settings in Xcode, add the path to your Flutter
-module's Release `.xcframeworks` directory to Framework Search Paths. The value
-you use for this path will be the path to the `Release` directory and will be
-relative to your app's `.xcodeproj` file.
+In Xcode:
 
-![Xcode framework search paths](https://github.com/shorebirdtech/shorebird/assets/581764/afb7d716-6936-4d62-8307-cf1355aa12e0)
+1. Navigate to your app target's "Build Settings" tab.
+2. Find the "Framework Search Paths" setting (the Filter field on the top right
+   of the build settings tab is helpful for this).
+3. Add an entry to the "Framework Search Paths" list. This entry should be the
+   relative path to the directory containing `ShorebirdFlutter.xcframework` and
+   `App.xcframework` artifacts. By default, these artifacts are placed in the
+   `release` directory in the root of your Flutter module, but you should feel
+   free to move them elsewhere if you prefer.
+
+![Xcode framework search paths](https://github.com/shorebirdtech/shorebird/assets/581764/50f92f9c-4bf6-49ce-a4e7-664b8bf8283a)
 
 ### Embed App.xcframework and Flutter.xcframework in your app
 
-In the Build Phases tab of your app target, add the `App.xcframework` and
-`Flutter.xcframework` from your Flutter module to the "Embed Frameworks" build
-phase:
+In the "General" tab of your app target, add `App.xcframework` and
+`ShorebirdFlutter.xcframework` from to the "Frameworks, Libraries, and Embedded
+Content" section. Make sure to select "Embed & Sign" for both frameworks.
 
-![Xcode embed frameworks](https://github.com/shorebirdtech/shorebird/assets/581764/39ccbe94-6f66-45da-b8f1-345df929d80c)
-
-### Ensure the frameworks are signed as part of the build process
-
-In the General tab of your app target, ensure that the frameworks have the
-"Embed and Sign" option selected:
-
-![Xcode embed and sign](https://github.com/shorebirdtech/shorebird/assets/581764/5c3dbc9b-0301-4703-968c-cc84304f206b)
-
-## Create a Shorebird release
-
-Create a Shorebird release for your Flutter module:
-
-```
-shorebird release ios-framework --release-version 1.2.3+1
-```
-
-The `release-version` parameter needs to match the version of the iOS app
-that uses this module (i.e., `version+build` from the Xcode settings, or
-`CFBundleShortVersionString+CFBundleVersion` from your app's Info.plist).
-
-![Xcode build version](https://github.com/shorebirdtech/shorebird/assets/581764/b716fe38-1cd0-46b2-bf80-c29241e433a1)
-
-_The version number for this app would be 1.0.0+3_
+![Xcode embed frameworks](https://github.com/shorebirdtech/shorebird/assets/581764/fe5911bd-046b-47f9-a4d8-d8548e651bd6)
 
 :::note
-Because Shorebird only works with release builds, this will only produce a
-release version of your archive. This is similar to running
-`flutter build ios-framework --no-debug --no-profile`.
+You may also see that `ShorebirdFlutter.xcframework` is signed by Code Town Inc.
+That's us 🙂
 :::
 
 ## Verify that your app runs
 
-In Xcode, update the current scheme's build configuration to "Release" and run
-your app. Your app should work as before with no differences.
+In Xcode, update the current scheme's build configuration to "Release"
+
+![Xcode edit schemes](https://github.com/shorebirdtech/shorebird/assets/581764/cf32be57-c49e-4ff6-aca2-8be06b44f2f9)
+![Xcode release scheme](https://github.com/shorebirdtech/shorebird/assets/581764/92417ee8-dc66-4cbb-99e7-d940165e4caf)
+
+Now run your app on a device (_not_ a simulator). Your app should run as normal,
+and you should see debug logs from Shorebird.
 
 ## Submit your app to the App Store
 
@@ -103,21 +128,32 @@ We won't cover this step in detail here, but this is where you would submit your
 app to the App Store. For code push to work, it is important that you submit
 _with the same `xcframework` generated by the release command above_.
 
+You can skip this step if you just want to see Code Push working in an app.
+
 ## Verify that Shorebird is working with a patch
 
-Make an edit to the code in your Flutter module. Then run:
+Make a user-visible change to the code in your Flutter module. Then run:
 
 ```
-shorebird patch ios-framework --release-version 1.2.3+1
+shorebird patch ios-framework --release-version 1.2.3+4
 ```
 
-:::note
-`patch` will overwrite the `xcframework` generated by `release`, meaning that
-you will see a "hash mismatch" error if you run the app from Xcode.
-:::
+`release-version` should be the version of the iOS app you released with the
+output of the `release` command. As before, this should match your app's version
+and build numbers in Xcode. The command above will patch the release we created
+earlier in this guide.
 
-As with the `release` command, the release version should be the version of the
-iOS app that uses this module.
+You can now test the patch in your app by running the app from Xcode. After
+the app launches, you should see a logs from Shorebird informing you that the
+app is checking for new patches and saying that the patch was installed:
 
-Now run the app directly from the a device (_not_ launched from Xcode), navigate
-to the Flutter screen, and verify that the patch is recognized and applied.
+```
+Sending patch check request: PatchCheckRequest { app_id: "db32f785-284a-429b-9348-d3ead3485438", channel: "stable", release_version: "1.2.3+4", patch_number: None, platform: "ios", arch: "aarch64" }
+
+/// other logs
+
+Patch 1 successfully installed.
+```
+
+For the app to reflect the changes, you will need to close and reopen the app.
+Do this by stopping the app in Xcode and then running it again.

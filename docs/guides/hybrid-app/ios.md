@@ -125,7 +125,7 @@ You can skip this step if you just want to see Code Push working in an app.
 
 ## Verify that Shorebird is working with a patch
 
-Make an user-visible change to the code in your Flutter module. Then run:
+Make a user-visible change to the code in your Flutter module. Then run:
 
 ```
 shorebird patch ios-framework --release-version 1.2.3+4

@@ -198,6 +198,12 @@ This can be caused by a number of things. The most common causes are:
    happen if the dependency it includes a timestamp indicating when it was
    built, for example. This kind of change is usually safe to publish, but you
    should be sure this is the only reason you are seeing this warning.
+3. (iOS only) The release was built with a different version of Xcode than the
+   patch. This can be fixed by ensuring that you are using the same
+   version of Xcode to build the release and the patch. If you've upgraded to a
+   newer version of Xcode since building the release, you can download older
+   versions of Xcode from
+   [Apple's developer downloads page](https://developer.apple.com/download/all/).
 
 If you are confident that the changes are safe, you can ignore this warning by
 passing the `--force` flag to `shorebird patch`.

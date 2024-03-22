@@ -68,7 +68,7 @@ The current Flutter version used by your Shorebird CLI installation will be mark
 Another way to see the current Flutter version is by running `shorebird --version`.
 :::
 
-## Switch Flutter Versions
+## Use a Different Flutter Versions
 
 By default, Shorebird will use the latest stable version of Flutter. If you need
 to create a release with a different version of Flutter, you can use the

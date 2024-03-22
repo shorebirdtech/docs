@@ -30,8 +30,8 @@ To list all Flutter versions Shorebird has published, use the
 
 ```
 $ shorebird flutter versions list
-📦 Flutter Versions
-✓ 3.19.2
+✓ 3.19.3
+  3.19.2
   3.19.1
   3.19.0-0.4.pre
   3.19.0
@@ -57,6 +57,7 @@ $ shorebird flutter versions list
   3.10.2
   3.10.1
   3.10.0
+
 ```
 
 :::note
@@ -67,20 +68,18 @@ The current Flutter version used by your Shorebird CLI installation will be mark
 Another way to see the current Flutter version is by running `shorebird --version`.
 :::
 
-## Switch Flutter Versions
+## Use a Different Flutter Versions
 
-To switch to a different Flutter version, use the
-`shorebird flutter versions use <version>` command:
+By default, Shorebird will use the latest stable version of Flutter. If you need
+to create a release with a different version of Flutter, you can use the
+`--flutter-version` option with the `shorebird release` command:
 
+```bash
+$ shorebird release android --flutter-version=3.10.6
 ```
-$ shorebird flutter versions use 3.10.3
-✓ Fetching Flutter versions (21ms)
-✓ Installing Flutter 3.10.3 (11ms)
-```
 
-This will install and cache the corresponding revision of Flutter on your
-machine and switch to using that version as the default for all subsequent
-`shorebird` commands.
+Any patches created with this release will be built with the version of Flutter
+used by the release.
 
 ## Supported Feature Matrix
 

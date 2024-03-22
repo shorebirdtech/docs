@@ -136,18 +136,6 @@ jobs:
 ```
 
 :::tip
-The `setup-shorebird` action also supports specifying a Flutter version:
-
-```yaml
-- name: 🐦 Setup Shorebird
-  uses: shorebirdtech/setup-shorebird@v0
-  with:
-    flutter-version: 3.10.6
-```
-
-:::
-
-:::tip
 The `shorebird-release` action also outputs the release version:
 
 ```yaml

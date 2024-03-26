@@ -44,6 +44,21 @@ Sending patch check request: PatchCheckRequest {
 
 Only patches created for this release version will be compatible with your app.
 
+### The build uploaded to the Play Store/App Store is not the build Shorebird is using for patches.
+
+If you uploaded an .aab or .xcarchive created using `shorebird build` or
+`shorebird patch`, it will not be patchable. You **must** upload the build
+created by `shorebird release`.
+
+#### How to tell if this is the problem
+
+You see `Update rejected: hash mismatch` in your device logs. Note: this is not
+the only thing that can cause a hash mismatch error.
+
+#### How to fix it.
+
+Unfortunately, you will need to create a new release using `shorebird release`.
+
 ### The app you're running on your device/emulator was not built using one of the `shorebird release` commands.
 
 #### How to tell if this is the problem

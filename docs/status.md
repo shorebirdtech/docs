@@ -6,34 +6,33 @@ description: Status of the Shorebird project.
 
 ## Stable
 
-Shorebird is available on Android and iOS (alpha), with many apps shipping
-to the Play Store and App Store.
+Shorebird is available on Android and iOS, with 1000s of apps shipping with
+Shorebird on the App Store and Play Store.
 
-Our guiding principle has been "first, do no harm". It should be
-the case that using Shorebird is never worse than not using Shorebird.
+## Link Percentage (iOS)
 
-We're working closely with our early customers and we would love to hear from
-you. Shorebird operates publicly on [Discord](https://discord.gg/shorebird)
-every day and we welcome your feedback. Filing
-[issues](https://github.com/shorebirdtech/shorebird/issues) works well too.
+As part of complying with the the App Store guidelines, Shorebird uses a
+interpreter on iOS to run any changed Dart code in your patch. This interpreter
+is about 100x slower than running on the CPU. To make patches run fast,
+Shorebird has modified Dart to make it possible to _only_ run changed code on
+the interpreter and run any unchanged code on the CPU.
 
-## iOS Beta
+Most of the time this works very well, and we're able to run 99% of code on the
+CPU. However there are still a few types of changes which can confuse our
+build system and cause more code to run on the interpreter than necessary.
 
-Shorebird is currently Beta on iOS. Instructions for using Shorebird on
-iOS are available in the [Getting Started](/) guide.
+The program that decides which code runs on the CPU vs the interpreter is called
+the "linker" and we call this percentage the "link percentage".
 
-iOS is currently marked beta because some applications experience a
-slowdown after patching. We expect to resolve this after-patch-slowdown in the
-next few weeks and ship 1.0 at that time. [issue](https://github.com/shorebirdtech/shorebird/issues/674)
+Any percentage below 50% might cause your app to run slower than normal, which
+is why you saw a warning and followed to this link.
 
-## Common Feature Requests
+Known linker issues include:
 
-- Patch signing (hashes are checked for download integrity) [issue](https://github.com/shorebirdtech/shorebird/issues/112)
-- Asset changes (images, icons, etc.) [issue](https://github.com/shorebirdtech/shorebird/issues/318)
-- Manual rollbacks (on-device rollback-on-launch-failure already exists) ([issue](https://github.com/shorebirdtech/shorebird/issues/126))
-- Staged rollout of patches (channels or percentage based) [issue](https://github.com/shorebirdtech/shorebird/issues/110)
-- Self-hosting or on-premises deployments [issue](https://github.com/shorebirdtech/shorebird/issues/485)
-- "Native code" changes (java, kotlin, etc.) -- not planned.
+- [Adding or removing a class can affect link percentage](https://github.com/shorebirdtech/shorebird/issues/1825)
 
-If these, or anything else is blocking your use of Shorebird, please let us know!
+If your app has reported an unexpectedly low link percentage, please let us
+know, we'd love to help. You can report an issue here:
 https://github.com/shorebirdtech/shorebird/issues
+Or reach us via Discord:
+https://discord.gg/shorebird.

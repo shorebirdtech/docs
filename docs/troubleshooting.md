@@ -10,24 +10,11 @@ Find help for issues with Shorebird.
 
 ## I created a patch, but it's not showing up in my app
 
-There are several reasons this might be happening. Common causes are:
+There are several reasons this might be happening. Start by running your release
+on a device or Android emulator using the `shorebird preview` command to see the
+log output.
 
-### The app you're running on your device/emulator was not built using one of the `shorebird release` commands.
-
-#### How to tell if this is the problem
-
-You can check this by checking your device logs for output from Shorebird. If
-you don't see anything like `Starting Shorebird update` or `Sending patch check
-request`, you are not running a Shorebird-built app.
-
-To check your device logs, run `adb logcat` in your terminal. You can filter the
-output to only show Flutter logs by running `adb logcat | grep flutter`.
-
-#### How to fix it
-
-Create a release using `shorebird release android --artifact=apk` commands and
-install the apk produced by that command on your device/emulator. When running
-this apk, you should see Shorebird logs in your device logs.
+Common causes of this problem are:
 
 ### The patch was created for a different release version than the one running on your device/emulator.
 
@@ -56,6 +43,39 @@ Sending patch check request: PatchCheckRequest {
 ```
 
 Only patches created for this release version will be compatible with your app.
+
+### The build uploaded to the Play Store/App Store is not the build Shorebird is using for patches.
+
+If you uploaded an .aab or .xcarchive created using `shorebird build` or
+`shorebird patch`, it will not be patchable. You **must** upload the build
+created by `shorebird release`.
+
+#### How to tell if this is the problem
+
+You see `Update rejected: hash mismatch` in your device logs. Note: this is not
+the only thing that can cause a hash mismatch error.
+
+#### How to fix it.
+
+Unfortunately, you will need to create a new release using `shorebird release`.
+
+### The app you're running on your device/emulator was not built using one of the `shorebird release` commands.
+
+#### How to tell if this is the problem
+
+If you are running your app using `shorebird preview`, this is not the problem.
+
+If you have installed the app on your device/emulator a different way, check
+your device logs for output from Shorebird. If you don't see anything like
+`Starting Shorebird update` or `Sending patch check request`, you are not
+running a Shorebird-built app.
+
+To check your Android device logs, run `adb logcat` in your terminal. You can
+filter the output to only show Flutter logs by running `adb logcat | grep flutter`.
+
+#### How to fix it
+
+Use `shorebird preview`.
 
 ## I installed Shorebird, and now I can't run my app in VS Code
 
@@ -198,6 +218,12 @@ This can be caused by a number of things. The most common causes are:
    happen if the dependency it includes a timestamp indicating when it was
    built, for example. This kind of change is usually safe to publish, but you
    should be sure this is the only reason you are seeing this warning.
+3. (iOS only) The release was built with a different version of Xcode than the
+   patch. This can be fixed by ensuring that you are using the same
+   version of Xcode to build the release and the patch. If you've upgraded to a
+   newer version of Xcode since building the release, you can download older
+   versions of Xcode from
+   [Apple's developer downloads page](https://developer.apple.com/download/all/).
 
 If you are confident that the changes are safe, you can ignore this warning by
 passing the `--force` flag to `shorebird patch`.

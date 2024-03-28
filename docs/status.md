@@ -28,6 +28,7 @@ Any percentage below 50% might cause your app to run slower than normal, which
 is why you saw a warning and followed to this link.
 
 Known linker issues include:
+
 - [Adding or removing a class can affect link percentage](https://github.com/shorebirdtech/shorebird/issues/1825)
 
 If your app has reported an unexpectedly low link percentage, please let us

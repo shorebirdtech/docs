@@ -8,20 +8,33 @@ description: Use Shorebird with crash reporting tools
 
 # Integrating with Crash Reporting Tools
 
-Shorebird uses a fork of Flutter to build your app. This means we've built
-our own copy of Flutter's engine which means that the symbols included in
-the Flutter.framework or libflutter.so are slightly different from the
-upstream Flutter engine.
+Shorebird uses a fork of Flutter to build your app. This means we've built our
+own copy of Flutter's engine which means that the symbols included in the
+Flutter.framework or libflutter.so are slightly different from the upstream
+Flutter engine.
 
-If you would like to see C++ symbols from our fork of Flutter's engine in your crash reports, you will need to
-upload the symbols to your crash reporting tool.
+If you would like to see C++ symbols from our fork of Flutter's engine in your
+crash reports, you will need to upload the symbols to your crash reporting tool.
 
-Google provides instructions for how to integrate various crash reporting
-tools into your Flutter app:
+Google provides instructions for how to integrate various crash reporting tools
+into your Flutter app:
 
 https://docs.flutter.dev/cookbook/maintenance/error-reporting
 
-# Getting Symbols for Shorebird's Flutter Fork
+# Getting Symbols from the Console
+
+Shorebird's console provides links to download the symbols for both for your
+built app and the Flutter engine in the "Artifacts" tab of the release page.
+
+The current URL format for the console has this tab under:
+```
+https://console.shorebird.dev/apps/<app-id>/releases/<release-id>
+```
+
+# Manual instructions (only needed for CI or scripts)
+
+If you need a way to download symbols as part of a CI pipeline it's possible
+with the following information:
 
 For a given Flutter version you will need the Flutter engine hash
 to download the symbols. This hash is displayed in `shorebird doctor`
@@ -39,13 +52,15 @@ engine hash.
 
 ## Symbols for iOS
 
-Assuming engine hash `974eae888fdedd890b74c84e55a454bb7fcbd7de`, the iOS symbols can be downloaded from the following URL:
+Assuming engine hash `974eae888fdedd890b74c84e55a454bb7fcbd7de`, the iOS symbols
+can be downloaded from the following URL:
 
 https://download.shorebird.dev/flutter_infra_release/flutter/974eae888fdedd890b74c84e55a454bb7fcbd7de/ios-release/Flutter.dSYM.zip
 
 ## Symbols for Android
 
-Assuming engine hash `974eae888fdedd890b74c84e55a454bb7fcbd7de`, the Android symbols can be downloaded from the following URLs:
+Assuming engine hash `974eae888fdedd890b74c84e55a454bb7fcbd7de`, the Android
+symbols can be downloaded from the following URLs:
 
 https://download.shorebird.dev/flutter_infra_release/flutter/974eae888fdedd890b74c84e55a454bb7fcbd7de/android-arm64-release/symbols.zip
 https://download.shorebird.dev/flutter_infra_release/flutter/974eae888fdedd890b74c84e55a454bb7fcbd7de/android-arm-release/symbols.zip

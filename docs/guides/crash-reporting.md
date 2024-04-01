@@ -27,6 +27,7 @@ Shorebird's console provides links to download the symbols for both for your
 built app and the Flutter engine in the "Artifacts" tab of the release page.
 
 The current URL format for the console has this tab under:
+
 ```
 https://console.shorebird.dev/apps/<app-id>/releases/<release-id>
 ```

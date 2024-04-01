@@ -37,15 +37,15 @@ https://github.com/shorebirdtech/shorebird/issues
 Or reach us via Discord: https://discord.gg/shorebird.
 
 :::info
-Link percentage is not itself a great measure of performance.  We've seen apps
+Link percentage is not itself a great measure of performance. We've seen apps
 link only 30% and run smoothly, and other apps link 99.5% and struggle to run
-at 30fps.  What matters is that the hot code paths in your app end up on the
-CPU.  Most of the time, all the hot code paths in your app are the ones deep
+at 30fps. What matters is that the hot code paths in your app end up on the
+CPU. Most of the time, all the hot code paths in your app are the ones deep
 inside Flutter's framework (which very few apps ever change), and those end up
-on the CPU.  However if your app does a lot of intensive computation in Dart,
+on the CPU. However if your app does a lot of intensive computation in Dart,
 you may notice a slowdown in your app if you change those functions in a patch.
 
 Regardless, if you ever see slowdowns when patching your app, please
-let us know.  There are many ways we can continue to improve Shorebird's
+let us know. There are many ways we can continue to improve Shorebird's
 update system to run patches without any performance impact.
 :::

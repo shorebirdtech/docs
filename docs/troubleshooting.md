@@ -224,6 +224,9 @@ This can be caused by a number of things. The most common causes are:
    newer version of Xcode since building the release, you can download older
    versions of Xcode from
    [Apple's developer downloads page](https://developer.apple.com/download/all/).
+4. (iOS only) You are building with an old version of Xcode. Specifically, we've
+   seen this warning when building with Xcode 14.1. If you are using a version
+   of Xcode that is not the latest, try upgrading to the latest version.
 
 If you are confident that the changes are safe, you can ignore this warning by
 passing the `--force` flag to `shorebird patch`.

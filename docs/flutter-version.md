@@ -83,6 +83,11 @@ $ shorebird release android --flutter-version=3.10.6
 Any patches created with this release will be built with the version of Flutter
 used by the release.
 
+:::note
+Only the release command supports the `--flutter-version` option. Patches will
+always be built with the version of Flutter used by the release.
+:::
+
 ## Supported Feature Matrix
 
 At this time, not all functionality is supported for each Flutter version.

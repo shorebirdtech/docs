@@ -11,7 +11,8 @@ import TabItem from '@theme/TabItem';
 
 This guide shows you the fastest way to install Shorebird and try code push.
 
-This document is a (slightly) condensed version of our [code push](../code-push/) docs, all on one page.
+This document is a (slightly) condensed version of our [code
+push](../code-push/) docs, all on one page.
 
 ## Sign up
 
@@ -19,9 +20,12 @@ Before you can create a Shorebird app, you will need to sign up for Shorebird.
 
 ### Create an account
 
-To create an account, head over to the [Shorebird Console](https://console.shorebird.dev) and authenticate with your Google account.
+To create an account, head over to the [Shorebird
+Console](https://console.shorebird.dev) and authenticate with your Google or
+Microsoft account.
 
-Once you have logged into the console, follow the instructions to install the Shorebird CLI on your machine.
+Once you have logged into the console, follow the instructions to install the
+Shorebird CLI on your machine.
 
 ## Create the app
 
@@ -55,9 +59,10 @@ contains your Shorebird `app_id`.
 This will also run `shorebird doctor` to ensure everything is set up correctly.
 
 :::info
-Shorebird expects to find the latest stable `flutter` installed on your machine.
-Shorebird can be configured to work with older versions of Flutter (back to 3.10.0).
-See (Flutter Version Management)[/flutter-version] for more info.
+Shorebird expects to find the latest stable `flutter` installed on your
+machine. Shorebird can be configured to work with older versions of Flutter
+(back to 3.10.0). See [Flutter Version Management](/flutter-version) for more
+info.
 :::
 
 ### Create a release
@@ -74,7 +79,7 @@ shorebird release android
 
 </TabItem>
 
-<TabItem value="ios" label="iOS (beta)">
+<TabItem value="ios" label="iOS">
 
 ```sh
 shorebird release ios
@@ -88,8 +93,8 @@ asked if you would like to continue.
 
 ### Preview the release
 
-To preview the release with Shorebird (that is, with [Shorebird's fork of the Flutter
-engine](/faq#how-does-shorebird-relate-to-flutter)), run:
+To preview the release with Shorebird (that is, with [Shorebird's fork of the
+Flutter engine](/faq#how-does-shorebird-relate-to-flutter)), run:
 
 ```sh
 shorebird preview
@@ -142,7 +147,7 @@ shorebird patch android
 
 </TabItem>
 
-<TabItem value="ios" label="iOS (beta)">
+<TabItem value="ios" label="iOS">
 
 ```sh
 shorebird patch ios
@@ -151,9 +156,6 @@ shorebird patch ios
 </TabItem>
 
 </Tabs>
-
-When prompted, use the suggested release version (`1.0.0+1`), and enter `y` when
-asked if you'd like to continue.
 
 ### See the patch in action
 

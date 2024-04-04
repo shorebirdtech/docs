@@ -13,31 +13,19 @@ import TabItem from '@theme/TabItem';
 
 In order to start pushing updates, you will need to create a release.
 
-<Tabs>
-
-<TabItem value="release-android" label="Android">
-
-`shorebird release android`
-
-</TabItem>
-
-<TabItem value="release-ios" label="iOS (beta)">
-
-`shorebird release ios`
-
-</TabItem>
-
-</Tabs>
-
 Creating a release builds and submits your app to Shorebird. Shorebird saves the
 compiled Dart code from your application in order to make updates smaller in
 size.
 
-Example output:
-
 <Tabs>
 
-<TabItem value="release-output-android" label="Android">
+<TabItem value="release-android" label="Android">
+
+Create an Android release by running the following command:
+
+`shorebird release android`
+
+Example output:
 
 ```
 $ shorebird release android
@@ -67,9 +55,37 @@ See the following link for more information:
 https://support.google.com/googleplay/android-developer/answer/9859152?hl=en
 ```
 
+If your application supports flavors or multiple release targets, you can specify the flavor and target using the `--flavor` and `--target` options:
+
+```bash
+shorebird release android --target ./lib/main_development.dart --flavor development
+```
+
+:::info
+`shorebird release` wraps `flutter build` and can take any argument
+`flutter build` can. To pass arguments to the underlying `flutter build` you
+need to put `flutter build` arguments after a `--` separator. For example:
+`shorebird release android -- --dart-define="foo=bar"` will define the `"foo"` environment
+variable inside Dart as you might have done with `flutter build` directly.
+:::
+
+By default, `shorebird release android` builds an AppBundle (`.aab`).
+If you would like to _also_ generate an Android Package Kit (`.apk`), use the
+following command:
+
+```bash
+shorebird release android --artifact apk
+```
+
 </TabItem>
 
-<TabItem value="release-output-ios" label="iOS (beta)">
+<TabItem value="release-output-ios" label="iOS">
+
+Create an iOS release by running the following command:
+
+`shorebird release ios`
+
+Example output:
 
 ```
 $ shorebird release ios
@@ -99,14 +115,10 @@ To upload to the App Store either:
        See "man altool" for details about how to authenticate with the App Store Connect API key.
 ```
 
-</TabItem>
-
-</Tabs>
-
 If your application supports flavors or multiple release targets, you can specify the flavor and target using the `--flavor` and `--target` options:
 
-```
-shorebird release --target ./lib/main_development.dart --flavor development
+```bash
+shorebird release ios --target ./lib/main_development.dart --flavor development
 ```
 
 :::info
@@ -117,28 +129,9 @@ need to put `flutter build` arguments after a `--` separator. For example:
 variable inside Dart as you might have done with `flutter build` directly.
 :::
 
-By default, `shorebird release android` builds an AppBundle (`.aab`).
-If you would like to _also_ generate an Android Package Kit (`.apk`), use the
-following command:
+</TabItem>
 
-```
-shorebird release android --artifact apk
-```
-
-:::tip
-If you would like to disable prompts and publish a release without confirmation, you can use the `--force` flag. This is especially useful when using `shorebird release android` in a CI environment.
-
-```
-shorebird release android --force
-```
-
-or
-
-```
-shorebird release ios --force
-```
-
-:::
+</Tabs>
 
 ## Manage Releases
 
@@ -155,22 +148,7 @@ and is **not reversible**.
 :::
 
 You can delete a release for your current app (as defined by your
-shorebird.yaml) using `shorebird releases delete`.
-
-Example output:
-
-```
-$ shorebird releases delete --version 1.0.3+1
-✓ Fetched releases. (54ms)
-Are you sure you want to delete release 1.0.3+1? (y/N) Yes
-✓ Deleted release 1.0.3+1. (0.3s)
-```
-
-If your application supports flavors, you can specify the flavor using the `--flavor` option:
-
-```
-shorebird releases delete --flavor development
-```
+shorebird.yaml) on the [Shorebird console](https://console.shorebird.dev/).
 
 ## 📲 Side-loading and MDM
 

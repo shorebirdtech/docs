@@ -59,8 +59,6 @@ Create a Shorebird release by running the `shorebird release ios` command:
 
 ```
 $ shorebird release ios
-[WARN] iOS support is beta. Some apps may run slower after patching.
-See https://docs.shorebird.dev/status for more information.
 ✓ Fetching apps (0.1s)
 ✓ Building release (56.2s)
 ✓ Getting release version (37ms)
@@ -155,8 +153,6 @@ To make this patch available to your users, run `shorebird patch ios`.
 
 ```
 $ shorebird patch ios
-[WARN] iOS support is beta. Some apps may run slower after patching.
-See https://docs.shorebird.dev/status for more information.
 ✓ Fetching apps (0.4s)
 ✓ Building release (61.5s)
 ✓ Detected release version 1.0.4+1 (44ms)

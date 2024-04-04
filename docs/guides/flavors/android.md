@@ -174,7 +174,7 @@ shorebird patch android --flavor internal
 We can validate the patch by visiting [Shorebird console](https://console.shorebird.dev/) then select the internal release or re-launching the internal release.
 
 :::note
-If you are testing locally, you don't need to re-run `shorebird preview` -- just re-launch the app from the device or emulator directly.
+If you are testing locally, you don't need to re-run `shorebird preview` – just re-launch the app from the device or emulator directly.
 :::
 
 The first time the app is re-launched, we should still see the purple theme and shorebird will detect and install the patch in the background. Kill and re-launch the app a second time to see the applied patch.

@@ -88,7 +88,8 @@ In addition to previewing the releases locally, you should also [submit the gene
 
 - The `internal` variant should only be used for internal testing/validation.
 - The `stable` variant should be shipped to end users in production.
-  :::
+
+:::
 
 ## Creating a patch
 
@@ -128,10 +129,6 @@ class MyApp extends StatelessWidget {
   }
 }
 ```
-
-:::info
-Typically `shorebird patch` should be used to fix critical bugs.
-:::
 
 Now that we've applied the changes, let's patch the `internal` variant:
 

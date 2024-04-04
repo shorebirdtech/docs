@@ -39,7 +39,7 @@ jobs:
     steps:
       # Use the setup-shorebird action to configure Shorebird
       - name: 🐦 Setup Shorebird
-        uses: shorebirdtech/setup-shorebird@v0
+        uses: shorebirdtech/setup-shorebird@v1
 
       # Now we're able to use Shorebird CLI in our workflow
       - name: 🚀 Use Shorebird
@@ -129,7 +129,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: 🐦 Setup Shorebird
-        uses: shorebirdtech/setup-shorebird@v0
+        uses: shorebirdtech/setup-shorebird@v1
 
       - name: 🚀 Shorebird Release
         uses: shorebirdtech/shorebird-release@v0
@@ -173,7 +173,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: 🐦 Setup Shorebird
-        uses: shorebirdtech/setup-shorebird@v0
+        uses: shorebirdtech/setup-shorebird@v1
 
       # Note: all signing information (key.properties, etc.) must be set up on
       # this runner for `shorebird patch android` to work.

@@ -30,7 +30,9 @@ To list all Flutter versions Shorebird has published, use the
 
 ```
 $ shorebird flutter versions list
-✓ 3.19.3
+✓ 3.19.5
+  3.19.4
+  3.19.3
   3.19.2
   3.19.1
   3.19.0-0.4.pre

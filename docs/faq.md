@@ -162,7 +162,7 @@ See also our privacy policy: https://shorebird.dev/privacy
 ### Can I use Shorebird from my CI system?
 
 Yes. Shorebird is intended to be used from CI systems. We've published a
-guide for [Github Actions](ci/github.md), other CI systems should be similar.
+guide for [Github Actions](ci/github.mdx), other CI systems should be similar.
 
 Please don't hesitate to reach out over GitHub issues or Discord if you
 encounter any issues.

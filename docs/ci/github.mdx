@@ -104,6 +104,8 @@ jobs:
 
       - name: 🚀 Shorebird Release
         uses: shorebirdtech/shorebird-release@v0
+        with:
+          platform: android # or 'ios'
 ```
 
 :::tip
@@ -113,6 +115,8 @@ The `shorebird-release` action also outputs the release version:
 - name: 🚀 Shorebird Release
   id: shorebird-release
   uses: shorebirdtech/shorebird-release@v0
+  with:
+    platform: android # or 'ios'
 
 - name: 📝 Output Release Version
   run: echo ${{ steps.shorebird-release.outputs.release-version }}

@@ -1,16 +1,5 @@
 Most Shorebird functionality, like creating releases and patches, requires being authenticated. In order to authenticate with Shorebird in CI, you will need to generate a CI token.
 
-You can get a CI token via two methods: Using the Shorebird CLI or getting it through the Shorebird web console.
-
-### Shorebird Web Console
-
-While logged in the Shorebird web console, navigate to your `Account` and scroll down to the `CI Token` section.
-
-After reading the disclaimer, click in the `I understand, show my CI KEY` button to reveal your CI token and you can copy it from
-the interface.
-
-### Shorebird CLI
-
 ```sh
 shorebird login:ci
 ```

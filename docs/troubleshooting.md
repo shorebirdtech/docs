@@ -150,7 +150,7 @@ removed images, fonts, etc.). This does not always mean that your patch will not
 work, but shorebird cannot be sure that the changes are safe.
 
 Shorebird does not (yet) have the
-[https://github.com/shorebirdtech/shorebird/issues/318](ability to patch assets)
+[ability to patch assets](https://github.com/shorebirdtech/shorebird/issues/318)
 but intends to add such in the future, at which time this warning may go away.
 
 An example of this warning:

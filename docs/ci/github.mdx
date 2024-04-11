@@ -153,5 +153,23 @@ jobs:
       # Note: all signing information (key.properties, etc.) must be set up on
       # this runner for `shorebird patch android` to work.
       - name: 🚀 Shorebird Patch
-        run: shorebird patch android
+        uses: shorebirdtech/shorebird-patch@v0
+        with:
+          platform: android # or 'ios'
 ```
+
+:::tip
+The `shorebird-patch` action also outputs the release version:
+
+```yaml
+- name: 🚀 Shorebird Patch
+  id: shorebird-patch
+  uses: shorebirdtech/shorebird-patch@v0
+  with:
+    platform: android # or 'ios'
+
+- name: 📝 Output Patch Version
+  run: echo ${{ steps.shorebird-patch.outputs.patch-number }}
+```
+
+:::

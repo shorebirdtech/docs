@@ -7,7 +7,7 @@ description: Configure automated Shorebird deployments via GitHub.
 # 🫸 Push to Deploy on GitHub
 
 :::info
-We recommend reading the [Github Integration](/ci/github) instructions before diving into this guide.
+We recommend reading the [GitHub Integration](/ci/github) instructions before diving into this guide.
 :::
 
 Push to Deploy is a very handy type of integration between your project repository and the CI
@@ -25,7 +25,7 @@ is intentionally simple so that it can be easily adapted to different requiremen
 
 We will be implementing an automation in a project that have the following goals:
 
-- Any branches spinned off from `main` that starts with the prefix `release/` will trigger a
+- Any branches created off from `main` that starts with the prefix `release/` will trigger a
   release at Shorebird.
 - Any additional commits on those branches will trigger patches.
 
@@ -59,9 +59,9 @@ Next we need to initialize shorebird in it! Check out the [Code Push Getting Sta
 
 ## 🛠️ Setting up GitHub Actions
 
-We provide a collection of official Github Actions to help you with the integration. For this guide
+We provide a collection of official GitHub Actions to help you with the integration. For this guide
 we will be using `shorebird-setup`, `shorebird-release` and `shorebird-patch`, you can learn more
-about them at our [Github Integration Documentation](ci/github).
+about them at our [GitHub Integration Documentation](ci/github).
 
 Create a new file at `.github/workflows/push_to_deploy_android.yml` with the following content:
 
@@ -121,10 +121,55 @@ should be stored in your repository settings. If you have not already configured
 That's it! You should be able to push the changes to your repository and see the workflow
 running in the actions tab of your repository.
 
-Give it a try! Create a new branch called `releases/1.0.0` and push it to your repository. Then
-once the workflow finishes, check the [Shorebird console](https://console.shorebird.dev) and you should see a new release for your app.
+Give it a try! Create a new branch called `releases/1.0.0` and push it to your repository:
 
-Next you can try pushing a new commit to the same branch and see a patch being created 🎉.
+```bash
+$ git checkout -b releases/1.0.0
+$ git push origin releases/1.0.0
+```
+
+That will trigger the action! Once the workflow finishes, check the [Shorebird console](https://console.shorebird.dev)
+and you should see a new release for your app.
+
+Next lets make the following change in our app:
+
+```diff
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        // This is the theme of your application.
+        //
+        // Try running your application with "flutter run". You'll see the
+        // application has a blue toolbar. Then, without quitting the app, try
+        // changing the primarySwatch below to Colors.green and then invoke
+        // "hot reload" (press "r" in the console where you ran "flutter run",
+        // or simply save your changes to "hot reload" in a Flutter IDE).
+        // Notice that the counter didn't reset back to zero; the application
+        // is not restarted.
+-       primarySwatch: Colors.blue,
++       primarySwatch: Colors.green,
+      ),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    );
+  }
+}
+```
+
+And commit and push it!
+
+```bash
+$ git add .
+$ git commit -m "Change primarySwatch to green"
+$ git push origin releases/1.0.0
+```
+
+That will trigger the action again, but now a patch will be created 🎉.
 
 ## 🎬 Summary
 
@@ -133,7 +178,7 @@ Feel free to adapt it based on your teams needs and existing processes.
 
 Some ways the workflow can be expanded are:
 
-- Instead of directly commiting to the branch after the release was made. Developers would land their
+- Instead of directly committing to the branch after the release was made. Developers would land their
   changes and fixes on their main branch, and then `cherry-pick` it to the release branch!
 - Both `shorebird-release` and `shorebird-patch` returns the version/patch-number created. The workflow
   could be expanded in order for tags to be created in the repository, using the version number returned

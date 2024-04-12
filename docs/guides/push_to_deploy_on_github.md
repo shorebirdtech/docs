@@ -55,14 +55,13 @@ git init
 git remote add origin <THE_URL_OF_YOUR_REPOSITORY>
 ```
 
-Next we need to initialize shorebird in it! If you have doubts on how to do so, check the
-[Code Push Getting Started](/code_push/initialize) guide.
+Next we need to initialize shorebird in it! Check out the [Code Push Getting Started](/code_push/initialize) guide for more info.
 
 ## 🛠️ Setting up GitHub Actions
 
 We provide a collection of official Github Actions to help you with the integration. For this guide
-we will be using `shorebird-setup`, `shorebird-release` and `shorebird-patch`, you can check more
-details about them at our [Github Integration Documentation](ci/github).
+we will be using `shorebird-setup`, `shorebird-release` and `shorebird-patch`, you can learn more
+about them at our [Github Integration Documentation](ci/github).
 
 Create a new file at `.github/workflows/push_to_deploy_android.yml` with the following content:
 
@@ -105,43 +104,42 @@ jobs:
           platform: android
 ```
 
-The content of this file is pretty straightforward. It defines a workflow that will be triggered
-whenever a push is made to a branch that starts with `releases/`.
+Let's take a closer look at the above workflow.
+The workflow will be triggered whenever a push is made to a branch that starts with `releases/`.
 
 It will then run the clone of the repository and setup the Shorebird CLI.
 
 Next the workflow is divided into two conditional steps. If the push is the one that created the
 branch, it will trigger a release. Otherwise it will trigger a patch.
 
-Note that the `SHOREBIRD_TOKEN` is being used as an environment variable. This is a secret that
-should be stored in your repository settings. You might have done that already if you checked the
-[GitHub Integration Documentation](/ci/github) mentioned above, but if not be sure to check it
-and configure the authentication in the action for your Shorebird account.
+:::note
+The `SHOREBIRD_TOKEN` is used as an environment variable. This is a secret that
+should be stored in your repository settings. If you have not already configured the secrets, check out the
+[GitHub Integration Documentation](/ci/github) mentioned above.
+:::
 
-If all went right, you should be able to push the changes to your repository and see the workflow
-running at the Actions tab of your repository.
+That's it! You should be able to push the changes to your repository and see the workflow
+running in the actions tab of your repository.
 
 Give it a try! Create a new branch called `releases/1.0.0` and push it to your repository. Then
-once the workflow finishes, check the Shorebird dashboard and you should see a new release there.
+once the workflow finishes, check the [Shorebird console](https://console.shorebird.dev) and you should see a new release for your app.
 
 Next you can try pushing a new commit to the same branch and see a patch being created 🎉.
 
-## 🎬 End Notes
+## 🎬 Summary
 
-Like mentioned in the beginning, what we presented here is just one way of setting up a Push to Deploy
-ideally the reader should adapt it to their own needs and context.
+As mentioned, the workflow presented here is just one way of setting up an automated push to deploy workflow.
+Feel free to adapt it based on your teams needs and existing processes.
 
-And it can be expanded in many ways. For example:
+Some ways the workflow can be expanded are:
 
 - Instead of directly commiting to the branch after the release was made. Developers would land their
   changes and fixes on their main branch, and then `cherry-pick` it to the release branch!
 - Both `shorebird-release` and `shorebird-patch` returns the version/patch-number created. The workflow
   could be expanded in order for tags to be created in the repository, using the version number returned
   allowing snapshots of the code to be easily identified.
-- etc.
 
-What was explained here is implemented in our [Time Shift App](https://github.com/shorebirdtech/time_shift).
-If you want see an actual implementation, feel free to check it out!
+See this workflow in action by checking out our [Time Shift App](https://github.com/shorebirdtech/time_shift).
 
 Thank you for reading this guide! If you have any questions or suggestions, feel free to reach out
 to us at our [Discord](https://discord.gg/shorebird).

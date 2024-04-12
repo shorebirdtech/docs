@@ -31,7 +31,6 @@
     "libapp",
     "appcenter",
     "codepush",
-    "Github",
     "aarch",
     "rollouts",
     "libflutter",
@@ -39,12 +38,14 @@
     "logcat",
     "xcframework",
     "bryanoltman",
-    "set-up",
     "xcarchive",
     "maclinux",
     "boltman",
     "previewable",
     "longpaths",
-    "Podfile"
+    "Podfile",
+    "Classpath",
+    "xcframeworks",
+    "codesign"
   ]
 }

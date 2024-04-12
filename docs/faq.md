@@ -135,7 +135,7 @@ https://github.com/orgs/shorebirdtech/projects
 
 Our team also operates in the public, so you can see what we're working
 on at any time. We're happy to answer any questions you have about our roadmap
-or priorities via Github issues or [Discord](https://discord.gg/shorebird).
+or priorities via GitHub issues or [Discord](https://discord.gg/shorebird).
 
 ### Can I self-host Shorebird?
 
@@ -162,7 +162,7 @@ See also our privacy policy: https://shorebird.dev/privacy
 ### Can I use Shorebird from my CI system?
 
 Yes. Shorebird is intended to be used from CI systems. We've published a
-guide for [Github Actions](ci/github.mdx), other CI systems should be similar.
+guide for [GitHub Actions](ci/github.mdx), other CI systems should be similar.
 
 Please don't hesitate to reach out over GitHub issues or Discord if you
 encounter any issues.

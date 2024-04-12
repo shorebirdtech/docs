@@ -140,5 +140,8 @@ could be expanded in order for tags to be created in the repository, using the v
 allowing snapshots of the code to be easily identified.
  - etc.
 
+What was explained here is implemented in our [Time Shift App](https://github.com/shorebirdtech/time_shift).
+If you want see an actual implementation, feel free to check it out!
+
 Thank you for reading this guide! If you have any questions or suggestions, feel free to reach out
 to us at our [Discord](https://discord.gg/shorebird).

@@ -56,7 +56,7 @@ git remote add origin <THE_URL_OF_YOUR_REPOSITORY>
 ```
 
 Next we need to initialize shorebird in it! If you have doubts on how to do so, check the
-[Code Push Getting Started](/code-push/initialize) guide.
+[Code Push Getting Started](/code_push/initialize) guide.
 
 ## 🛠️ Setting up GitHub Actions
 

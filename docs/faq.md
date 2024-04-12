@@ -32,7 +32,7 @@ including Google Cloud Storage and Google Cloud Run.
 The following URLs are used by Shorebird:
 
 - https://api.shorebird.dev -- used by the `shorebird` command line tools to
-  interact with the Shorebird servers as well as the Shorbird updater on users'
+  interact with the Shorebird servers as well as the Shorebird updater on users'
   devices to check for updates.
 - https://download.shorebird.dev -- used by the `shorebird` command line tool to
   download Flutter artifacts for building releases and patches.

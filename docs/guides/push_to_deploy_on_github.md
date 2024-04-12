@@ -1,13 +1,13 @@
 ---
 sidebar_position: 8
 title: 🫸 Push to Deploy on GitHub
-description: Automatically deploy to Shorebird by pushing to your GitHub repository.
+description: Configure automated Shorebird deployments via GitHub.
 ---
 
 # 🫸 Push to Deploy on GitHub
 
 :::info
-If not yet, we recommend reading the base [Github Integration](/ci/github) instructions before dwelling into this guide.
+We recommend reading the [Github Integration](/ci/github) instructions before diving into this guide.
 :::
 
 Push to Deploy is a very handy type of integration between your project repository and the CI

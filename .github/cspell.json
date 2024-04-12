@@ -16,11 +16,6 @@
   ],
   "useGitignore": true,
   "words": [
-    "Contador",
-    "localizable",
-    "mostrado",
-    "página",
-    "Texto",
     "buildroot",
     "libupdater",
     "codemagic",

@@ -7,7 +7,7 @@ description: Use code push in an hybrid app scenario with an Android app
 
 # Code Push In Hybrid Apps
 
-This guide explains how to use Shorebird in an Android hybird app scenario (that is, your app embeds Flutter UI in non-Flutter UI).
+This guide explains how to use Shorebird in an Android hybrid app scenario (that is, your app embeds Flutter UI in non-Flutter UI).
 
 :::note
 If your app is a pure Flutter app, follow the [standard code push guide](../../code-push) instead.

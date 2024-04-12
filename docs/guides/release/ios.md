@@ -11,7 +11,7 @@ This guide walks through releasing a code push app to the Apple App Store and ap
 
 The app we will be releasing in this guide is Shorebird Clock, our demo code push app. ([source](https://github.com/shorebirdtech/time_shift/))
 
-## Prequisites
+## Prerequisites
 
 To follow along with this guide, you will need the following:
 
@@ -87,7 +87,7 @@ To upload to the App Store, do one of the following:
 
 :::note
 
-If you perform your own codesigning and do not want Shorebird to codesign your app, you can pass the `--no-codesign` flag to the `shorebird release ios` command. Because only signed code can be run on iOS devices, **releases created this way will not be previewable using the `shorebird preview` command.** You can still download and run these releases through TestFlight.
+If you perform your own code signing and do not want Shorebird to codesign your app, you can pass the `--no-codesign` flag to the `shorebird release ios` command. Because only signed code can be run on iOS devices, **releases created this way will not be previewable using the `shorebird preview` command.** You can still download and run these releases through TestFlight.
 
 :::
 

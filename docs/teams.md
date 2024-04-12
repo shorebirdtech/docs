@@ -7,7 +7,7 @@ description: Working with a team of developers
 # Teams
 
 Shorebird Teams tier and higher allows adding an unlimited number of
-collaborators to an app. Shorebire free "Hobby" users can upgrade
+collaborators to an app. Shorebird free "Hobby" users can upgrade
 to the Teams tier to add collaborators via a link in the
 [Shorebird console](https://console.shorebird.dev).
 

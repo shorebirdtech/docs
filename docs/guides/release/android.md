@@ -114,7 +114,7 @@ https://support.google.com/googleplay/android-developer/answer/9859152?hl=en
 As per the instructions above, we must upload the generated `.aab` to the Play Store.
 
 1. Navigate to the [Play Console](https://play.google.com/console/developers).
-1. Choose your developer account (for us, it's Shorebirdbird.dev).
+1. Choose your developer account (for us, it's Shorebird.dev).
 1. Select the Time Shift app.
 1. Select "Testing -> Open Testing" from the side bar.
 1. Click the "Create new release" button.

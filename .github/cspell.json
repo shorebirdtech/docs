@@ -38,6 +38,13 @@
     "mipmap",
     "logcat",
     "xcframework",
-    "bryanoltman"
+    "bryanoltman",
+    "set-up",
+    "xcarchive",
+    "maclinux",
+    "boltman",
+    "previewable",
+    "longpaths",
+    "Podfile"
   ]
 }

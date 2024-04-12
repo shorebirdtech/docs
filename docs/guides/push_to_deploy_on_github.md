@@ -128,10 +128,10 @@ Next you can try pushing a new commit to the same branch and see a patch being c
 
 ## 🎬 End Notes
 
-Like mentined in the beginning, what we presented here is just one way of setting up a Push to Deploy
+Like mentioned in the beginning, what we presented here is just one way of setting up a Push to Deploy
 ideally the reader should adapt it to their own needs and context.
 
-And what was presented here could also be expanded in many ways. For example:
+And it can be expanded in many ways. For example:
 
 - Instead of directly commiting to the branch after the release was made. Developers would land their
   changes and fixes on their main branch, and then `cherry-pick` it to the release branch!

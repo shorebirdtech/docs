@@ -25,9 +25,9 @@ is intentionally simple so that it can be easily adapted to different requiremen
 
 We will be implementing an automation in a project that have the following goals:
 
- - Any branches spinned off from `main` that starts with the prefix `release/` will trigger a
-release at Shorebird.
- - Any additional commits on those branches will trigger patches.
+- Any branches spinned off from `main` that starts with the prefix `release/` will trigger a
+  release at Shorebird.
+- Any additional commits on those branches will trigger patches.
 
 ## 📝 Prerequisites
 
@@ -133,12 +133,12 @@ ideally the reader should adapt it to their own needs and context.
 
 And what was presented here could also be expanded in many ways. For example:
 
- - Instead of directly commiting to the branch after the release was made. Developers would land their
-changes and fixes on their main branch, and then `cherry-pick` it to the release branch!
- - Both `shorebird-release` and `shorebird-patch` returns the version/patch-number created. The workflow
-could be expanded in order for tags to be created in the repository, using the version number returned
-allowing snapshots of the code to be easily identified.
- - etc.
+- Instead of directly commiting to the branch after the release was made. Developers would land their
+  changes and fixes on their main branch, and then `cherry-pick` it to the release branch!
+- Both `shorebird-release` and `shorebird-patch` returns the version/patch-number created. The workflow
+  could be expanded in order for tags to be created in the repository, using the version number returned
+  allowing snapshots of the code to be easily identified.
+- etc.
 
 What was explained here is implemented in our [Time Shift App](https://github.com/shorebirdtech/time_shift).
 If you want see an actual implementation, feel free to check it out!

@@ -174,20 +174,21 @@ The `shorebird-patch` action also outputs the patch number:
 
 :::
 
-# 🤖 Fully Automated Workflow Example
+## 🤖 Fully Automated Workflow Example
 
-Push to Deploy is a very handy type of integration between your project repository and the CI
-service that allows developers to automatically trigger deploys of your application just by
-pushing to the project repository.
+A fully automated workflow between your project repository and the CI service can allow developers
+to trigger deploys of your application just by pushing to the project repository,
+streamlining the development workflow, which can reduce the chance of error due to
+repetitive, manual tasks.
 
-There are several ways of setting up a Push to Deploy workflow, and in many instances, how it is
-set up will depending on how the git workflow of your project is structured, or which CI service
-is used, among other factors.
+There are several ways of setting this up, and in many instances, how it is set up will depending
+on how the git workflow of your project is structured, or which CI service is used, among other
+factors.
 
-This guide is a simple proposal for setting up a Push to Deploy workflow using GitHub Actions. It
+This guide is a simple proposal for setting up a Fully automated workflow using GitHub Actions. It
 is intentionally simple so that it can be easily adapted to different requirements and contexts.
 
-## 🥅 Goal
+### 🥅 Goal
 
 We will be implementing an automation in a project that have the following goals:
 
@@ -195,7 +196,7 @@ We will be implementing an automation in a project that have the following goals
   release at Shorebird.
 - Any additional commits on those branches will trigger patches.
 
-## 📝 Prerequisites
+### 📝 Prerequisites
 
 Before anything, if you don't have a Shorebird account, be sure to create one at
 [shorebird.dev](https://shorebird.dev) (Don't worry, it is free to start have a generous quota
@@ -203,20 +204,20 @@ that is way more than enough for this guide).
 
 You will also need a GitHub account and a project repository created. If you don't have an account
 yet, create one at [GitHub](https://github.com), and create a new repository, which for this guide
-we will call `shorebird_push_to_deploy`.
+we will call `shorebird_automated_workflow`.
 
-## 🚀 Getting Started
+### 🚀 Getting Started
 
 First thing, lets create a new Flutter project simply by running:
 
 ```bash
-flutter create shorebird_push_to_deploy
+flutter create shorebird_automated_workflow
 ```
 
 Be sure to initialize your project as a git repository:
 
 ```bash
-cd shorebird_push_to_deploy
+cd shorebird_automated_workflow
 git init
 git remote add origin <THE_URL_OF_YOUR_REPOSITORY>
 ```
@@ -229,7 +230,7 @@ We provide a collection of official GitHub Actions to help you with the integrat
 we will be using `shorebird-setup`, `shorebird-release` and `shorebird-patch`, you can learn more
 about them at the beginning of this page.
 
-Create a new file at `.github/workflows/push_to_deploy_android.yml` with the following content:
+Create a new file at `.github/workflows/shorebird_android.yml` with the following content:
 
 ```yaml
 name: Shorebird Android
@@ -243,7 +244,7 @@ env:
   SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 
 jobs:
-  push_to_deploy_android:
+  shorebird_android:
     defaults:
       run:
         shell: bash
@@ -337,9 +338,9 @@ $ git push origin releases/1.0.0
 
 That will trigger the action again, but now a patch will be created 🎉.
 
-## 🎬 Summary
+### 🎬 Summary
 
-As mentioned, the workflow presented here is just one way of setting up an automated push to deploy workflow.
+As mentioned, the workflow presented here is just one way of setting up a fully automated workflow.
 Feel free to adapt it based on your teams needs and existing processes.
 
 Some ways the workflow can be expanded are:

@@ -18,7 +18,7 @@ A typical Code Push workflow looks like this:
 
 1. Use the Shorebird CLI to create a new **release** of your app.
 1. Distribute that release through the App Store or Google Play.
-1. Make changes to your app's Dart code. This could be a bug fix, a new feature, or anything else, and is not limited to your app's UI – this can include updated dependencies as well.
+1. Make changes to your app's Dart code. This could be a bug fix, a new feature, or anything else, and is not limited to your app's UI – this can include updated Dart dependencies as well.
 1. Use the Shorebird CLI to create a new **patch** to the release you created in the first step.
 1. That's it! Your users will see the update the next time they restart your app.
 

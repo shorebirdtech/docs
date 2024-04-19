@@ -212,7 +212,7 @@ This can be caused by a number of things. The most common causes are:
 
 1. A dependency/plugin you are using has changed its native code. **You should
    use caution when publishing patches that include changes to native code from
-   plugins. In the worst case, these changes my cause your patched app to
+   plugins. In the worst case, these changes may cause your patched app to
    crash.**
 2. A dependency/plugin produces a different output on every build. This can
    happen if the dependency it includes a timestamp indicating when it was

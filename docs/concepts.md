@@ -12,7 +12,7 @@ An explanation of the concepts used in Shorebird's code push product.
 
 Code push, also referred to as "over the air updates" (OTA) is a cloud service
 enabling Flutter developers to deploy updates to their apps in production.
-Shorebird currently works on Android and iOS (alpha) and will eventually work
+Shorebird currently works on Android and iOS and will eventually work
 everywhere Flutter works.
 
 "Code Push" is a reference to the name of a deploy feature used by the React

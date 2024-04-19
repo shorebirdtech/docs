@@ -73,7 +73,7 @@ By default, `shorebird release android` builds an AppBundle (`.aab`).
 If you would like to _also_ generate an Android Package Kit (`.apk`), use the
 following command:
 
-```bash
+```
 shorebird release android --artifact apk
 ```
 
@@ -85,7 +85,7 @@ That version can be checked by running `shorebird doctor`
 
 To release with a different Flutter version, you can specify the version using the `--flutter-version` flag.
 
-```sh
+```
 shorebird release android --flutter-version 3.19.0
 ```
 
@@ -129,7 +129,7 @@ To upload to the App Store either:
 
 If your application supports flavors or multiple release targets, you can specify the flavor and target using the `--flavor` and `--target` options:
 
-```bash
+```
 shorebird release ios --target ./lib/main_development.dart --flavor development
 ```
 
@@ -149,7 +149,7 @@ That version can be checked by running `shorebird doctor`
 
 To release with a different Flutter version, you can specify the version using the `--flutter-version` flag.
 
-```sh
+```
 shorebird release ios --flutter-version 3.19.0
 ```
 
@@ -186,7 +186,7 @@ program, but we expect it to work just as well.
 To build Shorebird for distribution via APK (e.g. side-loading), use the
 `--artifact` flag with the `shorebird release` command. For example:
 
-```bash
+```
 shorebird release android --artifact=apk
 ```
 

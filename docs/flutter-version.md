@@ -88,7 +88,7 @@ Only the release command supports the `--flutter-version` option. Patches will
 always be built with the version of Flutter used by the release.
 :::
 
-## Supported Feature Matrix
+## Supported Functionality
 
 At this time, not all functionality is supported for each Flutter version.
 

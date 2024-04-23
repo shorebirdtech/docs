@@ -5,7 +5,7 @@ description: Frequently asked questions.
 ---
 
 If you have questions not answered here, please ask! Both filing an issue
-or asking on [Discord](https://discord.gg/shorebird)) work.
+or asking on [Discord](https://discord.gg/shorebird) work.
 
 ### What is the difference between a patch and a release?
 

@@ -201,8 +201,9 @@ render incorrectly if you use an icon that was not included in the release
 build. Any assets introduced in a patch will fail to load and your app may crash
 if it depends on them.
 
-If you are not sure, you can [stage your patch](guides/staging-patches) and
-test locally before deploying it to users.
+If you are not sure whether your unpatchable change is safe, you can
+[stage your patch](guides/staging-patches) and test locally before deploying it
+to users.
 
 ## I see a `The release artifact contains native changes` warning when running `shorebird patch`, even though I haven't changed Swift/Objective-C/Kotlin/Java code {#unexpected-native-changes}
 
@@ -233,8 +234,9 @@ This can be caused by a number of things. The most common causes are:
    seen this warning when building with Xcode 14.1. If you are using a version
    of Xcode that is not the latest, try upgrading to the latest version.
 
-If you are confident that the changes are safe, you can ignore this warning by
-passing the `--allow-native-diffs` flag to `shorebird patch`.
+If you are not sure whether your unpatchable change is safe, you can
+[stage your patch](guides/staging-patches) and test locally before deploying it
+to users.
 
 ### What happens if I ignore this warning?
 

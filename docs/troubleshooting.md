@@ -201,7 +201,7 @@ render incorrectly if you use an icon that was not included in the release
 build. Any assets introduced in a patch will fail to load and your app may crash
 if it depends on them.
 
-If you are not sure whether your unpatchable change is safe, you can
+If you are not sure whether your change is safe, you can
 [stage your patch](guides/staging-patches) and test locally before deploying it
 to users.
 
@@ -241,7 +241,7 @@ Flutter itself, **your app will crash**. If the native code that changed does
 not interact with your Dart code or Flutter at all, the patch should run without
 issue.
 
-If you are not sure whether your unpatchable change is safe, you can
+If you are not sure whether your change is safe, you can
 [stage your patch](guides/staging-patches) and test locally before deploying it
 to users.
 

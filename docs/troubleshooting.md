@@ -234,10 +234,6 @@ This can be caused by a number of things. The most common causes are:
    seen this warning when building with Xcode 14.1. If you are using a version
    of Xcode that is not the latest, try upgrading to the latest version.
 
-If you are not sure whether your unpatchable change is safe, you can
-[stage your patch](guides/staging-patches) and test locally before deploying it
-to users.
-
 ### What happens if I ignore this warning?
 
 If the changes are to native code that interacts with your Flutter app or with
@@ -245,8 +241,9 @@ Flutter itself, **your app will crash**. If the native code that changed does
 not interact with your Dart code or Flutter at all, the patch should run without
 issue.
 
-If you are not sure, you can [stage your patch](guides/staging-patches) and
-test locally before deploying it to users.
+If you are not sure whether your unpatchable change is safe, you can
+[stage your patch](guides/staging-patches) and test locally before deploying it
+to users.
 
 ## "Invalid `Podfile` file: cannot load such file" when running `pod install`
 

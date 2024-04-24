@@ -229,7 +229,7 @@ This can be caused by a number of things. The most common causes are:
    of Xcode that is not the latest, try upgrading to the latest version.
 
 If you are confident that the changes are safe, you can ignore this warning by
-passing the `--force` flag to `shorebird patch`.
+passing the `--allow-native-diffs` flag to `shorebird patch`.
 
 ## "Invalid `Podfile` file: cannot load such file" when running `pod install`
 

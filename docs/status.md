@@ -27,6 +27,10 @@ of your Dart code on the CPU. However there are still a few types of changes
 which can confuse the "linker" into running more code on the interpreter than
 necessary.
 
+Known linker issues include:
+
+- [iOS possible low link percentage](https://github.com/shorebirdtech/shorebird/issues/1892)
+
 If your app has reported an unexpectedly low link percentage, please let us
 know, we'd love to help. You can report an issue here:
 https://github.com/shorebirdtech/shorebird/issues

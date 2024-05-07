@@ -20,7 +20,7 @@ shorebird patch android
 
 </TabItem>
 
-<TabItem value="patch-command-ios" label="iOS (beta)">
+<TabItem value="patch-command-ios" label="iOS">
 
 ```
 shorebird patch ios
@@ -40,7 +40,7 @@ This will do several things:
 Example output:
 
 ```
-$ shorebird patch
+$ shorebird patch android
 ✓ Building patch (3.0s)
 ✓ Fetching apps (0.2s)
 ✓ Detecting release version (0.3s)
@@ -66,10 +66,18 @@ Would you like to continue? (y/N) Yes
 ✅ Published Patch!
 ```
 
+By default, this uses the release version that the app is currently on. If you
+want to patch a different release version, you can use the `--release-version`
+option. For example:
+
+```
+shorebird patch android --release-version 0.1.0+1
+```
+
 If your application supports flavors or multiple release targets, you can specify the flavor and target using the `--flavor` and `--target` options:
 
 ```
-shorebird patch --target ./lib/main_development.dart --flavor development
+shorebird patch [android|ios] --target lib/main_development.dart --flavor development
 ```
 
 :::info

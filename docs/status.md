@@ -29,7 +29,7 @@ necessary.
 
 Known linker issues include:
 
-- [Adding or removing a class can affect link percentage](https://github.com/shorebirdtech/shorebird/issues/1825)
+- [iOS possible low link percentage](https://github.com/shorebirdtech/shorebird/issues/1892)
 
 If your app has reported an unexpectedly low link percentage, please let us
 know, we'd love to help. You can report an issue here:

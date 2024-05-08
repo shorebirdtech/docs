@@ -3,9 +3,11 @@ import starlight from '@astrojs/starlight';
 import tailwind from '@astrojs/tailwind';
 import starlightLinksValidator from 'starlight-links-validator';
 
+const site = 'https://docs.shorebird.dev/';
+
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://docs.shorebird.dev/',
+  site,
   integrations: [
     starlight({
       title: 'Shorebird',
@@ -22,6 +24,17 @@ export default defineConfig({
       editLink: {
         baseUrl: 'https://github.com/shorebirdtech/docs/edit/main/docs/',
       },
+      favicon: 'favicon.svg',
+      head: [
+        {
+          tag: 'meta',
+          attrs: { property: 'og:image', content: site + 'og.png?v=1' },
+        },
+        {
+          tag: 'meta',
+          attrs: { property: 'twitter:image', content: site + 'og.png?v=1' },
+        },
+      ],
       customCss: ['./src/tailwind.css'],
       expressiveCode: {
         themes: ['dark-plus', 'github-light'],

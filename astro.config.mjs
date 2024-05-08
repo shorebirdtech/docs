@@ -24,7 +24,7 @@ export default defineConfig({
         discord: 'https://discord.gg/shorebird',
       },
       editLink: {
-        baseUrl: 'https://github.com/shorebirdtech/docs/edit/main/docs/',
+        baseUrl: 'https://github.com/shorebirdtech/docs/edit/main/',
       },
       favicon: 'favicon.svg',
       head: [

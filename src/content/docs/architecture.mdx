@@ -78,8 +78,9 @@ A patch response contains:
 }
 ```
 
-The code to do these checks is open source as part of the Updater library
-and may change from what is documented above:
+The code to do these checks is open source as part of the [Shorebird Updater
+library](https://github.com/shorebirdtech/updater/blob/main/library) and may
+change from what is documented above:
 https://github.com/shorebirdtech/updater/blob/main/library/src/network.rs
 
 The updater library then downloads the patch diff and applies it to the
@@ -125,16 +126,16 @@ Shorebird consists of 3 major parts:
 - A modified Flutter engine that you include in your app.
 - Our public-cloud based infrastructure which hosts your app's updates.
 
-### `shorebird` tool
+### The `Shorebird CLI`
 
-The `shorebird` commands are documented on this site. Most of the build
+The `shorebird_cli` commands are documented on this site. Most of the build
 logic is just wrapping the `flutter` tool and it also adds a few commands to
 interface with Shorebird's servers.
 
-The source for the `shorebird` tool is available on GitHub:
+The source for the `shorebird_cli` tool is available on GitHub:
 https://github.com/shorebirdtech/shorebird/tree/main/packages/shorebird_cli
 
-### A Modified Flutter
+### Flutter Modifications
 
 Code push requires technical changes to the underlying Flutter engine. To make
 those changes required forking Flutter.
@@ -147,19 +148,26 @@ The `buildroot` repo contains the build scripts that are used to build the
 Flutter engine for various platforms. It's separate from `flutter/engine` in
 order to share code and configuration with the Fuchsia build system.
 
-We forked this code to make one small modification to the build setup to
-allow exposing our updater symbols from the Flutter engine up to
-`package:shorebird_code_push` and to include `libunwind` since the Rust code
-requires it for backtraces.
+We forked this repository to make several small modifications:
 
-https://github.com/shorebirdtech/updater
-is a Rust library which we link into the engine. The way we do that is via
-a C-API on a static library (`libupdater.a`). The default flags for linking
-for the Flutter engine hide all symbols from linked static libraries. We
-need to be able to expose the shorebird\_\* symbols from `libupdater.a` up through
-FFI to the Dart code. We did that by making one change to buildroot and then
-a second change to the engine to place the symbols on the allow-list.
+1. Expose our updater symbols from the Flutter engine up to
+   `package:shorebird_code_push`
 
+1. Include `libunwind` since the [Shorebird
+   Updater](https://github.com/shorebirdtech/updater) (Rust) code requires it
+   for backtraces.
+
+The [Shorebird Updater](https://github.com/shorebirdtech/updater) is a Rust
+library which is linked into the Flutter engine via a static library
+(`libupdater.a`) that exposes a C API.
+
+Because the default Flutter engine linking flags hide all symbols from linked
+static libraries, and because we need to be able to expose the `shorebird\_\*`
+symbols from `libupdater.a` to the Dart code, we made one change to `buildroot`
+and then a second change to the `engine` to place the symbols on the allow-list.
+
+You can see our buildroot changes on GitHub by
+comparing our trunk to the upstream buildroot, e.g. master:
 https://github.com/flutter/buildroot/compare/master...shorebirdtech:buildroot:shorebird/dev
 
 #### `flutter/engine` "The Flutter Engine"
@@ -172,22 +180,33 @@ We forked this code to add the
 Flutter engine load new code from Shorebird's servers.
 
 Our Flutter Engine fork is public. You can see our engine changes on GitHub by
-comparing our release branches to the upstream Flutter engine, e.g. for 3.22.0:
+comparing our trunk to the upstream Flutter engine, e.g. for 3.22.0:
 https://github.com/flutter/engine/compare/3.22.0...shorebirdtech:engine:shorebird/dev
 
 #### `flutter/flutter` "The Flutter Framework"
 
-The flutter/flutter repo contains the Dart code that runs on the device as well
+The `flutter/flutter` repo contains the Dart code that runs on the device as well
 as the `flutter` tool that is used to build and run Flutter apps.
 
 We forked this code to be able to deliver our modified Flutter engine to change
-the version of the engine that the `flutter` tool uses as well as to include the
+the version of the engine that the `flutter` tool uses and to include the
 `shorebird.yaml` configuration as part of the asset bundle.
 
 Our Flutter Framework fork is public. You can see our engine changes on GitHub
-by comparing our release branches to the upstream Flutter Framework, e.g. for
-stable:
+by comparing our trunk to the upstream Flutter Framework, e.g. for stable:
 https://github.com/flutter/flutter/compare/stable...shorebirdtech:flutter:shorebird/dev
+
+#### `dart-lang/sdk` "The Dart SDK"
+
+The `dart-lang/sdk` repo contains the Dart SDK, including the VM, dart2js, core
+libraries, and more.
+
+We forked this code in order to teach Dart how to run modified (patched) code in
+an interpreter while being able to run all unmodified code on the CPU.
+
+Our Dart SDK fork is private currently. It will likely be public in the future
+and we will work to upstream many our changes as the team grows and the product
+matures.
 
 #### Installing a Forked Flutter
 

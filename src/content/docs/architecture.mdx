@@ -222,11 +222,11 @@ artifacts.
 
 We deliver our artifacts to this fork of Flutter with two ways. First is we
 change the version of the engine in the `flutter` tool. Second is we pass
-FLUTTER_STORAGE_BASE_URL set to download.shorebird.dev (instead of
-download.flutter.io) when calling our vended copy of the `flutter` tool.
+`FLUTTER_STORAGE_BASE_URL` set to `download.shorebird.dev` (instead of
+`download.flutter.io`) when calling our vended copy of the `flutter` tool.
 
 Currently this means `shorebird` will not work in an environment where the
-user needs to use FLUTTER_STORAGE_BASE_URL to download Flutter artifacts
+user needs to use `FLUTTER_STORAGE_BASE_URL` to download Flutter artifacts
 from a private mirror (e.g. a corporate network or China).
 https://github.com/shorebirdtech/shorebird/issues/237
 

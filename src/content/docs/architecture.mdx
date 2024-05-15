@@ -122,18 +122,16 @@ This is to prevent a bad patch from causing a crash loop on the device.
 
 Shorebird consists of 3 major parts:
 
-- `shorebird` line tool that you use to build and deploy your app.
-- A modified Flutter engine that you include in your app.
-- Our public-cloud based infrastructure which hosts your app's updates.
+1. The `Shorebird CLI` tool that you use to build and deploy your app from the command line.
+1. A modified Flutter engine that is include in your app.
+1. Our public-cloud infrastructure which hosts your app's updates.
 
 ### The `Shorebird CLI`
 
-The `shorebird_cli` commands are documented on this site. Most of the build
-logic is just wrapping the `flutter` tool and it also adds a few commands to
-interface with Shorebird's servers.
-
-The source for the `shorebird_cli` tool is available on GitHub:
-https://github.com/shorebirdtech/shorebird/tree/main/packages/shorebird_cli
+The [`shorebird_cli`](https://github.com/shorebirdtech/shorebird/tree/main/packages/shorebird_cli)
+commands are documented on this site. Most of the build logic is just wrapping
+the `flutter` tool and it also adds a few commands to interface with Shorebird's
+servers.
 
 ### Flutter Modifications
 
@@ -144,7 +142,7 @@ We had to fork 4 Flutter and Dart repositories to make Shorebird work:
 
 #### `flutter/buildroot` "The Buildroot"
 
-The `buildroot` repo contains the build scripts that are used to build the
+The [`flutter/buildroot`](https://github.com/flutter/buildroot) repo contains the build scripts that are used to build the
 Flutter engine for various platforms. It's separate from `flutter/engine` in
 order to share code and configuration with the Fuchsia build system.
 
@@ -166,47 +164,56 @@ static libraries, and because we need to be able to expose the `shorebird\_\*`
 symbols from `libupdater.a` to the Dart code, we made one change to `buildroot`
 and then a second change to the `engine` to place the symbols on the allow-list.
 
+:::note
 You can see our buildroot changes on GitHub by
 comparing our trunk to the upstream buildroot, e.g. master:
 https://github.com/flutter/buildroot/compare/master...shorebirdtech:buildroot:shorebird/dev
+:::
 
 #### `flutter/engine` "The Flutter Engine"
 
-The Flutter engine is the C++ code that runs on the device. It is responsible
-for rendering the UI, handling input, and communicating with the host.
+The [`flutter/engine`](https://github.com/flutter/engine/) repo contains C++
+code that runs on the device. It is responsible for rendering the UI, handling
+input, and communicating with the host.
 
 We forked this code to add the
 [Shorebird Updater](https://github.com/shorebirdtech/updater), which lets the
 Flutter engine load new code from Shorebird's servers.
 
+:::note
 Our Flutter Engine fork is public. You can see our engine changes on GitHub by
 comparing our trunk to the upstream Flutter engine, e.g. for 3.22.0:
 https://github.com/flutter/engine/compare/3.22.0...shorebirdtech:engine:shorebird/dev
+:::
 
 #### `flutter/flutter` "The Flutter Framework"
 
-The `flutter/flutter` repo contains the Dart code that runs on the device as well
+The [`flutter/flutter`](https://github.com/flutter/flutter/) repo contains the Dart code that runs on the device as well
 as the `flutter` tool that is used to build and run Flutter apps.
 
 We forked this code to be able to deliver our modified Flutter engine to change
 the version of the engine that the `flutter` tool uses and to include the
 `shorebird.yaml` configuration as part of the asset bundle.
 
+:::note
 Our Flutter Framework fork is public. You can see our engine changes on GitHub
 by comparing our trunk to the upstream Flutter Framework, e.g. for stable:
 https://github.com/flutter/flutter/compare/stable...shorebirdtech:flutter:shorebird/dev
+:::
 
 #### `dart-lang/sdk` "The Dart SDK"
 
-The `dart-lang/sdk` repo contains the Dart SDK, including the VM, dart2js, core
-libraries, and more.
+The [`dart-lang/sdk`](https://github.com/dart-lang/sdk/) repo contains the Dart
+SDK, including the VM, dart2js, core libraries, and more.
 
 We forked this code in order to teach Dart how to run modified (patched) code in
 an interpreter while being able to run all unmodified code on the CPU.
 
+:::note
 Our Dart SDK fork is private currently. It will likely be public in the future
 and we will work to upstream many our changes as the team grows and the product
 matures.
+:::
 
 #### Installing a Forked Flutter
 

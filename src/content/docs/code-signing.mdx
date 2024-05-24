@@ -111,6 +111,7 @@ version of your app.
 
 ## Fallback Behavior
 
+Releases that contain a public key will reject all unsigned patches.
 If a patch is missing a signature or its signature is invalid, Shorebird will
 reject this patch at boot time. It will instead boot from the last known good
 patch (if still on disk) or the release build of the app. This will not cause

@@ -109,6 +109,10 @@ reason, Shorebird will not load it, and will instead use any previously
 installed and verifiable patch (if there is one) or the unpatched release
 version of your app.
 
+If you'd like to test the missing signature behavior, you can create a patch
+without a private key and notice that `shorebird preview` rejects it. Similarly,
+you can create a patch with a different private key to do the same.
+
 ## Fallback Behavior
 
 Releases that contain a public key will reject all unsigned patches.

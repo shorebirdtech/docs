@@ -113,7 +113,7 @@ export default defineConfig({
         },
         {
           label: 'Code Signing (preview)',
-          link: '/code-signing',
+          link: '/patch-signing',
         },
         {
           label: 'Update Strategies',

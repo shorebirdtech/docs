@@ -117,14 +117,16 @@ reject this patch at boot time. It will instead boot from the last known good
 patch (if still on disk) or the release build of the app. This will not cause
 your app to crash.
 
-If for any reason you were to lose your private key there is no way to create a
+If for any reason you were to lose your private key, there is no way to create a
 patch for an application containing the corresponding public key. Even Shorebird
 is not able to create a patch for your application without your private key.
+In such a case, you would need to make and distribute a new release of your
+application to send patches to it.
 
 ## Trade Offs
 
 The primary trade-off of using patch signing is complexity. Shorebird does not
-yet offer automatic key management, so customers need to create and manage their
+yet offer automatic key management, so customers you to create and manage their
 own key material to use signing.
 
 There is a very small slowdown in application launch. In our testing signature

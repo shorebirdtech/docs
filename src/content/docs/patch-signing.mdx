@@ -62,11 +62,11 @@ openssl genrsa -out private.pem 2048
 openssl rsa -in private.pem -outform PEM -pubout -out public.pem
 ```
 
-The above operation will generate a key pair in `private.pem` and a public key
-in `public.pem`. The private key should be stored securely and kept secret.
-While the private key is not itself sufficient to make an update to your
-application (someone would also need access to your Shorebird credentials). Your
-private key should not be checked into public source control.
+The above operation will generate a public/private key pair in `private.pem` and
+a public key in `public.pem`. The private key should be stored securely and kept
+secret. While the private key is not itself sufficient to make an update to your
+application (someone would also need access to your Shorebird credentials), it
+should not be checked into public source control.
 
 ## Create a release containing the public key
 

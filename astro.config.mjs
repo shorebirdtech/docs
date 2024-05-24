@@ -112,6 +112,10 @@ export default defineConfig({
           link: '/teams',
         },
         {
+          label: 'Code Signing (preview)',
+          link: '/code-signing',
+        },
+        {
           label: 'Update Strategies',
           link: '/update-strategies',
         },

@@ -1,0 +1,129 @@
+---
+title: Code Signing (preview)
+description: How to sign patches
+---
+
+:::note
+We've shipped this preview of code signing to unblock certain customer
+evaluations. While we're confident that this preview adds a useful layer of
+security, it does not yet have all the expected integrations with cloud signing,
+keychains, etc. that a final product would expect to have. We also do not yet
+manage signing keys for you or support many key formats or signature types.
+Signed patches are safe and ready for use, but may have rough edges or missing
+conveniences. Any customer should feel welcome to use this preview in
+production, and is encouraged to file feedback for any rough edges you may find.
+:::
+
+In addition to our default security measures, Shorebird also provides optional
+code signing for patches distributed through Shorebird.
+
+Patch signing allows developers to cryptographically sign patch updates with
+their own keys. This ensures that no one (including Shorebird) can change the
+content of your application without your private cryptographic keys.
+
+Signing works in two parts. First `shorebird release` commands can take an
+optional `--public-key-path` argument to embed a your public key in your
+released application. The Shorebird updater will enforce that only patches
+signed with a corresponding private key will be allowed to load for applications
+that include a public key.
+
+Second, when you build your patch with `shorebird patch` you can pass
+`--private-key-path` to have Shorebird sign your patch with your private key.
+This is required if you created your release with a public key included.
+
+There are no required changes to your code and you can add or remove this
+signing requirement at any time by simply making a new release of your
+application.
+
+# Adding patch signing to your application
+
+To start, you will need an RSA key pair. Shorebird has only tested with a
+limited set of signing algorithms at this time. If you have other key
+requirements please contact us, we'd be happy to work with you to support your
+needs.
+
+Currently the `shorebird` tool expects to be able to read private and public
+keys from`.pem` files on disk. If you need other ways of accessing your key
+material (or signing via a cloud signing service) please contact us, we'd be
+happy to work with you to support such.
+
+## Generate keys
+
+If you do not already have an RSA key pair you'd like to use, you can generate a
+pair with `openssl`:
+
+```
+# Generate a private key
+openssl genrsa -out private.pem 2048
+
+# Generate a public key
+openssl rsa -in private.pem -outform PEM -pubout -out public.pem
+```
+
+The above operation will generate a private key in `private.pem` and a public
+key in `public.pem`. The private key should be stored securely and kept secret.
+While the private key is not itself sufficient to make an update to your
+application (someone would also need access to your Shorebird credentials). Your
+private key should not be checked into public source control.
+
+## Create a release containing the public key
+
+To create a release that can verify patch signatures, run the following command:
+
+```
+shorebird release android --public-key-path /path/to/public.pem
+```
+
+This will include the public key in the release artifact produced by `shorebird
+release`.
+
+### Create a signed patch
+
+To create a signed patch, run the following command:
+
+```
+shorebird patch android --private-key-path /path/to/private.pem
+```
+
+This tells shorebird to sign the patch with the private key you provide.
+
+:::note
+Storing private keys on disk is not best-practice, and we recognize
+this. This was built as a demonstration of the system, we look forward to
+working with customers to integrate Shorebird to using the signing services and
+key storage methods they are used to.
+:::
+
+### Test it out
+
+You can verify that the patch is properly signed using `shorebird preview`. On
+the first launch, you should see something like the following in your app logs:
+
+If you close and relaunch your app, you should see this message telling you that
+the patch's signature was verified:
+
+If the patch is missing a signature, or fails signature verification for any
+reason, Shorebird will not load it, and will instead use any previously
+installed and verifiable patch (if there is one) or the unpatched release
+version of your app.
+
+## Fallback Behavior
+
+If a patch is missing a signature or its signature is invalid, Shorebird will
+reject this patch at boot time. It will instead boot from the last known good
+patch (if still on disk) or the release build of the app. This will not cause
+your app to crash.
+
+If for any reason you were to lose your private key there is no way to create a
+patch for an application containing the corresponding public key. Even Shorebird
+is not able to create a patch for your application without your private key.
+
+## Trade Offs
+
+The primary trade-off of using patch signing is complexity. Shorebird does not
+yet offer automatic key management, so customers need to create and manage their
+own key material to use signing.
+
+There is a very small slowdown in application launch. In our testing signature
+verification on launch takes &lt;50ms on a 5 year old android phone. This
+accounts for &lt;10% slowdown on a fast application launch.

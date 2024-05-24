@@ -112,7 +112,7 @@ export default defineConfig({
           link: '/teams',
         },
         {
-          label: 'Code Signing (preview)',
+          label: 'Patch Signing (preview)',
           link: '/patch-signing',
         },
         {

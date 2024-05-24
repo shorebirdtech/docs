@@ -22,7 +22,7 @@ patch signing.
 
 Patch signing allows developers to cryptographically sign patch updates with
 their own keys. This ensures that no one (including Shorebird) can change the
-content of your application without your private cryptographic keys.
+content of your patches without your private cryptographic keys.
 
 Signing works in two parts. First, `shorebird release` commands can take an
 optional `--public-key-path` argument to embed a public key in your
@@ -89,7 +89,7 @@ supports.
 To create a signed patch, run the following command:
 
 ```sh
-shorebird patch android --private-key-path /path/to/private.pem
+shorebird patch android --public-key-path /path/to/public.pem --private-key-path /path/to/private.pem
 ```
 
 This tells shorebird to sign the patch with the private key you provide.

@@ -58,7 +58,7 @@ pair with `openssl`:
 # Generate a key pair
 openssl genrsa -out private.pem 2048
 
-# Generate a public key
+# Extract the public key
 openssl rsa -in private.pem -outform PEM -pubout -out public.pem
 ```
 

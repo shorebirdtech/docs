@@ -80,6 +80,10 @@ export default defineConfig({
               link: '/guides/staging-patches',
             },
             {
+              label: 'Patch Signing (preview)',
+              link: '/guides/patch-signing',
+            },
+            {
               label: 'Flavors',
               autogenerate: {
                 directory: 'guides/flavors',

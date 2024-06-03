@@ -158,10 +158,19 @@ export default defineConfig({
   },
   redirects: {
     // Redirects to preserve legacy URLs.
+    ci: '/ci/github',
     'code_push/initialize': 'code-push/initialize/',
-    'code_push/release': 'code-push/release/',
-    'code_push/preview': 'code-push/preview/',
     'code_push/patch': 'code-push/patch/',
-    'guides/code_push_quickstart': '/guides/code-push-quickstart',
+    'code_push/preview': 'code-push/preview/',
+    'code_push/release': 'code-push/release/',
+    'code_push/run': 'code-push/preview',
+    guides: '/',
+    'guides/add-to-app/ios': 'guides/hybrid-apps/ios',
+    'guides/code_push_add_to_app': 'guides/hybrid-apps/android',
+    'guides/code_push_quickstart': 'guides/code-push-quickstart',
+    'guides/flavors': 'guides/flavors/android',
+    'guides/hybrid-app': 'guides/hybrid-apps/android',
+    'guides/hybrid-app/android': 'guides/hybrid-apps/android',
+    'guides/hybrid-app/ios': 'guides/hybrid-apps/ios',
   },
 });

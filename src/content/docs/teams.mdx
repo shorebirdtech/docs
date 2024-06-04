@@ -8,39 +8,38 @@ collaborators to an app. Shorebird free "Hobby" users can upgrade
 to the Teams tier to add collaborators via a link in the
 [Shorebird console](https://console.shorebird.dev).
 
-## Permissions
+## Roles
 
-Permissions are internally stored per-app. Not all permissions are publicly
-editable at this time, we plan to expose more controls soon. If you would
-like to make changes to your app in the meantime, please do not
-hesitate to reach out to contact@shorebird.dev.
+*Roles are per-app.* Not all roles are publicly editable yet. If you
+have any questions about access control for your app, please do not hesitate to
+reach out to contact@shorebird.dev.
 
-### Collaborator (aka "Developer")
+### App Developer (aka Collaborator)
 
-The Collaborator role can:
+The Developer role can:
 
-- Read app information
-- View collaborators
-- Create releases and patches
-- View insights
+- Read information for a single app
+- View collaborators on that app
+- Create releases and patches for that app
+- View insights for that app
 
-Collaborators can be added and removed by any Admin, see below.
+Developer can be added and removed by any Admin, see below.
 
-### Admin (automatically assigned to the account which created the app)
+### App Admin
 
 The Admin role can:
 
 - Everything a Developer can do
-- Create and Delete Apps
-- Add and Remove Collaborator for an App
+- Add and Remove Developers for an App
+- Delete an App
 
-Admin permissions cannot currently be modified directly. Please email us
+Admin permissions cannot currently be modified in the console. Please email us
 if you need to add/remove Admins from an app.
 
-### Billing account (aka App Owner)
+### Billing account (aka Owner)
 
+- Create and Delete Apps
 - Billing is tied to Owner
-- Owner can be either a Developer or Admin, by default is an Admin
 
 Owner can be changed by contacting us.
 
@@ -61,9 +60,8 @@ email address.
 ## Sharing Multiple Apps
 
 Each app maintains a separate list of collaborators. If you need to share
-multiple apps with a team, you will need to add each app separately. If this
-isn't working for you, please let us know and we're happy to look at adding
-support for sharing groups of apps:
+multiple apps with a team, you will need to add each app separately.  We plan
+to add more robust teams support later this in 2024.
 https://github.com/shorebirdtech/shorebird/issues/739
 
 ## Transferring Ownership

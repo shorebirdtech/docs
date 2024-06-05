@@ -95,3 +95,37 @@ method.
 Shorebird also currently makes the guarantee that we do not see or store your
 code. Implementing "push to deploy" may not be possible without source code
 access, which is not a change we would make lightly.
+
+# Can I update my app without starting it twice?
+
+The short answer, is no.
+
+There are two things required to update an app:
+
+1. Shorebird needs to check for an update and download & install the new code.
+2. The app needs to restart with the new code.
+
+By default, Shorebird only checks for updates during launch of the app. This is
+why during development, if you already have your app running, you might need to
+restart the app twice (once to download and install the update, once to launch
+from the update code).
+
+Checking for an installing the update can be triggered at any time using
+`package:shorebird_code_push`. By default, Shorebird only triggers an install
+check on launch of your app, but it is possible to trigger on other signals as
+appropriate for your application (e.g. by sending a notification), see above.
+
+While the Dart VM has the ability to hot-restart, most apps use plugins or call
+out to other native code which would not be aware that the Dart portions have
+restarted and are likely to end up in in a state that could lead to a crash in
+the native side of the application. We think it might be interesting to explore
+a "hot-restart" feature in the future, in cases where the developer can ensure
+that the native side of the app is in a safe state to be restarted or we can
+provide a set of plugins that are safe during a hot-restart.
+
+Shorebird's default settings are such that the user should never have to think
+about an update. If they're regularly using the app, it will just be always
+up-to-date. (Shorebird will detect and install updates when they launch the app
+while connected to the internet.) Modern mobile operating systems are very
+aggressive about killing background apps, so the app will be restarted from
+scratch fairly often even if it doesn't appear to the user as a full restart.

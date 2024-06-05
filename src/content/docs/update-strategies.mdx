@@ -118,7 +118,7 @@ appropriate for your application (e.g. by sending a notification), see above.
 While the Dart VM has the ability to hot-restart, most apps use plugins or call
 out to other native code which would not be aware that the Dart portions have
 restarted and are likely to end up in in a state that could lead to a crash in
-the native side of the application.  We think it might be interesting to explore
+the native side of the application. We think it might be interesting to explore
 a "hot-restart" feature in the future, in cases where the developer can ensure
 that the native side of the app is in a safe state to be restarted or we can
 provide a set of plugins that are safe during a hot-restart.

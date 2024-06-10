@@ -1,3 +1,5 @@
+// cspell:words astro astrojs rehype
+
 import { defineConfig } from 'astro/config';
 import rehypeSlug from 'rehype-slug';
 import { rehypeAutolink } from './plugins/rehype-autolink';

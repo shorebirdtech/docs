@@ -1,3 +1,5 @@
+// cspell:words astrojs tailwindcss astro
+
 import starlightPlugin from '@astrojs/starlight-tailwind';
 
 // Generated color palettes

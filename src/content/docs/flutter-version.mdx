@@ -103,3 +103,12 @@ We would like Shorebird to support to as many Flutter versions as possible. If
 there are older versions of Flutter which you need Shorebird to support, please
 [let us know](https://github.com/shorebirdtech/shorebird/issues/1100).
 :::
+
+### Disabled Flutter Versions
+
+June, 11, 2024: Disabled releasing and patching for iOS 3.19.5 - 3.22.1 due to a
+bug where "try/catch" clauses would not always run the "catch" block after an
+exception was thrown. This bug only affected iOS apps after patching.
+
+April 8, 2024: Disabled releasing for iOS 3.10.6 - 3.19.4 due to various
+crashers found in previous iOS releases. Patching continues to be supported.

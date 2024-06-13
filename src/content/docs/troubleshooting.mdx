@@ -212,6 +212,17 @@ mean that your patch will not work, but because shorebird cannot be sure that
 the changes are safe, and because shorebird can't patch non-Dart code, it prints
 a warning.
 
+:::info
+Shorebird assumes a repeatable build -- if you build the application twice
+it ends up byte-for-byte identical (with a few minor known exceptions, like the
+certificate signing date for iOS apps). Some Flutter Plugins or obfuscation
+solutions violate this assumption and can cause these native changes to appear.
+Shorebird may be incompatible with those plugins. You can test for this by
+doing a `shorebird release` and then `shorebird patch` with no changes and
+seeing if you still get a native changes warning. If you believe this is
+the case please reach out to us, we'd be happy to help!
+:::
+
 This can be caused by a number of things. The most common causes are:
 
 1. A dependency/plugin you are using has changed its native code. **You should

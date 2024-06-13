@@ -72,6 +72,10 @@ export default defineConfig({
               link: '/guides/code-push-quickstart',
             },
             {
+              label: 'Fastlane',
+              link: '/guides/fastlane',
+            },
+            {
               label: 'Release',
               autogenerate: {
                 directory: 'guides/release',

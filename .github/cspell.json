@@ -43,6 +43,7 @@
     "Podfile",
     "Classpath",
     "xcframeworks",
-    "codesign"
+    "codesign",
+    "SDKMAN"
   ]
 }

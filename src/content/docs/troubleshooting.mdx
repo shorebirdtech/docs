@@ -267,7 +267,7 @@ installation. This can be fixed by running any of:
 
 ## Unsupported class file major version 65
 
-The error: `Unsupported class file major version 65`, (or 66, the number varies sometimes)
+The error `Unsupported class file major version 65` (or 66—the number varies sometimes)
 happens when gradle is being executed with an incompatible Java version.
 
 You can check the specific Gradle version that your app is using by running
@@ -279,7 +279,7 @@ to check which Java version works with which Gradle release.
 
 - [Android Studio](https://developer.android.com/studio) comes with a bundled JDK which should be auto
   detected by Shorebird and might be the easiest way of solving the issue.
-- If in a Github Action, the [setup-java](https://github.com/actions/setup-java) action can help.
+- If in a GitHub Action, the [setup-java](https://github.com/actions/setup-java) action can help.
 - Or try Installing the required Java version for your project's Gradle release and set
   the path where it was installed in the `JAVA_HOME` environment variable.
 

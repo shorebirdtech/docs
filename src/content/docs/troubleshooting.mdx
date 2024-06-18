@@ -267,10 +267,8 @@ installation. This can be fixed by running any of:
 
 ## Unsupported class file major version 65
 
-Sometimes when running `shorebird` commands that involve gradle processes you might face
-this error: `Unsupported class file major version 65`, (or 66, the number varies sometimes).
-
-This error usually happens because gradle is being executed with an incompatible Java version.
+The error: `Unsupported class file major version 65`, (or 66, the number varies sometimes)
+happens when gradle is being executed with an incompatible Java version.
 
 You can check the specific Gradle version that your app is using by running
 `shorebird doctor -v` inside the project folder. This command will also print the java version that

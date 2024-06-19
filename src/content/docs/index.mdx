@@ -14,6 +14,8 @@ To create an account, head over to the [Shorebird Console](https://console.shore
 
 ## Install
 
+### Using install script
+
 To install the Shorebird command line interface (CLI):
 
 <Tabs>
@@ -46,6 +48,18 @@ also installs a copy of Flutter and Dart inside
 `~/.shorebird/bin/cache/flutter`. The copy of Flutter is slightly modified to
 add Shorebird code push and is not intended to be added to your `PATH`. You can
 continue to use the versions of Flutter and Dart you already have installed.
+
+### Manually installing
+
+Shorebird can also be manually installed, allowing users to choose where the installation will be placed.
+
+In order to do so, in a terminal, inside the folder where Shorebird should be installated at, run:
+
+```bash
+git clone -b stable https://github.com/shorebirdtech/shorebird.git
+```
+
+Add the `bin` folder from the repository you just cloned into your `PATH`.
 
 :::info
 The total installation is about 300mb.

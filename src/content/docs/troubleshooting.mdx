@@ -283,6 +283,15 @@ to check which Java version works with which Gradle release.
 - Or try Installing the required Java version for your project's Gradle release and set
   the path where it was installed in the `JAVA_HOME` environment variable.
 
+## Can't preview my app because it is not sideloaded
+
+Operational systems sometimes have some limitations that will not allow an application to be
+installed directly on the device and if an release is created with the build context that would
+hit those limitations, Shorebird will not be able to preview the release in a device.
+
+An example are iOS releases created without code signing, which are forbiden of being installed
+by iOS.
+
 ## Have a problem that's not addressed here?
 
 We're happy to help on [Discord](https://discord.gg/shorebird)!

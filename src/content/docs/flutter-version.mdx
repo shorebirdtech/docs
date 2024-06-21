@@ -20,6 +20,18 @@ Shorebird supports creating a release with older versions of Flutter (back to
 versions may not contain all of the most recent Shorebird features. Because of
 this, we recommend using the latest stable version of Flutter whenever possible.
 
+:::danger
+We found and fixed a bug in the Dart runtime, whereby sometimes "catch" blocks
+would be ignored after applying a Shorebird patch. This bug has been present in
+all versions of Shorebird Flutter for iOS prior to 3.22.2. This bug did not
+effect Android.
+
+After careful evaluation we decided this try/catch issue was severe enough that
+we would be remiss to allow continued use of older versions of Flutter for iOS
+releases. We have therefore decided to only support Flutter 3.22.2 and later
+for iOS releases at this time.
+:::
+
 ## List Flutter Versions
 
 To list all Flutter versions Shorebird has published, use the

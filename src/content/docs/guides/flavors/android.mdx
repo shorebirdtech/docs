@@ -14,7 +14,7 @@ This guide assumes the Shorebird command-line is installed on your machine and t
 
 ## Create a Project
 
-:::info
+:::note
 In this guide, we'll go through the process of creating a new project from scratch. To apply these changes to an existing project, skip this step and read ahead.
 :::
 
@@ -55,7 +55,7 @@ Lastly, edit `android/app/src/main/AndroidManifest.xml` to use the `applicationL
 +  <application android:label="${applicationLabel}" android:name="${applicationName}" android:icon="@mipmap/ic_launcher">
 ```
 
-:::info
+:::note
 To learn more about configuring `productFlavors` refer to the [Android Developer documentation](https://developer.android.com/build/build-variants#product-flavors).
 :::
 
@@ -114,7 +114,7 @@ This will download the releases and run them on your device.
 
 In addition to previewing the releases locally, you should also [submit the generated app bundles to the Play Store](/guides/release/android#upload-to-the-play-store). In this case, both apps can be part of the internal test flavor and only the stable variant should be promoted to production.
 
-:::info
+:::note
 
 - The `internal` variant should only be used for internal testing/validation.
 - The `stable` variant should be shipped to end users in production.
@@ -160,7 +160,7 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-:::info
+:::note
 Typically `shorebird patch` should be used to fix critical bugs.
 :::
 

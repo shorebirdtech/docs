@@ -58,7 +58,7 @@ If your application supports flavors or multiple release targets, you can specif
 shorebird release android --target ./lib/main_development.dart --flavor development
 ```
 
-:::info
+:::note
 `shorebird release` wraps `flutter build` and can take any argument
 `flutter build` can. To pass arguments to the underlying `flutter build` you
 need to put `flutter build` arguments after a `--` separator. For example:
@@ -74,7 +74,7 @@ following command:
 shorebird release android --artifact apk
 ```
 
-:::info
+:::note
 By default `shorebird release` uses the Flutter version bundled within the shorebird installation.
 
 That version can be checked by running `shorebird doctor`
@@ -130,7 +130,7 @@ If your application supports flavors or multiple release targets, you can specif
 shorebird release ios --target ./lib/main_development.dart --flavor development
 ```
 
-:::info
+:::note
 `shorebird release` wraps `flutter build` and can take any argument
 `flutter build` can. To pass arguments to the underlying `flutter build` you
 need to put `flutter build` arguments after a `--` separator. For example:
@@ -138,7 +138,7 @@ need to put `flutter build` arguments after a `--` separator. For example:
 variable inside Dart as you might have done with `flutter build` directly.
 :::
 
-:::info
+:::note
 By default `shorebird release` uses the Flutter version bundled within the shorebird installation.
 
 That version can be checked by running `shorebird doctor`

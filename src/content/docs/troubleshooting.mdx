@@ -242,6 +242,11 @@ This can be caused by a number of things. The most common causes are:
 4. (iOS only) You are building with an old version of Xcode. Specifically, we've
    seen this warning when building with Xcode 14.1. If you are using a version
    of Xcode that is not the latest, try upgrading to the latest version.
+5. The version and build number of the patch do not match that of the release.
+   For example, if the release was built with version `1.0.0+1`, but the patch
+   was generated with version `1.0.0+2`, you might see this warning. We have
+   implemented some safeguards to make this less likely, but it's worth
+   verifying if you're seeing this warning and you don't know why.
 
 ### What happens if I ignore this warning?
 

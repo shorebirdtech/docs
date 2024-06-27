@@ -248,9 +248,15 @@ system should you choose.
 
 ### Can the user delete patches from their device?
 
-Yes. Since the patches are store in the application data folder, if users
-delete the application data in their devices, the patches will deleted as well.
-This will make the application be sent to the original state of the release.
+Yes.
+
+Since patches are stored in the application data folder, if users
+go in the application settings inside their device system preferences and
+delete the app data, any stored patch will deleted as well.
+
+This should not break the application though. The application will be sent back to
+the original state of when the release was created and Shorebird will trigger
+an update to the latest patch next time the user open the app.
 
 ### How does this relate to Flutter Hot Reload?
 

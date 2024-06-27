@@ -326,7 +326,11 @@ you should ensure that your CI system has network connectivity.
 ### What happens if a user doesn't update for a long time?
 
 A user will always get the latest patch available for their version of the app,
-regardless of which patch (if any) they currently have installed.
+regardless of which patch (if any) they currently have installed. A patch will
+always reflect the state of the codebase at the time when the patch was built so
+as long as newer patches also contain the changes from older patches, users will
+always be up to date and there is no need to worry about users "missing"
+patches.
 
 ### How does Shorebird relate to Flutter?
 

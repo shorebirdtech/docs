@@ -247,6 +247,18 @@ command works.
 [Uninstall](/uninstall) has details on how to remove Shorebird from your
 system should you choose.
 
+### Can the user delete patches from their device?
+
+Yes.
+
+Since patches are stored in the application data folder, if users
+go in the application settings inside their device system preferences and
+delete the app data, any stored patch will deleted as well.
+
+This should not break the application though. The application will be sent back to
+the original state of when the release was created and Shorebird will trigger
+an update to the latest patch next time the user open the app.
+
 ### How does this relate to Flutter Hot Reload?
 
 Flutter's Hot reload is a development-time-only feature. Code push is for

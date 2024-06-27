@@ -323,16 +323,10 @@ Shorebird command line tools (e.g. `shorebird patch`) require network
 connectivity to function. If you are using Shorebird to distribute your app,
 you should ensure that your CI system has network connectivity.
 
-### What happens if a user doesn't update for a long time and misses an update?
+### What happens if a user doesn't update for a long time?
 
-Our implementation always sends an update specifically tailored for the device
-that is requesting it updating the requestor always to the latest version
-available. Thus if a user doesn't update for a while they will "miss"
-intermediate updates.
-
-The update server could be changed to support responding with either the next
-incremental version or the latest version depending on your application's needs.
-Please let us know if alternative update behaviors are important to you.
+A user will always get the latest patch available for their version of the app,
+regardless of which patch (if any) they currently have installed.
 
 ### How does Shorebird relate to Flutter?
 

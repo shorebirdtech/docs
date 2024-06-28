@@ -110,6 +110,12 @@ export default defineConfig({
           },
         },
         {
+          label: 'Crash Reporting',
+          autogenerate: {
+            directory: 'guides/crash-reporting',
+          },
+        },
+        {
           label: 'Flutter Version',
           link: '/flutter-version',
         },

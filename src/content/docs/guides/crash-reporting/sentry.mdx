@@ -35,7 +35,7 @@ Future<void> main() async {
     (options) {
       options.dsn = 'YOUR_DSN';
     },
-    appRunner: ()
+    appRunner: () {
       // Add the patch number as a tag. You can use whatever name you would like
       // as the key. `$patchNumber` will be "null" if there is no patch. You may
       // wish to handle this case differently.

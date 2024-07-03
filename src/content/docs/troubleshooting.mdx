@@ -240,6 +240,11 @@ This can be caused by a number of things. The most common causes are:
    :::tip
    Add your `pubspec.lock` file to version control so you're always aware of
    updates to your dependencies.
+
+   Versioning your `pubspec.lock` file ensures changes to transitive
+   dependencies are explicit. Each time the dependencies change due to
+   `dart pub upgrade` or a change in `pubspec.yaml`, the difference will be
+   apparent in the lock file.
    :::
 
 2. A dependency/plugin produces a different output on every build. This can

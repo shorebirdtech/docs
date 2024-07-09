@@ -147,7 +147,7 @@ version and build numbers in order to target patches at specific releases. You
 can fix this problem by either setting `manageAppVersionAndBuildNumber` to false
 or removing the value from your export options .plist file.
 
-## I see a `The release artifact contains asset changes` warning when running `shorebird release` (#asset-changes)
+## I see a `Your app contains asset changes` warning when running `shorebird patch` (#asset-changes)
 
 The `shorebird patch` command will print a warning if it detects changes to
 files in your compiled app that correspond to asset changes (e.g. added or
@@ -211,7 +211,7 @@ If you are not sure whether your change is safe, you can
 [stage your patch](/guides/staging-patches) and test locally before deploying it
 to users.
 
-## I see a `The release artifact contains native changes` warning when running `shorebird patch`, even though I haven't changed Swift/Objective-C/Kotlin/Java code
+## I see a `Your app contains native changes` warning when running `shorebird patch`, even though I haven't changed Swift/Objective-C/Kotlin/Java code
 
 The `shorebird patch` command will print a warning if it detects changes to
 files in your compiled app that correspond to native code changes (`.dex` files

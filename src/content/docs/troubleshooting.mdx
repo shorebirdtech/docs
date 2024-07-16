@@ -147,7 +147,7 @@ version and build numbers in order to target patches at specific releases. You
 can fix this problem by either setting `manageAppVersionAndBuildNumber` to false
 or removing the value from your export options .plist file.
 
-## I see a `Your app contains asset changes` warning when running `shorebird patch` (#asset-changes)
+## I see a `Your app contains asset changes` warning when running `shorebird patch`
 
 The `shorebird patch` command will print a warning if it detects changes to
 files in your compiled app that correspond to asset changes (e.g. added or
@@ -200,6 +200,9 @@ which operates differently than expected. See
 [the next section](#i-see-a-your-app-contains-native-changes-warning-when-running-shorebird-patch-even-though-i-havent-changed-swiftobjective-ckotlinjava-code).
 
 ### What happens if I ignore this warning?
+
+You can bypass this warning by passing the `--allow-asset-diffs` flag to the
+`shorebird patch` command.
 
 The consequences of ignoring this warning depend on the changes that were made.
 In the tree-shaking example above, if you ignore the warning, your app will
@@ -267,6 +270,9 @@ This can be caused by a number of things. The most common causes are:
    verifying if you're seeing this warning and you don't know why.
 
 ### What happens if I ignore this warning?
+
+You can bypass this warning by passing the `--allow-native-diffs` flag to the
+`shorebird patch` command.
 
 If the changes are to native code that interacts with your Flutter app or with
 Flutter itself, **your app will crash**. If the native code that changed does

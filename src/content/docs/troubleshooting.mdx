@@ -18,6 +18,14 @@ Common causes of this problem are:
 Patches are only compatible with the release version they were created for. If
 you create a patch for version `1.0.0+1`, it will not work on version `1.0.0+2`.
 
+:::note
+This can happen unexpectedly on iOS due to Xcode's automatic incrementing of
+build numbers. If you are seeing this issue on iOS, ensure that the build number
+of the release and the patch match. See [our iOS releasing
+guide](/guides/release/ios/#upload-to-the-app-store) for instructions on how to
+disable automatic build number incrementing.
+:::
+
 #### How to tell if this is the problem
 
 You will see `Shorebird updater: no active patch` in your device logs.
@@ -139,7 +147,7 @@ version and build numbers in order to target patches at specific releases. You
 can fix this problem by either setting `manageAppVersionAndBuildNumber` to false
 or removing the value from your export options .plist file.
 
-## I see a `The release artifact contains asset changes` warning when running `shorebird release` (#asset-changes)
+## I see a `Your app contains asset changes` warning when running `shorebird patch`
 
 The `shorebird patch` command will print a warning if it detects changes to
 files in your compiled app that correspond to asset changes (e.g. added or
@@ -189,9 +197,12 @@ warning, you should be very careful about publishing your patch, as it may
 cause your app to crash when the Dart code tries to call into native code
 which operates differently than expected. See
 {/* cspell:disable-next-line */}
-[the next section](#i-see-a-the-release-artifact-contains-native-changes-warning-when-running-shorebird-patch-even-though-i-havent-changed-swiftobjective-ckotlinjava-code).
+[the next section](#i-see-a-your-app-contains-native-changes-warning-when-running-shorebird-patch-even-though-i-havent-changed-swiftobjective-ckotlinjava-code).
 
 ### What happens if I ignore this warning?
+
+You can bypass this warning by passing the `--allow-asset-diffs` flag to the
+`shorebird patch` command.
 
 The consequences of ignoring this warning depend on the changes that were made.
 In the tree-shaking example above, if you ignore the warning, your app will
@@ -203,7 +214,7 @@ If you are not sure whether your change is safe, you can
 [stage your patch](/guides/staging-patches) and test locally before deploying it
 to users.
 
-## I see a `The release artifact contains native changes` warning when running `shorebird patch`, even though I haven't changed Swift/Objective-C/Kotlin/Java code
+## I see a `Your app contains native changes` warning when running `shorebird patch`, even though I haven't changed Swift/Objective-C/Kotlin/Java code
 
 The `shorebird patch` command will print a warning if it detects changes to
 files in your compiled app that correspond to native code changes (`.dex` files
@@ -229,6 +240,16 @@ This can be caused by a number of things. The most common causes are:
    use caution when publishing patches that include changes to native code from
    plugins. In the worst case, these changes may cause your patched app to
    crash.**
+   :::tip
+   Add your `pubspec.lock` file to version control so you're always aware of
+   updates to your dependencies.
+
+   Versioning your `pubspec.lock` file ensures changes to transitive
+   dependencies are explicit. Each time the dependencies change due to
+   `dart pub upgrade` or a change in `pubspec.yaml`, the difference will be
+   apparent in the lock file.
+   :::
+
 2. A dependency/plugin produces a different output on every build. This can
    happen if the dependency it includes a timestamp indicating when it was
    built, for example. This kind of change is usually safe to publish, but you
@@ -249,6 +270,9 @@ This can be caused by a number of things. The most common causes are:
    verifying if you're seeing this warning and you don't know why.
 
 ### What happens if I ignore this warning?
+
+You can bypass this warning by passing the `--allow-native-diffs` flag to the
+`shorebird patch` command.
 
 If the changes are to native code that interacts with your Flutter app or with
 Flutter itself, **your app will crash**. If the native code that changed does

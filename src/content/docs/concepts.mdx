@@ -37,7 +37,8 @@ This does **not** include:
 - Asset files (images, fonts, etc.), although we have plans to support this in
   the near future (see https://github.com/shorebirdtech/shorebird/issues/318).
 - Native code (e.g. Java/Kotlin on Android or Objective-C/Swift on iOS).
-- Flutter engine changes (i.e., changes the Flutter version of your app).
+- Flutter engine changes (i.e., you cannot change the Flutter version of your
+  app using Code Push).
 
 ## Glossary
 
@@ -68,6 +69,10 @@ A patch is a change to a specific [release](#release), applied as an over-the-ai
 When your application starts, it checks for available patches and applies the latest one. This patch will be visible the next time your application launches.
 
 Patches are created by running `shorebird patch [platform]`, where `platform` is `android`, `aar`, or `ios`.
+
+:::note
+For more information regarding when to create a patch, refer to our [FAQs](/faq#when-should-i-create-a-patch)
+:::
 
 ### Artifact
 

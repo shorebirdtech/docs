@@ -110,6 +110,12 @@ export default defineConfig({
           },
         },
         {
+          label: 'Crash Reporting',
+          autogenerate: {
+            directory: 'guides/crash-reporting',
+          },
+        },
+        {
           label: 'Flutter Version',
           link: '/flutter-version',
         },
@@ -170,6 +176,7 @@ export default defineConfig({
     'guides/add-to-app/ios': 'guides/hybrid-apps/ios',
     'guides/code_push_add_to_app': 'guides/hybrid-apps/android',
     'guides/code_push_quickstart': 'guides/code-push-quickstart',
+    'guides/crash-reporting': 'guides/crash-reporting/uploading-symbols',
     'guides/fastlane': 'ci/fastlane',
     'guides/flavors': 'guides/flavors/android',
     'guides/hybrid-app': 'guides/hybrid-apps/android',

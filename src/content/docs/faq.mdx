@@ -36,7 +36,8 @@ The following URLs are used by Shorebird:
 - https://download.shorebird.dev -- used by the `shorebird` command line tool to
   download Flutter artifacts for building releases and patches.
 - https://storage.googleapis.com -- used by the `shorebird` command line tool to
-  upload and download release and patch artifacts.
+  upload and download release and patch artifacts, and by the Shorebird updater
+  on user's devices to download the patches.
 
 If all of those URLs are accessible from your country, then Shorebird should work.
 
@@ -335,16 +336,14 @@ Shorebird command line tools (e.g. `shorebird patch`) require network
 connectivity to function. If you are using Shorebird to distribute your app,
 you should ensure that your CI system has network connectivity.
 
-### What happens if a user doesn't update for a long time and misses an update?
+### What happens if a user doesn't update for a long time?
 
-Our implementation always sends an update specifically tailored for the device
-that is requesting it updating the requestor always to the latest version
-available. Thus if a user doesn't update for a while they will "miss"
-intermediate updates.
-
-The update server could be changed to support responding with either the next
-incremental version or the latest version depending on your application's needs.
-Please let us know if alternative update behaviors are important to you.
+A user will always get the latest patch available for their version of the app,
+regardless of which patch (if any) they currently have installed. A patch will
+always reflect the state of the codebase at the time when the patch was built so
+as long as newer patches also contain the changes from older patches, users will
+always be up to date and there is no need to worry about users "missing"
+patches.
 
 ### How does Shorebird relate to Flutter?
 
@@ -461,6 +460,12 @@ If you'd like to segment availability of Shorebird patches, there are 4 potentia
 ### Will my app still work if I cancel my Shorebird subscription?
 
 Yes. Apps built with Shorebird will continue to function normally (as if they had been built without Shorebird), including those that have had patches installed.
+
+### When should I create a patch?
+
+Generally, you should create patches when fixing bugs that **DO NOT** contain native changes or asset changes. For all other changes, you should likely create a new release.
+
+If distributing through stores, please refer to store policies for additional guidelines.
 
 ## Billing
 

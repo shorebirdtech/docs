@@ -455,6 +455,20 @@ Generally, you should create patches when fixing bugs that **DO NOT** contain na
 
 If distributing through stores, please refer to store policies for additional guidelines.
 
+### Why my Shorebird release has a different version the one I specified on my pubspec.yaml?
+
+Shorebird uses the version found in the built artifacts to use as the release version.
+
+By default, Flutter will use the version in the pubspec for the build artifacts, that can be
+customized by the developer though, and on that case, the version used to create the Shorebird
+release will differ from the one on the `pubspec.yaml`.
+
+On iOS Shorebird will look on the `Info.plist` located at
+`build/ios/archive/Runner.xcarchive/Products/Applications/Runner.app/Info.plist` to get the version.
+
+While on Android `bundletool` `dump` command is used on top of the built appbundle to determine the
+version.
+
 ## Billing
 
 ### How do I upgrade or downgrade my plan?

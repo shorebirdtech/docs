@@ -249,13 +249,17 @@ system should you choose.
 
 ### Can the user delete patches from their device?
 
-Yes.
+On Android that is possible.
 
 Since patches are stored in the application data folder, if users
 go in the application settings inside their device system preferences and
 delete the app data, any stored patch will deleted as well.
 
-This should not break the application though. The application will be sent back to
+This is not a trivial operation as it requires a good understanding of how the Android
+Operational System works, and is not likely that many users will perform it. Still is
+a possibility though.
+
+In any case this should not break the application. The application will be sent back to
 the original state of when the release was created and Shorebird will trigger
 an update to the latest patch next time the user open the app.
 

@@ -3,6 +3,8 @@ title: FAQ
 description: Frequently asked questions.
 ---
 
+{/* cspell:words appcenter codepush aarch rollouts */}
+
 If you have questions not answered here, please ask! Both filing an issue
 or asking on [Discord](https://discord.gg/shorebird) work.
 
@@ -449,11 +451,37 @@ If you'd like to segment availability of Shorebird patches, there are 4 potentia
 
 Yes. Apps built with Shorebird will continue to function normally (as if they had been built without Shorebird), including those that have had patches installed.
 
-### When should I create a patch?
+### When should I create a patch vs a release?
 
-Generally, you should create patches when fixing bugs that **DO NOT** contain native changes or asset changes. For all other changes, you should likely create a new release.
+Since patching and releasing are independent operations, it is possible to
+create both a patch and a release with the same code changes.
 
-If distributing through stores, please refer to store policies for additional guidelines.
+Note: a "release" gets a unique release version, while a "patch" does not change
+the release version, just the "patch version". The "release version" is a store
+concept, where as "patch version" is a Shorebird concept. Apps can read the
+current patch version at runtime via the
+[package:shorebird_code_push](https://pub.dev/packages/shorebird_code_push).
+
+Different customers have used different policies here. I'll enumerate a few
+here:
+
+1. Some customers push a patch immediately updating all existing users, while
+   also simultaneously submitting a release to the stores (so that new users to
+   their product will get the latest code on first launch after a store
+   install).
+
+2. Some customers use patching as a mechanism to ship changes on a high
+   frequency (e.g. daily or weekly) and only go through a full release process
+   on a lower cadence (e.g. monthly).
+
+3. Finally some customers continue to only use releases for shipping code
+   changes, and reserve patching for emergencies only.
+
+In the end it comes down to what works for your business. Anecdotally I expect
+option 2 is the most common we see with current customers.
+
+Note: Changes which involve native code cannot be patched and thus must use a
+release for distribution.
 
 ## Billing
 

@@ -456,11 +456,13 @@ Yes. Apps built with Shorebird will continue to function normally (as if they ha
 Since patching and releasing are independent operations, it is possible to
 create both a patch and a release with the same code changes.
 
-Note: a "release" gets a unique release version, while a "patch" does not change
-the release version, just the "patch version". The "release version" is a store
-concept, where as "patch version" is a Shorebird concept. Apps can read the
+:::note
+A "release" gets a unique release version, while a "patch" does not change
+the release version, just the "patch number". The "release version" is a store
+concept, where as "patch number" is a Shorebird concept. Apps can read the
 current patch version at runtime via the
 [package:shorebird_code_push](https://pub.dev/packages/shorebird_code_push).
+:::
 
 Different customers have used different policies here. I'll enumerate a few
 here:

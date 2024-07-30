@@ -11,8 +11,9 @@ releasing and patching.
 
 ## Installation
 
-Follow the setup instructions on the
-[fastlane website](https://docs.fastlane.tools/) to install fastlane.
+Follow the setup instructions on the fastlane website to install fastlane
+([ios](https://docs.fastlane.tools/getting-started/ios/setup/),
+[android](https://docs.fastlane.tools/getting-started/android/setup/)).
 
 ## Setup
 
@@ -37,12 +38,9 @@ Open the `Fastfile` in the `fastlane` directory and add the following lane:
 ```ruby
 lane :release_shorebird do
   shorebird_release(platform: "ios")
-  upload_to_testflight(ipa: "../build/ios/ipa/fastlane_test.ipa")
+  upload_to_testflight
 end
 ```
-
-The .ipa file name will depend on your project name. The Flutter app for this
-guide is called `fastlane_test`.
 
 To run this, execute the following command:
 

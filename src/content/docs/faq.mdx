@@ -32,6 +32,8 @@ including Google Cloud Storage and Google Cloud Run.
 
 The following URLs are used by Shorebird:
 
+- https://console.shorebird.dev -- used to interact with Shorebird's services
+  via the web.
 - https://api.shorebird.dev -- used by the `shorebird` command line tools to
   interact with the Shorebird servers as well as the Shorebird updater on users'
   devices to check for updates.
@@ -40,6 +42,13 @@ The following URLs are used by Shorebird:
 - https://storage.googleapis.com -- used by the `shorebird` command line tool to
   upload and download release and patch artifacts, and by the Shorebird updater
   on user's devices to download the patches.
+
+Shorebird also uses Microsoft or Google OAuth login, which have their own
+required urls for login (e.g. login.microsoftonline.com or oauth.google.com).
+
+All traffic to and from Shorebird servers travels over https (port 443) and is
+encrypted using standard Transport Security Layer / Secure Sockets Layer
+(TSL/SSL) protocols.
 
 If all of those URLs are accessible from your country, then Shorebird should work.
 

@@ -72,10 +72,8 @@ export default defineConfig({
               link: '/guides/code-push-quickstart',
             },
             {
-              label: 'Release',
-              autogenerate: {
-                directory: 'guides/release',
-              },
+              label: 'Crash Reporting',
+              link: '/guides/crash-reporting',
             },
             {
               label: 'Staging Patches',
@@ -92,14 +90,16 @@ export default defineConfig({
               },
             },
             {
+              label: 'Submitting to Stores',
+              autogenerate: {
+                directory: 'guides/submitting',
+              },
+            },
+            {
               label: 'Hybrid Apps',
               autogenerate: {
                 directory: 'guides/hybrid-apps',
               },
-            },
-            {
-              label: 'Crash Reporting',
-              link: '/guides/crash-reporting',
             },
           ],
         },
@@ -182,5 +182,7 @@ export default defineConfig({
     'guides/hybrid-app': 'guides/hybrid-apps/android',
     'guides/hybrid-app/android': 'guides/hybrid-apps/android',
     'guides/hybrid-app/ios': 'guides/hybrid-apps/ios',
+    'guides/release/android': 'guides/submitting/play-store',
+    'guides/release/ios': 'guides/submitting/app-store',
   },
 });

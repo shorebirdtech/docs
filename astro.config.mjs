@@ -90,7 +90,7 @@ export default defineConfig({
               },
             },
             {
-              label: 'Submitting to the Stores',
+              label: 'Submitting to Stores',
               autogenerate: {
                 directory: 'guides/submitting',
               },

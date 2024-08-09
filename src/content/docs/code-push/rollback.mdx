@@ -37,10 +37,12 @@ Users who download the app from the store will now get patch 2 instead of patch 
 
 ### Under the hood
 
-When a Shorebird app checks for new patches, the server includes in its repsonse
+When a Shorebird app checks for new patches, the server includes in its response
 a list of rolled back patches. If the device has any rolled back patches
 installed, it deletes them and reverts to the last "good" patch, which will be
 visible the next time the app starts.
 
-:::note If you app needs to download an older patch as part of a rollback,
-installing that patch will count against your monthly patch intalls. :::
+:::note
+If you app needs to download an older patch as part of a rollback,
+installing that patch will count against your monthly patch installs.
+:::

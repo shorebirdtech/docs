@@ -89,14 +89,25 @@ To create apps which are billed to someone else, there are 3 options:
    codebase), then those apps will then be associated with their account and
    they can set per-app permissions accordingly, as per the above instructions.
 
-2. If this person does not want to create the apps themselves, it is possible
-   for you to do so, and we can then transfer the apps to their account for them
-   to manage.
-
-3. It's also possible for us to manually associate their Stripe Customer
+2. It's possible for us to manually associate their Stripe Customer
    with your account, so that you can create and administer access to apps
-   but have the billing sent to their Stripe account.
+   but have the billing sent to their Stripe account. This is probably the
+   most common solution we've deployed. This allows you to create as many apps
+   now or in the future without needing the card holder to take further action.
+
+3. It is also possible is possible for you to create any needed apps and then
+   afterwards, we can then transfer the apps to their account for them
+   to manage, including giving you "Admin" if desired. This means any time
+   you'd like to create another app billed to their account you'll need to reach
+   out to contact@shorebird.dev, but it's very quick for us to move apps when
+   needed.
 
 For either option 2 or 3, please reach out to contact@shorebird.dev and
 tell us which option you would like to pursue and the email addresses associated
-with the accounts, and we would be _happy_ to help!
+with the accounts, and we would be _happy_ to help. Please make sure that all
+email addresses involved already have Shorebird accounts (have gone
+to https://console.shorebird.dev/ and click through the OAuth flow).
+
+Again this is a common confusion due to our limited sharing support at this time
+and we expect to have it addressed with a more sophisticated app sharing system
+later this year: https://github.com/shorebirdtech/shorebird/issues/739

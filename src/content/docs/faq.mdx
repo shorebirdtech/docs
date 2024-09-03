@@ -251,11 +251,12 @@ dynamically at runtime. On iOS devices, data is stored under
 `Library/Application Support/shorebird`.
 
 Shorebird stores only a few files, one is `state.json` which contains the state
-information for the updater. When patches are installed there is also a "slots"
-directory containing up to two directories (0, 1) for each potential downloaded
-patch. These will contain the inflated copies of the patches, which will be
-about the same size as the compiled Dart code in your application (e.g. ~10 mb
-each).
+information for the updater. When a patch is downloaded a directory will be
+created for that patch. These directories contain the inflated copies of the
+patches, which will be about the same size as the compiled Dart code in your
+application (e.g. ~10 mb each). There will only be at most 2 patches downloaded
+on the device at a given time. When a new patch is successfully installed and
+launched, the previous patch is deleted.
 
 ### What do the Shorebird tools store on disk?
 
@@ -264,9 +265,10 @@ in `$HOME/.shorebird`, including bringing a copy of Flutter and Dart as well as
 the Shorebird release tools themselves. This is similar to how the `flutter`
 command works.
 
-These copies of Flutter can be many 100s of megabytes each. Currently Shorebird
-will keep an unbounded number of local copies of Flutter in
-`$HOME/.shorebird/bin/cache/`.
+These copies of Flutter can be 100s of megabytes each. Shorebird will keep a
+copy of Flutter `$HOME/.shorebird/bin/cache/` for each version of Flutter you
+have used. Currently this number is unbounded. These can be removed at any time
+with `shorebird cache clear`.
 
 [Uninstall](/uninstall) has details on how to remove Shorebird from your
 system should you choose.

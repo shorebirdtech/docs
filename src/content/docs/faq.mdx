@@ -240,7 +240,7 @@ behalf. We have plans to add this in the future, but for now you will need to
 continue to use your existing processes to submit to the app stores.
 https://github.com/shorebirdtech/shorebird/issues/257
 
-### What does Shorebird store on disk and where?
+### What does the Shorebird updater store on disk?
 
 The Shorebird updater (included in your application when you build your app with
 Shorebird) caches the latest downloaded patch in the same cache directory that
@@ -250,10 +250,23 @@ although the base of that path is provided by the Android system and can change
 dynamically at runtime. On iOS devices, data is stored under
 `Library/Application Support/shorebird`.
 
+Shorebird stores only a few files, one is `state.json` which contains the state
+information for the updater. When patches are installed there is also a "slots"
+directory containing up to two directories (0, 1) for each potential downloaded
+patch. These will contain the inflated copies of the patches, which will be
+about the same size as the compiled Dart code in your application (e.g. ~10 mb
+each).
+
+### What do the Shorebird tools store on disk?
+
 The Shorebird command line tools (e.g. `shorebird patch`) are installed on disk
 in `$HOME/.shorebird`, including bringing a copy of Flutter and Dart as well as
 the Shorebird release tools themselves. This is similar to how the `flutter`
 command works.
+
+These copies of Flutter can be many 100s of megabytes each. Currently Shorebird
+will keep an unbounded number of local copies of Flutter in
+`$HOME/.shorebird/bin/cache/`.
 
 [Uninstall](/uninstall) has details on how to remove Shorebird from your
 system should you choose.

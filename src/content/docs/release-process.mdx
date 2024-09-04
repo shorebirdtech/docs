@@ -1,0 +1,92 @@
+---
+title: Release Process
+description: How to structure your release process with Shorebird
+---
+
+We are often asked "how should I best integrate Shorebird into my process".
+There are lots of different ways to handle application releasing, so it depends
+on your process, but we've collected some examples here in hopes they help you.
+
+For this exercise we'll assume you're using Git for version control. There are
+other solutions than Git, but GitHub is very popular (and free) and many
+existing Shorebird customers use such. _Using some form of version control with Shorebird is strongly recommended._
+
+## Small Team, Solo-dev
+
+If you're a small team or a solo dev, you likely don't have a lot of formality
+to your release process or cadence. You release when you have something worth
+releasing, you test it on your own phones locally, etc.
+
+For you, Shorebird is most likely to be a "band aid" solution, useful for
+quick-fixes to your most recent release to hold your customers over until
+they make a normal update.
+
+For example, if your existing process is:
+
+- Make a few changes to your app
+- Decide to make a release
+- Test the release locally
+- Push to stores
+- Blog / Market, etc.
+
+You'd still do the same thing. Even for when you want to make patches!
+
+Things we'd recommend you add to your process are:
+
+1. Release Branches
+
+We recommend that teams using Shorebird tag and/or branch their releases.
+
+When you make a release, Shorebird never sees your source code, or stores your
+source code. So if you wish to later review what source you used in that
+release, you will need your own local bookkeeping.
+
+By keeping release branches (or at least takes) it is then very easy for you to
+be able to later see the exact source code sent to your users in a given
+release.
+
+For such, we recommend release branches. Release branches are branches that
+you create as part of your release process. In large teams there might be lots
+of activity on a release branch, and a release branch might be created many
+weeks or months before a release goes out. On a small team, release branches
+are often created as the very last step to save off what was the code at time
+of release.
+
+e.g.
+
+```
+git commit -a -m "Release 1.0.3"
+git checkout -b release/1.0.3
+shorebird release --platforms ios, Android
+```
+
+And then you send to stores.
+
+Why Release Branches instead of Tags?
+
+The reason why we recommend a release branch, is to make it easy to have
+additional fixes on the branch, after the release.
+
+Here is an example of an existing release process for a medium sized team.
+
+- Open PR
+- Get reviews and QA on the PR
+- Merge PR
+- Every two weeks start a new release
+- Run regression testing & QA on the release
+- Push to the stores
+- Release on Web, iOS, and Android
+
+Some teams release more frequently, some less. If you're a solo-developer
+you might not even have a dedicated QA process for your releases.
+
+Typically we see teams integrate Shorebird as a second _optional_ Release
+process on a shorter cadence. For example, the above team might use:
+
+- Open PR
+- Get reviews and QA on the PR
+- Merge PR
+- Cherry-pick PR into Release Branch
+- Create a Shorebird patch with --staging
+- Send staged patch to QA and other testing
+- Release Staged patch to users.

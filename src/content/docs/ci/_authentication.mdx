@@ -1,12 +1,17 @@
-Most Shorebird functionality, like creating releases and patches, requires being authenticated. In order to authenticate with Shorebird in CI, you will need to generate a CI token.
+Most Shorebird functionality, like creating releases and patches, requires being
+authenticated. In order to authenticate with Shorebird in CI, you will need to
+generate a CI token.
 
 ```sh
 shorebird login:ci
 ```
 
-You will be prompted to go through a similar OAuth Flow as when using `shorebird login`, however, `shorebird login:ci` will not store any credentials on your device. Instead, a Shorebird token will be generated for you to use in CI.
+You will be prompted to go through a similar OAuth Flow as when using `shorebird
+login`, however, `shorebird login:ci` will not store any credentials on your
+device. Instead, it will output a base-64 encoded auth token that you will use
+in your CI environment.
 
-The output should look something like:
+The output of this command should look something like:
 
 ```
 $ shorebird login:ci
@@ -20,7 +25,7 @@ Waiting for your authorization...
 
 🎉 Success! Use the following token to login on a CI server:
 
-<SHOREBIRD_TOKEN>
+qwerasdf1234asdfqwer1234asdfqwer1234asdfqwer1234asdfqwer1234asdfqwer1234asdfqwer1234asdfqwer1234asdfqwer1234asdfqwer1234asdfqwer1234asdfqwer1234asdfqwer1234asdfqwer1234asdfqwer1234asdfqwer1234asdfqw==
 
 Example:
 
@@ -28,5 +33,6 @@ export SHOREBIRD_TOKEN="$SHOREBIRD_TOKEN" && shorebird patch android
 ```
 
 :::caution
-The `SHOREBIRD_TOKEN` is a secret and should not be committed directly in your source code or shared publicly.
+The `SHOREBIRD_TOKEN` is a secret and should not be checked in to your source
+control or shared publicly.
 :::

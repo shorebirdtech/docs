@@ -6,312 +6,500 @@ sidebar:
   order: 2
 ---
 
-{/* cspell:words Codemagic astrojs proto tlsv maclinux elif */}
+{/* cspell:words Codemagic astrojs proto tlsv maclinux elif getenv codesigning testflight */}
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 import Authentication from './_authentication.mdx';
 
 :::note
+
 Codemagic recently published
 [their own guide](https://blog.codemagic.io/how-to-set-up-flutter-code-push-with-shorebird-and-codemagic/)
 on how to integrate with Shorebird.
+
 :::
 
 # Codemagic Workflow Integration
 
-This guide will help you integrate Shorebird into your Codemagic Workflow using the [Codemagic YAML](https://docs.codemagic.io/yaml-basic-configuration/yaml-getting-started/).
+This guide will help you integrate Shorebird into your Codemagic Workflow using
+the [Codemagic
+YAML](https://docs.codemagic.io/yaml-basic-configuration/yaml-getting-started/).
+
+The reference code is available on GitHub at
+https://github.com/shorebirdtech/codemagic_demo.
 
 ## Prerequisites
 
-✅ Shorebird CLI is installed on your machine
+This guide assumes that:
 
-✅ You are logged into a Shorebird account.
-
-:::note
-Refer to the [getting started](/) instructions for more information.
-:::
+1. Shorebird CLI is installed on your machine ([guide](https://docs.shorebird.dev/#install)).
+1. Codemagic is connected to your repository ([guide](https://docs.codemagic.io/yaml-quick-start/building-a-flutter-app/#adding-the-app-to-codemagic)).
 
 ## Authentication
 
 <Authentication />
 
 Next, copy the generated `SHOREBIRD_TOKEN` and navigate to your Codemagic
-secrets via:
+secrets:
 
-1. Go to "Environment Variables"
-2. Enter `SHOREBIRD_TOKEN` as variable name
-3. Paste the token into the variable value field
-4. Select or create new group, such as "shorebird"
-5. Ensure "Secure" is checked
-
-We recommend using the variable name `SHOREBIRD_TOKEN` as it's the default name
-used by the Shorebird CLI. If you choose a different name, you'll need to set
-the `SHOREBIRD_TOKEN` environment variable in your Codemagic workflow manually.
+1. Select the "teams" tab on the left sidebar.
+1. Select the team you want to add the secret to.
+1. Select the "Global Variables and Secrets" tab.
+1. Enter `SHOREBIRD_TOKEN` as variable name.
+1. Paste the token into the variable value field.
+1. Add it to a group named `shorebird`.
+1. Ensure "Secure" is checked.
 
 ![Screenshot of the "Environment Variables" tab in
 Codemagic](https://github.com/shorebirdtech/docs/assets/24459435/a2f1ee39-686b-4473-8f3e-d720e835824f)
 
-## Codemagic Workflow Editor
+## Set up an Android workflow
 
-Unfortunately, the Codemagic Workflow Editor doesn't support changing the build
-command. As a result, you will need to use the [Codemagic YAML](#codemagic-yaml)
-file to integrate Shorebird into your workflow.
+This section shows you how to set up a Codemagic workflow to create Android
+releases, distribute them to the Play Store, and patch them once they've been
+distributed.
 
-## Codemagic YAML
+:::note
+
+We will be setting up our workflow using the Codemagic YAML file. The Workflow
+Editor is not supported, as it does not allow us to change the build command.
 
 If you don't know how to use the Codemagic YAML, please refer to the [Codemagic
 YAML documentation](https://docs.codemagic.io/yaml-basic-configuration/yaml-getting-started/).
 
-In the `codemagic.yaml` file, specify the `SHOREBIRD_TOKEN` under `environment`.
+:::
 
-:::note
-Please use the ios build machine in order to build ios releases and patches.
+As a preview, our finished `codemagic.yaml` file will look like this:
 
 ```yaml
+definitions:
+  environment:
+    shared_env: &shared_env
+      flutter: 3.24.1
+      groups:
+        - shorebird
+        - play_store
+      vars:
+        FLUTTER_VERSION: 3.24.1
+  scripts:
+    - &shorebird_install
+      name: Install Shorebird
+      script: |
+        # Install Shorebird
+        curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+
+        # Add Shorebird to PATH
+        echo PATH="$HOME/.shorebird/bin:$PATH" >> $CM_ENV
+    - &fetch_dependencies
+      name: Fetch Dependencies
+      script: |
+        flutter pub get
+
 workflows:
-  example:
-    name: Example
+  release-android-workflow:
+    name: Release Android
     instance_type: mac_mini_m1
     environment:
-      groups:
-        # Exports the SHOREBIRD_TOKEN environment variable
-        - shorebird
-```
-
-:::
-
-<Tabs>
-  <TabItem value="maclinux" label="Mac/Linux" default>
-
-1. Add the group "shorebird" to your environment groups. If you're using a
-   different group name, use that instead.
-
-```yaml
-workflows:
-  example:
-    name: Example
-    environment:
-      groups:
-        # Exports the SHOREBIRD_TOKEN environment variable
-        - shorebird
-```
-
-2. If your target is `ios`, you need to specify the code signing mechanism. First you need to setup provisional profile and certificate for that. You may find the setup [here](https://docs.codemagic.io/yaml-code-signing/signing-ios/).
-
-```yaml
-workflows:
-  example:
-    name: Example
-    environment:
-      ios_signing:
-        distribution_type: ad_hoc # or app_store | development | enterprise
-        bundle_identifier: your package name # for wildcard provisional profiles
-```
-
-3. Add a script to your workflow to set up Shorebird. This script will install
-   Shorebird and add it to your PATH.
-
-```yaml
-scripts:
-  - name: 🐦 Setup Shorebird
-    script: |
-      # Install Shorebird
-      curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
-
-      # Add Shorebird to PATH
-      echo PATH="$HOME/.shorebird/bin:$PATH" >> $CM_ENV
-```
-
-4. Execute Shorebird commands in your workflow.
-
-```yaml
-scripts:
-  - name: 🚀 Shorebird Patch
-    script: shorebird patch android
-```
-
-### Full Example
-
-Here's an example of a complete `codemagic.yaml` file:
-
-```yaml
-workflows:
-  example:
-    name: Example
-    environment:
-      # if target is ios use below signing configuration
-      ios_signing:
-       distribution_type: ad_hoc # or app_store | development | enterprise
-       bundle_identifier: your package name # for wildcard provisional profiles
-      groups:
-        - shorebird
-      # if your target is ios add signing configuration
-      ios_signing:
-        distribution_type: ad_hoc # or app_store | development | enterprise
-        bundle_identifier: your package name # for wildcard provisional profiles
-      flutter: stable
+      <<: *shared_env
+      android_signing:
+        - android_keystore
     scripts:
-      - name: 🐦 Setup Shorebird
+      - *shorebird_install
+      - *fetch_dependencies
+      - name: Shorebird Release
         script: |
-          # Install Shorebird
-          curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
-
-          # Add Shorebird to PATH
-          echo PATH="$HOME/.shorebird/bin:$PATH" >> $CM_ENV
-      - name: 🚀 Shorebird Patch
-        #  'shorebird patch ios' if ios
-        script: shorebird patch android
-```
-
-You can find a working example in this repository:
-[codemagic-shorebird-demo](https://github.com/nilsreichardt/codemagic-shorebird-demo)
-
-  </TabItem>
-  <TabItem value="windows" label="Windows" default>
-
-1. Add the group containing `SHOREBIRD_TOKEN` to your environment groups (in our
-   case, the "shorebird" group we created above). Also add a variable named `shorebird`
-   with the path to the Shorebird executable.
-
-```yaml
-workflows:
-  example:
-    name: Example
+          shorebird release android \
+            --flutter-version="$FLUTTER_VERSION"
+    artifacts:
+      - build/**/outputs/**/*.aab
+      - build/**/outputs/**/mapping.txt
+      - flutter_drive.log
+    publishing:
+      google_play:
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        track: internal
+  patch-android-workflow:
+    name: Patch Android
+    instance_type: mac_mini_m1
     environment:
-      groups:
-        # Exports the SHOREBIRD_TOKEN environment variable
-        - shorebird
-      flutter: stable
-      vars:
-        # Workaround for
-        # https://github.com/orgs/codemagic-ci-cd/discussions/1921#discussioncomment-6582318
-        shorebird: "C:\\Users\\builder\\.shorebird\\bin\\shorebird.ps1"
-```
-
-2. Add a script to your workflow to set up Shorebird. This script will install
-   Shorebird.
-
-```yaml
-scripts:
-  - name: 🐦 Setup Shorebird
-    script: |
-      Set-ExecutionPolicy RemoteSigned -scope CurrentUser # Needed to execute remote scripts
-      iwr -UseBasicParsing 'https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1'|iex
-```
-
-3. Run Shorebird commands with `& $env:shorebird` instead of just `shorebird` as a workaround for [codemagic-ci-cd/discussions/1921](https://github.com/orgs/codemagic-ci-cd/discussions/1921#discussioncomment-6582318).
-
-```yaml
-scripts:
-  - name: 🚀 Shorebird Release
-    script: |
-      & $env:shorebird release android
-```
-
-### Full Example
-
-Here's an example of a complete `codemagic.yaml` file:
-
-```yaml
-workflows:
-  example:
-    name: Example
-    environment:
-      groups:
-        # Exports the SHOREBIRD_TOKEN environment variable
-        - shorebird
-      flutter: stable
-      vars:
-        # Workaround for
-        # https://github.com/orgs/codemagic-ci-cd/discussions/1921#discussioncomment-6582318
-        shorebird: "C:\\Users\\builder\\.shorebird\\bin\\shorebird.ps1"
-    instance_type: windows_x2
+      <<: *shared_env
+      android_signing:
+        - android_keystore
+    inputs:
+      release_version:
+        description: The release version to patch
     scripts:
-      - name: 🐦 Setup Shorebird
+      - *shorebird_install
+      - *fetch_dependencies
+      - name: Shorebird Patch
         script: |
-          Set-ExecutionPolicy RemoteSigned -scope CurrentUser # Needed to execute remote scripts
-          iwr -UseBasicParsing 'https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1'|iex
-      - name: 🚀 Shorebird Release
-        script: |
-          & $env:shorebird release android
+          shorebird patch android \
+            --release-version=${{ inputs.release_version }}
 ```
 
-You can find a working example in this repository:
-[codemagic-shorebird-demo](https://github.com/nilsreichardt/codemagic-shorebird-demo/tree/windows)
+### Prerequisites
 
-  </TabItem>
-</Tabs>
+#### Give Codemagic permission to publish to the Play Store
 
-### Advanced Example
+You can follow the Codemagic guide
+[here](https://docs.codemagic.io/yaml-code-signing/signing-android/#google-play-store-credentials)
+to set this up. We put the `GCLOUD_SERVICE_ACCOUNT_CREDENTIALS` variable in a
+group named `play_store`.
+
+#### Set up your Android keystore in Codemagic
+
+You can follow the Codemagic guide
+[here](https://docs.codemagic.io/yaml-code-signing/signing-android/) to create a
+keystore and upload it to Codemagic. We used `android_keystore` as the name of
+the uploaded keystore.
+
+You will also also need to update your `android/app/build.gradle` file to
+use this keystore in the Codemagic CI environment:
+
+```groovy
+signingConfigs {
+  release {
+    if (System.getenv()['CI']) { // CI=true is exported by Codemagic
+      storeFile file(System.getenv()['CM_KEYSTORE_PATH'])
+      storePassword System.getenv()['CM_KEYSTORE_PASSWORD']
+      keyAlias System.getenv()['CM_KEY_ALIAS']
+      keyPassword System.getenv()['CM_KEY_PASSWORD']
+    } else {
+      keyAlias keystoreProperties['keyAlias']
+      keyPassword keystoreProperties['keyPassword']
+      storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+      storePassword keystoreProperties['storePassword']
+    }
+  }
+}
+```
+
+### Create Shared Configuration
+
+At the top of our `codemagic.yaml` file, define shared environment variables and
+scripts that will be used by multiple workflows. This has been annotated to
+explain what each part does.
+
+```yaml
+definitions:
+  environment:
+    # Use &shared_env to allow us to reference this environment in other
+    #   parts of the file
+    shared_env: &shared_env
+      flutter: 3.24.1
+      groups:
+        # Add the shorebird group to make $SHOREBIRD_TOKEN available to
+        #   the Shorebird CLI.
+        - shorebird
+        # Add the play_store group to make $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        #   available to the Google Play Publishing step.
+        - play_store
+      vars:
+        FLUTTER_VERSION: 3.24.1
+  scripts:
+    # A step to install Shorebird and add it to the host machine's PATH
+    - &shorebird_install
+      name: Install Shorebird
+      script: |
+        # Install Shorebird
+        curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+
+        # Add Shorebird to PATH
+        echo PATH="$HOME/.shorebird/bin:$PATH" >> $CM_ENV
+    - &fetch_dependencies
+      name: Fetch Dependencies
+      script: |
+        flutter pub get
+```
+
+### Add the Android release workflow
+
+Add the following workflow to your `codemagic.yaml` file. This has been
+annotated to explain what each part does.
+
+```yaml
+workflows:
+  release-android-workflow:
+    name: Release Android
+    # This can run on any instance type.
+    instance_type: mac_mini_m1
+    environment:
+      # Add the shared_env we defined in the definitions section.
+      <<: *shared_env
+      # Make the keystore available so we can use release signing.
+      android_signing:
+        # "android_keystore" is the name of the keystore we uploaded
+        #   to Codemagic.
+        - android_keystore
+    scripts:
+      - *shorebird_install
+      - *fetch_dependencies
+      # Run `shorebird release android` to create a release.
+      # This will upload the release to Shorebird and generate
+      #   the artifacts listed below.
+      - name: Shorebird Release
+        script: |
+          shorebird release android \
+            --flutter-version="$FLUTTER_VERSION"
+    # Tell Codemagic where to find the artifacts to publish.
+    artifacts:
+      - build/**/outputs/**/*.aab
+      - build/**/outputs/**/mapping.txt
+      - flutter_drive.log
+    publishing:
+      # Publish to the Google Play Store on the internal track.
+      google_play:
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        track: internal
+```
+
+With this, you should be able to create a release in Shorebird and publish it
+to the Google Play Store via Codemagic.
+
+### Add the Android patch workflow
+
+Add the following workflow to your `codemagic.yaml` file. This has been
+annotated to explain what each part does.
+
+```yaml
+workflows:
+  patch-android-workflow:
+    name: Patch Android
+    # As with the release workflow, this can run on any instance type.
+    instance_type: mac_mini_m1
+    environment:
+      # Add the shared_env we defined in the definitions section.
+      <<: *shared_env
+      # Make the keystore available so we can use release signing.
+      android_signing:
+        # "android_keystore" is the name of the keystore we uploaded
+        #   to Codemagic.
+        - android_keystore
+    # Add an input to allow us to specify the release version to patch.
+    # This will make this workflow reusable across releases.
+    inputs:
+      release_version:
+        description: The release version to patch
+    scripts:
+      - *shorebird_install
+      - *fetch_dependencies
+      - name: Shorebird Patch
+        # Run `shorebird patch android` to patch the specified release.
+        script: |
+          shorebird patch android \
+            --release-version=${{ inputs.release_version }}
+```
+
+With this, you should be able to patch a release in Shorebird via Codemagic.
+
+## Set up an iOS workflow
+
+This section shows you how to set up a Codemagic workflow to create iOS
+releases, distribute them to TestFlight, and patch them once they've been
+distributed.
 
 :::note
-If you're using Windows machines, you'll need to adjust the setup
-and the execution of Shorebird commands. See the Windows tab above.
+
+We will be setting up our workflow using the Codemagic YAML file. The Workflow
+Editor is not supported, as it does not allow us to change the build command.
+
+If you don't know how to use the Codemagic YAML, please refer to the [Codemagic
+YAML documentation](https://docs.codemagic.io/yaml-basic-configuration/yaml-getting-started/).
+
 :::
 
-If you want to specify the operation type (patch or release) externally, you can
-use environment variables in your workflow.
+### Prerequisites
+
+#### Prepare your iOS code signing
+
+Codemagic has a guide on how to set up code signing for iOS
+[here](https://docs.codemagic.io/yaml-quick-start/building-a-flutter-app/). This
+guide will help you generate the necessary keys, certificates, and provisioning
+profiles and load them into Codemagic.
+
+Once you've done that, you will need to make these available to your
+`codemagic.yaml` scripts. You will end up with four environment variables to
+support this:
+
+- `KEY_ID`: This will be copied directly from App Store Connect.
+- `ISSUER_ID`: This will be copied directly from App Store Connect.
+- `APP_STORE_CONNECT_PRIVATE_KEY`: This will be the contents of the private key
+  file you downloaded from App Store Connect. An easy way to get this into
+  Codemagic is to run `cat /path/to/AuthKey_12345678.p8 | pbcopy` which will
+  copy the contents of the file to your clipboard. You can then paste this into
+  Codemagic.
+- `CERTIFICATE_PRIVATE_KEY`: Follow [this
+  guide](https://docs.codemagic.io/partials/code-signing-ios-obtain-certificate/)
+  to obtain `ios_distribution_private_key` file. You can then paste the contents
+  of this file into Codemagic. `cat ios_distribution_private_key | pbcopy` works
+  well for this.
+
+We put all of these variables into a group named `app_store`.
+
+### Create a shared configuration
+
+At the top of our `codemagic.yaml` file, define shared environment variables and
+scripts that will be used by multiple workflows. This has been annotated to
+explain what each part does.
+
+:::note
+
+Many of these scripts use the [Codemagic CLI
+tools](https://docs.codemagic.io/knowledge-codemagic/codemagic-cli-tools/). You
+don't need to install these, but they can be helpful if you want to debug
+locally.
+
+:::
+
+```yaml
+definitions:
+  environment:
+    shared_env: &shared_env
+      flutter: 3.24.1
+      groups:
+        # Export the shorebird group to make $SHOREBIRD_TOKEN available to
+        #   the Shorebird CLI.
+        - shorebird
+        # Export the app_store group to make the iOS code signing variables
+        #   available the scripts below.
+        - app_store
+      vars:
+        # The bundle ID of this example app.
+        # Replace this with your app's bundle id.
+        BUNDLE_ID: dev.shorebird.codemagic-demo
+        FLUTTER_VERSION: 3.24.1
+  scripts:
+    # Download the Shorebird CLI and add it to the PATH.
+    - &shorebird_install
+      name: Install Shorebird
+      script: |
+        # Install Shorebird
+        curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+
+        # Add Shorebird to PATH
+        echo PATH="$HOME/.shorebird/bin:$PATH" >> $CM_ENV
+    - &ios_initialize_keychain
+      # Set up the keychain to be used for code signing. Create the keychain
+      #   at specified path with specified password with given timeout.
+      # Make it default and unlock it for upcoming use.
+      name: Set up keychain to be used for codesigning using Codemagic CLI 'keychain' command
+      script: |
+        keychain initialize
+    - &fetch_signing_files
+      # Fetch provisioning profiles and code signing certificates for
+      #   the Bundle ID with given identifier.
+      name: Fetch signing files
+      script: |
+        app-store-connect fetch-signing-files "$BUNDLE_ID" \
+          --type IOS_APP_STORE --create \
+          --issuer-id "$ISSUER_ID" \
+          --key-id "$KEY_ID" \
+          --private-key="$APP_STORE_CONNECT_PRIVATE_KEY"
+    - &add_certs_to_keychain
+      name: Add certs to keychain
+      script: |
+        keychain add-certificates
+    - &use_profiles
+      # This generates an export_options.plist file that tells Xcode
+      #   how to package our app. We explicitly set
+      #   manageAppVersionAndBuildNumber so that we can control which
+      #   version and build number are used for releasing and patching.
+      name: Set up code signing settings on Xcode project
+      script: |
+        xcode-project use-profiles --custom-export-options={\"manageAppVersionAndBuildNumber\":false}
+    - &fetch_dependencies
+      name: Fetch Dependencies
+      script: |
+        flutter pub get
+```
+
+### Add the iOS release workflow
+
+Add the following workflow to your `codemagic.yaml` file. This has been
+annotated to explain what each part does.
 
 ```yaml
 workflows:
-  advanced-example:
-    name: Advanced Example
+  release-ios-workflow:
+    name: Release iOS
+    # This needs to run on a Mac instance.
+    instance_type: mac_mini_m1
+    integrations:
+      # "Codemagic" is the name of our App Store Connect API key name.
+      app_store_connect: Codemagic
     environment:
-      vars:
-        TYPE: 'patch' # Can be 'patch' or 'release'
-      groups:
-        # Exports the SHOREBIRD_TOKEN environment variable
-        - shorebird
-      flutter: stable
+      <<: *shared_env
+      # Tell Codemagic that we're signing our app for App Store distribution
+      #   and to use the bundle ID we defined above.
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: "$BUNDLE_ID"
     scripts:
-      - name: 🐦 Setup Shorebird
+      # Use the scripts we defined in the definitions section.
+      - *shorebird_install
+      - *fetch_dependencies
+      - *fetch_signing_files
+      - *ios_initialize_keychain
+      - *add_certs_to_keychain
+      - *use_profiles
+      - name: Shorebird Release
+        # Run `shorebird release ios` to create a release.
         script: |
-          # Install Shorebird
-          curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
-
-          # Add Shorebird to PATH
-          echo PATH="$HOME/.shorebird/bin:$PATH" >> $CM_ENV
-      - name: 🙌 Shorebird Build
-        script: |
-          echo "➡️ Using type: $TYPE"
-
-          # If type is neither "patch" nor "release", exit with error
-          if [ "$TYPE" != "patch" ] && [ "$TYPE" != "release" ]; then
-            echo "TYPE must be either 'patch' or 'release'"
-            exit 1
-          fi
-
-          # Check type and run corresponding command
-          if [ "$TYPE" == "patch" ]; then
-            echo "🩹 Running patch command"
-            shorebird patch android
-          elif [ "$TYPE" == "release" ]; then
-            echo "🚀 Running release command"
-            shorebird release android
-          fi
+          shorebird release ios \
+            --flutter-version="$FLUTTER_VERSION" \
+            --export-options-plist=/Users/builder/export_options.plist
+    # Tell Codemagic where to find the artifacts generated by
+    #   the `shorebird release ios` command.
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      app_store_connect:
+        # Use referenced App Store Connect API key to authenticate binary upload.
+        auth: integration
+        # Submit the release to TestFlight, where it can be downloaded by beta
+        #   users and later patched by Shorebird.
+        submit_to_testflight: true
 ```
 
-Now, you can execute the workflow, as shown below:
+With this, you should be able to create a release in Shorebird and publish it
+to TestFlight via Codemagic.
 
-```sh
-curl --location 'https://api.codemagic.io/builds' \
---header 'x-auth-token: YOUR-AUTH-TOKEN' \
---header 'Content-Type: application/json' \
---data '{
-    "appId": "YOUR-APP-ID",
-    "workflowId": "advanced-example",
-    "branch": "main",
-    "environment": {
-        "variables": {
-            "TYPE": "release"
-        }
-    }
-}'
+### Add the iOS patch workflow
+
+Add the following workflow to your `codemagic.yaml` file:
+
+```yaml
+workflows:
+  patch-ios-workflow:
+    name: Patch iOS
+    # This needs to run on a Mac instance.
+    instance_type: mac_mini_m1
+    environment:
+      <<: *shared_env
+      # Tell Codemagic that we're signing our app for App Store distribution
+      #   and to use the bundle ID we defined above.
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: "$BUNDLE_ID"
+    # Add an input to allow us to specify the release version to patch.
+    # This will make this workflow reusable across releases.
+    inputs:
+      release_version:
+        description: The release version to patch
+    scripts:
+      - *shorebird_install
+      - *fetch_dependencies
+      - *fetch_signing_files
+      - *ios_initialize_keychain
+      - *add_certs_to_keychain
+      - *use_profiles
+      - name: Shorebird Patch
+        # Run `shorebird patch ios` to patch the specified release.
+        script: |
+          shorebird patch ios \
+            --release-version=${{ inputs.release_version }} \
+            --export-options-plist=/Users/builder/export_options.plist
 ```
 
-This command will run the release command. If you want to run the patch command,
-change the `TYPE` variable to `patch`.
-
-To obtain your `x-auth-token`, please follow the [Codemagic API authentication
-docs](https://docs.codemagic.io/rest-api/codemagic-rest-api/#authentication).
+With this, you should be able to patch a release in Shorebird via Codemagic.

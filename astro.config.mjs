@@ -80,7 +80,7 @@ export default defineConfig({
               link: '/guides/staging-patches',
             },
             {
-              label: 'Patch Signing (preview)',
+              label: 'Patch Signing (beta)',
               link: '/guides/patch-signing',
             },
             {

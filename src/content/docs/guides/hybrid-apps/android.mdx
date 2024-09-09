@@ -97,8 +97,12 @@ In `app/build.gradle`, add the following:
 buildTypes {
     release {
         // ...
-+        // Necessary to ensure the libapp.so produced by Shorebird matches the one that ends up
-+        // in the APK.
++        // The Dart compiler builds libapp.so directly (does not use clang),and already strips
++        // symbols. However when llvm-strip is run on libapp.so, the symbols are re-sorted
++        // causing the hash of the library to change (which can confuse Shorebird tools).
++        // This line tells gradle to skip the unnecessary llvm-strip step for libapp.so
++        // thus ensuring that the libapp.so that Shorebird sees is byte-identical to the one
++        // which ends up in the APK/AAR/AAB.
 +        packaging.jniLibs.keepDebugSymbols.add("**/libapp.so")
         // ...
     }

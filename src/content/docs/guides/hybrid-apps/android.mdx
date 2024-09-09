@@ -94,6 +94,16 @@ versions of Flutter that Shorebird supports.
 In `app/build.gradle`, add the following:
 
 ```diff
+buildTypes {
+    release {
+        // ...
++        // Necessary to ensure the libapp.so produced by Shorebird matches the one that ends up
++        // in the APK.
++        packaging.jniLibs.keepDebugSymbols.add("**/libapp.so")
+        // ...
+    }
+}
+
 dependencies {
     // ...
 +    releaseImplementation 'com.example.my_flutter_module:flutter_release:1.0'

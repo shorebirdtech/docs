@@ -87,3 +87,25 @@ need to put `flutter build` arguments after a `--` separator. For example:
 `shorebird patch android -- --dart-define="foo=bar"` will define the `"foo"` environment
 variable inside Dart as you might have done with `flutter build` directly.
 :::
+
+### Patch Performance
+
+#### Android
+
+Patching an application on Android has no effect on performance.
+
+#### iOS
+
+Patching an application on iOS typically does not affect an application
+performance. However the patching mechanism on iOS is different from Android.
+Unchanged code runs as normal (on the CPU), changed (or added) code will run in
+a Dart interpreter (slower than the CPU). Typically this change is
+undetectable, but if you are changing particularly performance-sensitive Dart
+code (e.g. code for processing images, or large data) you may see a performance
+difference after patching.
+
+You can always test your patches before sending them to users using by
+[staging patches](/guides/staging-patches).
+
+If you ever see unexpected performance changes when patching, please [contact
+us](mailto:contact@shorebird.dev) we would love to help!

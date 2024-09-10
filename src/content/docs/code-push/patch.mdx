@@ -88,21 +88,20 @@ need to put `flutter build` arguments after a `--` separator. For example:
 variable inside Dart as you might have done with `flutter build` directly.
 :::
 
-
 ### Patch Performance
 
 Android: Patching an application on Android has no effect on performance.
 
-iOS: Patching an application on iOS normally does not affect an application
+iOS: Patching an application on iOS typically does not affect an application
 performance. However the patching mechanism on iOS is different from Android.
-Unchanged code runs as normal (on the CPU), however changed (or added) code will
-run in a Dart interpreter (which is slower than the CPU)  Normally this change
-is undetectable, but if you are changing particularly performance-sensitive code
-(e.g. code for processing images, or large data that is written in Dart) you may
-see a performance difference after patching. If you ever see unexpected
-performance changes when patching on iOS, please [contact
-us](mailto:contact@shorebird.dev) we would love to work with you to understand
-and fix!
+Unchanged code runs as normal (on the CPU), changed (or added) code will run in
+a Dart interpreter (slower than the CPU). Typically this change is
+undetectable, but if you are changing particularly performance-sensitive Dart
+code (e.g. code for processing images, or large data) you may see a performance
+difference after patching.
 
 You can always test your patches before sending them to users using by
-[staging patches](/staging-patches)
+[staging patches](/staging-patches).
+
+If you ever see unexpected performance changes when patching, please [contact
+us](mailto:contact@shorebird.dev) we would love to help!

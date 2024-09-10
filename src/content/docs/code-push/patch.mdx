@@ -90,9 +90,13 @@ variable inside Dart as you might have done with `flutter build` directly.
 
 ### Patch Performance
 
-Android: Patching an application on Android has no effect on performance.
+#### Android
 
-iOS: Patching an application on iOS typically does not affect an application
+Patching an application on Android has no effect on performance.
+
+#### iOS
+
+Patching an application on iOS typically does not affect an application
 performance. However the patching mechanism on iOS is different from Android.
 Unchanged code runs as normal (on the CPU), changed (or added) code will run in
 a Dart interpreter (slower than the CPU). Typically this change is

@@ -128,10 +128,6 @@ export default defineConfig({
           link: '/update-strategies',
         },
         {
-          label: 'Concepts',
-          link: '/concepts',
-        },
-        {
           label: 'FAQ',
           link: '/faq',
         },
@@ -184,5 +180,6 @@ export default defineConfig({
     'guides/hybrid-app/ios': 'guides/hybrid-apps/ios',
     'guides/release/android': 'guides/submitting/play-store',
     'guides/release/ios': 'guides/submitting/app-store',
+    concepts: 'overview',
   },
 });

@@ -128,10 +128,6 @@ export default defineConfig({
           link: '/update-strategies',
         },
         {
-          label: 'Concepts',
-          link: '/concepts',
-        },
-        {
           label: 'FAQ',
           link: '/faq',
         },

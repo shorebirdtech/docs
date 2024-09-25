@@ -1,0 +1,13 @@
+---
+import type { Props } from '@astrojs/starlight/props';
+import Default from '@astrojs/starlight/components/Head.astro';
+---
+
+<Default {...Astro.props}><slot /></Default>
+
+<!-- Plausible analytics -->
+<script
+  defer
+  is:inline
+  data-domain="docs.shorebird.dev"
+  src="https://plausible.io/js/script.tagged-events.js"></script>

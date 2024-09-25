@@ -1,0 +1,143 @@
+---
+title: Development Workflow
+description: Learn how to integrate Shorebird into your development workflow with automated releases and patches.
+---
+
+import RemoteCode from '~/components/RemoteCode.astro';
+import CICheckSnippet from '~/components/guides/development-workflow/CICheckSnippet.astro';
+
+This guide will walk through an opinionated development workflow with Shorebird.
+We'll cover how to automate releasing and patching with Shorebird to streamline
+the development process.
+
+## Prerequisites
+
+This guide assumes you are already familiar with Shorebird and have integrated
+it into your application. Refer to the [getting started](/) instructions for
+more information.
+
+## Overview
+
+Shorebird provides a set of tools that you can use to push over the air updates
+to your customers but it's up to you to decide how to integrate it into your
+development workflow.
+
+While there are many ways to integrate Shorebird, the following workflow is a
+common approach that we recommend:
+
+![development-workflow](https://github.com/user-attachments/assets/59eaefc4-1213-4549-b0d6-38738b065147)
+
+The illustration above, uses [trunk based
+development](https://trunkbaseddevelopment.com) and tags to trigger automated
+release and patch workflows.
+
+The workflow consists of three main phases:
+
+1. **Development**: Developers work on features and bug fixes.
+1. **Release**: When a feature is ready, a release is created and distributed to
+   customers (typically via stores).
+1. **Patch**: If a critical bug is found, a patch is created and distributed to
+   customers immediately via Shorebird.
+
+Let's walk through each phase in more detail.
+
+## Development
+
+Most of the time is spent in the development phase. During this phase,
+developers are building features and fixing bugs.
+
+The development workflow can be broken down into the following steps:
+
+1. Create branch from trunk (main)
+1. Work on task
+1. Open a pull request to merge changes into trunk
+1. Squash and merge after ci checks & code review
+
+Note that with the described workflow, the trunk (e.g. main) is always in a
+releasable state. This puts pressure on continuous integration (CI) checks to ensure
+that the code on the trunk is always in a healthy, deployable state. Checks that would
+typically run as part of the continuous integration process include:
+
+- Linting
+- Formatting
+- Unit tests
+- Integration tests
+- Test coverage reports
+
+You can refer to the following GitHub Actions workflow for an example.
+
+<CICheckSnippet />
+
+## Release
+
+When the team is ready to distribute a new version of the app, a release is
+created. In some cases, releases are created on a regular cadence (e.g. weekly,
+bi-weekly, monthly) while in other cases, releases are created on an ad-hoc
+basis.
+
+The release workflow can be broken down into the following steps:
+
+1. Create a release branch (e.g release/v1.0.0) from trunk (main)
+1. Tag the commit (e.g v1.0.0)
+1. The release workflow is triggered and generates signed artifacts
+1. Distribute the artifacts (e.g. via AppStore, PlayStore, etc.)
+
+You can refer to the following GitHub Actions workflow for an example.
+
+<RemoteCode
+  url="https://raw.githubusercontent.com/felangel/flutter_and_friends/refs/heads/main/.github/workflows/release.yaml"
+  title=".github/workflows/release.yaml"
+/>
+
+When the release workflow has finished running, the artifacts are ready to be
+distributed to customers via the appropriate channels (e.g. AppStore, PlayStore,
+etc.).
+
+![Release Workflow](https://github.com/user-attachments/assets/7c9cf689-bd07-40c0-ad0b-e08935cb4424)
+
+:::note
+For more information about configuring signing refer to the following links:
+
+- [Create an Upload Keystore (Android)](https://docs.flutter.dev/deployment/android#create-an-upload-keystore)
+- [Installing an Apple Certificate on MacOS Runners (iOS)](https://docs.github.com/en/actions/use-cases-and-examples/deploying/installing-an-apple-certificate-on-macos-runners-for-xcode-development)
+  :::
+
+## Patch
+
+Sometimes, despite lots testing, critical bugs can creep into the app. Shorebird
+allows you to fix these bugs and distribute the patches to customers devices
+immediately rather having to wait for releases to be approved and distributed.
+
+The patch workflow can be broken down into the follow steps:
+
+1. Apply the hotfix to the trunk (identical to the development workflow above)
+   1. Create a branch from trunk (main)
+   1. Fix the bug
+   1. Open a pull request to merge changes into trunk
+   1. Squash and merge after ci checks & code review
+1. Cherry pick the commit into the desired release branch(es)
+1. Tag the commit using -hotfix.x (e.g v1.0.0-hotfix.1)
+1. The patch workflow is triggered and uploads the hotfix to the staging environment
+1. Preview the release in the staging environment & validate the fix
+1. Promote the hotfix to production
+
+You can refer to the following GitHub Actions workflow for an example.
+
+<RemoteCode
+  url="https://raw.githubusercontent.com/felangel/flutter_and_friends/refs/heads/main/.github/workflows/patch.yaml"
+  title=".github/workflows/patch.yaml"
+/>
+
+When the patch workflow has finished running, the hotfix is ready to be
+validated in [Shorebird's staging environment](/guides/staging-patches) and
+promoted to production.
+
+![Patch Workflow](https://github.com/user-attachments/assets/ca1957ad-ee52-4cff-a93f-03fceb6ca591)
+
+## Conclusion
+
+In this guide, we took a look at an opinionated development workflow with
+Shorebird which allows teams to automate releasing and patching in order to
+iterate quickly while still delivering a high quality experience to customers.
+
+To see this workflow in action, check out the [Flutter & Friends Conference App](https://github.com/felangel/flutter_and_friends).

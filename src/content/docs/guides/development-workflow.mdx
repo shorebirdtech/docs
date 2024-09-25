@@ -26,7 +26,7 @@ development workflow.
 While there are many ways to integrate Shorebird, the following workflow is a
 common approach that we recommend:
 
-![development-workflow](https://github.com/user-attachments/assets/59eaefc4-1213-4549-b0d6-38738b065147)
+![Development Workflow](https://github.com/user-attachments/assets/61fc8e5b-b77e-42e7-a1d6-5db50a232d02)
 
 The illustration above, uses [trunk based
 development](https://trunkbaseddevelopment.com) and tags to trigger automated
@@ -55,15 +55,12 @@ The development workflow can be broken down into the following steps:
 1. Squash and merge after ci checks & code review
 
 Note that with the described workflow, the trunk (e.g. main) is always in a
-releasable state. This puts pressure on continuous integration (CI) checks to ensure
-that the code on the trunk is always in a healthy, deployable state. Checks that would
-typically run as part of the continuous integration process include:
-
-- Linting
-- Formatting
-- Unit tests
-- Integration tests
-- Test coverage reports
+releasable state. This puts pressure on continuous integration (CI) checks to
+ensure that the code on the trunk is always in a healthy, deployable state.
+Checks that would typically run as part of the continuous integration process
+include linting, formatting, unit tests, and integration tests. CI checks are
+typically run on every pull request and must be passing before the pull request
+can be merged.
 
 You can refer to the following GitHub Actions workflow for an example.
 
@@ -142,4 +139,5 @@ In this guide, we took a look at an opinionated development workflow with
 Shorebird which allows teams to automate releasing and patching in order to
 iterate quickly while still delivering a high quality experience to customers.
 
-To see this workflow in action, check out the [Flutter & Friends Conference App](https://github.com/felangel/flutter_and_friends).
+To see this workflow in action, check out the [Flutter & Friends Conference
+App](https://github.com/felangel/flutter_and_friends).

@@ -43,6 +43,7 @@ export default defineConfig({
         },
       ],
       components: {
+        Head: './src/components/starlight/Head.astro',
         MarkdownContent: './src/components/starlight/MarkdownContent.astro',
       },
       customCss: ['./src/tailwind.css'],

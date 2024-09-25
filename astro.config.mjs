@@ -72,16 +72,20 @@ export default defineConfig({
               link: '/guides/code-push-quickstart',
             },
             {
-              label: 'Crash Reporting',
-              link: '/guides/crash-reporting',
-            },
-            {
               label: 'Staging Patches',
               link: '/guides/staging-patches',
             },
             {
+              label: 'Development Workflow',
+              link: '/guides/development-workflow',
+            },
+            {
               label: 'Patch Signing (beta)',
               link: '/guides/patch-signing',
+            },
+            {
+              label: 'Crash Reporting',
+              link: '/guides/crash-reporting',
             },
             {
               label: 'Flavors',

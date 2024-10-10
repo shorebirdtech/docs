@@ -126,7 +126,7 @@ export default defineConfig({
         },
         {
           label: 'Organizations',
-          link: '/organization',
+          link: '/orgs',
         },
         {
           label: 'Update Strategies',
@@ -186,6 +186,6 @@ export default defineConfig({
     'guides/release/android': 'guides/submitting/play-store',
     'guides/release/ios': 'guides/submitting/app-store',
     concepts: 'overview',
-    teams: 'organizations',
+    teams: 'orgs',
   },
 });

@@ -125,8 +125,8 @@ export default defineConfig({
           link: '/flutter-version',
         },
         {
-          label: 'Teams',
-          link: '/teams',
+          label: 'Organizations',
+          link: '/organization',
         },
         {
           label: 'Update Strategies',
@@ -186,5 +186,6 @@ export default defineConfig({
     'guides/release/android': 'guides/submitting/play-store',
     'guides/release/ios': 'guides/submitting/app-store',
     concepts: 'overview',
+    teams: 'organizations',
   },
 });

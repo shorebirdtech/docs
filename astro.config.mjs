@@ -69,10 +69,6 @@ export default defineConfig({
           label: 'Guides',
           items: [
             {
-              label: 'Code Push Quickstart',
-              link: '/guides/code-push-quickstart',
-            },
-            {
               label: 'Staging Patches',
               link: '/guides/staging-patches',
             },
@@ -180,6 +176,7 @@ export default defineConfig({
     'guides/crash-reporting': 'guides/crash-reporting/uploading-symbols',
     'guides/fastlane': 'ci/fastlane',
     'guides/flavors': 'guides/flavors/android',
+    'guides/code-push-quickstart': '/',
     'guides/hybrid-app': 'guides/hybrid-apps/android',
     'guides/hybrid-app/android': 'guides/hybrid-apps/android',
     'guides/hybrid-app/ios': 'guides/hybrid-apps/ios',

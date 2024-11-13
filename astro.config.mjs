@@ -133,6 +133,10 @@ export default defineConfig({
           link: '/status',
         },
         {
+          label: 'Billing',
+          link: '/billing',
+        },
+        {
           label: 'Architecture',
           link: '/architecture',
         },

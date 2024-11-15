@@ -53,18 +53,19 @@ value to a local cache using
 [`package:shared_preferences`](https://pub.dev/packages/shared_preferences):
 
 ```dart
-Future<void> assignGroupNumberIfNeeded() async {
+Future<int> getGroupNumber() async {
   final prefs = await SharedPreferences.getInstance();
-  if (!prefs.containsKey(groupKey)) {
-    final groupNumber = Random().nextInt(100) + 1;
-    await prefs.setInt(groupKey, groupNumber);
-  }
+  final cachedGroupNumber = prefs.getInt(groupKey);
+  if (cachedGroupNumber != null) return cachedGroupNumber;
+  final groupNumber = Random().nextInt(100) + 1;
+  await prefs.setInt(groupKey, groupNumber);
+  return groupNumber;
 }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await assignGroupNumberIfNeeded();
-  runApp(const MyApp());
+  final groupNumber = await getGroupNumber();
+  runApp(MyApp(groupNumber: groupNumber));
 }
 ```
 
@@ -94,17 +95,14 @@ the stable track.
 Future<UpdateTrack> _updateTrack() async {
 final rolloutPercentage = await _fetchRolloutPercentage();
 
-    // If there is no rollout percentage, all users are on the stable track.
-    if (rolloutPercentage == null) return UpdateTrack.stable;
-
-    // If the user's group number is less than or equal to the rollout
-    // percentage, they are on the beta track. For example:
-    // - if the rollout percentage is 25%, users with group numbers 1-25
-    //   are on the beta track, and the other 75% are on the stable track.
-    // - if the rollout percentage is 100%, all users are on the beta track.
-    return _groupNumber! <= rolloutPercentage
-        ? UpdateTrack.beta
-        : UpdateTrack.stable;
+// If the user's group number is less than or equal to the rollout
+// percentage, they are on the beta track. For example:
+// - if the rollout percentage is 25%, users with group numbers 1-25
+//   are on the beta track, and the other 75% are on the stable track.
+// - if the rollout percentage is 100%, all users are on the beta track.
+return widget.groupNumber <= rolloutPercentage
+    ? UpdateTrack.beta
+    : UpdateTrack.stable;
 }
 ```
 

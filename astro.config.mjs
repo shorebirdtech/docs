@@ -81,6 +81,10 @@ export default defineConfig({
               link: '/guides/crash-reporting',
             },
             {
+              label: 'Percentage-Based Rollouts',
+              link: '/guides/percentage-based-rollouts',
+            },
+            {
               label: 'Flavors',
               autogenerate: {
                 directory: 'guides/flavors',

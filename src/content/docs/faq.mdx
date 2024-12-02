@@ -42,6 +42,8 @@ The following URLs are used by Shorebird:
 - https://storage.googleapis.com -- used by the `shorebird` command line tool to
   upload and download release and patch artifacts, and by the Shorebird updater
   on user's devices to download the patches.
+- https://cdn.shorebird.cloud/ -- used by the Shorebird updater when downloading
+  patches to a user's device.
 
 Shorebird also uses Microsoft or Google OAuth login, which have their own
 required urls for login (e.g. login.microsoftonline.com or oauth.google.com).
@@ -232,13 +234,6 @@ providing features or functionality that are inconsistent with the intended and
 advertised purpose of the Application." Also note that patch sizes correlate
 with the total amount of Dart changed from the original released app. Each patch
 is a diff against the released dart code, not a diff to the previous patch.
-
-### Does Shorebird submit to the stores for me?
-
-Shorebird does not currently support submitting to the app stores on your
-behalf. We have plans to add this in the future, but for now you will need to
-continue to use your existing processes to submit to the app stores.
-https://github.com/shorebirdtech/shorebird/issues/257
 
 ### What does the Shorebird updater store on disk?
 
@@ -474,6 +469,30 @@ If you'd like to segment availability of Shorebird patches, there are 4 potentia
 ### Will my app still work if I cancel my Shorebird subscription?
 
 Yes. Apps built with Shorebird will continue to function normally (as if they had been built without Shorebird), including those that have had patches installed.
+
+### Now that I'm using Shorebird, do I still need to send my app to the stores?
+
+Yes. We recommend customers continue to release their app through the stores in
+addition to using Shorebird. Even if this now means that there can be less
+pressure on your app release process.
+
+This is for two reasons:
+
+1. Stores have policy restrictions that "major new features" go through store
+   review to avoid "deceiving users". Since apps are likely to change over
+   time, periodic releases (to update store screenshots, etc.) is still good
+   practice.
+2. New users install from the stores, not Shorebird. Shorebird can only update
+   your application after launch, so for users to get the best first-launch
+   experience, we recommend that you continue to periodic releases to the
+   stores.
+
+### Does Shorebird submit to the stores for me?
+
+Shorebird does not currently support submitting to the app stores on your
+behalf. We have plans to add this in the future, but for now you will need to
+continue to use your existing processes to submit to the app stores.
+https://github.com/shorebirdtech/shorebird/issues/257
 
 ### When should I create a patch vs a release?
 

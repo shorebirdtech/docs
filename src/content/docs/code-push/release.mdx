@@ -151,6 +151,57 @@ To release with a different Flutter version, you can specify the version using t
 shorebird release ios --flutter-version 3.19.0
 ```
 
+### Signing issues
+
+Depending on how you normally sign your iOS app, you may see an error at the end
+of the build saying something like: `Runner.app requries a provisioning profile
+with ___ feature` or that no signing certificate was found. This can be
+addressed in a few ways:
+
+#### Setting up automatic signing in Xcode
+
+If you are releasing on your local machine (i.e., not in a CI environment), this
+option is easier than the following options, but does not always work well in CI
+environments.
+
+In Xcode, open your project and navigate to the "Signing & Capabilities" tab.
+Ensure that "Automatically manage signing" is checked.
+
+#### Create an ExportOptions.plist file.
+
+You may need to provide an ExportOptions.plist file to the `shorebird release
+ios` command. This file is used by Xcode to determine which certificate and
+provisioning profile should be used to sign the .ipa. An example of this file
+is:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>method</key>
+	<string>app-store</string>
+	<key>provisioningProfiles</key>
+	<dict>
+		<key>com.example.your_bundle_id</key>
+		<string>Your App's App Store Distribution Certificate Name</string>
+	</dict>
+	<key>signingCertificate</key>
+	<string>Apple Distribution</string>
+	<key>signingStyle</key>
+	<string>manual</string>
+	<key>teamID</key>
+	<string>*****</string> # From https://developer.apple.com/account
+</dict>
+</plist>
+```
+
+To use this file, pass it to the `shorebird release ios` command:
+
+```sh
+shorebird release ios --export-options=path/to/ExportOptions.plist
+```
+
 </TabItem>
 
 </Tabs>

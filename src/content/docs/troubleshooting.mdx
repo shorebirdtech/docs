@@ -7,11 +7,34 @@ Find help for issues with Shorebird.
 
 ## I created a patch, but it's not showing up in my app
 
-There are several reasons this might be happening. Start by running your release
-on a device or Android emulator using the `shorebird preview` command to see the
-log output.
+Your first step in debugging should be to check your app's logs. Instructions
+for this can be found at https://shorebird.dev/blog/viewing-logs/.
 
-Common causes of this problem are:
+You should see logs prefixed with `[shorebird]`. If you do not see `[shorebird]`
+in your logs, the app you are running was not built using `shorebird release`
+and cannot receive patches. You will need to redistribute your app using a
+binary created by `shorebird release`.
+
+If you do see Shorebird in your logs, you'll want to look for a a line that
+includes the patch check request being made. It looks like:
+
+```
+Sending patch check request: PatchCheckRequest {
+  app_id: "<your app id>",
+  channel: "stable",
+  release_version: "1.0.3+16", <-- this is the release version
+  patch_number: <some patch number>,
+  platform: "android",
+  arch: "aarch64"
+}
+```
+
+If the release version is the version you expect to see, check the [Shorebird
+Console](https://console.shorebird.dev) to ensure that this release exists for
+the given app id and that it has a patch. Please contact us on Discord if such
+a patch exists and is not being applied.
+
+Common issues:
 
 ### The patch was created for a different release version than the one running on your device/emulator.
 
@@ -33,8 +56,8 @@ You will see `Shorebird updater: no active patch` in your device logs.
 #### How to fix it
 
 Ensure that the version of your app on your device/emulator matches the version
-of the patch you created. You can see what release version your app is running
-by looking in the device logs for:
+of the release you patched. You can see what release version your app is running
+by looking in the device logs for a patch check request:
 
 ```
 Sending patch check request: PatchCheckRequest {
@@ -48,39 +71,6 @@ Sending patch check request: PatchCheckRequest {
 ```
 
 Only patches created for this release version will be compatible with your app.
-
-### The build uploaded to the Play Store/App Store is not the build Shorebird is using for patches.
-
-If you uploaded an .aab or .xcarchive created using `shorebird build` or
-`shorebird patch`, it will not be patchable. You **must** upload the build
-created by `shorebird release`.
-
-#### How to tell if this is the problem
-
-You see `Update rejected: hash mismatch` in your device logs. Note: this is not
-the only thing that can cause a hash mismatch error.
-
-#### How to fix it.
-
-Unfortunately, you will need to create a new release using `shorebird release`.
-
-### The app you're running on your device/emulator was not built using one of the `shorebird release` commands.
-
-#### How to tell if this is the problem
-
-If you are running your app using `shorebird preview`, this is not the problem.
-
-If you have installed the app on your device/emulator a different way, check
-your device logs for output from Shorebird. If you don't see anything like
-`Starting Shorebird update` or `Sending patch check request`, you are not
-running a Shorebird-built app.
-
-To check your Android device logs, run `adb logcat` in your terminal. You can
-filter the output to only show Flutter logs by running `adb logcat | grep flutter`.
-
-#### How to fix it
-
-Use `shorebird preview`.
 
 ## I installed Shorebird, and now I can't run my app in VS Code
 

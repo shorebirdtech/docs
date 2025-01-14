@@ -48,7 +48,7 @@ protection to all our customers and their customers. We never collect data from
 your customers, and only collect the data necessary from you to provide services
 to you. We take care to protect your data that you entrust with us.
 
-Read our [privacy policy](/privacy).
+Read our [privacy policy](https:/shorebird.dev/privacy).
 
 ## Shorebird on the public cloud
 

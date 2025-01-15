@@ -30,7 +30,7 @@ runs:
       working-directory: ${{ inputs.working_directory }}
 
     - name: 📦 Build Site
-      uses: withastro/action@v2
+      uses: withastro/action@v3
       with:
         path: ${{ inputs.working_directory }}
         node-version: ${{ inputs.node_version }}

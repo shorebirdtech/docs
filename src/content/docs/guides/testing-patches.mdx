@@ -36,24 +36,10 @@ All of these options require disabling `auto_update` support, and using
 [package:shorebird_code_push](https://pub.dev/packages/shorebird_code_push) for
 more advanced control over the update process.
 
-### Option 1: Hidden UI to switch tracks
-
-If your app does not have a login/user-account mechanism, this is your best
-option. If it does, we recommend option 2.
-
-Some stores discourage hidden UIs; however our customers tell us it is common
-practice. For example, some apps may
-enable a “QA” mode in their app after a certain series of clicks or special
-gestures, etc., similar to how Android enables developer mode when [tapping 7 times
-on the Android version text in the settings app](https://developer.android.com/studio/debug/dev-options)
-From a QA mode, you could allow testers to switch to the “beta”
-patch track, even from your production app. They could similarly switch back to
-“stable” to move back to what production users see today.
-
-### Option 2: Control Shorebird track based on the current user’s account.
+### Option 1: Control Shorebird track based on the current user’s account.
 
 If your app has a login mechanism, this is your best option. If it does not, we
-recommend option 1.
+recommend option 2.
 
 Once your user has logged in, you determine whether the user is a tester
 and then change your Shorebird update code to use that information
@@ -63,6 +49,20 @@ when updating, e.g.
 final track = user.isTester ? UpdateTrack.beta : UpdateTrack.stable;
 shorebirdUpdater.update(track: track);
 ```
+
+### Option 2: Control Shorebird track with a hidden UI.
+
+If your app does not have a login/user-account mechanism, this is your best
+option. If it does, we recommend option 1.
+
+Some stores discourage hidden UIs; however our customers tell us it is common
+practice. For example, some apps may
+enable a “QA” mode in their app after a certain series of clicks or special
+gestures, etc., similar to how Android enables developer mode when [tapping 7 times
+on the Android version text in the settings app](https://developer.android.com/studio/debug/dev-options)
+From a QA mode, you could allow testers to switch to the “beta”
+patch track, even from your production app. They could similarly switch back to
+“stable” to move back to what production users see today.
 
 ### Option 3: Control Shorebird Track based on how the app was installed.
 

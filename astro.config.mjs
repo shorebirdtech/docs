@@ -65,24 +65,28 @@ export default defineConfig({
           label: 'Guides',
           items: [
             {
-              label: 'Staging Patches',
-              link: '/guides/staging-patches',
-            },
-            {
               label: 'Development Workflow',
               link: '/guides/development-workflow',
             },
             {
-              label: 'Patch Signing (beta)',
-              link: '/guides/patch-signing',
+              label: 'Staging Patches',
+              link: '/guides/staging-patches',
             },
             {
-              label: 'Crash Reporting',
-              link: '/guides/crash-reporting',
+              label: 'Testing Patches',
+              link: '/guides/testing-patches',
+            },
+            {
+              label: 'Signing Patches',
+              link: '/guides/patch-signing',
             },
             {
               label: 'Percentage-Based Rollouts',
               link: '/guides/percentage-based-rollouts',
+            },
+            {
+              label: 'Crash Reporting',
+              link: '/guides/crash-reporting',
             },
             {
               label: 'Flavors',

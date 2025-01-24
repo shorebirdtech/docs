@@ -21,6 +21,13 @@ Typically we se customers use "staging" for internal testing (on developers
 machines) and "beta" for wider group testing (e.g. QA teams where `shorebird`
 commands are not available).
 
+As part of our privacy stance, we _never_ know anything about your users, so
+we have no way to tell users apart or to specify which users should receive
+a patch from within our product. However we do provide you mechanisms for
+controlling updates via Shorebird with user information you have access to
+from within your company and your application. See this guide as well as
+[Percentage Based Rollouts](/guides/percentage-based-rollouts) for examples.
+
 We recommend 3 ways to distribute patches to a subset of
 users (e.g. your QA team) for testing without affecting your public users in
 production.

@@ -53,8 +53,8 @@ information and then change your Shorebird update code to use that information
 when updating, e.g.
 
 ```dart
-final track = user.isTester ? ShorebirdTrack.beta : ShorebirdTrack.stable;
-shorebirdUpdater.update(track);
+final track = user.isTester ? UpdateTrack.beta : UpdateTrack.stable;
+shorebirdUpdater.update(track: track);
 ```
 
 ### Option 3: Control Shorebird Track based on how the app was installed.

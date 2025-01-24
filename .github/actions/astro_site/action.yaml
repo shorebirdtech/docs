@@ -8,7 +8,7 @@ inputs:
     description: The working directory for this workflow
   node_version:
     required: false
-    default: '20'
+    default: '22.13.0'
     description: The node version to use.
 
 runs:
@@ -30,7 +30,7 @@ runs:
       working-directory: ${{ inputs.working_directory }}
 
     - name: 📦 Build Site
-      uses: withastro/action@v2
+      uses: withastro/action@v3
       with:
         path: ${{ inputs.working_directory }}
         node-version: ${{ inputs.node_version }}

@@ -151,6 +151,189 @@ To release with a different Flutter version, you can specify the version using t
 shorebird release ios --flutter-version 3.19.0
 ```
 
+### Signing issues
+
+Depending on how you normally sign your iOS app, you may see an error at the end
+of the build saying something like: `Runner.app requires a provisioning profile
+with ___ feature` or that no signing certificate was found. This can be
+addressed in a few ways:
+
+#### Setting up automatic signing in Xcode
+
+If you are releasing on your local machine (i.e., not in a CI environment), this
+option is easier than the following options, but does not always work well in CI
+environments.
+
+In Xcode, open your project and navigate to the "Signing & Capabilities" tab.
+Ensure that "Automatically manage signing" is checked.
+
+#### Create an ExportOptions.plist file.
+
+You may need to provide an ExportOptions.plist file to the `shorebird release
+ios` command. This file is used by Xcode to determine which certificate and
+provisioning profile should be used to sign the .ipa. An example of this file
+is:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>method</key>
+	<string>app-store</string>
+	<key>provisioningProfiles</key>
+	<dict>
+		<key>com.example.your_bundle_id</key>
+		<string>Your App's App Store Provisioning Profile Name</string>
+	</dict>
+	<key>signingCertificate</key>
+	<string>Apple Distribution</string>
+	<key>signingStyle</key>
+	<string>manual</string>
+	<key>teamID</key>
+	<string>*****</string> # From https://developer.apple.com/account
+</dict>
+</plist>
+```
+
+To use this file, pass it to the `shorebird release ios` command:
+
+```sh
+shorebird release ios --export-options-plist=path/to/ExportOptions.plist
+```
+
+</TabItem>
+
+<TabItem value="release-macos" label="macOS (beta)">
+
+Create a macOS release by running the following command:
+
+`shorebird release macos`
+
+Example output:
+
+```
+$ shorebird release macos
+✓ Fetching apps (0.3s)
+✓ Building app bundle with Flutter 3.27.0 (1e0e5760ee) (18.3s)
+✓ Fetching releases (0.1s)
+
+🚀 Ready to create a new release!
+
+📱 App: sample (d0cf1d8f-e741-4f5d-b280-b794000df1cd)
+📦 Release Version: 1.0.13+2
+🕹️  Platform: macos
+🐦 Flutter Version: 3.27.0 (1e0e5760ee)
+
+Would you like to continue? (y/N) Yes
+✓ Fetching releases (0.1s)
+✓ Creating release (0.3s)
+✓ Updating release status (0.1s)
+✓ Uploading artifacts (3.5s)
+✓ Updating release status (1.7s)
+
+✅ Published Release 1.0.13+2!
+
+macOS app created at build/macos/Build/Products/Release/new_flutter_app.app.
+
+To create a patch for this release, run shorebird patch --platforms=macos --release-version=1.0.0+1
+
+Note: shorebird patch --platforms=macos without the --release-version option will patch the current version of the app.
+```
+
+If your application supports flavors or multiple release targets, you can specify the flavor and target using the `--flavor` and `--target` options:
+
+```bash
+shorebird release macos --target ./lib/main_development.dart --flavor development
+```
+
+:::note
+`shorebird release` wraps `flutter build` and can take any argument `flutter
+build` can. To pass arguments to the underlying `flutter build` you need to put
+`flutter build` arguments after a `--` separator. For example: `shorebird
+release android -- --dart-define="foo=bar"` will define the `"foo"` environment
+variable inside Dart as you might have done with `flutter build` directly. In
+Powershell the `--` separator must be quoted: `'--'`.
+:::
+
+:::note
+By default `shorebird release` uses the Flutter version bundled within the shorebird installation.
+
+That version can be checked by running `shorebird doctor`
+:::
+
+To release with a different Flutter version, you can specify the version using the `--flutter-version` flag.
+
+```
+shorebird release macos --flutter-version 3.24.5
+```
+
+</TabItem>
+
+<TabItem value="release-windows" label="Windows (beta)">
+
+Create a Windows release by running the following command:
+
+`shorebird release windows`
+
+Example output:
+
+```
+$ shorebird release windows
+✓ Fetching apps (0.3s)
+✓ Building Windows app with Flutter 3.27.1 (1e0e5760ee) (18.3s)
+✓ Fetching releases (0.1s)
+
+🚀 Ready to create a new release!
+
+📱 App: sample (d0cf1d8f-e741-4f5d-b280-b794000df1cd)
+📦 Release Version: 1.0.0+1
+🕹️  Platform: windows
+🐦 Flutter Version: 3.27.1 (1e0e5760ee)
+
+Would you like to continue? (y/N) Yes
+✓ Fetching releases (0.1s)
+✓ Creating release (0.3s)
+✓ Updating release status (0.1s)
+✓ Uploading artifacts (3.5s)
+✓ Updating release status (1.7s)
+
+✅ Published Release 1.0.13+2!
+
+Windows executable created at build/windows/x64/runner/Release
+
+To create a patch for this release, run shorebird patch --platforms=windows --release-version=1.0.0+1
+
+Note: shorebird patch --platforms=windows without the --release-version option will patch the current version of the app.
+```
+
+If your application supports flavors or multiple release targets, you can specify the flavor and target using the `--flavor` and `--target` options:
+
+```bash
+shorebird release windows --target ./lib/main_development.dart --flavor development
+```
+
+:::note
+`shorebird release` wraps `flutter build` and can take any argument `flutter
+build` can. To pass arguments to the underlying `flutter build` you need to put
+`flutter build` arguments after a `--` separator. For example: `shorebird
+release android -- --dart-define="foo=bar"` will define the `"foo"` environment
+variable inside Dart as you might have done with `flutter build` directly. In
+Powershell the `--` separator must be quoted: `'--'`.
+:::
+
+:::note
+By default `shorebird release` uses the Flutter version bundled within the shorebird installation.
+
+That version can be checked by running `shorebird doctor`
+:::
+
+To release with a different Flutter version, you can specify the version using the `--flutter-version` flag.
+
+```
+shorebird release windows --flutter-version 3.27.1
+```
+
 </TabItem>
 
 </Tabs>

@@ -98,9 +98,11 @@ Available commands:
   login      Login as a new Shorebird user.
   login:ci   Login as a CI user.
   logout     Logout of the current Shorebird user
-  patch      Manage patches for a specific release in Shorebird.
+  patch      Creates a shorebird patch for the provided target platforms
+  patches    Manage Shorebird patches
   preview    Preview a specific release on a device.
-  release    Manage your Shorebird app releases.
+  release    Creates a shorebird release for the provided target platforms
+  releases   Manage Shorebird releases
   upgrade    Upgrade your copy of Shorebird.
 
 Run "shorebird help <command>" for more information about a command.
@@ -116,20 +118,32 @@ Example output:
 
 ```
 $ shorebird doctor
-Shorebird 0.18.4 • git@github.com:shorebirdtech/shorebird.git
-Flutter 3.13.9 • revision 39df2792f537b1fc62a9c668a6990f585bd91456
-Engine • revision e81fa131e59506d9f6af2a0cee7de749131f1bf0
+Shorebird 1.5.1 • git@github.com:shorebirdtech/shorebird.git
+Flutter 3.27.0 • revision 1e0e5760eeaf534c280cf59ee0504d0e2ba12a7b
+Engine • revision 59571a1190752bc1740bff652ce5f0ba7c9413f8
 
-✓ Shorebird is up-to-date (0.5s)
-✓ Flutter install is correct (0.3s)
-✓ Has access to storage.googleapis.com (0.2s)
+URL Reachability
+✓ https://api.shorebird.dev OK (0.1s)
+✓ https://console.shorebird.dev OK (0.1s)
+✓ https://oauth2.googleapis.com OK (60ms)
+✓ https://storage.googleapis.com OK (0.2s)
+✓ https://cdn.shorebird.cloud OK (0.1s)
+
+✓ Shorebird is up-to-date (1.4s)
+✓ Flutter install is correct (0.4s)
 
 No issues detected!
 ```
 
+Finally, you can log in to your Shorebird account on your machine:
+
+```sh
+shorebird login
+```
+
 ## Integrate Shorebird
 
-Once you have registered and installed the CLI, you're ready to use code push!
+Once you have registered, installed the CLI, and logged in, you're ready to use code push!
 
 Start by creating a new Flutter app:
 
@@ -187,6 +201,22 @@ shorebird release ios
 ```
 
 </TabItem>
+
+<TabItem value="macos" label="macOS (beta)">
+
+```sh
+shorebird release macos
+```
+
+</TabItem>
+
+<TabItem value="windows" label="Windows (beta)">
+
+```sh
+shorebird release windows
+```
+
+</TabItem>
 </Tabs>
 
 When prompted, use the suggested version number (`1.0.0+1`), and enter `y` when
@@ -194,8 +224,8 @@ asked if you would like to continue.
 
 ### Preview the release
 
-To preview the release with Shorebird (that is, with [Shorebird's fork of the
-Flutter engine](/faq#how-does-shorebird-relate-to-flutter)), run:
+To run the app created by `shorebird release` on a device or emulator
+(Android-only), use `shorebird preview`
 
 ```sh
 shorebird preview
@@ -206,7 +236,7 @@ Now kill the app on your device or emulator.
 ### Create a patch
 
 We will now make a small change to the Counter app. In `lib/main.dart`, change
-the app theme's `primarySwatch` from blue to green:
+the app theme's `colorScheme` from purple to green:
 
 ```diff
 class MyApp extends StatelessWidget {
@@ -220,15 +250,22 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         // This is the theme of your application.
         //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
+        // TRY THIS: Try running your application with "flutter run". You'll see
+        // the application has a purple toolbar. Then, without quitting the app,
+        // try changing the seedColor in the colorScheme below to Colors.green
+        // and then invoke "hot reload" (save your changes or press the "hot
+        // reload" button in a Flutter-supported IDE, or press "r" if you used
+        // the command line to start the app).
+        //
         // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
--       primarySwatch: Colors.blue,
-+       primarySwatch: Colors.green,
+        // state is not lost during the reload. To reset the state, use hot
+        // restart instead.
+        //
+        // This works for code too, not just values: Most code changes can be
+        // tested with just a hot reload.
+-       colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
++       colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+        useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -256,12 +293,28 @@ shorebird patch ios
 
 </TabItem>
 
+<TabItem value="macos" label="macOS (beta)">
+
+```sh
+shorebird patch macos
+```
+
+</TabItem>
+
+<TabItem value="indows" label="Windows (beta)">
+
+```sh
+shorebird patch windows
+```
+
+</TabItem>
+
 </Tabs>
 
 ### See the patch in action
 
 Launch the app from your device or emulator. The app will still have the
-original blue theme, but it will be downloading the patch we just created in the
+original purple theme, but it will be downloading the patch we just created in the
 background. Kill and launch the app again, and the app will be green! 🎉
 
 ## Connect on Discord

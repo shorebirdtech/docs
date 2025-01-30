@@ -31,8 +31,8 @@ Sending patch check request: PatchCheckRequest {
 
 If the release version is the version you expect to see, check the [Shorebird
 Console](https://console.shorebird.dev) to ensure that this release exists for
-the given app id and that it has a patch. Please contact us on Discord if such
-a patch exists and is not being applied.
+the given app id and that it has a patch. Please contact us on Discord if such a
+patch exists and is not being applied.
 
 Common issues:
 
@@ -103,9 +103,9 @@ Windows) and removing the `/bin/flutter` from the end of that path.
 
 ## Could not find an option named "dart define" when using the `--` separator
 
-Powershell handles the `--` separator differently than other shells (see
-[this StackOverflow answer](https://stackoverflow.com/a/15788023) for more
-info). To work around this, you can quote the `--` separator. For example:
+Powershell handles the `--` separator differently than other shells (see [this
+StackOverflow answer](https://stackoverflow.com/a/15788023) for more info). To
+work around this, you can quote the `--` separator. For example:
 
 ```sh
 shorebird release android '--' --dart-define=foo=bar
@@ -117,7 +117,8 @@ There are a number of reasons this might happen. Common causes are:
 
 ### I see a message saying that `git stat` failed because a file was too long
 
-This can happen on Windows due to Windows' limit of 260 characters for a filename.
+This can happen on Windows due to Windows' limit of 260 characters for a
+filename.
 
 You can fix this by running:
 
@@ -130,12 +131,12 @@ terminal after running this command.
 
 ## My iOS build number increments when I try to make a release or patch
 
-This is likely because you are providing an export options .plist file that
-sets `manageAppVersionAndBuildNumber` to true. This is incompatible with
-Shorebird because Shorebird requires that you maintain control over your app's
-version and build numbers in order to target patches at specific releases. You
-can fix this problem by either setting `manageAppVersionAndBuildNumber` to false
-or removing the value from your export options .plist file.
+This is likely because you are providing an export options .plist file that sets
+`manageAppVersionAndBuildNumber` to true. This is incompatible with Shorebird
+because Shorebird requires that you maintain control over your app's version and
+build numbers in order to target patches at specific releases. You can fix this
+problem by either setting `manageAppVersionAndBuildNumber` to false or removing
+the value from your export options .plist file.
 
 ## I see a `Your app contains asset changes` warning when running `shorebird patch`
 
@@ -144,9 +145,9 @@ files in your compiled app that correspond to asset changes (e.g. added or
 removed images, fonts, etc.). This does not always mean that your patch will not
 work, but shorebird cannot be sure that the changes are safe.
 
-Shorebird does not (yet) have the
-[ability to patch assets](https://github.com/shorebirdtech/shorebird/issues/318)
-but intends to add such in the future, at which time this warning may go away.
+Shorebird does not (yet) have the [ability to patch
+assets](https://github.com/shorebirdtech/shorebird/issues/318) but intends to
+add such in the future, at which time this warning may go away.
 
 An example of this warning:
 
@@ -169,25 +170,24 @@ to ignore this kind of warning if you're removing an asset that is not used by
 your code, or your Dart code knows how to handle the asset being missing.
 
 Also included in the above changes are the `AssetManifest` files. These files
-change any time you add or remove an asset from your app, and are generally
-a symptom rather than the cause of the warning.
+change any time you add or remove an asset from your app, and are generally a
+symptom rather than the cause of the warning.
 
-The final file changed above is the `MaterialIcons-Regular.otf` font file,
-which can happen if your app uses more or fewer icons from the Dart code.
-Flutter will automatically "tree shake" your fonts, so if you don't use an icon
-in your Dart code, it will not be included in the final app. You can
-disable this behavior with `--no-tree-shake-icons` at the risk of increasing
-your app size. This type of warning will also go away once we add
+The final file changed above is the `MaterialIcons-Regular.otf` font file, which
+can happen if your app uses more or fewer icons from the Dart code. Flutter will
+automatically "tree shake" your fonts, so if you don't use an icon in your Dart
+code, it will not be included in the final app. You can disable this behavior
+with `--no-tree-shake-icons` at the risk of increasing your app size. This type
+of warning will also go away once we add
 [https://github.com/shorebirdtech/shorebird/issues/318](asset patching).
 
 A type of change not shown above is one which changes .dex files on Android or
-the `Runner.app` directory on iOS. These changes represent changes to the
-native code of your app, and are not patchable by Shorebird. If you see this
-warning, you should be very careful about publishing your patch, as it may
-cause your app to crash when the Dart code tries to call into native code
-which operates differently than expected. See
-{/* cspell:disable-next-line */}
-[the next section](#i-see-a-your-app-contains-native-changes-warning-when-running-shorebird-patch-even-though-i-havent-changed-swiftobjective-ckotlinjava-code).
+the `Runner.app` directory on iOS. These changes represent changes to the native
+code of your app, and are not patchable by Shorebird. If you see this warning,
+you should be very careful about publishing your patch, as it may cause your app
+to crash when the Dart code tries to call into native code which operates
+differently than expected. See {/* cspell:disable-next-line */} [the next
+section](#i-see-a-your-app-contains-native-changes-warning-when-running-shorebird-patch-even-though-i-havent-changed-swiftobjective-ckotlinjava-code).
 
 ### What happens if I ignore this warning?
 
@@ -200,9 +200,8 @@ render incorrectly if you use an icon that was not included in the release
 build. Any assets introduced in a patch will fail to load and your app may crash
 if it depends on them.
 
-If you are not sure whether your change is safe, you can
-[stage your patch](/guides/staging-patches) and test locally before deploying it
-to users.
+If you are not sure whether your change is safe, you can [stage your
+patch](/guides/staging-patches) and test locally before deploying it to users.
 
 ## I see a `Your app contains native changes` warning when running `shorebird patch`, even though I haven't changed Swift/Objective-C/Kotlin/Java code
 
@@ -214,14 +213,14 @@ the changes are safe, and because shorebird can't patch non-Dart code, it prints
 a warning.
 
 :::note
-Shorebird assumes a repeatable build -- if you build the application twice
-it ends up byte-for-byte identical (with a few minor known exceptions, like the
-certificate signing date for iOS apps). Some Flutter Plugins or obfuscation
-solutions violate this assumption and can cause these native changes to appear.
-Shorebird may be incompatible with those plugins. You can test for this by
-doing a `shorebird release` and then `shorebird patch` with no changes and
-seeing if you still get a native changes warning. If you believe this is
-the case please reach out to us, we'd be happy to help!
+Shorebird assumes a repeatable build -- if you build the application
+twice it ends up byte-for-byte identical (with a few minor known exceptions,
+like the certificate signing date for iOS apps). Some Flutter Plugins or
+obfuscation solutions violate this assumption and can cause these native changes
+to appear. Shorebird may be incompatible with those plugins. You can test for
+this by doing a `shorebird release` and then `shorebird patch` with no changes
+and seeing if you still get a native changes warning. If you believe this is the
+case please reach out to us, we'd be happy to help!
 :::
 
 This can be caused by a number of things. The most common causes are:
@@ -229,27 +228,24 @@ This can be caused by a number of things. The most common causes are:
 1. A dependency/plugin you are using has changed its native code. **You should
    use caution when publishing patches that include changes to native code from
    plugins. In the worst case, these changes may cause your patched app to
-   crash.**
-   :::tip
-   Add your `pubspec.lock` file to version control so you're always aware of
-   updates to your dependencies.
+   crash.** :::tip Add your `pubspec.lock` file to version control so you're
+   always aware of updates to your dependencies.
 
    Versioning your `pubspec.lock` file ensures changes to transitive
-   dependencies are explicit. Each time the dependencies change due to
-   `dart pub upgrade` or a change in `pubspec.yaml`, the difference will be
-   apparent in the lock file.
-   :::
+   dependencies are explicit. Each time the dependencies change due to `dart pub
+upgrade` or a change in `pubspec.yaml`, the difference will be apparent in
+   the lock file. :::
 
 2. A dependency/plugin produces a different output on every build. This can
    happen if the dependency it includes a timestamp indicating when it was
    built, for example. This kind of change is usually safe to publish, but you
    should be sure this is the only reason you are seeing this warning.
 3. (iOS only) The release was built with a different version of Xcode than the
-   patch. This can be fixed by ensuring that you are using the same
-   version of Xcode to build the release and the patch. If you've upgraded to a
-   newer version of Xcode since building the release, you can download older
-   versions of Xcode from
-   [Apple's developer downloads page](https://developer.apple.com/download/all/).
+   patch. This can be fixed by ensuring that you are using the same version of
+   Xcode to build the release and the patch. If you've upgraded to a newer
+   version of Xcode since building the release, you can download older versions
+   of Xcode from [Apple's developer downloads
+   page](https://developer.apple.com/download/all/).
 4. (iOS only) You are building with an old version of Xcode. Specifically, we've
    seen this warning when building with Xcode 14.1. If you are using a version
    of Xcode that is not the latest, try upgrading to the latest version.
@@ -261,17 +257,14 @@ This can be caused by a number of things. The most common causes are:
 
 ### What happens if I ignore this warning?
 
-:::danger
-If the changes are to native code that interacts with your Flutter app or with
-Flutter itself, **your app will crash**.
-:::
+:::danger If the changes are to native code that interacts with your Flutter app
+or with Flutter itself, **your app will crash**. :::
 
 If the native code that changed does not interact with your Dart code or Flutter
 at all, the patch should run without issue.
 
-If you are not sure whether your change is safe, you can
-[stage your patch](/guides/staging-patches) and test locally before deploying it
-to users.
+If you are not sure whether your change is safe, you can [stage your
+patch](/guides/staging-patches) and test locally before deploying it to users.
 
 If you are sure the changes are safe, you can bypass this warning by passing the
 `--allow-native-diffs` flag to the `shorebird patch` command.
@@ -289,26 +282,72 @@ installation. This can be fixed by running any of:
 
 ## Unsupported class file major version 65
 
-The error `Unsupported class file major version 65` (or 66—the number varies sometimes)
-happens when gradle is being executed with an incompatible Java version.
+The error `Unsupported class file major version 65` (or 66—the number varies
+sometimes) happens when gradle is being executed with an incompatible Java
+version.
 
 You can check the specific Gradle version that your app is using by running
-`shorebird doctor -v` inside the project folder. This command will also print the java version that
-shorebird is using.
+`shorebird doctor -v` inside the project folder. This command will also print
+the java version that shorebird is using.
 
-Refer to the [official Gradle documentation](https://docs.gradle.org/current/userguide/compatibility.html)
-to check which Java version works with which Gradle release.
+Refer to the [official Gradle
+documentation](https://docs.gradle.org/current/userguide/compatibility.html) to
+check which Java version works with which Gradle release.
 
-- [Android Studio](https://developer.android.com/studio) comes with a bundled JDK which should be auto
-  detected by Shorebird and might be the easiest way of solving the issue.
-- If in a GitHub Action, the [setup-java](https://github.com/actions/setup-java) action can help.
-- Or try Installing the required Java version for your project's Gradle release and set
-  the path where it was installed in the `JAVA_HOME` environment variable.
+- [Android Studio](https://developer.android.com/studio) comes with a bundled
+  JDK which should be auto detected by Shorebird and might be the easiest way of
+  solving the issue.
+- If in a GitHub Action, the [setup-java](https://github.com/actions/setup-java)
+  action can help.
+- Or try Installing the required Java version for your project's Gradle release
+  and set the path where it was installed in the `JAVA_HOME` environment
+  variable.
 
 ## When creating an iOS release, I see an error saying that I'm missing a provisioning profile or that no signing team was found.
 
 We address this issue in our [releasing guide](/code-push/release). Take a look
 at the iOS section for more information.
+
+## When creating an iOS release, I see an error that the patch might run slowly.
+
+iOS uses a very different patching process than Android does. The details of
+which are described in [Architecture docs](/architecture).
+
+Notably iOS attempts to re-use as much code from the original release as
+possible when creating a patch. "Linking" in Shorebird terms is the process of
+deciding which code in the original release is possible to re-use after applying
+this patch, vs when we need to use an interpreter (slower) for the new patched
+code.
+
+Because very little of a Flutter app is typically your code (the vast majority
+of any Flutter app is usually the Flutter Framework itself), any patch should be
+able to share the majority of code with the release. Almost always above 80%.
+
+If you're seeing a warning about the patch potentially running slowly please
+reach out to us over [Discord](https://discord.gg/shorebird) or
+[email](mailto:contact@shorebird.dev) and included the mentioned patch_debug.zip
+file.
+
+"Running slowly" means that some percentage of your Dart code will end up
+executing within Shorebird's interpreter (significantly slower than executing
+compiled code on the CPU), which could result in parts of your app feeling 2x-3x
+slower.
+
+Link errors like this are not your fault, nor is there really any action that a
+developer can take to avoid them. They just represent edge-cases where our
+linker got confused about whether it could re-use a function in the release and
+took the conservative path of not, resulting in this low link percentage and
+warning. Your app, including the patch you just made, remains 100% safe to use,
+it may just run slower with the patch applied. You can of course always [stage
+the patch](/guides/staging-patches) or [test the patch](/guides/testing-patches)
+before distributing to users and if you encounter any complaints [roll back the
+patch](/code-push/rollback).
+
+The patch_debug.zip file contains debugging information relating to the linking
+process. We do not upload this file by default as it contains un-obfuscated
+class and function names (which while generally harmless, some customers are
+sensitive about sharing). The files included in the .zip are in the most part
+plain text and you should feel free to read them should you desire.
 
 ## Have a problem that's not addressed here?
 

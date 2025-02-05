@@ -204,6 +204,39 @@ shorebird release ios --export-options-plist=path/to/ExportOptions.plist
 
 </TabItem>
 
+<TabItem value="release-linux" label="Linux (beta)">
+
+Create a Linux release by running the following command:
+
+`shorebird release linux`
+
+Example output:
+
+```
+$ shorebird release linux
+✓ Fetching apps (0.3s)
+✓ Building app bundle with Flutter 3.27.0 (1e0e5760ee) (18.3s)
+✓ Fetching releases (0.1s)
+
+🚀 Ready to create a new release!
+
+📱 App: sample (d0cf1d8f-e741-4f5d-b280-b794000df1cd)
+📦 Release Version: 1.0.13+2
+🕹️  Platform: linux
+🐦 Flutter Version: 3.27.0 (1e0e5760ee)
+
+Would you like to continue? (y/N) Yes
+✓ Fetching releases (0.1s)
+✓ Creating release (0.3s)
+✓ Updating release status (0.1s)
+✓ Uploading artifacts (3.5s)
+✓ Updating release status (1.7s)
+
+✅ Published Release 1.0.0+1!
+```
+
+</TabItem>
+
 <TabItem value="release-macos" label="macOS (beta)">
 
 Create a macOS release by running the following command:

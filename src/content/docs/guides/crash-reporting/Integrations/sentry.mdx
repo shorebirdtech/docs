@@ -37,7 +37,7 @@ Future<void> main() async {
     },
     appRunner: () {
       // Add the patch number as a tag. You can use whatever name you would like
-      // as the key. `${patch?.number}` will be "null" if there is no patch. You may
+      // as the key. `$patch` will be "null" if there is no patch. You may
       // wish to handle this case differently.
       Sentry.configureScope((scope) {
         scope.setTag('shorebird_patch_number', '${patch?.number}',);

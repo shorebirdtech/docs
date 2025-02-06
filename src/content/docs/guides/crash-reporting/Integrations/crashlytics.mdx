@@ -33,14 +33,14 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  final patchNumber = await ShorebirdCodePush().currentPatchNumber();
+  final patchNumber = await ShorebirdUpdater().readCurrentPatch();
 
   // Add the patch number as a tag. You can use whatever name you would like
-  // as the key. `$patchNumber` will be "null" if there is no patch. You may
+  // as the key. `${patchNumber?.number}` will be "null" if there is no patch. You may
   // wish to handle this case differently.
   FirebaseCrashlytics.instance.setCustomKey(
     'shorebird_patch_number',
-    '$patchNumber',
+    '${patchNumber?.number}',
   );
   runApp(const MyApp());
 }

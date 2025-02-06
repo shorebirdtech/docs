@@ -29,7 +29,7 @@ something like:
 ```dart
 Future<void> main() async {
   // Get the current patch number. This will be null if no patch is installed.
-  final patchNumber = await ShorebirdUpdater().readCurrentPatch();
+  final patch = await ShorebirdUpdater().readCurrentPatch();
 
   await SentryFlutter.init(
     (options) {
@@ -37,10 +37,10 @@ Future<void> main() async {
     },
     appRunner: () {
       // Add the patch number as a tag. You can use whatever name you would like
-      // as the key. `${patchNumber?.number}` will be "null" if there is no patch. You may
+      // as the key. `${patch?.number}` will be "null" if there is no patch. You may
       // wish to handle this case differently.
       Sentry.configureScope((scope) {
-        scope.setTag('shorebird_patch_number', '${patchNumber?.number}',);
+        scope.setTag('shorebird_patch_number', '${patch?.number}',);
       });
       return runApp(const MyApp());
     },

@@ -141,6 +141,10 @@ export default defineConfig({
           link: '/status',
         },
         {
+          label: 'Security',
+          link: '/security',
+        },
+        {
           label: 'Billing',
           link: '/billing',
         },

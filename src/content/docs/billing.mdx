@@ -3,6 +3,12 @@ title: Billing
 description: How Shorebird handles Billing
 ---
 
+import { Image } from 'astro:assets';
+import view_billing_portal from '~/assets/view_billing_portal.png';
+
+
+## Stripe
+
 Shorebird uses Stripe for all billing. We accept payment in any method that
 Stripe accepts.
 
@@ -35,3 +41,24 @@ month:
 You can view records of patch installs in [your accounts
 page](https://console.shorebird.dev/account) on the Shorebird Console. These
 numbers are updated hourly.
+
+##  Billing Email
+
+Invoices are sent at the end of the billing period by Stripe.  Since they are
+sent by Stripe they do not use your Shorebird account email, rather the email
+you have set within Stripe.  For most cases these emails are identical however
+you can change them to be different.
+
+If you are a paying customer and would like your invoices sent to a different
+email than you log in with, you can change such within Stripe:
+
+1. Navigate to your "Account" panel within Shorebird.
+
+2. Click on the drop-down menu on the right side.
+
+3. Select "View Billing Portal"
+
+<Image src={view_billing_portal} alt="Screenshot of Shorebird Console" />
+
+This will open Stripe's billing portal which includes the ability to change
+the Stripe email, which is where invoices are sent.

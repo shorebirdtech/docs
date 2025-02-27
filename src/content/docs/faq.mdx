@@ -114,7 +114,7 @@ Similar to the Play Store, the App Store offers both technical and policy
 restrictions.
 
 ```
-3.2.2
+3.3.1b
 ... interpreted code may be downloaded to an Application but only so long as
 such code:
 (a) does not change the primary purpose of the Application by providing
@@ -125,10 +125,11 @@ advertised purpose of the Application as submitted to the App Store,
 ```
 
 Shorebird uses a custom Dart interpreter to comply with the interpreter-only
-restriction for updates on iOS. So long as your application is not engaging
-in deceptive behavior via updates (e.g. changing the purpose of the app via
+restriction for updates on iOS. So long as your application is not engaging in
+deceptive behavior via updates (e.g. changing the purpose of the app via
 update), updating via Shorebird (or any other code push solution) is standard
-industry practice and compliant with App Store guidelines.
+industry practice and compliant with [App Store
+guidelines](https://developer.apple.com/support/terms/apple-developer-program-license-agreement/#b331).
 
 Deliberately abusing Shorebird to violate App Store guidelines is in violation
 of the Shorebird [Terms of Service](https://shorebird.dev/terms) and can result

@@ -7,14 +7,18 @@ sidebar:
 
 {/* cspell:words outform pubout */}
 
-:::note We've shipped this version of patch signing to unblock certain customer
+:::note
+
+We've shipped this version of patch signing to unblock certain customer
 evaluations. While we're confident that this feature adds a useful layer of
 security, it does not yet have all the expected integrations with cloud signing,
 keychains, etc. that a final product would expect to have. We also do not yet
 manage signing keys for you or support many key formats or signature types.
 Signed patches are safe and ready for use, but may have rough edges or missing
 conveniences. Any customer should feel welcome to use this in production, and we
-encourage you to file bugs or feedback for any issues you encounter. :::
+encourage you to file bugs or feedback for any issues you encounter.
+
+:::
 
 In addition to our default security measures, Shorebird also provides optional
 patch signing.
@@ -61,8 +65,12 @@ openssl genrsa -out private.pem 2048
 openssl rsa -in private.pem -outform PEM -pubout -out public.pem
 ```
 
-::: note On Windows, you can use the `openssl` that comes with your git
-installation at `C:\Program Files\Git\usr\bin\openssl.exe`. :::
+::: note
+
+On Windows, you can use the `openssl` that comes with your git installation at
+`C:\Program Files\Git\usr\bin\openssl.exe`.
+
+:::
 
 The above operation will generate a public/private key pair in `private.pem` and
 a public key in `public.pem`. The file containing the private key should be
@@ -81,8 +89,12 @@ shorebird release android --public-key-path /path/to/public.pem
 This will include the public key in the release artifact produced by
 `shorebird release` and cause the released app to require signed patches.
 
-:::note We're using Android to demo, but this will work on any platform
-Shorebird supports. :::
+:::note
+
+We're using Android to demo, but this will work on any platform Shorebird
+supports.
+
+:::
 
 ### Create a signed patch
 
@@ -94,10 +106,14 @@ shorebird patch android --public-key-path /path/to/public.pem --private-key-path
 
 This tells shorebird to sign the patch with the key pair you provided.
 
-:::note Storing private keys on disk is not best-practice, and we recognize
-this. This was built as a demonstration of the system, we look forward to
-working with customers to integrate Shorebird to using the signing services and
-key storage methods they are used to. :::
+:::note
+
+Storing private keys on disk is not best-practice, and we recognize this. This
+was built as a demonstration of the system, we look forward to working with
+customers to integrate Shorebird to using the signing services and key storage
+methods they are used to.
+
+:::
 
 ### Test it out
 

@@ -505,11 +505,15 @@ https://github.com/shorebirdtech/shorebird/issues/257
 Because patching and releasing are independent operations, it is possible to
 create both a patch and a release with the same code changes.
 
-:::note A "release" gets a unique release version, while a "patch" does not
-change the release version, just the "patch number". The "release version" is a
-store concept, where as "patch number" is a Shorebird concept. Apps can read the
+:::note
+
+A "release" gets a unique release version, while a "patch" does not change the
+release version, just the "patch number". The "release version" is a store
+concept, where as "patch number" is a Shorebird concept. Apps can read the
 current patch version at runtime via the
-[package:shorebird_code_push](https://pub.dev/packages/shorebird_code_push). :::
+[package:shorebird_code_push](https://pub.dev/packages/shorebird_code_push).
+
+:::
 
 Different customers have used different policies to decide whether to create a
 release, a patch, or both. I'll enumerate a few of these here:
@@ -528,8 +532,12 @@ release, a patch, or both. I'll enumerate a few of these here:
 In the end, it comes down to what works for your business. We see most of our
 current customers choosing option 2.
 
-:::note Changes which involve native code cannot be patched and thus must use a
-release for distribution. :::
+:::note
+
+Changes which involve native code cannot be patched and thus must use a release
+for distribution.
+
+:::
 
 ### Do I need to distribute my app through a store?
 
@@ -614,11 +622,15 @@ Common issues:
 Patches are only compatible with the release version they were created for. If
 you create a patch for version `1.0.0+1`, it will not work on version `1.0.0+2`.
 
-:::note This can happen unexpectedly on iOS due to Xcode's automatic
-incrementing of build numbers. If you are seeing this issue on iOS, ensure that
-the build number of the release and the patch match. See
+:::note
+
+This can happen unexpectedly on iOS due to Xcode's automatic incrementing of
+build numbers. If you are seeing this issue on iOS, ensure that the build number
+of the release and the patch match. See
 [our iOS releasing guide](/code-push/guides/submitting/app-store/#upload-to-the-app-store)
-for instructions on how to disable automatic build number incrementing. :::
+for instructions on how to disable automatic build number incrementing.
+
+:::
 
 #### How to tell if this is the problem
 
@@ -784,27 +796,37 @@ mean that your patch will not work, but because shorebird cannot be sure that
 the changes are safe, and because shorebird can't patch non-Dart code, it prints
 a warning.
 
-:::note Shorebird assumes a repeatable build -- if you build the application
-twice it ends up byte-for-byte identical (with a few minor known exceptions,
-like the certificate signing date for iOS apps). Some Flutter Plugins or
-obfuscation solutions violate this assumption and can cause these native changes
-to appear. Shorebird may be incompatible with those plugins. You can test for
-this by doing a `shorebird release` and then `shorebird patch` with no changes
-and seeing if you still get a native changes warning. If you believe this is the
-case please reach out to us, we'd be happy to help! :::
+:::note
+
+Shorebird assumes a repeatable build -- if you build the application twice it
+ends up byte-for-byte identical (with a few minor known exceptions, like the
+certificate signing date for iOS apps). Some Flutter Plugins or obfuscation
+solutions violate this assumption and can cause these native changes to appear.
+Shorebird may be incompatible with those plugins. You can test for this by doing
+a `shorebird release` and then `shorebird patch` with no changes and seeing if
+you still get a native changes warning. If you believe this is the case please
+reach out to us, we'd be happy to help!
+
+:::
 
 This can be caused by a number of things. The most common causes are:
 
 1. A dependency/plugin you are using has changed its native code. **You should
    use caution when publishing patches that include changes to native code from
    plugins. In the worst case, these changes may cause your patched app to
-   crash.** :::tip Add your `pubspec.lock` file to version control so you're
-   always aware of updates to your dependencies.
+   crash.**
+
+   :::tip
+
+   Add your `pubspec.lock` file to version control so you're always aware of
+   updates to your dependencies.
 
    Versioning your `pubspec.lock` file ensures changes to transitive
    dependencies are explicit. Each time the dependencies change due to
    `dart pub upgrade` or a change in `pubspec.yaml`, the difference will be
-   apparent in the lock file. :::
+   apparent in the lock file.
+
+   :::
 
 2. A dependency/plugin produces a different output on every build. This can
    happen if the dependency it includes a timestamp indicating when it was
@@ -827,8 +849,12 @@ This can be caused by a number of things. The most common causes are:
 
 ### What happens if I ignore this warning?
 
-:::danger If the changes are to native code that interacts with your Flutter app
-or with Flutter itself, **your app will crash**. :::
+:::danger
+
+If the changes are to native code that interacts with your Flutter app or with
+Flutter itself, **your app will crash**.
+
+:::
 
 If the native code that changed does not interact with your Dart code or Flutter
 at all, the patch should run without issue.

@@ -59,12 +59,16 @@ specify the flavor and target using the `--flavor` and `--target` options:
 shorebird release android --target ./lib/main_development.dart --flavor development
 ```
 
-:::note `shorebird release` wraps `flutter build` and can take any argument
+:::note
+
+`shorebird release` wraps `flutter build` and can take any argument
 `flutter build` can. To pass arguments to the underlying `flutter build` you
 need to put `flutter build` arguments after a `--` separator. For example:
 `shorebird release android -- --dart-define="foo=bar"` will define the `"foo"`
 environment variable inside Dart as you might have done with `flutter build`
-directly. In Powershell the `--` separator must be quoted: `'--'`. :::
+directly. In Powershell the `--` separator must be quoted: `'--'`.
+
+:::
 
 By default, `shorebird release android` builds an AppBundle (`.aab`). If you
 would like to _also_ generate an Android Package Kit (`.apk`), use the following
@@ -74,10 +78,14 @@ command:
 shorebird release android --artifact apk
 ```
 
-:::note By default `shorebird release` uses the Flutter version bundled within
-the shorebird installation.
+:::note
 
-That version can be checked by running `shorebird doctor` :::
+By default `shorebird release` uses the Flutter version bundled within the
+shorebird installation.
+
+That version can be checked by running `shorebird doctor`
+
+:::
 
 To release with a different Flutter version, you can specify the version using
 the `--flutter-version` flag.
@@ -131,17 +139,25 @@ specify the flavor and target using the `--flavor` and `--target` options:
 shorebird release ios --target ./lib/main_development.dart --flavor development
 ```
 
-:::note `shorebird release` wraps `flutter build` and can take any argument
+:::note
+
+`shorebird release` wraps `flutter build` and can take any argument
 `flutter build` can. To pass arguments to the underlying `flutter build` you
 need to put `flutter build` arguments after a `--` separator. For example:
 `shorebird release android -- --dart-define="foo=bar"` will define the `"foo"`
 environment variable inside Dart as you might have done with `flutter build`
-directly. :::
+directly.
 
-:::note By default `shorebird release` uses the Flutter version bundled within
-the shorebird installation.
+:::
 
-That version can be checked by running `shorebird doctor` :::
+:::note
+
+By default `shorebird release` uses the Flutter version bundled within the
+shorebird installation.
+
+That version can be checked by running `shorebird doctor`
+
+:::
 
 To release with a different Flutter version, you can specify the version using
 the `--flutter-version` flag.
@@ -280,17 +296,25 @@ specify the flavor and target using the `--flavor` and `--target` options:
 shorebird release macos --target ./lib/main_development.dart --flavor development
 ```
 
-:::note `shorebird release` wraps `flutter build` and can take any argument
+:::note
+
+`shorebird release` wraps `flutter build` and can take any argument
 `flutter build` can. To pass arguments to the underlying `flutter build` you
 need to put `flutter build` arguments after a `--` separator. For example:
 `shorebird release android -- --dart-define="foo=bar"` will define the `"foo"`
 environment variable inside Dart as you might have done with `flutter build`
-directly. In Powershell the `--` separator must be quoted: `'--'`. :::
+directly. In Powershell the `--` separator must be quoted: `'--'`.
 
-:::note By default `shorebird release` uses the Flutter version bundled within
-the shorebird installation.
+:::
 
-That version can be checked by running `shorebird doctor` :::
+:::note
+
+By default `shorebird release` uses the Flutter version bundled within the
+shorebird installation.
+
+That version can be checked by running `shorebird doctor`
+
+:::
 
 To release with a different Flutter version, you can specify the version using
 the `--flutter-version` flag.
@@ -345,17 +369,25 @@ specify the flavor and target using the `--flavor` and `--target` options:
 shorebird release windows --target ./lib/main_development.dart --flavor development
 ```
 
-:::note `shorebird release` wraps `flutter build` and can take any argument
+:::note
+
+`shorebird release` wraps `flutter build` and can take any argument
 `flutter build` can. To pass arguments to the underlying `flutter build` you
 need to put `flutter build` arguments after a `--` separator. For example:
 `shorebird release android -- --dart-define="foo=bar"` will define the `"foo"`
 environment variable inside Dart as you might have done with `flutter build`
-directly. In Powershell the `--` separator must be quoted: `'--'`. :::
+directly. In Powershell the `--` separator must be quoted: `'--'`.
 
-:::note By default `shorebird release` uses the Flutter version bundled within
-the shorebird installation.
+:::
 
-That version can be checked by running `shorebird doctor` :::
+:::note
+
+By default `shorebird release` uses the Flutter version bundled within the
+shorebird installation.
+
+That version can be checked by running `shorebird doctor`
+
+:::
 
 To release with a different Flutter version, you can specify the version using
 the `--flutter-version` flag.
@@ -377,8 +409,12 @@ shorebird.yaml) on the [Shorebird console](https://console.shorebird.dev/).
 
 ### Delete Releases
 
-:::warning Deleting a release will remove all associated patches and artifacts
-and is **not reversible**. :::
+:::warning
+
+Deleting a release will remove all associated patches and artifacts and is **not
+reversible**.
+
+:::
 
 You can delete a release for your current app (as defined by your
 shorebird.yaml) on the [Shorebird console](https://console.shorebird.dev/).

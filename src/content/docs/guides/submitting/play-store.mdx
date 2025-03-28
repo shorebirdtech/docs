@@ -6,13 +6,17 @@ sidebar:
   order: 1
 ---
 
-This guide walks through releasing a code push app to the Google Play Store and applying a patch to that release.
+This guide walks through releasing a code push app to the Google Play Store and
+applying a patch to that release.
 
-The app we will be releasing in this guide is [`Time Shift`](https://play.google.com/store/apps/details?id=dev.shorebird.u_shorebird_clock), our demo code push app. ([source](https://github.com/shorebirdtech/time_shift/))
+The app we will be releasing in this guide is
+[`Time Shift`](https://play.google.com/store/apps/details?id=dev.shorebird.u_shorebird_clock),
+our demo code push app. ([source](https://github.com/shorebirdtech/time_shift/))
 
 ## Prerequisites
 
-This guide assumes that you have an existing Shorebird app. If you don't have one, you can create one by following the [code push quickstart](/) guide.
+This guide assumes that you have an existing Shorebird app. If you don't have
+one, you can create one by following the [code push quickstart](/) guide.
 
 ## Creating a release
 
@@ -24,7 +28,8 @@ version is `1.0.2+5`, so the version of our next release will be `1.0.3+6`.
 
 ### Make code changes
 
-Version `1.0.3+6` of Time Shift will change the default clock face from `particle` to `generative`.
+Version `1.0.3+6` of Time Shift will change the default clock face from
+`particle` to `generative`.
 
 To make this change, edit `lib/main.dart`:
 
@@ -36,7 +41,8 @@ To make this change, edit `lib/main.dart`:
    );
 ```
 
-Verify that this change does what we expect by running the app with `shorebird run`.
+Verify that this change does what we expect by running the app with
+`shorebird run`.
 
 Once this change has been verified, commit this change and push it to GitHub:
 
@@ -78,7 +84,8 @@ git push --tags  # Push the tag
 
 ### Create a Shorebird release
 
-To create a Shorebird release, run `shorebird release android`. You should see output similar to the following:
+To create a Shorebird release, run `shorebird release android`. You should see
+output similar to the following:
 
 ```
 $ shorebird release android
@@ -109,7 +116,8 @@ https://support.google.com/googleplay/android-developer/answer/9859152?hl=en
 
 ### Upload to the Play Store
 
-As per the instructions above, we must upload the generated `.aab` to the Play Store.
+As per the instructions above, we must upload the generated `.aab` to the Play
+Store.
 
 1. Navigate to the [Play Console](https://play.google.com/console/developers).
 1. Choose your developer account (for us, it's Shorebird.dev).
@@ -119,20 +127,26 @@ As per the instructions above, we must upload the generated `.aab` to the Play S
 
 ![CreateNewRelease](https://github.com/shorebirdtech/docs/assets/581764/90c9c7ed-bc39-4731-bfec-524f89e2baf6)
 
-Upload the `.aab` file located at `./build/app/outputs/bundle/release/app-release.aab`.
+Upload the `.aab` file located at
+`./build/app/outputs/bundle/release/app-release.aab`.
 
-1. From the root directory of the project, run `open ./build/app/outputs/bundle/release/` to open the folder containing the `.aab` in Finder.
+1. From the root directory of the project, run
+   `open ./build/app/outputs/bundle/release/` to open the folder containing the
+   `.aab` in Finder.
 1. Drag `app-release.aab` into the Play Console to upload.
 
-Once the upload completes, the Play Store will correctly recognize the new version as `6 (1.0.3)`.
+Once the upload completes, the Play Store will correctly recognize the new
+version as `6 (1.0.3)`.
 
 ![UploadedBundle](https://github.com/shorebirdtech/docs/assets/581764/1994cb5a-4cd6-4f1b-a88c-f5aaa3d1433d)
 
 Click "Next" and then "Save" (both in the bottom-right corner) to submit.
 
-This will take you to the publishing overview page. Click "Submit for review" to submit the release for review.
+This will take you to the publishing overview page. Click "Submit for review" to
+submit the release for review.
 
-You should now see a release in the Play Store console with an "In review" status:
+You should now see a release in the Play Store console with an "In review"
+status:
 
 ![InReview](https://github.com/shorebirdtech/docs/assets/581764/4cfdc7fb-2049-4110-b1cd-da99c7a491f7)
 
@@ -146,16 +160,19 @@ It's recommended to create a GitHub release as well.
 1. Click "Draft a new release".
 1. Choose the tag we created earlier (`v1.0.3+6`).
 1. Title the release "v1.0.3+6".
-1. Add a description of the release ("Changes the default clock face to 'generative'").
+1. Add a description of the release ("Changes the default clock face to
+   'generative'").
 1. Publish the release.
 
 ## After the release is approved
 
-Once the release has been approved, you will be able to download it from the Play Store.
+Once the release has been approved, you will be able to download it from the
+Play Store.
 
 ## Creating a patch
 
-Patches can be pushed to fix bugs in the `1.0.3+6` release without requiring a new submission to the Play Store.
+Patches can be pushed to fix bugs in the `1.0.3+6` release without requiring a
+new submission to the Play Store.
 
 ### Make the change
 
@@ -165,13 +182,15 @@ Start by checking out the `v1.0.3+6` release tag:
 git checkout v1.0.3+6
 ```
 
-Next, create a branch, as this change will represent a divergence from the `main` branch:
+Next, create a branch, as this change will represent a divergence from the
+`main` branch:
 
 ```sh
 git checkout -b v1.0.3+6-patch1
 ```
 
-For the purposes of this guide, we will change the default clock face back to `particle` in `lib/main.dart`:
+For the purposes of this guide, we will change the default clock face back to
+`particle` in `lib/main.dart`:
 
 ```diff
      (clock) => clock.name == clockName,
@@ -199,7 +218,8 @@ git push --tags
 
 ### Create a Shorebird patch
 
-Finally, push the patch with `shorebird patch android`. You should see output similar to the following:
+Finally, push the patch with `shorebird patch android`. You should see output
+similar to the following:
 
 ```
 $ shorebird patch android
@@ -240,6 +260,4 @@ git branch -D v1.0.3+6-patch1
 git push origin --delete v1.0.3+6-patch1
 ```
 
-:::note
-This change is still accessible via the `v1.0.3+6-patch1` tag.
-:::
+:::note This change is still accessible via the `v1.0.3+6-patch1` tag. :::

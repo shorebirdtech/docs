@@ -5,8 +5,8 @@ description: Frequently asked questions.
 
 {/* cspell:words appcenter codepush aarch rollouts microsoftonline */}
 
-If you have questions not answered here, please ask! Both filing an issue
-or asking on [Discord](https://discord.gg/shorebird) work.
+If you have questions not answered here, please ask! Both filing an issue or
+asking on [Discord](https://discord.gg/shorebird) work.
 
 ### What is the difference between a patch and a release?
 
@@ -16,9 +16,9 @@ was shipped to the app stores. The `shorebird release` command is used to
 prepare a binary for the app stores which includes the Shorebird updater.
 
 We use the term "patch" to mean a binary that can be applied to a release to
-update it to new code. The `shorebird patch` command is used to generate
-a patch from your new local code which is then diffed with the release binary
-to generate a patch which is then shipped to your users.
+update it to new code. The `shorebird patch` command is used to generate a patch
+from your new local code which is then diffed with the release binary to
+generate a patch which is then shipped to your users.
 
 We explain more of these terms in [Overview](/code-push/overview).
 
@@ -52,14 +52,15 @@ All traffic to and from Shorebird servers travels over https (port 443) and is
 encrypted using standard Transport Security Layer / Secure Sockets Layer
 (TSL/SSL) protocols.
 
-If all of those URLs are accessible from your country, then Shorebird should work.
+If all of those URLs are accessible from your country, then Shorebird should
+work.
 
 If your region requires use of
 [FLUTTER_STORAGE_BASE_URL](https://docs.flutter.dev/community/china) Shorebird
 may not work for you at this time as we also use that environment variable as
-part of our implementation. We have plans to [remove this
-restriction](https://github.com/shorebirdtech/shorebird/issues/435), let us know
-if this is important to you.
+part of our implementation. We have plans to
+[remove this restriction](https://github.com/shorebirdtech/shorebird/issues/435),
+let us know if this is important to you.
 
 ### Does Shorebird comply with Play Store guidelines?
 
@@ -67,8 +68,8 @@ Yes.
 
 The Play Store offers two restrictions relating to update tools.
 
-1.  Updates must use an interpreter or virtual machine (Shorebird
-    uses the Dart Virtual Machine).
+1.  Updates must use an interpreter or virtual machine (Shorebird uses the Dart
+    Virtual Machine).
     https://support.google.com/googleplay/android-developer/answer/9888379?hl=en
 
 ```
@@ -85,12 +86,12 @@ The Play Store offers two restrictions relating to update tools.
     app) must not allow potential violations of Google Play policies.
 ```
 
-2.  Changes to the app must not be deceptive (e.g. changing the purpose of
-    the app via update).
+2.  Changes to the app must not be deceptive (e.g. changing the purpose of the
+    app via update).
     https://support.google.com/googleplay/android-developer/answer/9888077
     Please be clear with your users about what you are providing with your
-    application and do not violate their expectations with
-    significant behavioral changes through the use of Shorebird.
+    application and do not violate their expectations with significant
+    behavioral changes through the use of Shorebird.
 
 Shorebird is designed to be compatible with the Play Store guidelines. However
 Shorebird is a tool, and as with any tool, can be abused. Deliberately abusing
@@ -98,9 +99,9 @@ Shorebird to violate Play Store guidelines is in violation of the Shorebird
 [Terms of Service](https://shorebird.dev/terms) and can result in termination of
 your account.
 
-Code push services are widely used in the industry (all of the large
-apps I'm aware of use them) and there are multiple other code push services
-publicly available (e.g. expo.dev & appcenter.ms). This is a well trodden path.
+Code push services are widely used in the industry (all of the large apps I'm
+aware of use them) and there are multiple other code push services publicly
+available (e.g. expo.dev & appcenter.ms). This is a well trodden path.
 
 Microsoft also publishes a guide on how their React Native "codepush" library
 complies with the app stores:
@@ -128,8 +129,8 @@ Shorebird uses a custom Dart interpreter to comply with the interpreter-only
 restriction for updates on iOS. So long as your application is not engaging in
 deceptive behavior via updates (e.g. changing the purpose of the app via
 update), updating via Shorebird (or any other code push solution) is standard
-industry practice and compliant with [App Store
-guidelines](https://developer.apple.com/support/terms/apple-developer-program-license-agreement/#b331).
+industry practice and compliant with
+[App Store guidelines](https://developer.apple.com/support/terms/apple-developer-program-license-agreement/#b331).
 
 Deliberately abusing Shorebird to violate App Store guidelines is in violation
 of the Shorebird [Terms of Service](https://shorebird.dev/terms) and can result
@@ -141,15 +142,15 @@ https://github.com/microsoft/react-native-code-push#store-guideline-compliance
 
 ### What is the roadmap?
 
-We try to keep: https://docs.shorebird.dev/status up to date with the status
-of the project.
+We try to keep: https://docs.shorebird.dev/status up to date with the status of
+the project.
 
 Our project boards are also public an found at:
 https://github.com/orgs/shorebirdtech/projects
 
-Our team also operates in the public, so you can see what we're working
-on at any time. We're happy to answer any questions you have about our roadmap
-or priorities via GitHub issues or [Discord](https://discord.gg/shorebird).
+Our team also operates in the public, so you can see what we're working on at
+any time. We're happy to answer any questions you have about our roadmap or
+priorities via GitHub issues or [Discord](https://discord.gg/shorebird).
 
 ### Can I self-host Shorebird?
 
@@ -175,26 +176,26 @@ See also our privacy policy: https://shorebird.dev/privacy
 
 ### Can I use Shorebird from my CI system?
 
-Yes. Shorebird is intended to be used from CI systems. We've published a
-guide for [GitHub Actions](/ci/github), other CI systems should be similar.
+Yes. Shorebird is intended to be used from CI systems. We've published a guide
+for [GitHub Actions](/ci/github), other CI systems should be similar.
 
 Please don't hesitate to reach out over GitHub issues or Discord if you
 encounter any issues.
 
 ### How does this relate to Firebase Remote Config or Launch Darkly?
 
-Code push allows adding new code / replacing code on the device. Firebase
-Remote Config and Launch Darkly are both configuration systems. They allow you
-to change the configuration of your app without having to ship a new version.
-They are not intended to replace code.
+Code push allows adding new code / replacing code on the device. Firebase Remote
+Config and Launch Darkly are both configuration systems. They allow you to
+change the configuration of your app without having to ship a new version. They
+are not intended to replace code.
 
 ### How big of a dependency footprint does this add?
 
 I haven't measured recently, but I expect the code push library to add less than
 one megabyte to Flutter apps. `flutter build apk --release` vs.
-`shorebird build apk --release` should give you a rough idea. We know of ways
-we can make this smaller when that becomes a priority. If size is a blocker
-for you, please let us know!
+`shorebird build apk --release` should give you a rough idea. We know of ways we
+can make this smaller when that becomes a priority. If size is a blocker for
+you, please let us know!
 
 ### Does code push work with large applications?
 
@@ -213,8 +214,7 @@ We've seen a variety of uses, including:
 
 Note that most app stores prohibit shipping code that changes the behavior of
 the app in a significant way. Please see
-[below](#does-shorebird-comply-with-play-store-guidelines)
-for more information.
+[below](#does-shorebird-comply-with-play-store-guidelines) for more information.
 
 ### What can't we use Shorebird code push for?
 
@@ -222,8 +222,8 @@ As above, Shorebird should not be used to violate app store polices. Please see
 [below](#does-shorebird-comply-with-play-store-guidelines) for more information.
 
 Also Shorebird does not support changing native code (e.g. Java/Kotlin on
-Android or Objective-C/Swift on iOS). The tool will warn you during an
-attempted patch if you have changed native code.
+Android or Objective-C/Swift on iOS). The tool will warn you during an attempted
+patch if you have changed native code.
 
 ### Can I use Shorebird for all my Dart changes?
 
@@ -266,8 +266,8 @@ copy of Flutter `$HOME/.shorebird/bin/cache/` for each version of Flutter you
 have used. Currently this number is unbounded. These can be removed at any time
 with `shorebird cache clear`.
 
-[Uninstall](/uninstall) has details on how to remove Shorebird from your
-system should you choose.
+[Uninstall](/uninstall) has details on how to remove Shorebird from your system
+should you choose.
 
 ### How does this relate to Flutter Hot Reload?
 
@@ -296,8 +296,8 @@ If you have a use case for code push with Fluter web, we'd
 Shorebird supports iOS and Android today. We plan to support all other Flutter
 platforms over time.
 
-Use of Shorebird on each platform is an independent decision. For example You can
-use `shorebird release` to ship to Google Play and an ipa built with
+Use of Shorebird on each platform is an independent decision. For example You
+can use `shorebird release` to ship to Google Play and an ipa built with
 `flutter build` to the App Store or vice versa.
 
 Shorebird can (relatively easily) be made to support
@@ -319,10 +319,10 @@ iOS is supported on Flutter 3.16.9 or later.
 
 See https://docs.shorebird.dev/flutter-version for more information.
 
-Shorebird tracks Flutter stable and generally updates within a few hours of
-any stable release. Our system for doing these updates is automated takes
-a few minutes to run. We then do an extra manual verification step before
-publishing to our servers.
+Shorebird tracks Flutter stable and generally updates within a few hours of any
+stable release. Our system for doing these updates is automated takes a few
+minutes to run. We then do an extra manual verification step before publishing
+to our servers.
 
 ### Does code push require the internet to work?
 
@@ -335,16 +335,16 @@ transport updates to the devices.
 Shorebird updater (included in your application when you build your app with
 Shorebird) is designed to be resilient to network connectivity issues.
 
-In the default update behavior, when the
-application launches it alerts the Shorebird updater, which spawns a separate
-thread to make a network request to Shorebird's servers and ask for an update.
-We intentionally use a separate thread to avoid affecting blocking anything else
-the application might be doing. If the network request fails or times out, the
-updater will simply try to check again next time the application launches.
+In the default update behavior, when the application launches it alerts the
+Shorebird updater, which spawns a separate thread to make a network request to
+Shorebird's servers and ask for an update. We intentionally use a separate
+thread to avoid affecting blocking anything else the application might be doing.
+If the network request fails or times out, the updater will simply try to check
+again next time the application launches.
 
 Shorebird command line tools (e.g. `shorebird patch`) require network
-connectivity to function. If you are using Shorebird to distribute your app,
-you should ensure that your CI system has network connectivity.
+connectivity to function. If you are using Shorebird to distribute your app, you
+should ensure that your CI system has network connectivity.
 
 ### What happens if a user doesn't update for a long time?
 
@@ -386,21 +386,21 @@ app is restarted.
 
 It is also possible to run the Shorebird updater manually using
 [package:shorebird_code_push](https://pub.dev/packages/shorebird_code_push),
-through which it is possible to trigger updates at any time, including via
-a push notification.
+through which it is possible to trigger updates at any time, including via a
+push notification.
 
-See [update-strategies](/update-strategies) for more information about how
-to configure this behavior.
+See [update-strategies](/update-strategies) for more information about how to
+configure this behavior.
 
 ### Do I need to keep my app_id secret?
 
-No. The `app_id` is included in your app and is safe to be public. You can
-check it into version control (even publicly) and not worry about someone
-else accessing it.
+No. The `app_id` is included in your app and is safe to be public. You can check
+it into version control (even publicly) and not worry about someone else
+accessing it.
 
 Someone who has your `app_id` can fetch the latest version of your app from
-Shorebird servers, but they cannot push updates to your app or access any
-other aspect of your Shorebird account.
+Shorebird servers, but they cannot push updates to your app or access any other
+aspect of your Shorebird account.
 
 ### Can I use Dart defines with Shorebird?
 
@@ -445,31 +445,34 @@ reliably gate access to Shorebird patches based on these groups.
 https://stackoverflow.com/questions/53291007/can-an-android-application-identify-the-test-track-within-google-play
 https://stackoverflow.com/questions/26081543/how-to-tell-at-runtime-whether-an-ios-app-is-running-through-a-testflight-beta-i
 
-If you'd like to segment availability of Shorebird patches, there are 4 potential options:
+If you'd like to segment availability of Shorebird patches, there are 4
+potential options:
 
 1.  Use separate binaries / bundle ids for each group. This is the most
-    straightforward approach, but requires you to manage multiple binaries.
-    On Android the easy way to accomplish this is through flavors. You may
-    already have a dev flavor and prod flavor with different availability. You
-    can thus patch your dev flavor, verify it and then separately patch your
-    prod flavor. We recommend using branches / tags in your version control
-    to help keep track of the sources associated with each release.
+    straightforward approach, but requires you to manage multiple binaries. On
+    Android the easy way to accomplish this is through flavors. You may already
+    have a dev flavor and prod flavor with different availability. You can thus
+    patch your dev flavor, verify it and then separately patch your prod flavor.
+    We recommend using branches / tags in your version control to help keep
+    track of the sources associated with each release.
 2.  Track your own set of opt-in users, disable automatic updates, and trigger
     updates only for certain users via package:shorebird_code_push. This works
     today, but requires you to manage your own opt-in list.
 3.  Shorebird could create its own opt-in mechanism on a per-device basis
-    (similar to Test Tracks or TestFlight, just platform agnostic). This
-    could allow your QA team to opt-in to patches before they're promoted to
-    the general public. If this is important to you, please let us know:
+    (similar to Test Tracks or TestFlight, just platform agnostic). This could
+    allow your QA team to opt-in to patches before they're promoted to the
+    general public. If this is important to you, please let us know:
     https://github.com/shorebirdtech/shorebird/issues/498
 4.  Shorebird plans to add percentage based rollouts. This does not let you
-    choose which devices to send to, but can help you roll out incrementally
-    and roll-back on sight of any problems.
+    choose which devices to send to, but can help you roll out incrementally and
+    roll-back on sight of any problems.
     https://github.com/shorebirdtech/shorebird/issues/497
 
 ### Will my app still work if I cancel my Shorebird subscription?
 
-Yes. Apps built with Shorebird will continue to function normally (as if they had been built without Shorebird), including those that have had patches installed.
+Yes. Apps built with Shorebird will continue to function normally (as if they
+had been built without Shorebird), including those that have had patches
+installed.
 
 ### Now that I'm using Shorebird, do I still need to send my app to the stores?
 
@@ -480,9 +483,8 @@ pressure on your app release process.
 This is for two reasons:
 
 1. Stores have policy restrictions that "major new features" go through store
-   review to avoid "deceiving users". Since apps are likely to change over
-   time, periodic releases (to update store screenshots, etc.) is still good
-   practice.
+   review to avoid "deceiving users". Since apps are likely to change over time,
+   periodic releases (to update store screenshots, etc.) is still good practice.
 2. New users install from the stores, not Shorebird. Shorebird can only update
    your application after launch, so for users to get the best first-launch
    experience, we recommend that you continue to periodic releases to the
@@ -500,33 +502,31 @@ https://github.com/shorebirdtech/shorebird/issues/257
 Because patching and releasing are independent operations, it is possible to
 create both a patch and a release with the same code changes.
 
-:::note
-A "release" gets a unique release version, while a "patch" does not change
-the release version, just the "patch number". The "release version" is a store
-concept, where as "patch number" is a Shorebird concept. Apps can read the
+:::note A "release" gets a unique release version, while a "patch" does not
+change the release version, just the "patch number". The "release version" is a
+store concept, where as "patch number" is a Shorebird concept. Apps can read the
 current patch version at runtime via the
-[package:shorebird_code_push](https://pub.dev/packages/shorebird_code_push).
-:::
+[package:shorebird_code_push](https://pub.dev/packages/shorebird_code_push). :::
 
-Different customers have used different policies to decide whether to create a release, a patch, or both. I'll enumerate a few of these here:
+Different customers have used different policies to decide whether to create a
+release, a patch, or both. I'll enumerate a few of these here:
 
-1. Push a patch immediately to update all existing users, while
-   also simultaneously submitting a release to the stores so that new users to
-   their product will get the latest code on first launch after a store
-   install.
+1. Push a patch immediately to update all existing users, while also
+   simultaneously submitting a release to the stores so that new users to their
+   product will get the latest code on first launch after a store install.
 
-2. Use patching as a mechanism to ship changes on a high
-   frequency (e.g. daily or weekly) and only go through a full release process
-   on a lower cadence (e.g. monthly).
+2. Use patching as a mechanism to ship changes on a high frequency (e.g. daily
+   or weekly) and only go through a full release process on a lower cadence
+   (e.g. monthly).
 
-3. Continue to only use releases for shipping code changes, and only patch to fix critical bugs or make other emergency changes.
+3. Continue to only use releases for shipping code changes, and only patch to
+   fix critical bugs or make other emergency changes.
 
-In the end, it comes down to what works for your business. We see most of our current customers choosing option 2.
+In the end, it comes down to what works for your business. We see most of our
+current customers choosing option 2.
 
-:::note
-Changes which involve native code cannot be patched and thus must use a
-release for distribution.
-:::
+:::note Changes which involve native code cannot be patched and thus must use a
+release for distribution. :::
 
 ### Do I need to distribute my app through a store?
 
@@ -534,16 +534,15 @@ No. Shorebird can be used with any app distribution method, including
 side-loading or carrier provided stores.
 
 Shorebird is not itself a store. Your users will need to install your app
-initially through some method other than Shorebird, but Shorebird can then
-be used to patch (update) your app after that initial install.
+initially through some method other than Shorebird, but Shorebird can then be
+used to patch (update) your app after that initial install.
 
 ## Billing
 
 ### How do I upgrade or downgrade my plan?
 
 To upgrade your plan, you can
-[subscribe via the
-Shorebird console](https://console.shorebird.dev/subscriptions/create).
+[subscribe via the Shorebird console](https://console.shorebird.dev/subscriptions/create).
 
 To cancel your subscription, you can view your
 [account](https://console.shorebird.dev/account) and click "Edit" -> "Cancel
@@ -566,13 +565,12 @@ your billing period.
 
 ### Can I pay for a year in advance?
 
-Currently we have not yet implemented yearly billing. We don't expect it
-will be hard, we just aren't quite sure what customers expect in terms
-of overage charges on a yearly plan. If you have thoughts on this, please
-let us know:
+Currently we have not yet implemented yearly billing. We don't expect it will be
+hard, we just aren't quite sure what customers expect in terms of overage
+charges on a yearly plan. If you have thoughts on this, please let us know:
 https://github.com/shorebirdtech/shorebird/issues/733
 
 ### What counts as a "patch install" for Shorebird?
 
-A "patch install" is counted when a patch is successfully installed on a
-user's device.
+A "patch install" is counted when a patch is successfully installed on a user's
+device.

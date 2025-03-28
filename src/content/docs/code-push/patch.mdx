@@ -8,8 +8,8 @@ sidebar:
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
-Once you have published a release of your app, you can push updates using one
-of the `shorebird patch` commands.
+Once you have published a release of your app, you can push updates using one of
+the `shorebird patch` commands.
 
 <Tabs>
   <TabItem value="patch-command-android" label="Android">
@@ -98,19 +98,19 @@ option. For example:
 shorebird patch android --release-version 0.1.0+1
 ```
 
-If your application supports flavors or multiple release targets, you can specify the flavor and target using the `--flavor` and `--target` options:
+If your application supports flavors or multiple release targets, you can
+specify the flavor and target using the `--flavor` and `--target` options:
 
 ```
 shorebird patch [android|ios] --target lib/main_development.dart --flavor development
 ```
 
-:::note
-`shorebird patch` wraps `flutter build` and can take any argument
+:::note `shorebird patch` wraps `flutter build` and can take any argument
 `flutter build` can. To pass arguments to the underlying `flutter build` you
 need to put `flutter build` arguments after a `--` separator. For example:
-`shorebird patch android -- --dart-define="foo=bar"` will define the `"foo"` environment
-variable inside Dart as you might have done with `flutter build` directly.
-:::
+`shorebird patch android -- --dart-define="foo=bar"` will define the `"foo"`
+environment variable inside Dart as you might have done with `flutter build`
+directly. :::
 
 ### Patch Performance
 
@@ -120,16 +120,16 @@ Patching an application on Android has no effect on performance.
 
 #### iOS and macOS
 
-Patching an application on iOS and macOS typically does not affect an application
-performance. However the patching mechanism on iOS and macOS is different from Android.
-Unchanged code runs as normal (on the CPU), changed (or added) code will run in
-a Dart interpreter (slower than the CPU). Typically this change is
-undetectable, but if you are changing particularly performance-sensitive Dart
-code (e.g. code for processing images, or large data) you may see a performance
-difference after patching.
+Patching an application on iOS and macOS typically does not affect an
+application performance. However the patching mechanism on iOS and macOS is
+different from Android. Unchanged code runs as normal (on the CPU), changed (or
+added) code will run in a Dart interpreter (slower than the CPU). Typically this
+change is undetectable, but if you are changing particularly
+performance-sensitive Dart code (e.g. code for processing images, or large data)
+you may see a performance difference after patching.
 
 You can always test your patches before sending them to users using by
 [staging patches](/guides/staging-patches).
 
-If you ever see unexpected performance changes when patching, please [contact
-us](mailto:contact@shorebird.dev) we would love to help!
+If you ever see unexpected performance changes when patching, please
+[contact us](mailto:contact@shorebird.dev) we would love to help!

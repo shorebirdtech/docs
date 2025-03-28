@@ -52,36 +52,35 @@ See the following link for more information:
 https://support.google.com/googleplay/android-developer/answer/9859152?hl=en
 ```
 
-If your application supports flavors or multiple release targets, you can specify the flavor and target using the `--flavor` and `--target` options:
+If your application supports flavors or multiple release targets, you can
+specify the flavor and target using the `--flavor` and `--target` options:
 
 ```bash
 shorebird release android --target ./lib/main_development.dart --flavor development
 ```
 
-:::note
-`shorebird release` wraps `flutter build` and can take any argument `flutter
-build` can. To pass arguments to the underlying `flutter build` you need to put
-`flutter build` arguments after a `--` separator. For example: `shorebird
-release android -- --dart-define="foo=bar"` will define the `"foo"` environment
-variable inside Dart as you might have done with `flutter build` directly. In
-Powershell the `--` separator must be quoted: `'--'`.
-:::
+:::note `shorebird release` wraps `flutter build` and can take any argument
+`flutter build` can. To pass arguments to the underlying `flutter build` you
+need to put `flutter build` arguments after a `--` separator. For example:
+`shorebird release android -- --dart-define="foo=bar"` will define the `"foo"`
+environment variable inside Dart as you might have done with `flutter build`
+directly. In Powershell the `--` separator must be quoted: `'--'`. :::
 
-By default, `shorebird release android` builds an AppBundle (`.aab`).
-If you would like to _also_ generate an Android Package Kit (`.apk`), use the
-following command:
+By default, `shorebird release android` builds an AppBundle (`.aab`). If you
+would like to _also_ generate an Android Package Kit (`.apk`), use the following
+command:
 
 ```
 shorebird release android --artifact apk
 ```
 
-:::note
-By default `shorebird release` uses the Flutter version bundled within the shorebird installation.
+:::note By default `shorebird release` uses the Flutter version bundled within
+the shorebird installation.
 
-That version can be checked by running `shorebird doctor`
-:::
+That version can be checked by running `shorebird doctor` :::
 
-To release with a different Flutter version, you can specify the version using the `--flutter-version` flag.
+To release with a different Flutter version, you can specify the version using
+the `--flutter-version` flag.
 
 ```
 shorebird release android --flutter-version 3.19.0
@@ -125,27 +124,27 @@ To upload to the App Store either:
        See "man altool" for details about how to authenticate with the App Store Connect API key.
 ```
 
-If your application supports flavors or multiple release targets, you can specify the flavor and target using the `--flavor` and `--target` options:
+If your application supports flavors or multiple release targets, you can
+specify the flavor and target using the `--flavor` and `--target` options:
 
 ```sh
 shorebird release ios --target ./lib/main_development.dart --flavor development
 ```
 
-:::note
-`shorebird release` wraps `flutter build` and can take any argument
+:::note `shorebird release` wraps `flutter build` and can take any argument
 `flutter build` can. To pass arguments to the underlying `flutter build` you
 need to put `flutter build` arguments after a `--` separator. For example:
-`shorebird release android -- --dart-define="foo=bar"` will define the `"foo"` environment
-variable inside Dart as you might have done with `flutter build` directly.
-:::
+`shorebird release android -- --dart-define="foo=bar"` will define the `"foo"`
+environment variable inside Dart as you might have done with `flutter build`
+directly. :::
 
-:::note
-By default `shorebird release` uses the Flutter version bundled within the shorebird installation.
+:::note By default `shorebird release` uses the Flutter version bundled within
+the shorebird installation.
 
-That version can be checked by running `shorebird doctor`
-:::
+That version can be checked by running `shorebird doctor` :::
 
-To release with a different Flutter version, you can specify the version using the `--flutter-version` flag.
+To release with a different Flutter version, you can specify the version using
+the `--flutter-version` flag.
 
 ```sh
 shorebird release ios --flutter-version 3.19.0
@@ -154,9 +153,9 @@ shorebird release ios --flutter-version 3.19.0
 ### Signing issues
 
 Depending on how you normally sign your iOS app, you may see an error at the end
-of the build saying something like: `Runner.app requires a provisioning profile
-with ___ feature` or that no signing certificate was found. This can be
-addressed in a few ways:
+of the build saying something like:
+`Runner.app requires a provisioning profile with ___ feature` or that no signing
+certificate was found. This can be addressed in a few ways:
 
 #### Setting up automatic signing in Xcode
 
@@ -169,10 +168,10 @@ Ensure that "Automatically manage signing" is checked.
 
 #### Create an ExportOptions.plist file.
 
-You may need to provide an ExportOptions.plist file to the `shorebird release
-ios` command. This file is used by Xcode to determine which certificate and
-provisioning profile should be used to sign the .ipa. An example of this file
-is:
+You may need to provide an ExportOptions.plist file to the
+`shorebird release ios` command. This file is used by Xcode to determine which
+certificate and provisioning profile should be used to sign the .ipa. An example
+of this file is:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -274,28 +273,27 @@ To create a patch for this release, run shorebird patch --platforms=macos --rele
 Note: shorebird patch --platforms=macos without the --release-version option will patch the current version of the app.
 ```
 
-If your application supports flavors or multiple release targets, you can specify the flavor and target using the `--flavor` and `--target` options:
+If your application supports flavors or multiple release targets, you can
+specify the flavor and target using the `--flavor` and `--target` options:
 
 ```bash
 shorebird release macos --target ./lib/main_development.dart --flavor development
 ```
 
-:::note
-`shorebird release` wraps `flutter build` and can take any argument `flutter
-build` can. To pass arguments to the underlying `flutter build` you need to put
-`flutter build` arguments after a `--` separator. For example: `shorebird
-release android -- --dart-define="foo=bar"` will define the `"foo"` environment
-variable inside Dart as you might have done with `flutter build` directly. In
-Powershell the `--` separator must be quoted: `'--'`.
-:::
+:::note `shorebird release` wraps `flutter build` and can take any argument
+`flutter build` can. To pass arguments to the underlying `flutter build` you
+need to put `flutter build` arguments after a `--` separator. For example:
+`shorebird release android -- --dart-define="foo=bar"` will define the `"foo"`
+environment variable inside Dart as you might have done with `flutter build`
+directly. In Powershell the `--` separator must be quoted: `'--'`. :::
 
-:::note
-By default `shorebird release` uses the Flutter version bundled within the shorebird installation.
+:::note By default `shorebird release` uses the Flutter version bundled within
+the shorebird installation.
 
-That version can be checked by running `shorebird doctor`
-:::
+That version can be checked by running `shorebird doctor` :::
 
-To release with a different Flutter version, you can specify the version using the `--flutter-version` flag.
+To release with a different Flutter version, you can specify the version using
+the `--flutter-version` flag.
 
 ```
 shorebird release macos --flutter-version 3.24.5
@@ -340,28 +338,27 @@ To create a patch for this release, run shorebird patch --platforms=windows --re
 Note: shorebird patch --platforms=windows without the --release-version option will patch the current version of the app.
 ```
 
-If your application supports flavors or multiple release targets, you can specify the flavor and target using the `--flavor` and `--target` options:
+If your application supports flavors or multiple release targets, you can
+specify the flavor and target using the `--flavor` and `--target` options:
 
 ```bash
 shorebird release windows --target ./lib/main_development.dart --flavor development
 ```
 
-:::note
-`shorebird release` wraps `flutter build` and can take any argument `flutter
-build` can. To pass arguments to the underlying `flutter build` you need to put
-`flutter build` arguments after a `--` separator. For example: `shorebird
-release android -- --dart-define="foo=bar"` will define the `"foo"` environment
-variable inside Dart as you might have done with `flutter build` directly. In
-Powershell the `--` separator must be quoted: `'--'`.
-:::
+:::note `shorebird release` wraps `flutter build` and can take any argument
+`flutter build` can. To pass arguments to the underlying `flutter build` you
+need to put `flutter build` arguments after a `--` separator. For example:
+`shorebird release android -- --dart-define="foo=bar"` will define the `"foo"`
+environment variable inside Dart as you might have done with `flutter build`
+directly. In Powershell the `--` separator must be quoted: `'--'`. :::
 
-:::note
-By default `shorebird release` uses the Flutter version bundled within the shorebird installation.
+:::note By default `shorebird release` uses the Flutter version bundled within
+the shorebird installation.
 
-That version can be checked by running `shorebird doctor`
-:::
+That version can be checked by running `shorebird doctor` :::
 
-To release with a different Flutter version, you can specify the version using the `--flutter-version` flag.
+To release with a different Flutter version, you can specify the version using
+the `--flutter-version` flag.
 
 ```
 shorebird release windows --flutter-version 3.27.1
@@ -375,26 +372,24 @@ shorebird release windows --flutter-version 3.27.1
 
 ### List Releases
 
-You can view all of your releases for your current app (as defined by
-your shorebird.yaml) on the [Shorebird console](https://console.shorebird.dev/).
+You can view all of your releases for your current app (as defined by your
+shorebird.yaml) on the [Shorebird console](https://console.shorebird.dev/).
 
 ### Delete Releases
 
-:::warning
-Deleting a release will remove all associated patches and artifacts
-and is **not reversible**.
-:::
+:::warning Deleting a release will remove all associated patches and artifacts
+and is **not reversible**. :::
 
 You can delete a release for your current app (as defined by your
 shorebird.yaml) on the [Shorebird console](https://console.shorebird.dev/).
 
 ## Side-loading and MDM
 
-A common question we get asked is: Does Shorebird require publishing to the
-App Store or Play Store?
+A common question we get asked is: Does Shorebird require publishing to the App
+Store or Play Store?
 
-No. Shorebird works fine with side-loading and mobile device management (MDM)
-on Android. We've not had anyone try Shorebird with iOS Developer Enterprise
+No. Shorebird works fine with side-loading and mobile device management (MDM) on
+Android. We've not had anyone try Shorebird with iOS Developer Enterprise
 program, but we expect it to work just as well.
 
 To build Shorebird for distribution via APK (e.g. side-loading), use the
@@ -404,5 +399,5 @@ To build Shorebird for distribution via APK (e.g. side-loading), use the
 shorebird release android --artifact=apk
 ```
 
-That will produce _both_ .apk and .aab files. You can distribute either
-or both as needed.
+That will produce _both_ .apk and .aab files. You can distribute either or both
+as needed.

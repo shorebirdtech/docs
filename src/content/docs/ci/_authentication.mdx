@@ -6,10 +6,10 @@ generate a CI token.
 shorebird login:ci
 ```
 
-You will be prompted to go through a similar OAuth Flow as when using `shorebird
-login`, however, `shorebird login:ci` will not store any credentials on your
-device. Instead, it will output a base-64 encoded auth token that you will use
-in your CI environment.
+You will be prompted to go through a similar OAuth Flow as when using
+`shorebird login`, however, `shorebird login:ci` will not store any credentials
+on your device. Instead, it will output a base-64 encoded auth token that you
+will use in your CI environment.
 
 The output of this command should look something like:
 
@@ -36,7 +36,5 @@ export SHOREBIRD_TOKEN="$SHOREBIRD_TOKEN" && shorebird patch android
 
 {/* cSpell:enable */}
 
-:::caution
-The `SHOREBIRD_TOKEN` is a secret and should not be checked in to your source
-control or shared publicly.
-:::
+:::caution The `SHOREBIRD_TOKEN` is a secret and should not be checked in to
+your source control or shared publicly. :::

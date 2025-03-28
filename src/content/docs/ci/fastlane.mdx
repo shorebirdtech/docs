@@ -52,12 +52,10 @@ To run this, execute the following command:
 bundle exec fastlane release_shorebird
 ```
 
-:::note
-To upload to TestFlight, you will need to create an Apple app-specific password.
-You can do this at https://appleid.apple.com/account/manage. Once you have
-created the password, create a `.env` file in your fastlane directory and add
-`FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD=your_password_here`.
-:::
+:::note To upload to TestFlight, you will need to create an Apple app-specific
+password. You can do this at https://appleid.apple.com/account/manage. Once you
+have created the password, create a `.env` file in your fastlane directory and
+add `FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD=your_password_here`. :::
 
 If you would like to provide additional arguments to the release command, you
 can do so using the `args` parameter. For example:

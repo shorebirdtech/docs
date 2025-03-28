@@ -1,6 +1,8 @@
 ---
 title: Development Workflow
-description: Learn how to integrate Shorebird into your development workflow with automated releases and patches.
+description:
+  Learn how to integrate Shorebird into your development workflow with automated
+  releases and patches.
 ---
 
 import RemoteCode from '~/components/RemoteCode.astro';
@@ -30,9 +32,9 @@ common approach that we recommend:
 
 ![Development Workflow](https://github.com/user-attachments/assets/61fc8e5b-b77e-42e7-a1d6-5db50a232d02)
 
-The illustration above, uses [trunk based
-development](https://trunkbaseddevelopment.com) and tags to trigger automated
-release and patch workflows.
+The illustration above, uses
+[trunk based development](https://trunkbaseddevelopment.com) and tags to trigger
+automated release and patch workflows.
 
 The workflow consists of three main phases:
 
@@ -53,9 +55,9 @@ The development workflow can be broken down into the following steps:
 1. Create branch from trunk (main)
 1. Work on task
 1. Open a pull request to merge changes into trunk
-1. Squash and merge after CI checks & code review.
-   We recommend squashing commits to keep the commit history clean and to make
-   it easier to cherry pick commits into release branches.
+1. Squash and merge after CI checks & code review. We recommend squashing
+   commits to keep the commit history clean and to make it easier to cherry pick
+   commits into release branches.
 
 Note that with the described workflow, the trunk (e.g. main) is always in a
 releasable state. This puts pressure on continuous integration (CI) checks to
@@ -79,9 +81,8 @@ basis.
 The release workflow can be broken down into the following steps:
 
 1. Create a release branch (e.g release/v1.0.0) from trunk (main)
-1. Create a new release on GitHub (e.g. v1.0.0).
-   This tags the commit so that we can easily find the commit in the future and
-   triggers the release workflow
+1. Create a new release on GitHub (e.g. v1.0.0). This tags the commit so that we
+   can easily find the commit in the future and triggers the release workflow
 1. The release workflow is triggered by the tag and generates signed artifacts
 1. Distribute the artifacts (e.g. via AppStore, PlayStore, etc.)
 
@@ -97,8 +98,8 @@ distributed to customers via the appropriate channels.
 
 ![Release Workflow](https://github.com/user-attachments/assets/7c9cf689-bd07-40c0-ad0b-e08935cb4424)
 
-:::note
-For more information about configuring signing refer to the following links:
+:::note For more information about configuring signing refer to the following
+links:
 
 - [Create an Upload Keystore (Android)](https://docs.flutter.dev/deployment/android#create-an-upload-keystore)
 - [Installing an Apple Certificate on MacOS Runners (iOS)](https://docs.github.com/en/actions/use-cases-and-examples/deploying/installing-an-apple-certificate-on-macos-runners-for-xcode-development)
@@ -107,30 +108,33 @@ For more information about configuring signing refer to the following links:
 
 ## Patch Phase
 
-Even with great testing, sometimes bugs can creep into the app. Shorebird
-allows you to fix these bugs and distribute the patches to customers devices
+Even with great testing, sometimes bugs can creep into the app. Shorebird allows
+you to fix these bugs and distribute the patches to customers devices
 immediately rather having to wait for users to update.
 
 The patch workflow can be broken down into the follow steps:
 
-1. Fix the bug on the trunk branch using the development workflow described above.
+1. Fix the bug on the trunk branch using the development workflow described
+   above.
 1. Cherry pick the commit into the desired release branch(es)
    ```sh
    git checkout release/v1.0.0
    git cherry-pick <commit-hash>
    git push
    ```
-1. Create a new "hotfix" release on GitHub (e.g. v1.0.0-hotfix.1)
-   This tags the commit so that we can easily find the commit in the future and
-   triggers the patch workflow
+1. Create a new "hotfix" release on GitHub (e.g. v1.0.0-hotfix.1) This tags the
+   commit so that we can easily find the commit in the future and triggers the
+   patch workflow
 1. The patch workflow is triggered by the tag and uploads the hotfix to the
    staging environment
-1. Preview the release in the staging environment using the [Shorebird
-   CLI](https://github.com/shorebirdtech/shorebird) and validate the fix
+1. Preview the release in the staging environment using the
+   [Shorebird CLI](https://github.com/shorebirdtech/shorebird) and validate the
+   fix
    ```sh
    shorebird preview --staging
    ```
-1. Promote the hotfix to production from the [Shorebird Console](https://console.shorebird.dev).
+1. Promote the hotfix to production from the
+   [Shorebird Console](https://console.shorebird.dev).
 
 You can refer to the following GitHub Actions workflow for an example.
 
@@ -151,5 +155,5 @@ In this guide, we took a look at an opinionated development workflow with
 Shorebird which allows teams to automate releasing and patching in order to
 iterate quickly while still delivering a high quality experience to customers.
 
-To see this workflow in action, check out the [Flutter & Friends Conference
-App](https://github.com/felangel/flutter_and_friends).
+To see this workflow in action, check out the
+[Flutter & Friends Conference App](https://github.com/felangel/flutter_and_friends).

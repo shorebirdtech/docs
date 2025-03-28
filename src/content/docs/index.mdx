@@ -18,8 +18,10 @@ allow you to use the Shorebird CLI to manage your apps.
 
 ### Create an account
 
-To create an account, head over to the [Shorebird
-Console](https://console.shorebird.dev) and authenticate with one of the available authentication methods. Once you've authenticated, you will have a free Shorebird account.
+To create an account, head over to the
+[Shorebird Console](https://console.shorebird.dev) and authenticate with one of
+the available authentication methods. Once you've authenticated, you will have a
+free Shorebird account.
 
 Next, let's install the Shorebird CLI on your machine.
 
@@ -50,9 +52,7 @@ iwr -UseBasicParsing 'https://raw.githubusercontent.com/shorebirdtech/install/ma
   </TabItem>
 </Tabs>
 
-:::note
-Installing Shorebird CLI requires `git`.
-:::
+:::note Installing Shorebird CLI requires `git`. :::
 
 This installs `shorebird` into `~/.shorebird/bin` and adds it to your `PATH`. It
 also installs a copy of Flutter and Dart inside
@@ -62,9 +62,11 @@ continue to use the versions of Flutter and Dart you already have installed.
 
 ### Manually installing
 
-Shorebird can also be manually installed, allowing users to choose where the installation will be placed.
+Shorebird can also be manually installed, allowing users to choose where the
+installation will be placed.
 
-In order to do so, in a terminal, inside the folder where Shorebird should be installed at, run:
+In order to do so, in a terminal, inside the folder where Shorebird should be
+installed at, run:
 
 ```bash
 git clone -b stable https://github.com/shorebirdtech/shorebird.git
@@ -72,9 +74,7 @@ git clone -b stable https://github.com/shorebirdtech/shorebird.git
 
 Add the `bin` folder from the repository you just cloned into your `PATH`.
 
-:::note
-The total installation is about 300mb.
-:::
+:::note The total installation is about 300mb. :::
 
 Once the installation has completed, `shorebird` should be available in your
 terminal:
@@ -143,7 +143,8 @@ shorebird login
 
 ## Integrate Shorebird
 
-Once you have registered, installed the CLI, and logged in, you're ready to use code push!
+Once you have registered, installed the CLI, and logged in, you're ready to use
+code push!
 
 Start by creating a new Flutter app:
 
@@ -168,17 +169,15 @@ shorebird init
 ```
 
 This will create a `shorebird.yaml` file in the root of your project. This file
-contains your Shorebird `app_id`. Your `app_id` is not secret and can be
-checked into source control and freely shared.
+contains your Shorebird `app_id`. Your `app_id` is not secret and can be checked
+into source control and freely shared.
 
 This will also run `shorebird doctor` to ensure everything is set up correctly.
 
-:::note
-Shorebird expects to find the latest stable `flutter` installed on your
+:::note Shorebird expects to find the latest stable `flutter` installed on your
 machine. Shorebird can be configured to work with older versions of Flutter
 (back to 3.10.0). See [Flutter Version Management](/flutter-version) for more
-info.
-:::
+info. :::
 
 ### Create a release
 
@@ -330,8 +329,8 @@ shorebird patch windows
 ### See the patch in action
 
 Launch the app from your device or emulator. The app will still have the
-original purple theme, but it will be downloading the patch we just created in the
-background. Kill and launch the app again, and the app will be green! 🎉
+original purple theme, but it will be downloading the patch we just created in
+the background. Kill and launch the app again, and the app will be green! 🎉
 
 ## Connect on Discord
 

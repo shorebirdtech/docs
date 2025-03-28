@@ -5,17 +5,14 @@ description: How to sign patches
 
 {/* cspell:words outform pubout */}
 
-:::note
-We've shipped this version of patch signing to unblock certain customer
+:::note We've shipped this version of patch signing to unblock certain customer
 evaluations. While we're confident that this feature adds a useful layer of
 security, it does not yet have all the expected integrations with cloud signing,
 keychains, etc. that a final product would expect to have. We also do not yet
 manage signing keys for you or support many key formats or signature types.
 Signed patches are safe and ready for use, but may have rough edges or missing
-conveniences. Any customer should feel welcome to use this in
-production, and we encourage you to file bugs or feedback for any issues you
-encounter.
-:::
+conveniences. Any customer should feel welcome to use this in production, and we
+encourage you to file bugs or feedback for any issues you encounter. :::
 
 In addition to our default security measures, Shorebird also provides optional
 patch signing.
@@ -25,10 +22,10 @@ their own keys. This ensures that no one (including Shorebird) can change the
 content of your patches without your private cryptographic keys.
 
 Signing works in two parts. First, `shorebird release` commands can take an
-optional `--public-key-path` argument to embed a public key in your
-released application. The Shorebird updater will enforce that only patches
-signed with a corresponding private key will be allowed to load for applications
-that include a public key.
+optional `--public-key-path` argument to embed a public key in your released
+application. The Shorebird updater will enforce that only patches signed with a
+corresponding private key will be allowed to load for applications that include
+a public key.
 
 Second, when you build your patch with `shorebird patch`, you can pass
 `--private-key-path` to have Shorebird sign your patch with your private key.
@@ -44,10 +41,10 @@ To start, you will need an RSA key pair. Shorebird has only tested with a
 limited set of signing algorithms at this time. Please contact us if you have
 other requirements—we'd be happy to work with you to support your needs.
 
-The `shorebird` tool expects to be able to read private and public keys
-from `.pem` files on disk. If you need other ways of accessing your key material
-(or signing via a cloud signing service) please contact us. We'd be happy to
-work with you to support such.
+The `shorebird` tool expects to be able to read private and public keys from
+`.pem` files on disk. If you need other ways of accessing your key material (or
+signing via a cloud signing service) please contact us. We'd be happy to work
+with you to support such.
 
 ### Generate keys
 
@@ -62,10 +59,8 @@ openssl genrsa -out private.pem 2048
 openssl rsa -in private.pem -outform PEM -pubout -out public.pem
 ```
 
-::: note
-On Windows, you can use the `openssl` that comes with your git installation at
-`C:\Program Files\Git\usr\bin\openssl.exe`.
-:::
+::: note On Windows, you can use the `openssl` that comes with your git
+installation at `C:\Program Files\Git\usr\bin\openssl.exe`. :::
 
 The above operation will generate a public/private key pair in `private.pem` and
 a public key in `public.pem`. The file containing the private key should be
@@ -81,13 +76,11 @@ To create a release that requires signed patches, run the following command:
 shorebird release android --public-key-path /path/to/public.pem
 ```
 
-This will include the public key in the release artifact produced by `shorebird
-release` and cause the released app to require signed patches.
+This will include the public key in the release artifact produced by
+`shorebird release` and cause the released app to require signed patches.
 
-:::note
-We're using Android to demo, but this will work on any platform Shorebird
-supports.
-:::
+:::note We're using Android to demo, but this will work on any platform
+Shorebird supports. :::
 
 ### Create a signed patch
 
@@ -99,12 +92,10 @@ shorebird patch android --public-key-path /path/to/public.pem --private-key-path
 
 This tells shorebird to sign the patch with the key pair you provided.
 
-:::note
-Storing private keys on disk is not best-practice, and we recognize
+:::note Storing private keys on disk is not best-practice, and we recognize
 this. This was built as a demonstration of the system, we look forward to
 working with customers to integrate Shorebird to using the signing services and
-key storage methods they are used to.
-:::
+key storage methods they are used to. :::
 
 ### Test it out
 
@@ -135,16 +126,16 @@ you can create a patch with a different private key to do the same.
 
 ## Fallback Behavior
 
-Releases that contain a public key will reject all unsigned patches.
-If a patch is missing a signature or its signature is invalid, Shorebird will
-reject this patch at boot time. It will instead boot from the last known good
-patch (if still on disk) or the release build of the app. This will not cause
-your app to crash.
+Releases that contain a public key will reject all unsigned patches. If a patch
+is missing a signature or its signature is invalid, Shorebird will reject this
+patch at boot time. It will instead boot from the last known good patch (if
+still on disk) or the release build of the app. This will not cause your app to
+crash.
 
 If for any reason you were to lose your private key, there is no way to create a
 patch for an application containing the corresponding public key. Even Shorebird
-is not able to create a patch for your application without your private key.
-In such a case, you would need to make and distribute a new release of your
+is not able to create a patch for your application without your private key. In
+such a case, you would need to make and distribute a new release of your
 application to send patches to it.
 
 ## Trade Offs

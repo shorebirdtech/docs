@@ -29,10 +29,10 @@ Sending patch check request: PatchCheckRequest {
 }
 ```
 
-If the release version is the version you expect to see, check the [Shorebird
-Console](https://console.shorebird.dev) to ensure that this release exists for
-the given app id and that it has a patch. Please contact us on Discord if such a
-patch exists and is not being applied.
+If the release version is the version you expect to see, check the
+[Shorebird Console](https://console.shorebird.dev) to ensure that this release
+exists for the given app id and that it has a patch. Please contact us on
+Discord if such a patch exists and is not being applied.
 
 Common issues:
 
@@ -41,13 +41,11 @@ Common issues:
 Patches are only compatible with the release version they were created for. If
 you create a patch for version `1.0.0+1`, it will not work on version `1.0.0+2`.
 
-:::note
-This can happen unexpectedly on iOS due to Xcode's automatic
+:::note This can happen unexpectedly on iOS due to Xcode's automatic
 incrementing of build numbers. If you are seeing this issue on iOS, ensure that
-the build number of the release and the patch match. See [our iOS releasing
-guide](/guides/submitting/app-store/#upload-to-the-app-store) for instructions
-on how to disable automatic build number incrementing.
-:::
+the build number of the release and the patch match. See
+[our iOS releasing guide](/guides/submitting/app-store/#upload-to-the-app-store)
+for instructions on how to disable automatic build number incrementing. :::
 
 #### How to tell if this is the problem
 
@@ -103,9 +101,9 @@ Windows) and removing the `/bin/flutter` from the end of that path.
 
 ## Could not find an option named "dart define" when using the `--` separator
 
-Powershell handles the `--` separator differently than other shells (see [this
-StackOverflow answer](https://stackoverflow.com/a/15788023) for more info). To
-work around this, you can quote the `--` separator. For example:
+Powershell handles the `--` separator differently than other shells (see
+[this StackOverflow answer](https://stackoverflow.com/a/15788023) for more
+info). To work around this, you can quote the `--` separator. For example:
 
 ```sh
 shorebird release android '--' --dart-define=foo=bar
@@ -145,9 +143,9 @@ files in your compiled app that correspond to asset changes (e.g. added or
 removed images, fonts, etc.). This does not always mean that your patch will not
 work, but shorebird cannot be sure that the changes are safe.
 
-Shorebird does not (yet) have the [ability to patch
-assets](https://github.com/shorebirdtech/shorebird/issues/318) but intends to
-add such in the future, at which time this warning may go away.
+Shorebird does not (yet) have the
+[ability to patch assets](https://github.com/shorebirdtech/shorebird/issues/318)
+but intends to add such in the future, at which time this warning may go away.
 
 An example of this warning:
 
@@ -186,8 +184,8 @@ the `Runner.app` directory on iOS. These changes represent changes to the native
 code of your app, and are not patchable by Shorebird. If you see this warning,
 you should be very careful about publishing your patch, as it may cause your app
 to crash when the Dart code tries to call into native code which operates
-differently than expected. See {/* cspell:disable-next-line */} [the next
-section](#i-see-a-your-app-contains-native-changes-warning-when-running-shorebird-patch-even-though-i-havent-changed-swiftobjective-ckotlinjava-code).
+differently than expected. See {/* cspell:disable-next-line */}
+[the next section](#i-see-a-your-app-contains-native-changes-warning-when-running-shorebird-patch-even-though-i-havent-changed-swiftobjective-ckotlinjava-code).
 
 ### What happens if I ignore this warning?
 
@@ -200,8 +198,9 @@ render incorrectly if you use an icon that was not included in the release
 build. Any assets introduced in a patch will fail to load and your app may crash
 if it depends on them.
 
-If you are not sure whether your change is safe, you can [stage your
-patch](/guides/staging-patches) and test locally before deploying it to users.
+If you are not sure whether your change is safe, you can
+[stage your patch](/guides/staging-patches) and test locally before deploying it
+to users.
 
 ## I see a `Your app contains native changes` warning when running `shorebird patch`, even though I haven't changed Swift/Objective-C/Kotlin/Java code
 
@@ -212,16 +211,14 @@ mean that your patch will not work, but because shorebird cannot be sure that
 the changes are safe, and because shorebird can't patch non-Dart code, it prints
 a warning.
 
-:::note
-Shorebird assumes a repeatable build -- if you build the application
+:::note Shorebird assumes a repeatable build -- if you build the application
 twice it ends up byte-for-byte identical (with a few minor known exceptions,
 like the certificate signing date for iOS apps). Some Flutter Plugins or
 obfuscation solutions violate this assumption and can cause these native changes
 to appear. Shorebird may be incompatible with those plugins. You can test for
 this by doing a `shorebird release` and then `shorebird patch` with no changes
 and seeing if you still get a native changes warning. If you believe this is the
-case please reach out to us, we'd be happy to help!
-:::
+case please reach out to us, we'd be happy to help! :::
 
 This can be caused by a number of things. The most common causes are:
 
@@ -232,9 +229,9 @@ This can be caused by a number of things. The most common causes are:
    always aware of updates to your dependencies.
 
    Versioning your `pubspec.lock` file ensures changes to transitive
-   dependencies are explicit. Each time the dependencies change due to `dart pub
-upgrade` or a change in `pubspec.yaml`, the difference will be apparent in
-   the lock file. :::
+   dependencies are explicit. Each time the dependencies change due to
+   `dart pub upgrade` or a change in `pubspec.yaml`, the difference will be
+   apparent in the lock file. :::
 
 2. A dependency/plugin produces a different output on every build. This can
    happen if the dependency it includes a timestamp indicating when it was
@@ -244,8 +241,8 @@ upgrade` or a change in `pubspec.yaml`, the difference will be apparent in
    patch. This can be fixed by ensuring that you are using the same version of
    Xcode to build the release and the patch. If you've upgraded to a newer
    version of Xcode since building the release, you can download older versions
-   of Xcode from [Apple's developer downloads
-   page](https://developer.apple.com/download/all/).
+   of Xcode from
+   [Apple's developer downloads page](https://developer.apple.com/download/all/).
 4. (iOS only) You are building with an old version of Xcode. Specifically, we've
    seen this warning when building with Xcode 14.1. If you are using a version
    of Xcode that is not the latest, try upgrading to the latest version.
@@ -257,16 +254,15 @@ upgrade` or a change in `pubspec.yaml`, the difference will be apparent in
 
 ### What happens if I ignore this warning?
 
-:::danger
-If the changes are to native code that interacts with your Flutter app
-or with Flutter itself, **your app will crash**.
-:::
+:::danger If the changes are to native code that interacts with your Flutter app
+or with Flutter itself, **your app will crash**. :::
 
 If the native code that changed does not interact with your Dart code or Flutter
 at all, the patch should run without issue.
 
-If you are not sure whether your change is safe, you can [stage your
-patch](/guides/staging-patches) and test locally before deploying it to users.
+If you are not sure whether your change is safe, you can
+[stage your patch](/guides/staging-patches) and test locally before deploying it
+to users.
 
 If you are sure the changes are safe, you can bypass this warning by passing the
 `--allow-native-diffs` flag to the `shorebird patch` command.
@@ -292,9 +288,9 @@ You can check the specific Gradle version that your app is using by running
 `shorebird doctor -v` inside the project folder. This command will also print
 the java version that shorebird is using.
 
-Refer to the [official Gradle
-documentation](https://docs.gradle.org/current/userguide/compatibility.html) to
-check which Java version works with which Gradle release.
+Refer to the
+[official Gradle documentation](https://docs.gradle.org/current/userguide/compatibility.html)
+to check which Java version works with which Gradle release.
 
 - [Android Studio](https://developer.android.com/studio) comes with a bundled
   JDK which should be auto detected by Shorebird and might be the easiest way of
@@ -340,10 +336,10 @@ developer can take to avoid them. They just represent edge-cases where our
 linker got confused about whether it could re-use a function in the release and
 took the conservative path of not, resulting in this low link percentage and
 warning. Your app, including the patch you just made, remains 100% safe to use,
-it may just run slower with the patch applied. You can of course always [stage
-the patch](/guides/staging-patches) or [test the patch](/guides/testing-patches)
-before distributing to users and if you encounter any complaints [roll back the
-patch](/code-push/rollback).
+it may just run slower with the patch applied. You can of course always
+[stage the patch](/guides/staging-patches) or
+[test the patch](/guides/testing-patches) before distributing to users and if
+you encounter any complaints [roll back the patch](/code-push/rollback).
 
 The patch_debug.zip file contains debugging information relating to the linking
 process. We do not upload this file by default as it contains un-obfuscated

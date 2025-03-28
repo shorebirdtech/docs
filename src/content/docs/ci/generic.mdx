@@ -13,8 +13,8 @@ Flutter CI builds. Changes required:
 
 1. Installing Shorebird on the builder.
 2. Getting Shorebird credentials onto the builder.
-3. Replacing `flutter build --release` with `shorebird release` or `shorebird
-patch`.
+3. Replacing `flutter build --release` with `shorebird release` or
+   `shorebird patch`.
 
 We have detailed instructions for integrating into
 
@@ -69,10 +69,11 @@ Would become:
 shorebird release ios --dart-define=HERO=Mario
 ```
 
-`shorebird release` supports almost all of the same arguments that `flutter
-build` does. If you ever see an error with `shorebird release` not supporting an
-argument that `flutter build` does, you can use `--` to tell `shorebird` to pass
-any argument after `--` down to `flutter build` separately, e.g.
+`shorebird release` supports almost all of the same arguments that
+`flutter build` does. If you ever see an error with `shorebird release` not
+supporting an argument that `flutter build` does, you can use `--` to tell
+`shorebird` to pass any argument after `--` down to `flutter build` separately,
+e.g.
 
 ```
 flutter build ipa --dart-define=HERO=Mario --enable-impeller

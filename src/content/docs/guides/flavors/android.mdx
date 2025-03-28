@@ -6,17 +6,21 @@ sidebar:
   order: 1
 ---
 
-This guide will walk through how to setup an app in which there are 2 deployment flavors: `internal` and `stable`. It will cover how to validate a patch on the internal flavor and then promote the patch to the stable flavor on Android.
+This guide will walk through how to setup an app in which there are 2 deployment
+flavors: `internal` and `stable`. It will cover how to validate a patch on the
+internal flavor and then promote the patch to the stable flavor on Android.
 
 ## Prerequisites
 
-This guide assumes the Shorebird command-line is installed on your machine and that you are logged into an account. Refer to the [getting started](/) instructions for more information.
+This guide assumes the Shorebird command-line is installed on your machine and
+that you are logged into an account. Refer to the [getting started](/)
+instructions for more information.
 
 ## Create a Project
 
-:::note
-In this guide, we'll go through the process of creating a new project from scratch. To apply these changes to an existing project, skip this step and read ahead.
-:::
+:::note In this guide, we'll go through the process of creating a new project
+from scratch. To apply these changes to an existing project, skip this step and
+read ahead. :::
 
 Create a new project using `flutter create flavors`.
 
@@ -47,7 +51,8 @@ buildTypes {
 }
 ```
 
-Lastly, edit `android/app/src/main/AndroidManifest.xml` to use the `applicationLabel` so that we can differentiate the two apps easily:
+Lastly, edit `android/app/src/main/AndroidManifest.xml` to use the
+`applicationLabel` so that we can differentiate the two apps easily:
 
 ```diff
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
@@ -55,8 +60,8 @@ Lastly, edit `android/app/src/main/AndroidManifest.xml` to use the `applicationL
 +  <application android:label="${applicationLabel}" android:name="${applicationName}" android:icon="@mipmap/ic_launcher">
 ```
 
-:::note
-To learn more about configuring `productFlavors` refer to the [Android Developer documentation](https://developer.android.com/build/build-variants#product-flavors).
+:::note To learn more about configuring `productFlavors` refer to the
+[Android Developer documentation](https://developer.android.com/build/build-variants#product-flavors).
 :::
 
 ## Initialize Shorebird
@@ -82,11 +87,15 @@ flavors:
   stable: 904bd3d5-3526-4c1c-a832-7ac23c95302d
 ```
 
-Because the project contains flavors, `shorebird init` generates an app per flavor and you can validate the release flavor by visiting [Shorebird console](https://console.shorebird.dev/).
+Because the project contains flavors, `shorebird init` generates an app per
+flavor and you can validate the release flavor by visiting
+[Shorebird console](https://console.shorebird.dev/).
 
 ## Create a release
 
-Now that we've created our apps on shorebird, we need to create releases (one for each flavor). To create a release, we'll use the `shorebird release android` command.
+Now that we've created our apps on shorebird, we need to create releases (one
+for each flavor). To create a release, we'll use the `shorebird release android`
+command.
 
 ```sh
 # Create a release for the internal flavor
@@ -96,11 +105,13 @@ shorebird release android --flavor internal
 shorebird release android --flavor stable
 ```
 
-We can verify the releases were created successfully by visiting [Shorebird console](https://console.shorebird.dev/).
+We can verify the releases were created successfully by visiting
+[Shorebird console](https://console.shorebird.dev/).
 
 ## Preview the release
 
-Next, preview the app release locally on a device or emulator, use `shorebird preview`.
+Next, preview the app release locally on a device or emulator, use
+`shorebird preview`.
 
 ```sh
 # Preview the release for the internal flavor.
@@ -119,11 +130,10 @@ will be prompted to select the app and release version interactively.
 
 This will download the releases and run them on your device.
 
-In addition to previewing the releases locally, you should also [submit the
-generated app bundles to the Play
-Store](/guides/submitting/play-store#upload-to-the-play-store). In this case, both
-apps can be part of the internal test flavor and only the stable variant should
-be promoted to production.
+In addition to previewing the releases locally, you should also
+[submit the generated app bundles to the Play Store](/guides/submitting/play-store#upload-to-the-play-store).
+In this case, both apps can be part of the internal test flavor and only the
+stable variant should be promoted to production.
 
 :::note
 
@@ -134,7 +144,10 @@ be promoted to production.
 
 ## Creating a patch
 
-Now that we have our internal and stable releases on the Play Store, we can create a patch using `shorebird patch android`. For the sake of this example, let's adjust the app theme to use `deepOrange` as the seed color in `lib/main.dart`:
+Now that we have our internal and stable releases on the Play Store, we can
+create a patch using `shorebird patch android`. For the sake of this example,
+let's adjust the app theme to use `deepOrange` as the seed color in
+`lib/main.dart`:
 
 ```diff
 class MyApp extends StatelessWidget {
@@ -171,9 +184,7 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-:::note
-Typically `shorebird patch` should be used to fix critical bugs.
-:::
+:::note Typically `shorebird patch` should be used to fix critical bugs. :::
 
 Now that we've applied the changes, let's patch the `internal` variant:
 
@@ -181,31 +192,40 @@ Now that we've applied the changes, let's patch the `internal` variant:
 shorebird patch android --flavor internal
 ```
 
-We can validate the patch by visiting [Shorebird console](https://console.shorebird.dev/) then select the internal release or re-launching the internal release.
+We can validate the patch by visiting
+[Shorebird console](https://console.shorebird.dev/) then select the internal
+release or re-launching the internal release.
 
-:::note
-If you are testing locally, you don't need to re-run `shorebird preview` – just re-launch the app from the device or emulator directly.
-:::
+:::note If you are testing locally, you don't need to re-run `shorebird preview`
+– just re-launch the app from the device or emulator directly. :::
 
-The first time the app is re-launched, we should still see the purple theme and shorebird will detect and install the patch in the background. Kill and re-launch the app a second time to see the applied patch.
+The first time the app is re-launched, we should still see the purple theme and
+shorebird will detect and install the patch in the background. Kill and
+re-launch the app a second time to see the applied patch.
 
-If all went well, you should see the patch was applied after re-launching the app a second time. All devices that have the internal variant of the app installed should also receive the patch 🎉
+If all went well, you should see the patch was applied after re-launching the
+app a second time. All devices that have the internal variant of the app
+installed should also receive the patch 🎉
 
 ## Promote the patch
 
-Once you have validated the patch internally, you can promote the patch to the stable variant via:
+Once you have validated the patch internally, you can promote the patch to the
+stable variant via:
 
 ```sh
 shorebird patch android --flavor stable
 ```
 
-At this point, you have a setup which allows you to push patches to internal testers before promoting them to production 🎉
+At this point, you have a setup which allows you to push patches to internal
+testers before promoting them to production 🎉
 
-The full source code for this example can be found [here](https://github.com/shorebirdtech/samples/tree/main/flavors).
+The full source code for this example can be found
+[here](https://github.com/shorebirdtech/samples/tree/main/flavors).
 
 ## Adding new flavors
 
-If you want to add a new flavor to your project after initializing Shorebird, you can do so by following the same steps as before.
+If you want to add a new flavor to your project after initializing Shorebird,
+you can do so by following the same steps as before.
 
 In build.gradle:
 

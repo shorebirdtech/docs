@@ -37,25 +37,23 @@ Disabling automatic updates is not required to use `shorebird_code_push`, but
 Shorebird will automatically download and apply updates if your shorebird.yaml
 file does not contain `auto_update: false`.
 
-:::note
-Because Shorebird can only download and apply patches when your app is
+:::note Because Shorebird can only download and apply patches when your app is
 running, the user will see the unpatched release version that was first
 published in the store when they first launch your app. If it is important to
 your business to gate usage of your app on users having the latest code, it
 could be appropriate for you to check for updates as part of a login screen, or
-other launch gate.
-:::
+other launch gate. :::
 
 # Triggering updates via notification
 
 It is possible to trigger updates via push notifications.
 
 Shorebird does not provide its own notification service, but it's possible to
-use others, such as [Firebase Cloud Messaging
-(FCM)](https://firebase.google.com/docs/cloud-messaging) to send a notification
-to your app, and then use that notification to trigger an update. Because these
-services typically allow you to target specific devices, you could use this to
-trigger updates for specific users.
+use others, such as
+[Firebase Cloud Messaging (FCM)](https://firebase.google.com/docs/cloud-messaging)
+to send a notification to your app, and then use that notification to trigger an
+update. Because these services typically allow you to target specific devices,
+you could use this to trigger updates for specific users.
 
 Because any notification service which uses Dart (e.g. FCM) will also trigger
 the launch of the Flutter engine when the notification is delivered, the app
@@ -79,8 +77,9 @@ necessary patch and _not_ then prompt them to update.
 Shorebird patches are typically much smaller than full app downloads (a few KB
 on Android, a few hundred KB on iOS), so it is likely better for your users if
 you can use Shorebird to deliver patches instead of `in_app_update`. However,
-there are [changes which Shorebird cannot make](/code-push/overview#what-types-of-changes-can-be-included-in-a-patch), so
-`in_app_update` may be the best solution in some cases.
+there are
+[changes which Shorebird cannot make](/code-push/overview#what-types-of-changes-can-be-included-in-a-patch),
+so `in_app_update` may be the best solution in some cases.
 
 Shorebird "patches" also do not change the version number of your app, so
 `in_app_update` will not see them as a new version. This is by design – patches

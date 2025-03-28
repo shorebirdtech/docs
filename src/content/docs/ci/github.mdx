@@ -10,7 +10,8 @@ sidebar:
 
 import Authentication from './_authentication.mdx';
 
-The [Setup Shorebird](https://github.com/shorebirdtech/setup-shorebird) GitHub Action allows you to integrate Shorebird into your existing GitHub Workflows.
+The [Setup Shorebird](https://github.com/shorebirdtech/setup-shorebird) GitHub
+Action allows you to integrate Shorebird into your existing GitHub Workflows.
 
 ## Prerequisites
 
@@ -18,13 +19,12 @@ The [Setup Shorebird](https://github.com/shorebirdtech/setup-shorebird) GitHub A
 
 ✅ You are logged into a Shorebird account.
 
-:::note
-Refer to the [getting started](/) instructions for more information.
-:::
+:::note Refer to the [getting started](/) instructions for more information. :::
 
 ## Quick Start
 
-To integrate Shorebird into your CI, use the `setup-shorebird` action. The `setup-shorebird` action downloads Shorebird and adds it to the system path.
+To integrate Shorebird into your CI, use the `setup-shorebird` action. The
+`setup-shorebird` action downloads Shorebird and adds it to the system path.
 
 ```yaml
 name: Shorebird Workflow Example
@@ -52,17 +52,19 @@ jobs:
         run: shorebird --version
 ```
 
-In the above workflow, we're using the `setup-shorebird` action to configure Shorebird in our CI and in subsequent steps we can execute any Shorebird commands.
+In the above workflow, we're using the `setup-shorebird` action to configure
+Shorebird in our CI and in subsequent steps we can execute any Shorebird
+commands.
 
-:::note
-Currently `setup-shorebird` only supports the latest stable version of shorebird.
-:::
+:::note Currently `setup-shorebird` only supports the latest stable version of
+shorebird. :::
 
 ## Authentication
 
 <Authentication />
 
-Next, copy the generated `SHOREBIRD_TOKEN` and navigate to your GitHub repository secrets via:
+Next, copy the generated `SHOREBIRD_TOKEN` and navigate to your GitHub
+repository secrets via:
 
 `"Settings" -> "Secrets and variables" -> "Actions"`.
 
@@ -73,11 +75,13 @@ name: SHOREBIRD_TOKEN
 secret: <THE GENERATED SHOREBIRD_TOKEN>
 ```
 
-Now we can use the `SHOREBIRD_TOKEN` in our GitHub workflow to perform authenticated functions such as creating patches 🎉
+Now we can use the `SHOREBIRD_TOKEN` in our GitHub workflow to perform
+authenticated functions such as creating patches 🎉
 
 ## Create Releases
 
-The simplest way to create a release is using the official Shorebird GitHub Actions:
+The simplest way to create a release is using the official Shorebird GitHub
+Actions:
 
 - [Setup Shorebird GitHub Action](https://github.com/marketplace/actions/setup-shorebird).
 - [Shorebird Release GitHub Action](https://github.com/marketplace/actions/shorebird-release).
@@ -120,8 +124,7 @@ jobs:
           platform: android # or 'ios'
 ```
 
-:::tip
-The `shorebird-release` action also outputs the release version:
+:::tip The `shorebird-release` action also outputs the release version:
 
 ```yaml
 - name: 🚀 Shorebird Release
@@ -178,8 +181,7 @@ jobs:
           platform: android # or 'ios'
 ```
 
-:::tip
-The `shorebird-patch` action also outputs the patch number:
+:::tip The `shorebird-patch` action also outputs the patch number:
 
 ```yaml
 - name: 🚀 Shorebird Patch
@@ -194,4 +196,5 @@ The `shorebird-patch` action also outputs the patch number:
 
 :::
 
-For an example of a fully automated development workflow, see our [Development Workflow Guide](/guides/development-workflow).
+For an example of a fully automated development workflow, see our
+[Development Workflow Guide](/guides/development-workflow).

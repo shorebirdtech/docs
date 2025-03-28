@@ -7,23 +7,26 @@ sidebar:
 ---
 
 Once you have [created a release](/code-push/release), you can preview your
-release on an Android device, Android emulator, or iOS device using the `shorebird preview` command.
+release on an Android device, Android emulator, or iOS device using the
+`shorebird preview` command.
 
 ```sh
 shorebird preview
 ```
 
-This will download the release artifacts for the selected app release version, install the app on the selected device, and start the application.
+This will download the release artifacts for the selected app release version,
+install the app on the selected device, and start the application.
 
-:::tip
-`shorebird preview` can be used on any computer that is configured for Flutter development, not just the computer that was used to create the release. This is useful for verifying releases that were created on a CI/CD server.
-:::
+:::tip `shorebird preview` can be used on any computer that is configured for
+Flutter development, not just the computer that was used to create the release.
+This is useful for verifying releases that were created on a CI/CD server. :::
 
 ## Hybrid apps
 
-Because Flutter modules (.aars and .xcframeworks, created with `shorebird release
-aar` and `shorebird release ios-framework`, respectively) are embedded in apps
-that Shorebird does not know about, `shorebird preview` does not support them.
+Because Flutter modules (.aars and .xcframeworks, created with
+`shorebird release aar` and `shorebird release ios-framework`, respectively) are
+embedded in apps that Shorebird does not know about, `shorebird preview` does
+not support them.
 
 To test these releases, you can use your normal development flow with the
 artifacts that Shorebird creates. For example, if you launch your app normally

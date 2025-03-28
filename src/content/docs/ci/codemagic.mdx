@@ -23,8 +23,8 @@ on how to integrate with Shorebird.
 # Codemagic Workflow Integration
 
 This guide will help you integrate Shorebird into your Codemagic Workflow using
-the [Codemagic
-YAML](https://docs.codemagic.io/yaml-basic-configuration/yaml-getting-started/).
+the
+[Codemagic YAML](https://docs.codemagic.io/yaml-basic-configuration/yaml-getting-started/).
 
 The reference code is available on GitHub at
 https://github.com/shorebirdtech/codemagic_demo.
@@ -33,8 +33,10 @@ https://github.com/shorebirdtech/codemagic_demo.
 
 This guide assumes that:
 
-1. Shorebird CLI is installed on your machine ([guide](https://docs.shorebird.dev/#install)).
-1. Codemagic is connected to your repository ([guide](https://docs.codemagic.io/yaml-quick-start/building-a-flutter-app/#adding-the-app-to-codemagic)).
+1. Shorebird CLI is installed on your machine
+   ([guide](https://docs.shorebird.dev/#install)).
+1. Codemagic is connected to your repository
+   ([guide](https://docs.codemagic.io/yaml-quick-start/building-a-flutter-app/#adding-the-app-to-codemagic)).
 
 ## Authentication
 
@@ -65,8 +67,8 @@ distributed.
 We will be setting up our workflow using the Codemagic YAML file. The Workflow
 Editor is not supported, as it does not allow us to change the build command.
 
-If you don't know how to use the Codemagic YAML, please refer to the [Codemagic
-YAML documentation](https://docs.codemagic.io/yaml-basic-configuration/yaml-getting-started/).
+If you don't know how to use the Codemagic YAML, please refer to the
+[Codemagic YAML documentation](https://docs.codemagic.io/yaml-basic-configuration/yaml-getting-started/).
 
 :::
 
@@ -154,8 +156,8 @@ You can follow the Codemagic guide
 keystore and upload it to Codemagic. We used `android_keystore` as the name of
 the uploaded keystore.
 
-You will also also need to update your `android/app/build.gradle` file to
-use this keystore in the Codemagic CI environment:
+You will also also need to update your `android/app/build.gradle` file to use
+this keystore in the Codemagic CI environment:
 
 ```groovy
 signingConfigs {
@@ -254,8 +256,8 @@ workflows:
         track: internal
 ```
 
-With this, you should be able to create a release in Shorebird and publish it
-to the Google Play Store via Codemagic.
+With this, you should be able to create a release in Shorebird and publish it to
+the Google Play Store via Codemagic.
 
 ### Add the Android patch workflow
 
@@ -304,8 +306,8 @@ distributed.
 We will be setting up our workflow using the Codemagic YAML file. The Workflow
 Editor is not supported, as it does not allow us to change the build command.
 
-If you don't know how to use the Codemagic YAML, please refer to the [Codemagic
-YAML documentation](https://docs.codemagic.io/yaml-basic-configuration/yaml-getting-started/).
+If you don't know how to use the Codemagic YAML, please refer to the
+[Codemagic YAML documentation](https://docs.codemagic.io/yaml-basic-configuration/yaml-getting-started/).
 
 :::
 
@@ -329,8 +331,8 @@ support this:
   Codemagic is to run `cat /path/to/AuthKey_12345678.p8 | pbcopy` which will
   copy the contents of the file to your clipboard. You can then paste this into
   Codemagic.
-- `CERTIFICATE_PRIVATE_KEY`: Follow [this
-  guide](https://docs.codemagic.io/partials/code-signing-ios-obtain-certificate/)
+- `CERTIFICATE_PRIVATE_KEY`: Follow
+  [this guide](https://docs.codemagic.io/partials/code-signing-ios-obtain-certificate/)
   to obtain `ios_distribution_private_key` file. You can then paste the contents
   of this file into Codemagic. `cat ios_distribution_private_key | pbcopy` works
   well for this.
@@ -345,9 +347,9 @@ explain what each part does.
 
 :::note
 
-Many of these scripts use the [Codemagic CLI
-tools](https://docs.codemagic.io/knowledge-codemagic/codemagic-cli-tools/). You
-don't need to install these, but they can be helpful if you want to debug
+Many of these scripts use the
+[Codemagic CLI tools](https://docs.codemagic.io/knowledge-codemagic/codemagic-cli-tools/).
+You don't need to install these, but they can be helpful if you want to debug
 locally.
 
 :::
@@ -383,7 +385,9 @@ definitions:
       # Set up the keychain to be used for code signing. Create the keychain
       #   at specified path with specified password with given timeout.
       # Make it default and unlock it for upcoming use.
-      name: Set up keychain to be used for codesigning using Codemagic CLI 'keychain' command
+      name:
+        Set up keychain to be used for codesigning using Codemagic CLI
+        'keychain' command
       script: |
         keychain initialize
     - &fetch_signing_files
@@ -462,8 +466,8 @@ workflows:
         submit_to_testflight: true
 ```
 
-With this, you should be able to create a release in Shorebird and publish it
-to TestFlight via Codemagic.
+With this, you should be able to create a release in Shorebird and publish it to
+TestFlight via Codemagic.
 
 ### Add the iOS patch workflow
 

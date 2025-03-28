@@ -1,0 +1,111 @@
+---
+title: CI Integration
+description: Integrate Shorebird in CI
+sidebar:
+  label: Generic
+  order: 11
+---
+
+{/* cspell:words proto tlsv codemagic */}
+
+Building with Shorebird in CI should be a very small change from your existing
+Flutter CI builds. Changes required:
+
+1. Installing Shorebird on the builder.
+2. Getting Shorebird credentials onto the builder.
+3. Replacing `flutter build --release` with `shorebird release` or
+   `shorebird patch`.
+
+We have detailed instructions for integrating into
+
+- [GitHub](/ci/github)
+- [Codemagic](/ci/codemagic)
+
+However if you do not use these providers, we've also provided generic
+instructions below:
+
+## Installing Shorebird
+
+Installing Shorebird is identical to how you install it locally. Most builders
+use Linux or Mac, which means running:
+
+```
+curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+```
+
+for more details, see [Getting Started](/).
+
+## Getting Shorebird credentials onto the builder
+
+Shorebird cloud requires authentication to be able to publish releases to your
+account. Doing so is two parts. One is getting the CI token from `shorebird`
+installed on your local machine. The second is installing that token on the
+builder.
+
+import Authentication from './_authentication.mdx';
+
+Now that you have a token, it is important to keep that token secure. We
+recommend using a secrets manager for the token, or secure environment
+variables, depending on your CI setup. `shorebird` commands will look for the
+token to be in a `SHOREBIRD_TOKEN` environment variable.
+
+## Replacing `flutter build --release` with `shorebird`.
+
+### Releasing
+
+If you're already building with Flutter in CI, you should see a line similar to
+`flutter build aab` or `flutter build ipa` in your CI config.
+
+To move to Shorebird, you need only replace the `flutter build` line with
+`shorebird release`. For example:
+
+```
+flutter build ipa --dart-define=HERO=Mario
+```
+
+Would become:
+
+```
+shorebird release ios --dart-define=HERO=Mario
+```
+
+`shorebird release` supports almost all of the same arguments that
+`flutter build` does. If you ever see an error with `shorebird release` not
+supporting an argument that `flutter build` does, you can use `--` to tell
+`shorebird` to pass any argument after `--` down to `flutter build` separately,
+e.g.
+
+```
+flutter build ipa --dart-define=HERO=Mario --enable-impeller
+```
+
+Would become:
+
+```
+shorebird release ios --dart-define=HERO=Mario -- --enable-impeller
+```
+
+`shorebird` can support building with different versions of Flutter. By default
+`shorebird` will use whatever the most recent Flutter stable is, which can
+change. If you'd like to pin your CI to a specific Flutter version you can do
+this by adding `--flutter-version` to your command, e.g.
+
+```
+shorebird release ios --flutter-version=3.22.1 --dart-define=HERO=Mario -- --enable-impeller
+```
+
+### Patching
+
+Patching is identical to releasing, just use `shorebird patch` instead of
+`shorebird release`.
+
+Patches with Shorebird can only ever apply to an existing Release. By definition
+a patch is a set of changes to apply to a Release.
+
+`shorebird patch` does not take a `--flutter-version` argument, instead takes a
+`--release-version` argument, to specify which release version of your app
+you're trying to patch. `shorebird` will look up the exact version of Flutter
+used to build the release and use that exact version to build the patch.
+
+Thank you for reading this guide! If you have any questions or suggestions, feel
+free to reach out to us at our [Discord](https://discord.gg/shorebird).

@@ -52,109 +52,32 @@ export default defineConfig({
       },
       sidebar: [
         {
-          label: 'Getting Started',
+          label: 'Welcome',
           link: '/',
         },
         {
+          label: 'Getting Started',
+          collapsed: true,
+          autogenerate: { directory: 'Getting Started' },
+        },
+        {
           label: 'Code Push',
-          autogenerate: {
-            directory: 'code-push',
-          },
+          collapsed: true,
+          autogenerate: { directory: 'Code Push' },
         },
         {
-          label: 'Guides',
-          items: [
-            {
-              label: 'Development Workflow',
-              link: '/guides/development-workflow',
-            },
-            {
-              label: 'Staging Patches',
-              link: '/guides/staging-patches',
-            },
-            {
-              label: 'Testing Patches',
-              link: '/guides/testing-patches',
-            },
-            {
-              label: 'Signing Patches',
-              link: '/guides/patch-signing',
-            },
-            {
-              label: 'Percentage-Based Rollouts',
-              link: '/guides/percentage-based-rollouts',
-            },
-            {
-              label: 'Crash Reporting',
-              link: '/guides/crash-reporting',
-            },
-            {
-              label: 'Flavors',
-              autogenerate: {
-                directory: 'guides/flavors',
-              },
-            },
-            {
-              label: 'Submitting to Stores',
-              autogenerate: {
-                directory: 'guides/submitting',
-              },
-            },
-            {
-              label: 'Hybrid Apps',
-              autogenerate: {
-                directory: 'guides/hybrid-apps',
-              },
-            },
-          ],
+          label: 'Shorebird Account',
+          collapsed: true,
+          autogenerate: { directory: 'Shorebird Account' },
         },
         {
-          label: 'Continuous Integration',
-          autogenerate: {
-            directory: 'ci',
-          },
+          label: 'Shorebird System',
+          collapsed: true,
+          autogenerate: { directory: 'Shorebird System' },
         },
         {
-          label: 'Crash Reporting',
-          autogenerate: {
-            directory: 'guides/crash-reporting',
-          },
-        },
-        {
-          label: 'Flutter Version',
-          link: '/flutter-version',
-        },
-        {
-          label: 'Organizations',
-          link: '/orgs',
-        },
-        {
-          label: 'Update Strategies',
-          link: '/update-strategies',
-        },
-        {
-          label: 'FAQ',
+          label: 'FAQ & Troubleshooting',
           link: '/faq',
-        },
-        {
-          label: 'Status',
-          link: '/status',
-        },
-        {
-          label: 'Billing',
-          link: '/billing',
-        },
-        {
-          label: 'Architecture',
-          link: '/architecture',
-        },
-        {
-          label: 'Uninstall',
-          link: '/uninstall',
-        },
-        {
-          label: 'Troubleshooting',
-          link: '/troubleshooting',
         },
       ],
       plugins: [

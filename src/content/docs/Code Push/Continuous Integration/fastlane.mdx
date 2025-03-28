@@ -1,0 +1,93 @@
+---
+title: Fastlane
+description: Using fastlane with Shorebird
+sidebar:
+  order: 10
+---
+
+{/* cspell:words Fastfile testflight */}
+
+Fastlane is a popular tool for automating the build and release process for iOS
+and Android apps. Shorebird can be integrated with fastlane to automate
+releasing and patching.
+
+## Installation
+
+Follow the setup instructions on the fastlane website to install fastlane
+([ios](https://docs.fastlane.tools/getting-started/ios/setup/),
+[android](https://docs.fastlane.tools/getting-started/android/setup/)).
+
+## Setup
+
+This guide assumes that you have shorebird installed on the machine that will be
+running the fastlane commands. If you have not already installed shorebird, you
+can do so by following the
+[Getting Started instructions](/getting-started/quick-start).
+
+If you are not already using fastlane with your project, navigate to your app's
+`ios` directory in your project and run `fastlane init`. You will be prompted to
+answer several questions. For this guide, we will choose to manually add lanes
+to the `Fastfile`.
+
+## Use the Shorebird plugin
+
+Run the following command to install the `shorebird` fastlane plugin, which
+exposes the `shorebird_release` and `shorebird_patch` actions.
+
+```bash
+bundle exec fastlane add_plugin shorebird
+```
+
+## Update Fastfile to release
+
+Open the `Fastfile` in the `fastlane` directory and add the following lane:
+
+```ruby
+lane :release_shorebird do
+  shorebird_release(platform: "ios")
+  upload_to_testflight
+end
+```
+
+To run this, execute the following command:
+
+```bash
+bundle exec fastlane release_shorebird
+```
+
+{/* prettier-ignore */}
+:::note
+
+To upload to TestFlight, you will need to create an Apple app-specific password.
+You can do this at https://appleid.apple.com/account/manage. Once you have
+created the password, create a `.env` file in your fastlane directory and add
+`FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD=your_password_here`.
+
+:::
+
+If you would like to provide additional arguments to the release command, you
+can do so using the `args` parameter. For example:
+
+```ruby
+shorebird_release(platform: "ios", args: "--no-codesign -- --build-name=1.0.0")
+```
+
+## Update Fastfile to patch
+
+Open the `Fastfile` in the `fastlane` directory and add the following lane:
+
+```ruby
+lane :patch_shorebird do
+  shorebird_patch(platform: "ios")
+end
+```
+
+This will patch the iOS release with the version number detected in the compiled
+app and patch the release with that version.
+
+As with `shorebird_release`, you can provide additional arguments to the patch
+command using the `args` parameter.
+
+```ruby
+shorebird_patch(platform: "ios", args: "--allow-native-diffs -- --build-name=1.0.0")
+```

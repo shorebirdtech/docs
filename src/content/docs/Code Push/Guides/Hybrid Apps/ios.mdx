@@ -9,8 +9,12 @@ sidebar:
 This guide explains how to use Shorebird in an iOS hybrid app scenario (that is,
 your app embeds Flutter UI in non-Flutter UI).
 
-:::note If your app is a pure Flutter app, follow the
-[standard code push guide](/code-push/initialize) instead. :::
+:::note
+
+If your app is a pure Flutter app, follow the
+[standard code push guide](/code-push/initialize) instead.
+
+:::
 
 ## Prerequisites
 
@@ -58,9 +62,13 @@ The `ShorebirdFlutter.xcframework` and `App.xcframework` artifacts produced by
 the `shorebird release` command will be placed in the `release` directory in the
 root of your Flutter module.
 
-:::note Because Shorebird only works with release builds, this will only produce
-a release version of your archive. This is similar to running
-`flutter build ios-framework --no-debug --no-profile`. :::
+:::note
+
+Because Shorebird only works with release builds, this will only produce a
+release version of your archive. This is similar to running
+`flutter build ios-framework --no-debug --no-profile`.
+
+:::
 
 ## Embed the Flutter module in your iOS app
 
@@ -68,15 +76,23 @@ While there are multiple ways to embed a Flutter module in an iOS app, Shorebird
 requires that your Flutter module be embedded in your iOS app as an
 .xcframework.
 
-:::note The steps to do this are the same as the
+:::note
+
+The steps to do this are the same as the
 [option B in the official instructions](https://docs.flutter.dev/add-to-app/ios/project-setup#option-b---embed-frameworks-in-xcode),
 so in the event of a conflict between the docs here and the official docs, defer
-to the official docs. :::
+to the official docs.
 
-:::note `ShorebirdFlutter.xcframework` is nearly identically to
-`Flutter.xcframework` from Google, but as part of compliance with Apple's
-signing requirements, we've renamed the framework when applying Shorebird
-(legally Code Town, Inc's) digital signature. :::
+:::
+
+:::note
+
+`ShorebirdFlutter.xcframework` is nearly identically to `Flutter.xcframework`
+from Google, but as part of compliance with Apple's signing requirements, we've
+renamed the framework when applying Shorebird (legally Code Town, Inc's) digital
+signature.
+
+:::
 
 ### Add the path to your .xcframeworks to Framework Search Paths
 
@@ -101,8 +117,12 @@ Content" section. Make sure to select "Embed & Sign" for both frameworks.
 
 ![Xcode embed frameworks](https://github.com/shorebirdtech/shorebird/assets/581764/fe5911bd-046b-47f9-a4d8-d8548e651bd6)
 
-:::note You may also see that `ShorebirdFlutter.xcframework` is signed by Code
-Town Inc. That's us 🙂 :::
+:::note
+
+You may also see that `ShorebirdFlutter.xcframework` is signed by Code Town Inc.
+That's us 🙂
+
+:::
 
 ## Verify that your app runs
 

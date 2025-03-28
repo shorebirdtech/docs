@@ -54,8 +54,10 @@ Reference the following commands to get started:
 For more information about Shorebird, visit https://shorebird.dev
 ```
 
-:::note You can supply a display name directly via the command line by passing
-the `--display-name` flag:
+:::note
+
+You can supply a display name directly via the command line by passing the
+`--display-name` flag:
 
 ```sh
 shorebird init --display-name "My App"
@@ -92,11 +94,17 @@ flavors:
   production: 6b6e6631-4fbe-4645-8d9d-d5247656d975
 ```
 
-:::note The `app_id` is a required field in every `shorebird.yaml`. In the case
-of flavors, `app_id` will default to the first flavor and will be overwritten at
-build time to the corresponding flavor's `app_id`. :::
+:::note
 
-:::note Shorebird code push requires the internet permission to be added to your
+The `app_id` is a required field in every `shorebird.yaml`. In the case of
+flavors, `app_id` will default to the first flavor and will be overwritten at
+build time to the corresponding flavor's `app_id`.
+
+:::
+
+:::note
+
+Shorebird code push requires the internet permission to be added to your
 `AndroidManifest.xml` file (located in
 `android/app/src/main/AndroidManifest.xml`). This is required for the app to be
 able to communicate with the Shorebird servers to download patches.
@@ -112,7 +120,11 @@ able to communicate with the Shorebird servers to download patches.
 
 :::
 
-:::tip If you already have a `shorebird.yaml` and would like to re-initialize
-your project, use `shorebird init --force`. This will overwrite your existing
+:::tip
+
+If you already have a `shorebird.yaml` and would like to re-initialize your
+project, use `shorebird init --force`. This will overwrite your existing
 `shorebird.yaml` and create a new app/app_id. Existing apps will not be affected
-by re-initializing shorebird. :::
+by re-initializing shorebird.
+
+:::

@@ -18,9 +18,13 @@ instructions for more information.
 
 ## Create a Project
 
-:::note In this guide, we'll go through the process of creating a new project
-from scratch. To apply these changes to an existing project, skip this step and
-read ahead. :::
+:::note
+
+In this guide, we'll go through the process of creating a new project from
+scratch. To apply these changes to an existing project, skip this step and read
+ahead.
+
+:::
 
 Create a new project using `flutter create flavors`.
 
@@ -60,8 +64,12 @@ Lastly, edit `android/app/src/main/AndroidManifest.xml` to use the
 +  <application android:label="${applicationLabel}" android:name="${applicationName}" android:icon="@mipmap/ic_launcher">
 ```
 
-:::note To learn more about configuring `productFlavors` refer to the
+{/* prettier-ignore */}
+:::note
+
+To learn more about configuring `productFlavors` refer to the
 [Android Developer documentation](https://developer.android.com/build/build-variants#product-flavors).
+
 :::
 
 ## Initialize Shorebird
@@ -184,7 +192,11 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-:::note Typically `shorebird patch` should be used to fix critical bugs. :::
+:::note
+
+Typically `shorebird patch` should be used to fix critical bugs.
+
+:::
 
 Now that we've applied the changes, let's patch the `internal` variant:
 
@@ -196,8 +208,12 @@ We can validate the patch by visiting
 [Shorebird console](https://console.shorebird.dev/) then select the internal
 release or re-launching the internal release.
 
-:::note If you are testing locally, you don't need to re-run `shorebird preview`
-– just re-launch the app from the device or emulator directly. :::
+:::note
+
+If you are testing locally, you don't need to re-run `shorebird preview` – just
+re-launch the app from the device or emulator directly.
+
+:::
 
 The first time the app is re-launched, we should still see the purple theme and
 shorebird will detect and install the patch in the background. Kill and

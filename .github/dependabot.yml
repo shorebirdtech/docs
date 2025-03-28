@@ -6,18 +6,18 @@
 version: 2
 updates:
   - package-ecosystem: "github-actions"
-	directory: "/"
-	schedule:
-	  interval: "weekly"
-	groups:
-	  gha-deps:
-		patterns:
-		  - "*"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      gha-deps:
+        patterns:
+          - "*"
   - package-ecosystem: "npm"
-	directory: "/"
-	schedule:
-	  interval: "weekly"
-	groups:
-	  npm-deps:
-		patterns:
-		  - "*"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      npm-deps:
+        patterns:
+          - "*"

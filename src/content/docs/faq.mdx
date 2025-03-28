@@ -165,7 +165,7 @@ can improve our centrally hosted solution to best match your needs.
 Yes! The Shorebird free "Hobby" tier only supports a single developer, but all
 other plans support unlimited developers.
 
-See [Organizations](/orgs) for more information.
+See [Organizations](/shorebird-account/orgs) for more information.
 
 ### Does Shorebird store my source code?
 
@@ -179,7 +179,8 @@ See also our privacy policy: https://shorebird.dev/privacy
 ### Can I use Shorebird from my CI system?
 
 Yes. Shorebird is intended to be used from CI systems. We've published a guide
-for [GitHub Actions](/ci/github), other CI systems should be similar.
+for [GitHub Actions](/code-push/continuous-integration/github), other CI systems
+should be similar.
 
 Please don't hesitate to reach out over GitHub issues or Discord if you
 encounter any issues.
@@ -268,8 +269,8 @@ copy of Flutter `$HOME/.shorebird/bin/cache/` for each version of Flutter you
 have used. Currently this number is unbounded. These can be removed at any time
 with `shorebird cache clear`.
 
-[Uninstall](/uninstall) has details on how to remove Shorebird from your system
-should you choose.
+[Uninstall](/code-push/uninstall) has details on how to remove Shorebird from
+your system should you choose.
 
 ### How does this relate to Flutter Hot Reload?
 
@@ -377,7 +378,7 @@ Flutter assets will be downloaded from http://download.shorebird.dev. Make sure 
 ```
 
 For more information about why we had to fork Flutter see
-[architecture.md](/architecture).
+[System Architecture](/code-push/system-architecture).
 
 ### When do updates happen?
 
@@ -391,8 +392,8 @@ It is also possible to run the Shorebird updater manually using
 through which it is possible to trigger updates at any time, including via a
 push notification.
 
-See [update-strategies](/update-strategies) for more information about how to
-configure this behavior.
+See [update-strategies](/code-push/update-strategies) for more information about
+how to configure this behavior.
 
 ### Do I need to keep my app_id secret?
 
@@ -616,7 +617,7 @@ you create a patch for version `1.0.0+1`, it will not work on version `1.0.0+2`.
 :::note This can happen unexpectedly on iOS due to Xcode's automatic
 incrementing of build numbers. If you are seeing this issue on iOS, ensure that
 the build number of the release and the patch match. See
-[our iOS releasing guide](/guides/submitting/app-store/#upload-to-the-app-store)
+[our iOS releasing guide](/code-push/guides/submitting/app-store/#upload-to-the-app-store)
 for instructions on how to disable automatic build number incrementing. :::
 
 #### How to tell if this is the problem
@@ -771,8 +772,8 @@ build. Any assets introduced in a patch will fail to load and your app may crash
 if it depends on them.
 
 If you are not sure whether your change is safe, you can
-[stage your patch](/guides/staging-patches) and test locally before deploying it
-to users.
+[stage your patch](/code-push/guides/staging-patches) and test locally before
+deploying it to users.
 
 ## I see a `Your app contains native changes` warning when running `shorebird patch`, even though I haven't changed Swift/Objective-C/Kotlin/Java code
 
@@ -833,8 +834,8 @@ If the native code that changed does not interact with your Dart code or Flutter
 at all, the patch should run without issue.
 
 If you are not sure whether your change is safe, you can
-[stage your patch](/guides/staging-patches) and test locally before deploying it
-to users.
+[stage your patch](/code-push/guides/staging-patches) and test locally before
+deploying it to users.
 
 If you are sure the changes are safe, you can bypass this warning by passing the
 `--allow-native-diffs` flag to the `shorebird patch` command.
@@ -881,7 +882,7 @@ at the iOS section for more information.
 ## When creating an iOS release, I see an error that the patch might run slowly.
 
 iOS uses a very different patching process than Android does. The details of
-which are described in [Architecture docs](/architecture).
+which are described in [Architecture docs](/code-push/system-architecture).
 
 Notably iOS attempts to re-use as much code from the original release as
 possible when creating a patch. "Linking" in Shorebird terms is the process of
@@ -909,9 +910,9 @@ linker got confused about whether it could re-use a function in the release and
 took the conservative path of not, resulting in this low link percentage and
 warning. Your app, including the patch you just made, remains 100% safe to use,
 it may just run slower with the patch applied. You can of course always
-[stage the patch](/guides/staging-patches) or
-[test the patch](/guides/testing-patches) before distributing to users and if
-you encounter any complaints [roll back the patch](/code-push/rollback).
+[stage the patch](/code-push/guides/staging-patches) or
+[test the patch](/code-push/guides/testing-patches) before distributing to users
+and if you encounter any complaints [roll back the patch](/code-push/rollback).
 
 The patch_debug.zip file contains debugging information relating to the linking
 process. We do not upload this file by default as it contains un-obfuscated

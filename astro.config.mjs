@@ -6,6 +6,7 @@ import { rehypeAutolink } from './plugins/rehype-autolink';
 import starlight from '@astrojs/starlight';
 import tailwind from '@astrojs/tailwind';
 import starlightLinksValidator from 'starlight-links-validator';
+import starlightAutoSidebar from 'starlight-auto-sidebar';
 
 const site = 'https://docs.shorebird.dev/';
 
@@ -58,12 +59,12 @@ export default defineConfig({
         {
           label: 'Getting Started',
           collapsed: true,
-          autogenerate: { directory: 'Getting Started' },
+          autogenerate: { directory: 'getting-started' },
         },
         {
           label: 'Code Push',
           collapsed: true,
-          autogenerate: { directory: 'Code Push' },
+          autogenerate: { directory: 'code-push' },
         },
         {
           label: 'Account',
@@ -81,6 +82,7 @@ export default defineConfig({
         },
       ],
       plugins: [
+        starlightAutoSidebar(),
         starlightLinksValidator({
           errorOnFallbackPages: false,
           errorOnInconsistentLocale: true,

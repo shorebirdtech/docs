@@ -1,14 +1,17 @@
 ---
-title: Android Flavors
-description: Push patches to multiple flavors on Android
+title: iOS / macOS Flavors
+description: Push patches to multiple flavors on iOS and macOS
 sidebar:
-  label: Android
-  order: 21
+  label: iOS / macOS
+  order: 22
 ---
 
-This guide will walk through how to setup an app in which there are 2 deployment
-flavors: `internal` and `stable`. It will cover how to validate a patch on the
-internal flavor and then promote the patch to the stable flavor on Android.
+This guide will walk through how to setup an app in which there are 2 flavors:
+`internal` and `stable`. It will cover how to validate a patch on the internal
+flavor and then promote the patch to the stable flavor on iOS.
+
+This guide was originally written for iOS, but the same steps can be applied to
+macOS.
 
 ## Prerequisites
 
@@ -30,47 +33,9 @@ Create a new project using `flutter create flavors`.
 
 ## Configure Flavors
 
-Next, edit the `android/app/build.gradle` to contain two productFlavors:
-
-```diff
-defaultConfig {
-    ...
-}
-
-+    flavorDimensions "track"
-+    productFlavors {
-+        internal {
-+            dimension "track"
-+            applicationIdSuffix ".internal"
-+            manifestPlaceholders = [applicationLabel: "[Internal] Shorebird Example"]
-+        }
-+        stable {
-+            dimension "track"
-+            manifestPlaceholders = [applicationLabel: "Shorebird Example"]
-+        }
-+    }
-
-buildTypes {
-  ...
-}
-```
-
-Lastly, edit `android/app/src/main/AndroidManifest.xml` to use the
-`applicationLabel` so that we can differentiate the two apps easily:
-
-```diff
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
--  <application android:label="flavors" android:name="${applicationName}" android:icon="@mipmap/ic_launcher">
-+  <application android:label="${applicationLabel}" android:name="${applicationName}" android:icon="@mipmap/ic_launcher">
-```
-
-{/* prettier-ignore */}
-:::note
-
-To learn more about configuring `productFlavors` refer to the
-[Android Developer documentation](https://developer.android.com/build/build-variants#product-flavors).
-
-:::
+Next, edit the iOS project to support two flavors: `internal` and `stable` by
+following the instructions in the
+[Flutter documentation](https://docs.flutter.dev/deployment/flavors#creating-flavors-in-ios).
 
 ## Initialize Shorebird
 
@@ -95,22 +60,28 @@ flavors:
   stable: 904bd3d5-3526-4c1c-a832-7ac23c95302d
 ```
 
-Because the project contains flavors, `shorebird init` generates an app per
-flavor and you can validate the release flavor by visiting
-[Shorebird console](https://console.shorebird.dev/).
+Since the project contains flavors, `shorebird init` generates an app per
+flavor.
+
+:::tip
+
+You can view your apps at
+[console.shorebird.dev](https://console.shorebird.dev).
+
+:::
 
 ## Create a release
 
 Now that we've created our apps on shorebird, we need to create releases (one
-for each flavor). To create a release, we'll use the `shorebird release android`
+for each flavor). To create a release, we'll use the `shorebird release ios`
 command.
 
 ```sh
 # Create a release for the internal flavor
-shorebird release android --flavor internal
+shorebird release ios --flavor internal
 
 # Create a release for the stable flavor
-shorebird release android --flavor stable
+shorebird release ios --flavor stable
 ```
 
 We can verify the releases were created successfully by visiting
@@ -139,7 +110,7 @@ will be prompted to select the app and release version interactively.
 This will download the releases and run them on your device.
 
 In addition to previewing the releases locally, you should also
-[submit the generated app bundles to the Play Store](/code-push/guides/submitting/play-store#upload-to-the-play-store).
+[submit the generated app bundles to the App Store](/code-push/guides/stores/app-store#upload-to-the-app-store).
 In this case, both apps can be part of the internal test flavor and only the
 stable variant should be promoted to production.
 
@@ -153,9 +124,8 @@ stable variant should be promoted to production.
 ## Creating a patch
 
 Now that we have our internal and stable releases on the Play Store, we can
-create a patch using `shorebird patch android`. For the sake of this example,
-let's adjust the app theme to use `deepOrange` as the seed color in
-`lib/main.dart`:
+create a patch using `shorebird patch ios`. For the sake of this example, let's
+adjust the app theme to use `deepOrange` as the seed color in `lib/main.dart`:
 
 ```diff
 class MyApp extends StatelessWidget {
@@ -192,16 +162,10 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-:::note
-
-Typically `shorebird patch` should be used to fix critical bugs.
-
-:::
-
 Now that we've applied the changes, let's patch the `internal` variant:
 
 ```sh
-shorebird patch android --flavor internal
+shorebird patch ios --flavor internal
 ```
 
 We can validate the patch by visiting
@@ -210,13 +174,13 @@ release or re-launching the internal release.
 
 :::note
 
-If you are testing locally, you don't need to re-run `shorebird preview` – just
+If you are testing locally, you don't need to re-run `shorebird preview` -- just
 re-launch the app from the device or emulator directly.
 
 :::
 
 The first time the app is re-launched, we should still see the purple theme and
-shorebird will detect and install the patch in the background. Kill and
+Shorebird will detect and install the patch in the background. Kill and
 re-launch the app a second time to see the applied patch.
 
 If all went well, you should see the patch was applied after re-launching the
@@ -229,7 +193,7 @@ Once you have validated the patch internally, you can promote the patch to the
 stable variant via:
 
 ```sh
-shorebird patch android --flavor stable
+shorebird patch ios --flavor stable
 ```
 
 At this point, you have a setup which allows you to push patches to internal
@@ -243,35 +207,9 @@ The full source code for this example can be found
 If you want to add a new flavor to your project after initializing Shorebird,
 you can do so by following the same steps as before.
 
-In build.gradle:
-
-```diff
-defaultConfig {
-    ...
-}
-
-    flavorDimensions "track"
-    productFlavors {
-        internal {
-            dimension "track"
-            applicationIdSuffix ".internal"
-            manifestPlaceholders = [applicationLabel: "[Internal] Shorebird Example"]
-        }
-+       beta {
-+           dimension "track"
-+           applicationIdSuffix ".beta"
-+           manifestPlaceholders = [applicationLabel: "[Beta] Shorebird Example"]
-+       }
-        stable {
-            dimension "track"
-            manifestPlaceholders = [applicationLabel: "Shorebird Example"]
-        }
-    }
-
-buildTypes {
-  ...
-}
-```
+Edit the iOS project to add a third flavor, `beta`, by following the
+instructions in the
+[Flutter documentation](https://docs.flutter.dev/deployment/flavors#creating-flavors-in-ios).
 
 Add this to your `shorebird.yaml` by running `shorebird init`:
 

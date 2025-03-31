@@ -116,5 +116,6 @@ export default defineConfig({
     '/guides/release/ios': '/guides/submitting/app-store',
     '/overview': '/code-push/overview',
     '/teams': '/orgs',
+    '/troubleshooting': '/faq',
   },
 });

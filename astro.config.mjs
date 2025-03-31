@@ -66,14 +66,14 @@ export default defineConfig({
           autogenerate: { directory: 'Code Push' },
         },
         {
-          label: 'Shorebird Account',
+          label: 'Account',
           collapsed: true,
-          autogenerate: { directory: 'Shorebird Account' },
+          autogenerate: { directory: 'account' },
         },
         {
-          label: 'Shorebird System',
+          label: 'System',
           collapsed: true,
-          autogenerate: { directory: 'Shorebird System' },
+          autogenerate: { directory: 'system' },
         },
         {
           label: 'FAQ & Troubleshooting',

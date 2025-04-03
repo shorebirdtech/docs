@@ -3,15 +3,14 @@ title: Security
 description: Security practices of the Shorebird system
 ---
 
-This is our public security policy, which is a subset of our security practices.
-
-This document exists both for education of our employees as well as for
-reference by our customers. Pull requests are welcome.
+This is our public security policy for the Shorebird system and products. This
+document exists both for education of our employees as well as for reference by
+our customers. Pull requests are welcome.
 
 Authorship and change history for this policy are visible in the git history of
 this document.
 
-Management reviews this document annually. Last Reviewed: May 2024.
+Management reviews this document annually. Last Reviewed: April 2025.
 
 Changes or exceptions to these policies should be reviewed by the CEO.
 
@@ -21,24 +20,21 @@ Shorebird is a software application. Most of our code is open source and
 publicly reviewable on GitHub. We use Google Cloud for the bulk of our
 infrastructure.
 
+Shorebird takes security very seriously. We take several steps to make sure that
+we protect the data you give us, only require data that is absolutely necessary
+for product functionality, and that only you can publish changes to your account
+and applications.
+
 Shorebird only offers a hosted service at this time. We do not currently offer
-[on-prem or cloud-prem](https://github.com/shorebirdtech/shorebird/issues/485).
+[on-prem or cloud-prem](https://github.com/shorebirdtech/shorebird/issues/485)
+solutions.
 
-## Organization
+### Company Security Policy
 
-Shorebird is a small company. We were fewer than 5 people as of May 2024.
-
-Eric (CEO) is end-responsible for all things Shorebird, including informational
-security. We do not have a dedicated security team, but security is part of our
-engineering culture and we have built a team with experience in security.
-
-## Bug Bounty
-
-We do not currently offer a bug bounty program. We welcome reports of security
-vulnerabilities.
-
-contact@shorebird.dev is the best way to reach us. We will respond to reports in
-a timely manner.
+This document is focused on the specifics of the Shorebird system and product.
+If there are questions that relate to the overall company security policy please
+refer to the
+[Security section in our Handbook](https://handbook.shorebird.dev/company/security/).
 
 ## Terms
 
@@ -47,17 +43,12 @@ Throughout this document we will refer to the following terms:
 - Customer / you: A user of Shorebird.
 - End User: A user of a Customer's application.
 
-## Personnel Security
+## Acceptable Use
 
-All employees are required to sign a confidentiality agreement. Employees
-receive security training as part of their onboarding process, including reading
-this document.
-
-All employees are subject to background checks pursuant to local laws.
-
-Shorebird does not use contractors at this time. If we do in the future, they
-will be covered by the same security policies as employees and sign the same
-confidentiality agreement.
+Use of Shorebird is governed by our
+[Terms of Service](https://shorebird.dev/terms). We have logging and alerting in
+place to ensure that our service is not used for malicious purposes or such that
+would disrupt the service for other users.
 
 ## Infrastructure
 
@@ -75,72 +66,38 @@ lives no longer than an hour, allowing Google to manage the underlying
 infrastructure including patching continuously. Other parts of our
 infrastructure are similar.
 
-## Network Access
+### Architecture
 
-Shorebird is a web application. We use HTTPS for all communication between our
-application and our customers. We use Google Cloud's managed SSL certificates
-for this.
+We've written more on the architecture of Shorebird in our
+[architecture documentation](/code-push/system-architecture/).
 
-Use of Shorebird requires access to the following web addresses:
+### Shorebird Servers
 
-- `api.shorebird.dev`
-- `console.shorebird.dev`
-- `storage.googleapis.com`
+`shorebird` tools communicate with Shorebird's cloud on your behalf. Shorebird
+exclusively uses public cloud infrastructure and does not maintain our own
+custom servers. We use Google Cloud and Cloudflare for all of our publicly
+accessible endpoints.
 
-Only the https port should be needed for access to Shorebird.
+The following URLs are used by Shorebird.
 
-See also https://docs.shorebird.dev/faq/#can-i-use-shorebird-in-my-country.
+- [https://console.shorebird.dev](https://console.shorebird.dev) — used to
+  interact with Shorebird’s services via the web.
+- https://api.shorebird.dev — used by the shorebird command line tools to
+  interact with the Shorebird servers as well as the Shorebird updater on users’
+  devices to check for updates.
+- https://download.shorebird.dev — used by the shorebird command line tool to
+  download Flutter artifacts for building releases and patches.
+- https://storage.googleapis.com — used by the shorebird command line tool to
+  upload and download release and patch artifacts, and by the Shorebird updater
+  on user’s devices to download the patches.
+- https://cdn.shorebird.cloud/ — used by the Shorebird updater when downloading
+  patches to a user’s device.
 
-## Confidentiality
+Because all access done via https to public cloud infrastructure, typically no
+specific access rules are required to access Shorebird servers from within a
+company network.
 
-Shorebird Terms of Service and Privacy Policy are available at
-https://shorebird.dev/terms and https://shorebird.dev/privacy respectively which
-cover our obligations to you as our customer.
-
-### Customer Data (data about you as a user of Shorebird)
-
-In general we do not access customer data unless required as part of providing
-you support or monitoring the service for usage and security.
-
-We treat customer data as confidential. We have logging in place to detect
-unauthorized access to customer data. Customer data may be accessed by employees
-as part of providing support to you.
-
-We do not share customer data with third parties except as required by law. We
-have a few third party services that we use to run our business, see our privacy
-policy for our list of vendors: https://shorebird.dev/privacy/
-
-We try to store very little data for or about our customers. Examples of
-customer data we store include:
-
-- Email address and Name
-- Stripe Customer ID (we do not store payment information)
-- Built applications archives (e.g. .xcarchive, .aab for Releases and Patches)
-- Release Metadata (e.g. flutter version, xcode version, java version, etc.)
-
-Shorebird servers never see or store your source code. All `shorebird` commands
-run locally on devices you control and only upload the built application
-archives (same binaries you distribute to stores and your users) to our servers
-for your later use or distribution.
-
-Google Cloud encrypts all data at rest by default.
-
-### End User Data (data about Shorebird's customers' end users)
-
-_Shorebird does not process, transmit or store personally identifiable
-information for our customers' end users. We do not have access to end user
-data._ Customer security forms often ask for information about how we handle end
-user data. We do not handle end user data.
-
-Some regions consider IP addresses to be personally identifiable information,
-Google Cloud does record IP addresses in logs. We do not access these IP
-addresses in logs for any purpose other than security and monitoring.
-
-Shorebird's product allows you, and only you, to update the code of your
-application on end user devices. We do not collect or wish to collect any
-information from these users or devices.
-
-## Product Access Control
+### Product Access Control
 
 Shorebird accounts are managed through Google or Microsoft SSO (OAuth). We
 intentionally do not support other access methods and do not store passwords for
@@ -148,24 +105,7 @@ our users.
 
 Shorebird accounts provided role-based access control on a per-application
 basis. We have three roles: Owner, Admin, and Developer which are described in
-https://docs.shorebird.dev/orgs/
-
-## Internal Access Control
-
-### Passwords
-
-All passwords are stored in a password manager. We use
-[1Password](https://1password.com/). We do not store passwords in code, in
-emails, or in any other insecure location. Passwords should never be passed to a
-command line program as an argument, as they will then be stored in the shell
-history file.
-
-We do not recommend ever typing a password. Instead, we recommend using a
-password manager to generate and store passwords. This ensures that passwords
-will never be input into a place they were not intended to be.
-
-Access to our SSO provider (Google) has required strong passwords (Google's
-guidelines) and two factor authentication (2FA).
+our [Organizations product documentation](/account/orgs/)
 
 ### Production Access
 
@@ -179,40 +119,22 @@ pipelines, as detailed in the Change Management section.
 We have an additional (read-only) admin layer to a subset of our production
 systems for monitoring and support purposes.
 
-### Personal Devices
+### Network Access
 
-We do not permit access to Shorebird production systems from personal devices.
+Shorebird is a web application. We use HTTPS for all communication between our
+application and our customers. We use Google Cloud's managed SSL certificates
+for this.
 
-We do not permit access to customer data from personal devices.
+Use of Shorebird requires access to the following web addresses:
 
-The vast majority of Shorebird's code and operations are handled in the open,
-either via public code on GitHub, or public discussions on Discord, so while we
-do not permit access to internal systems from personal devices, employees
-generally do not need access to internal systems to do their work.
+- `api.shorebird.dev`
+- `console.shorebird.dev`
+- `storage.googleapis.com`
+- `cdn.shorebird.cloud`
 
-All employees are provided with company devices for work.
+Only the https port should be needed for access to Shorebird.
 
-### Physical Access
-
-Shorebird is an all-remote company. We have no physical office or visitor
-policies. We do not have physical servers.
-
-Employees are obligated to maintain physical security of their devices and the
-confidentiality of any customer data they may access as part of supporting a
-customer.
-
-Employees are issued devices by the company and are required to use full disk
-encryption on their devices.
-
-### Employee Offboarding
-
-When an employee leaves the company, their access to all systems is revoked
-immediately. We have a checklist for offboarding employees that includes
-revoking access to all systems. Since all access to all production systems is
-gated on Google SSO, this is a simple process.
-
-Access to our systems is reviewed regularly. So far our company is small enough
-and we use SSO for all access, so this is a trivial process.
+See also https://docs.shorebird.dev/faq/#can-i-use-shorebird-in-my-country.
 
 ### User Access Review
 
@@ -220,24 +142,22 @@ We review all user access to our systems periodically, as well as as part of an
 employee joining or leaving the company. All access to Shorebird systems is
 gated through Google SSO including required two factor authentication.
 
-## Suppliers
+### Network Security
 
-We use a number of third party services to run our business. We list those which
-may come in contact with customer data as part of our privacy policy:
-https://shorebird.dev/privacy
+Both our application and our infrastructure are hosted on Google Cloud. We use
+Google Cloud's network security features to secure our infrastructure, including
+restricting all public access to our infrastructure outside of our application
+endpoint.
 
-### Third Party Service Accounts
+We have dedicated machines for access directly to our production environment,
+access to such is restricted to a small number of engineers and is logged.
 
-Accounts are bucketed into having handling customer data (e.g. Google Cloud) or
-not (e.g. Canva).
+#### Intrusion Detection / Prevention / Monitoring
 
-- All accounts and services we use are logged in our Accounts sheet.
-- All accounts should authenticate through Google OAuth (SSO). Exceptions must
-  be approved by the CEO.
-- Accounts that can never reach customer data (e.g. Twitter), may alternatively
-  use a strong password stored in 1Password and two factor authentication if SSO
-  is not available.
-- Additions to the Accounts sheet are reviewed by the CEO.
+We rely on Google Cloud network security for network-level intrusion detection.
+We do log all actions within our systems and do regularly review these logs as
+well as maintain alerting which is delivered to our engineering teams, both for
+our web products as well as our backend database and servers.
 
 ## Change Management
 
@@ -277,23 +197,6 @@ rollback via a revert commit in our codebase and a new deployment, however we
 also have the ability to rollback individual services in our infrastructure to
 previous versions if necessary.
 
-## Network Security
-
-Both our application and our infrastructure are hosted on Google Cloud. We use
-Google Cloud's network security features to secure our infrastructure, including
-restricting all public access to our infrastructure outside of our application
-endpoint.
-
-We have dedicated machines for access directly to our production environment,
-access to such is restricted to a small number of engineers and is logged.
-
-### Intrusion Detection / Prevention / Monitoring
-
-We rely on Google Cloud network security for network-level intrusion detection.
-We do log all actions within our systems and do regularly review these logs as
-well as maintain alerting which is delivered to our engineering teams, both for
-our web products as well as our backend database and servers.
-
 ## Incident Response
 
 We have a private playbook for incident response. We have logging and alerting
@@ -313,7 +216,9 @@ for all incidents within 48 hours of their occurrence. We use these post
 mortem's to improve our systems and processes. We do not currently share our
 post mortem's publicly, although we are considering doing so in the future.
 
-## Data Privacy
+## Data Usage & Security
+
+### Data Privacy
 
 See our privacy policy: https://shorebird.dev/privacy
 
@@ -326,7 +231,7 @@ Shorebird does not process, transmit or store personally identifiable
 information for our customers' end users. Additionally, we take care to store as
 little data from our customers (you) as possible.
 
-## Data Retention
+### Data Retention
 
 We retain customer data for as long as you have an account with us. Customers
 are able to access and delete their data at any time. We retain aggregated,
@@ -338,7 +243,7 @@ https://docs.shorebird.dev/uninstall/
 
 See our privacy policy for more information: https://shorebird.dev/privacy
 
-## Data Security
+### Data Security
 
 Shorebird uses Google Cloud's managed services for backups. This data (as well
 as all data in Google Cloud) is encrypted at rest.
@@ -349,7 +254,7 @@ We are not aware of any past data breaches for Shorebird of any form. In the
 event of such we will notify all customers promptly unless otherwise required by
 local law enforcement.
 
-## Data Separation
+### Data Separation
 
 Shorebird does not currently use per-tenant data storage. We use a single,
 secured, non-publicly-reachable database (AlloyDB) for all system data. We use a
@@ -362,68 +267,73 @@ Customer data we store for you is only your email addresses and the data files
 you have created within our service. Stripe stores your billing information on
 our behalf.
 
-## Acceptable Use
+### Confidentiality
 
-Use of Shorebird is governed by our
-[Terms of Service](https://shorebird.dev/terms). We have logging and alerting in
-place to ensure that our service is not used for malicious purposes or such that
-would disrupt the service for other users.
+Our [Terms of Service](https://shorebird.dev/terms) and
+[Privacy Policy](https://shorebird.dev/privacy) cover our obligations to you as
+our customer.
 
-## Architecture Diagrams
+#### Customer Data (data about you as a user of Shorebird)
 
-We've written more on the architecture of Shorebird in our
-[architecture documentation](https://docs.shorebird.dev/architecture).
+In general we do not access customer data unless required as part of providing
+you support or monitoring the service for usage and security.
 
-## Customer Integration
+We treat customer data as confidential. We have logging in place to detect
+unauthorized access to customer data. Customer data may be accessed by employees
+as part of providing support to you.
 
-Shorebird requires no integration with your internal services or customer data.
+We do not share customer data with third parties except as required by law. We
+have a few third party services that we use to run our business, see our privacy
+policy for our list of vendors: https://shorebird.dev/privacy/
 
-Shorebird uses no APIs from your organization.
+We try to store very little data for or about our customers. Examples of
+customer data we store include:
 
-All Shorebird services, like websites, are accessible solely through encrypted
-https connections. When you use Shorebird tools, those can be used offline for
-the build process and then only connect to Shorebird servers to store data
-privately on your behalf as part of your Shorebird account.
+- Email address and Name
+- Stripe Customer ID (we do not store payment information)
+- Built applications archives (e.g. .xcarchive, .aab for Releases and Patches)
+- Release Metadata (e.g. flutter version, xcode version, java version, etc.)
 
-Integrating Shorebird requires using `shorebird` tools as part of your
-application build process. These tools are a replacement for `flutter build`
-commands typically executed as part of your CI/CD pipelines.
+Shorebird servers never see or store your source code. All `shorebird` commands
+run locally on devices you control and only upload the built application
+archives (same binaries you distribute to stores and your users) to our servers
+for your later use or distribution.
 
-## Shorebird Servers
+Google Cloud encrypts all data at rest by default.
 
-`shorebird` tools communicate with Shorebird's cloud on your behalf. Shorebird
-exclusively uses public cloud infrastructure and does not maintain our own
-custom servers. We use Google Cloud and Cloudflare for all of our publicly
-accessible endpoints.
+#### End User Data (data about Shorebird's customers' end users)
 
-The following URLs are used by Shorebird.
+_Shorebird does not process, transmit or store personally identifiable
+information for our customers' end users. We do not have access to end user
+data._ Customer security forms often ask for information about how we handle end
+user data. We do not handle end user data.
 
-- https://console.shorebird.dev — used to interact with Shorebird’s services via
-  the web.
-- https://api.shorebird.dev — used by the shorebird command line tools to
-  interact with the Shorebird servers as well as the Shorebird updater on users’
-  devices to check for updates.
-- https://download.shorebird.dev — used by the shorebird command line tool to
-  download Flutter artifacts for building releases and patches.
-- https://storage.googleapis.com — used by the shorebird command line tool to
-  upload and download release and patch artifacts, and by the Shorebird updater
-  on user’s devices to download the patches.
-- https://cdn.shorebird.cloud/ — used by the Shorebird updater when downloading
-  patches to a user’s device.
+Some regions consider IP addresses to be personally identifiable information,
+Google Cloud does record IP addresses in logs. We do not access these IP
+addresses in logs for any purpose other than security and monitoring.
 
-Because all access done via https to public cloud infrastructure, typically no
-specific access rules are required to access Shorebird servers from within a
-company network.
+Shorebird's product allows you, and only you, to update the code of your
+application on end user devices. We do not collect or wish to collect any
+information from these users or devices.
 
-## Vendor Certifications
+## Suppliers
 
-Shorebird maintains no vendor certifications at this time. We do from time to
-time have security teams reach out and provide feedback on our APIs or source
-code (which mostly public on [GitHub](https://github.com/shorebirdtech)).
-Feedback always welcome.
+We use a number of third party services to run our business. We list those which
+may come in contact with customer data as part of our privacy policy:
+https://shorebird.dev/privacy
 
-I expect we will eventually provide SOC2 or ISO 27001 certifications, but have
-not begun that process at this time.
+### Third Party Service Accounts
+
+Accounts are bucketed into having handling customer data (e.g. Google Cloud) or
+not (e.g. Canva).
+
+- All accounts and services we use are logged in our Accounts sheet.
+- All accounts should authenticate through Google OAuth (SSO). Exceptions must
+  be approved by the CEO.
+- Accounts that can never reach customer data (e.g. Twitter), may alternatively
+  use a strong password stored in 1Password and two factor authentication if SSO
+  is not available.
+- Additions to the Accounts sheet are reviewed by the CEO.
 
 ## Third-Party Assessments
 
@@ -437,23 +347,10 @@ servers, or build our own network infrastructure, rather we rely on Google and
 Cloudflare servers and networks to reduce our total exposure and
 upgrade/maintenance burdens.
 
-## Business Continuity Planning
+## Bug Bounty
 
-Shorebird has no formal Business Continuity Plan at this time.
+We do not currently offer a bug bounty program. We welcome reports of security
+vulnerabilities.
 
-Our code push product is designed such that any interruption to Shorebird's
-services will not affect the users of your application, other than that you are
-no longer able to provide them patches through Shorebird during such an
-interruption. Shorebird is designed so that using Shorebird should never be
-worse than not using Shorebird.
-
-Not only is this good hygiene for our system, but it is also necessary since we
-provide service to mobile applications which have unreliable network
-connectivity and must therefore function well regardless of Shorebird
-availability.
-
-We monitor Shorebird's availability and have seen no interruption in Shorebird's
-services in over a year. This is in large part due to our reliance on public
-cloud infrastructure (Google, Cloud Flare) which themselves maintain high
-degrees of reliability and business continuity planning.
-https://shorebird.statuspage.io/
+contact@shorebird.dev is the best way to reach us. We will respond to reports in
+a timely manner.

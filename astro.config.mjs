@@ -22,10 +22,18 @@ export default defineConfig({
         dark: './src/assets/shorebird-dark.svg',
         replacesTitle: true,
       },
-      social: {
-        github: 'https://github.com/shorebirdtech/shorebird',
-        discord: 'https://discord.gg/shorebird',
-      },
+      social: [
+        {
+          icon: 'github',
+          label: 'GitHub',
+          href: 'https://github.com/shorebirdtech/handbook',
+        },
+        {
+          icon: 'discord',
+          label: 'Discord',
+          href: 'https://discord.gg/shorebird',
+        },
+      ],
       editLink: {
         baseUrl: 'https://github.com/shorebirdtech/docs/edit/main/',
       },

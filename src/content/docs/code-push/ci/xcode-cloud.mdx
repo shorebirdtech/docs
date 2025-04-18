@@ -1,0 +1,61 @@
+---
+title: Xcode Cloud Integration
+description: Integrate Shorebird into Xcode Cloud
+sidebar:
+  label: Xcode Cloud
+  order: 10
+---
+
+import Authentication from './_authentication.mdx';
+
+```bash
+#!/bin/sh
+
+# Fail this script if any subcommand fails.
+set -e
+
+# The default execution directory of this script is the ci_scripts directory.
+cd $CI_PRIMARY_REPOSITORY_PATH # change working directory to the root of your cloned repo.
+
+# Install Flutter using git.
+# git clone https://github.com/flutter/flutter.git --depth 1 -b stable $HOME/flutter
+
+# Install Flutter using curl.
+curl -sLO "https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_3.29.3-stable.zip"
+unzip -qq flutter_macos_3.29.3-stable.zip -d $HOME
+
+export PATH="$PATH:$HOME/flutter/bin"
+
+# Install Shorebird CLI.
+curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+# Add Shorebird CLI to PATH.
+export PATH="$PATH:$HOME/.shorebird/bin"
+
+# Install Flutter artifacts for iOS (--ios), or macOS (--macos) platforms.
+flutter precache --ios
+
+# Install Flutter dependencies.
+flutter pub get
+
+# Install CocoaPods using Homebrew.
+HOMEBREW_NO_AUTO_UPDATE=1 # disable homebrew's automatic updates.
+brew install cocoapods
+
+# Install CocoaPods dependencies.
+# cd ios && pod install --repo-update # run `pod install` in the `ios` directory.
+
+# Go back to the workspace root
+# cd "$CI_PRIMARY_REPOSITORY_PATH"
+
+echo "Shorebird Build running..."
+shorebird release ios --flutter-version=3.29.3 --no-codesign
+
+exit 0
+```
+
+Thanks to .hunterws on our Discord for taking the time to get this working and
+then share with our community.
+
+## Authentication
+
+<Authentication />

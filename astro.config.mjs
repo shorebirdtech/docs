@@ -117,5 +117,6 @@ export default defineConfig({
     '/shorebird-system/security': '/system/security',
     '/shorebird-system/status': '/system/status',
     '/teams': '/account/orgs',
+    '/flutter-version/': '/getting-started/flutter-version/',
   },
 });

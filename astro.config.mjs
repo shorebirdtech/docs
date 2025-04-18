@@ -119,5 +119,6 @@ export default defineConfig({
     '/teams': '/account/orgs',
     '/flutter-version/': '/getting-started/flutter-version/',
     '/troubleshooting/': '/faq/',
+    '/guides/patch-signing/': '/code-push/guides/patch-signing/',
   },
 });

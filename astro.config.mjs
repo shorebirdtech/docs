@@ -1,10 +1,7 @@
 // cspell:words astro astrojs rehype
 
 import { defineConfig } from 'astro/config';
-import rehypeSlug from 'rehype-slug';
-import { rehypeAutolink } from './plugins/rehype-autolink';
 import starlight from '@astrojs/starlight';
-import tailwind from '@astrojs/tailwind';
 import starlightLinksValidator from 'starlight-links-validator';
 import starlightAutoSidebar from 'starlight-auto-sidebar';
 
@@ -34,9 +31,7 @@ export default defineConfig({
           href: 'https://discord.gg/shorebird',
         },
       ],
-      editLink: {
-        baseUrl: 'https://github.com/shorebirdtech/docs/edit/main/',
-      },
+      editLink: { baseUrl: 'https://github.com/shorebirdtech/docs/edit/main/' },
       favicon: 'favicon.svg',
       head: [
         {
@@ -51,19 +46,11 @@ export default defineConfig({
           },
         },
       ],
-      components: {
-        Head: './src/components/starlight/Head.astro',
-        MarkdownContent: './src/components/starlight/MarkdownContent.astro',
-      },
+      components: { Head: './src/components/starlight/Head.astro' },
       customCss: ['./src/tailwind.css'],
-      expressiveCode: {
-        themes: ['dark-plus', 'github-light'],
-      },
+      expressiveCode: { themes: ['dark-plus', 'github-light'] },
       sidebar: [
-        {
-          label: 'Welcome',
-          link: '/',
-        },
+        { label: 'Welcome', link: '/' },
         {
           label: 'Getting Started',
           collapsed: true,
@@ -84,10 +71,7 @@ export default defineConfig({
           collapsed: true,
           autogenerate: { directory: 'system' },
         },
-        {
-          label: 'FAQ & Troubleshooting',
-          link: '/faq',
-        },
+        { label: 'FAQ & Troubleshooting', link: '/faq' },
       ],
       plugins: [
         starlightAutoSidebar(),
@@ -97,11 +81,7 @@ export default defineConfig({
         }),
       ],
     }),
-    tailwind({ applyBaseStyles: false }),
   ],
-  markdown: {
-    rehypePlugins: [rehypeSlug, ...rehypeAutolink()],
-  },
   redirects: {
     // Redirects to preserve legacy URLs.
     '/code_push/initialize': '/code-push/initialize/',

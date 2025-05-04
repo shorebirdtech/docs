@@ -24,7 +24,7 @@ export default defineConfig({
         {
           icon: 'github',
           label: 'GitHub',
-          href: 'https://github.com/shorebirdtech/handbook',
+          href: 'https://github.com/shorebirdtech/docs',
         },
         {
           icon: 'discord',

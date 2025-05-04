@@ -13,9 +13,9 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
-    "@astrojs/starlight": "^0.34.0",
+    "@astrojs/starlight": "^0.34.1",
     "@astrojs/starlight-tailwind": "^4.0.1",
-    "astro": "^5.7.4",
+    "astro": "^5.7.5",
     "sharp": "^0.34.1",
     "starlight-auto-sidebar": "^0.1.1",
     "starlight-image-zoom": "^0.12.0",

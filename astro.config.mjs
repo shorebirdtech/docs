@@ -4,7 +4,7 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightLinksValidator from 'starlight-links-validator';
 import starlightAutoSidebar from 'starlight-auto-sidebar';
-import starlightImageZoom from 'starlight-image-zoom'
+import starlightImageZoom from 'starlight-image-zoom';
 
 const site = 'https://docs.shorebird.dev/';
 

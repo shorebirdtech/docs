@@ -13,13 +13,13 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
-    "@astrojs/starlight": "^0.34.1",
+    "@astrojs/starlight": "^0.34.2",
     "@astrojs/starlight-tailwind": "^4.0.1",
-    "astro": "^5.7.5",
+    "astro": "^5.7.10",
     "sharp": "^0.34.1",
     "starlight-auto-sidebar": "^0.1.1",
     "starlight-image-zoom": "^0.12.0",
-    "tailwindcss": "^4.1.4",
+    "tailwindcss": "^4.1.5",
     "typescript": "^5.8.3"
   },
   "devDependencies": {

@@ -75,7 +75,7 @@ should be able to run both of those on the CPU (not have to use an interpreter).
 However this is unfortunately not the case. In the "before" case, because isEven
 was never called with nullable values Dart optimized away all of the null checks
 in the compiled `isEven` code. (That's a good thing.) Unfortunately that means
-that when the new code now used isEven in a nullable context the compiled
+that when the new code now used `isEven` in a nullable context the compiled
 contents of "isEven" change, to include null checks. Since the contents of
 isEven changed, Shorebird will conservatively assume that the behavior of all
 callers of isEven might have changed as well and we will not use the CPU

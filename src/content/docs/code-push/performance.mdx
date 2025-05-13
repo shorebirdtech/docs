@@ -58,17 +58,16 @@ void foo(int x) {
 
 And you change it to add:
 
-```
+```diff
 bool isEven<T extends int?>(T value) => value?.isEven ?? false;
 
 void foo(int x) {
   print(isEven(x));
 }
 
-void bar(int? x) {
-  print(isEven(x));
-}
-```
++ void bar(int? x) {
++   print(isEven(x));
++ }
 
 In that example, `isEven` and `foo` didn't change. So you would expect Shorebird
 should be able to run both of those on the CPU (not have to use an interpreter).

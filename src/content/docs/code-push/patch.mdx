@@ -90,9 +90,16 @@ Would you like to continue? (y/N) Yes
 ✅ Published Patch!
 ```
 
-By default, this uses the release version that the app is currently on. If you
-want to patch a different release version, you can use the `--release-version`
-option. For example:
+By default, this uses the release version from the compiled artifact. If you
+want to target the latest release version, you can use
+`--release-version latest`. For example:
+
+```
+shorebird patch android --release-version latest
+```
+
+If you want to patch a different release version, you can use the
+`--release-version` option. For example:
 
 ```
 shorebird patch android --release-version 0.1.0+1

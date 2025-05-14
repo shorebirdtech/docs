@@ -11,23 +11,24 @@ Shorebird uses its own fork of Flutter.
 Our fork works exactly as Google's does, including passing all the same
 functionality and performance tests.
 
-Using Shorebird's fork will result in no change in your App relative to
-Google's. If you believe there is an unintended change, please let us know and
-we'd love to work with you to diagnose.
+Using Shorebird's fork should not result in any change in your app. If you ever
+see any change, please let us know so we can work with you to diagnose!
 
 ### Patching
 
 Updating a Flutter app in production is unique to Shorebird's fork.
 
-Updating a Flutter app with a "patch" will result in the app working exactly as
-well as it does for a "release", just with new code.
+When using Shorebird your app has two different modes of running, un-patched
+("release") and patched ("patch"). Both release and patch builds of your app
+should function identically to as they would without Shorebird. The only caveat
+is on iOS where patched builds can sometimes run slower than release builds due
+to iOS restrictions.
 
-However on iOS our patching mechanism is different from all of the other
-platforms. This is due to restrictions from the Apple App Store.
-
-The Apple App Store requires all updates to use an interpreter. An interpreter
-is a software program that can run other programs (rather than running the
-program directly on the hardware). Interpreters are slow, including ours.
+The iOS App Store
+[requires](https://docs.shorebird.dev/faq/#does-shorebird-comply-with-app-store-guidelines)
+all app update systems (like Shorebird's) to use an interpreter. An interpreter
+is a software program that can run other programs rather than running the
+program directly on hardware. Interpreters are slow.
 
 To work around the performance limitations of an interpreter, Shorebird's
 updating system is designed to avoid using the interpreter as much as possible.
@@ -38,15 +39,16 @@ the interpreter (slow), and thus leave all un-changed code running on the CPU
 
 ### Why iOS patches are sometimes slow
 
-Unfortunately, compilers, including Dart's, tend to make many non-local changes
-to a program as a result of a local change.
+Most of the time when you make a change to a part of your program, only that
+part of the program is changed. However sometimes small changes to one part of
+the program can produce large changes in (seemingly) unrelated parts.
 
-This means that when you change one part of your program, sometimes as a result
-Dart might change how it builds an entirely separate part of your program.
+This is due to how compilers (programs that turn source code into machine code)
+optimize their output. Dart's compiler uses several tricks to optimize programs
+including "type flow analysis" and "inlining", both of which can cause these
+unexpected non-local changes.
 
-Imagine you have a part of your program:
-
-before.dart
+As an example, imagine you have a part of your program:
 
 ```
 bool isEven<T extends int?>(T value) => value?.isEven ?? false;
@@ -68,6 +70,7 @@ void foo(int x) {
 + void bar(int? x) {
 +   print(isEven(x));
 + }
+```
 
 In that example, `isEven` and `foo` didn't change. So you would expect Shorebird
 should be able to run both of those on the CPU (not have to use an interpreter).
@@ -88,16 +91,20 @@ your application to "un-link" and run in the interpreter.
 Unfortunately there is currently no good way to predict if a patch will cause a
 performance change to your application.
 
-The good news is that this behavior is relatively rare. 9 out of 10 patches
-exhibit no difference after patching and when performance impacting changes
-occur, Shorebird's tooling and console will warn you. The bad news is that
-predicting when a change will trigger the Dart compiler to cause non-local
-changes to your program is very difficult.
+The good news is that this behavior is relatively rare. 9 out of 10 patches do
+not run into unexpected non-local changes like this and exhibit no difference
+after patching. Furthermore, when performance impacting changes occur,
+Shorebird's tooling and console will warn you. The bad news is that predicting
+when a change will trigger the Dart compiler to cause non-local changes to your
+program is very difficult.
 
-When these non-local changes occur, the best thing to do is just try to make the
-diff smaller and patch again. For many kinds of patches the performance
-difference will be either not noticeable, or worth the trade-off as a stop-gap
-between now and when a user can update from the stores.
+When these non-local changes occur, the best recommendation we have at this time
+is to try to make a new, smaller diff, and patch again.
 
-We have several ideas and will continue to improve this behavior in the future.
-```
+For the vast majority of patches there is no performance difference at all. For
+those which do see a difference, sometimes that difference may still be worth
+the trade-off as a stop-gap between now and when a user can get an update via
+the App Store.
+
+We have several approaches to explore to remove this limitation on iOS and
+intend to continue to improve this behavior in the future.

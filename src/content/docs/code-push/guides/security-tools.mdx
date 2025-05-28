@@ -3,24 +3,23 @@ title: Obfuscation and Security Tooling
 description: How Shorebird works with obfuscation and Security Tooling
 sidebar:
   label: Security Tools
-  order: 10
+  order: 40
 ---
 
 This article is about how Shorebird interacts with obfuscation and security
 tooling.
 
-To learn more about:
+For other Security-related topics:
 
-- company security, see our Handbook for
+- *Company Security* see our Handbook for
   [Security and Compliance](https://handbook.shorebird.dev/compliance/).
-- how Shorebird Code Push ensures only you can control updates to your App see
-  [Patch Signing](/code-push/guides/patch-signing).
+- [*Patch Signing*](/code-push/guides/patch-signing) -- to cryptographically
+  guarantee only you can change your app.
 
 # Obfuscation
 
-Obfuscate (noun)
-
-_the action of making something obscure, unclear, or unintelligible._
+> Obfuscate (noun):
+> _the action of making something obscure, unclear, or unintelligible._
 
 Obfuscation in software is a mechanism which takes a program and renames
 internal pieces to hide them and make it harder to understand what the program
@@ -29,12 +28,15 @@ program might rename all instances of that function to `az5()` as part of
 compilation to make it harder for someone to "de-compile" and understand what
 your program was doing.
 
-This can also be useful for hiding internal details such as upcoming product
-names e.g. `connectToSecretNewProduct()` in your app. Although
-"[secret scanning](https://docs.github.com/en/code-security/secret-scanning/introduction/about-secret-scanning)"
+Obfuscation is also sometimes used for hiding internal company details such as
+upcoming product names e.g. `connectToSecretNewProduct()` in your app. Although
+"[secret
+scanning](https://docs.github.com/en/code-security/secret-scanning/introduction/about-secret-scanning)"
 may be a more reliable approach for those use-cases since obfuscation tools
-might not find all the ways in which your company secrets may be encoded in your
+might not find all the ways in which your company secrets could be encoded in your
 binary.
+
+## Flutter & Dart built-in Obfuscation
 
 Flutter (via Dart) supports basic obfuscation out of the box.
 
@@ -84,3 +86,5 @@ provide obscured access to constants/strings/numbers stored within the binary.
 This is currently incompatible with our Dart modifications for iOS. If this is
 an issue for your product, we'd be happy to discuss with your GuardSquare
 support team if there are workarounds we could build together.
+
+Reach out to us at contact@shorebird.dev.

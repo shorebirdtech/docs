@@ -10,9 +10,10 @@ This article is about how Shorebird interacts with obfuscation and security
 tooling.
 
 To learn more about:
-* company security, see our Handbook for [Security and
-  Compliance](https://handbook.shorebird.dev/compliance/).
-* how Shorebird Code Push ensures only you can control updates to your App see
+
+- company security, see our Handbook for
+  [Security and Compliance](https://handbook.shorebird.dev/compliance/).
+- how Shorebird Code Push ensures only you can control updates to your App see
   [Patch Signing](/code-push/guides/patch-signing).
 
 # Obfuscation
@@ -23,50 +24,50 @@ _the action of making something obscure, unclear, or unintelligible._
 
 Obfuscation in software is a mechanism which takes a program and renames
 internal pieces to hide them and make it harder to understand what the program
-is doing.  For example, if you had a function `placeOrder()`, an obfuscation
+is doing. For example, if you had a function `placeOrder()`, an obfuscation
 program might rename all instances of that function to `az5()` as part of
 compilation to make it harder for someone to "de-compile" and understand what
 your program was doing.
 
 This can also be useful for hiding internal details such as upcoming product
-names e.g. `connectToSecretNewProduct()` in your app.  Although "[secret
-scanning](https://docs.github.com/en/code-security/secret-scanning/introduction/about-secret-scanning)"
+names e.g. `connectToSecretNewProduct()` in your app. Although
+"[secret scanning](https://docs.github.com/en/code-security/secret-scanning/introduction/about-secret-scanning)"
 may be a more reliable approach for those use-cases since obfuscation tools
 might not find all the ways in which your company secrets may be encoded in your
 binary.
 
 Flutter (via Dart) supports basic obfuscation out of the box.
 
-All you have to do is pass `--obfuscate` to your `flutter build` (or `dart
-compile`) command.
+All you have to do is pass `--obfuscate` to your `flutter build` (or
+`dart compile`) command.
 
 This obfuscation isn't particularly fancy, but it will rename all library,
 method and field names in your program to unique identifiers during compilation.
 
 Shorebird also supports this same obfuscation, on all platforms other than iOS.
 Currently obfuscation support in Dart's compiler is incompatible with
-Shorebird's other modifications on iOS.  We have a plan to fix such, it just
+Shorebird's other modifications on iOS. We have a plan to fix such, it just
 hasn't reached the top of our list yet:
 https://github.com/shorebirdtech/shorebird/issues/1619
 
 # Third Party Security Programs
 
-There are a variety of third party security programs for mobile.  The vast
+There are a variety of third party security programs for mobile. The vast
 majority of these work fine with Shorebird.
 
 The major consideration when using a 3rd party security program is that it needs
-to run *during* the build of your application, not after.
+to run _during_ the build of your application, not after.
 
-Under the covers, `shorebird release` mostly calls `flutter build`.  When that
+Under the covers, `shorebird release` mostly calls `flutter build`. When that
 build is complete, `shorebird release` takes a copy of the built artifact and
-stores it securely in your Shorebird account.  This is done both for your later
+stores it securely in your Shorebird account. This is done both for your later
 reference (e.g. so you can access it via `shorebird preview`) but also to make
-`shorebird patch` possible.  `shorebird patch` works by also calling `flutter
-build` on your newly patched code, but then comparing that output to the saved
-release artifacts.
+`shorebird patch` possible. `shorebird patch` works by also calling
+`flutter build` on your newly patched code, but then comparing that output to
+the saved release artifacts.
 
-As a result of this, if you run tools *after* the build of your application and
-thus send a *different* version of your application to users, Shorebird will be
+As a result of this, if you run tools _after_ the build of your application and
+thus send a _different_ version of your application to users, Shorebird will be
 unable to crate a compatible patch for your users since they will be using a
 different binary than you stored with Shorebird.
 
@@ -75,11 +76,11 @@ with third party security tools and Shorebird.
 
 ## GuardSquare on iOS
 
-We have seen one issue with GuardSquare on iOS with Shorebird.  Similar to the
+We have seen one issue with GuardSquare on iOS with Shorebird. Similar to the
 lack of `--obfuscate` support for Shorebird with Dart, GuardSquare (at least in
 some configurations) will make an attempt to "obfuscate" iOS binaries further
 replacing the implementations of some functions with code which is used to
 provide obscured access to constants/strings/numbers stored within the binary.
-This is currently incompatible with our Dart modifications for iOS.  If this is
+This is currently incompatible with our Dart modifications for iOS. If this is
 an issue for your product, we'd be happy to discuss with your GuardSquare
 support team if there are workarounds we could build together.

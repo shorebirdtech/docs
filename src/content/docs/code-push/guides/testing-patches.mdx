@@ -8,14 +8,9 @@ sidebar:
 We recommend that you test your patches with a subset of users before
 distributing to all users.
 
-Shorebird’s mechanism to release to a subset of users is “tracks”. By convention
-the “stable” track is distributed to all users of your app by default. When you
-make a patch “live” it goes to “stable” and all users will update to that patch.
-
-Today Shorebird supports “staging”, “beta” and “stable” tracks:
-https://pub.dev/documentation/shorebird_code_push/latest/shorebird_code_push/UpdateTrack.html
-We have plans to
-[allow additional track names in the future](https://github.com/shorebirdtech/updater/issues/255).
+Shorebird’s mechanism to release to a subset of users is “tracks”. You can
+create an unlimited number of tracks with arbitrary names. If no track is
+specified, patches are distributed to the “stable” track by default.
 
 Typically we see customers use "staging" for internal testing (on developers'
 machines) and "beta" for wider group testing (e.g. QA teams where `shorebird`

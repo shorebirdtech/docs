@@ -133,9 +133,19 @@ The patch workflow can be broken down into the follow steps:
 1. Preview the release in the staging environment using the
    [Shorebird CLI](https://github.com/shorebirdtech/shorebird) and validate the
    fix
+
    ```sh
    shorebird preview --track=staging
    ```
+
+   :::note
+
+   Here and in the GitHub Actions workflow below, we use a track named `staging`
+   to preview the hotfix in the staging environment. The name of the track is
+   arbitrary and can be changed to any name you prefer.
+
+   :::
+
 1. Promote the hotfix to production from the
    [Shorebird Console](https://console.shorebird.dev).
 

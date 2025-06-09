@@ -15,7 +15,7 @@
     "@astrojs/check": "^0.9.4",
     "@astrojs/starlight": "^0.34.3",
     "@astrojs/starlight-tailwind": "^4.0.1",
-    "astro": "^5.8.1",
+    "astro": "^5.9.1",
     "sharp": "^0.34.2",
     "starlight-auto-sidebar": "^0.1.2",
     "starlight-image-zoom": "^0.12.0",

@@ -17,18 +17,52 @@ Follow the setup instructions on the fastlane website to install fastlane
 ([ios](https://docs.fastlane.tools/getting-started/ios/setup/),
 [android](https://docs.fastlane.tools/getting-started/android/setup/)).
 
-## Setup
+## Using fastlane on CI
 
-This guide assumes that you have shorebird installed on the machine that will be
-running the fastlane commands. If you have not already installed shorebird, you
-can do so by following the [Getting Started instructions](/getting-started).
+This section assumes that you are using fastlane on CI to release your app. If
+you are running fastlane locally (on your development machine), you can skip to
+the [Using fastlane locally](#using-fastlane-locally).
+
+A working example of this setup can be found in our
+[fastlane_demo](https://github.com/shorebirdtech/fastlane_demo) repository.
+
+To get started, follow
+[this guide](https://medium.com/revelo-tech/setting-up-automatic-ios-release-with-fastlane-and-match-on-ci-cd-server-16c3f1d79bc5)
+to set up fastlane with certificate management, code signing, and submitting to
+the App Store/TestFlight.
+
+You will notice that our demo app's
+[`Fastfile`](https://github.com/shorebirdtech/fastlane_demo/blob/main/ios/fastlane/Fastfile)
+has both `deploy` and `release_shorebird` lanes. The `deploy` lane comes from
+the guide linked to above. The `release_shorebird` lane is our custom lane that
+uses the `shorebird_release` action **in place of** `build_app` to build an ipa,
+create a Shorebird release, and submit it to the App Store/TestFlight.
+
+Note that this change from `build_app` to `release_shorebird` is the only change
+needed to add Shorebird to your fastlane workflow.
+
+### Patching
+
+To patch your app, you can use the `shorebird_patch` action. You can see an
+example of this in the `patch_shorebird` lane in the
+[`Fastfile`](https://github.com/shorebirdtech/fastlane_demo/blob/main/ios/fastlane/Fastfile#L92-L98).
+
+## Using fastlane locally
+
+### Setup
+
+Follow this section if you have shorebird installed on the machine that will be
+running fastlane. This section assumes that you have shorebird installed on the
+machine that will be running the fastlane commands. If you have not already
+installed shorebird, you can do so by following the
+[Getting Started instructions](/getting-started).
 
 If you are not already using fastlane with your project, navigate to your app's
 `ios` directory in your project and run `fastlane init`. You will be prompted to
 answer several questions. For this guide, we will choose to manually add lanes
 to the `Fastfile`.
 
-## Use the Shorebird plugin
+### Use the Shorebird plugin
 
 Run the following command to install the `shorebird` fastlane plugin, which
 exposes the `shorebird_release` and `shorebird_patch` actions.
@@ -37,7 +71,7 @@ exposes the `shorebird_release` and `shorebird_patch` actions.
 bundle exec fastlane add_plugin shorebird
 ```
 
-## Update Fastfile to release
+### Update Fastfile to release
 
 Open the `Fastfile` in the `fastlane` directory and add the following lane:
 
@@ -70,7 +104,7 @@ can do so using the `args` parameter. For example:
 shorebird_release(platform: "ios", args: "--no-codesign -- --build-name=1.0.0")
 ```
 
-## Update Fastfile to patch
+### Update Fastfile to patch
 
 Open the `Fastfile` in the `fastlane` directory and add the following lane:
 

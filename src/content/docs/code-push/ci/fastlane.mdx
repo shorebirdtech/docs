@@ -26,8 +26,8 @@ the [Using fastlane locally](#using-fastlane-locally).
 A working example of this setup can be found in our
 [fastlane_demo](https://github.com/shorebirdtech/fastlane_demo) repository.
 
-To get started, follow [this
-guide](https://medium.com/revelo-tech/setting-up-automatic-ios-release-with-fastlane-and-match-on-ci-cd-server-16c3f1d79bc5)
+To get started, follow
+[this guide](https://medium.com/revelo-tech/setting-up-automatic-ios-release-with-fastlane-and-match-on-ci-cd-server-16c3f1d79bc5)
 to set up fastlane with certificate management, code signing, and submitting to
 the App Store/TestFlight.
 
@@ -38,15 +38,14 @@ the guide linked to above. The `release_shorebird` lane is our custom lane that
 uses the `shorebird_release` action **in place of** `build_app` to build an ipa,
 create a Shorebird release, and submit it to the App Store/TestFlight.
 
-Note that this change from `build_app` to `release_shorebird` is the only
-change needed to add Shorebird to your fastlane workflow.
+Note that this change from `build_app` to `release_shorebird` is the only change
+needed to add Shorebird to your fastlane workflow.
 
 ### Patching
 
 To patch your app, you can use the `shorebird_patch` action. You can see an
 example of this in the `patch_shorebird` lane in the
 [`Fastfile`](https://github.com/shorebirdtech/fastlane_demo/blob/main/ios/fastlane/Fastfile#L92-L98).
-
 
 ## Using fastlane locally
 
@@ -55,8 +54,8 @@ example of this in the `patch_shorebird` lane in the
 Follow this section if you have shorebird installed on the machine that will be
 running fastlane. This section assumes that you have shorebird installed on the
 machine that will be running the fastlane commands. If you have not already
-installed shorebird, you can do so by following the [Getting Started
-instructions](/getting-started).
+installed shorebird, you can do so by following the
+[Getting Started instructions](/getting-started).
 
 If you are not already using fastlane with your project, navigate to your app's
 `ios` directory in your project and run `fastlane init`. You will be prompted to

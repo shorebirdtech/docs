@@ -37,6 +37,7 @@
     "logcat",
     "longpaths",
     "maclinux",
+    "microsoftonline",
     "mipmap",
     "Podfile",
     "prefs",

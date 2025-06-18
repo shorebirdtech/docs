@@ -41,7 +41,7 @@ current patch version at runtime via the
 :::
 
 Different customers have used different policies to decide whether to create a
-release, a patch, or both. I'll enumerate a few of these here:
+release, a patch, or both. Some of these polices include:
 
 1. Push a patch immediately to update all existing users, while also
    simultaneously submitting a release to the stores so that new users to their
@@ -66,11 +66,9 @@ for distribution.
 
 ### Can I use Shorebird from my CI system?
 
-Yes. Shorebird is intended to be used from CI systems. We've published a guide
-for [GitHub Actions](/code-push/ci/github), other CI systems should be similar.
-
-Please don't hesitate to reach out over GitHub issues or Discord if you
-encounter any issues.
+Yes. Shorebird is intended to be used from CI systems. We've published a
+[generic guide for CI setup](/code-push/ci/generic/) as well as other CI
+systems.
 
 ### Can I use Dart defines with Shorebird?
 
@@ -114,23 +112,18 @@ can use `shorebird release` to ship to Google Play and an ipa built with
 
 ### What OS versions does Shorebird support?
 
-Shorebird supports the same versions of Android that Flutter supports.
-
-Flutter currently supports Android API level 21+ and iOS 16.0+:
-https://docs.flutter.dev/reference/supported-platforms
+Shorebird supports the same versions of platforms that Flutter supports. You can
+find the details of this on the
+[Flutter Docs site](https://docs.flutter.dev/reference/supported-platforms).
 
 ### What versions of Flutter does Shorebird support?
 
-Android is supported on Flutter 3.10.0 or later.
-
-iOS is supported on Flutter 3.16.9 or later.
-
-See https://docs.shorebird.dev/flutter-version for more information.
+For specific versions by platform please consult out
+[Flutter Version Management](/getting-started/flutter-version/) page.
 
 Shorebird tracks Flutter stable and generally updates within a few hours of any
-stable release. Our system for doing these updates is automated takes a few
-minutes to run. We then do an extra manual verification step before publishing
-to our servers.
+stable release. Our system for doing these updates is automated. We then do an
+extra manual verification step before publishing to our servers.
 
 ## Store Compliance
 
@@ -231,9 +224,8 @@ This is for two reasons:
 ### Does Shorebird submit to the stores for me?
 
 Shorebird does not currently support submitting to the app stores on your
-behalf. We have plans to add this in the future, but for now you will need to
+behalf. We may end up adding this in the future, but for now you will need to
 continue to use your existing processes to submit to the app stores.
-https://github.com/shorebirdtech/shorebird/issues/257
 
 ## Use Cases & Limitations
 
@@ -243,20 +235,20 @@ We've seen a variety of uses, including:
 
 - Emergency fixes to production apps.
 - Shipping bug fixes to users on older versions of your app.
-- Shipping constantly (e.g. every hour).
+- Shipping constantly (e.g. daily, every commit to `main`, etc).
 
 Note that most app stores prohibit shipping code that changes the behavior of
-the app in a significant way. Please see
-[below](#does-shorebird-comply-with-play-store-guidelines) for more information.
+the app in a significant way. Please see our
+[Store Compliance section](#store-compliance) for more information.
 
 ### What can't we use Shorebird code push for?
 
-As above, Shorebird should not be used to violate app store polices. Please see
-[below](#does-shorebird-comply-with-play-store-guidelines) for more information.
+Shorebird does not support changing native code (e.g. Java/Kotlin on Android or
+Objective-C/Swift on iOS). The tool will warn you during an attempted patch if
+you have changed native code.
 
-Also Shorebird does not support changing native code (e.g. Java/Kotlin on
-Android or Objective-C/Swift on iOS). The tool will warn you during an attempted
-patch if you have changed native code.
+Shorebird should not be used to violate app store polices. Please see our
+[Store Compliance section](#store-compliance) for more information.
 
 ### Can I use Shorebird for all my Dart changes?
 
@@ -296,7 +288,7 @@ Code push isn't needed for Flutter web. When a user opens a web app it downloads
 the latest version from the server if needed.
 
 If you have a use case for code push with Fluter web, we'd
-[love to know](https://github.com/shorebirdtech/shorebird/issues/new?assignees=&labels=feature&template=feature_request.md&title=feat%3A+)!
+[love to know](mailto:contact@shorebird.dev)!
 
 ## Technical Details
 
@@ -335,11 +327,10 @@ your system should you choose.
 
 ### How big of a dependency footprint does this add?
 
-I haven't measured recently, but I expect the code push library to add less than
-one megabyte to Flutter apps. `flutter build apk --release` vs.
-`shorebird build apk --release` should give you a rough idea. We know of ways we
-can make this smaller when that becomes a priority. If size is a blocker for
-you, please let us know!
+We expect the code push library to add less than one megabyte to Flutter apps.
+`flutter build apk --release` vs. `shorebird build apk --release` should give
+you a rough idea but keep in mind that many store distributions do also
+automatically thin your app for the device that it is being installed on.
 
 ### When do updates happen?
 
@@ -353,16 +344,14 @@ It is also possible to run the Shorebird updater manually using
 through which it is possible to trigger updates at any time, including via a
 push notification.
 
-See [update-strategies](/code-push/update-strategies) for more information about
+See [Update Strategies](/code-push/update-strategies) for more information about
 how to configure this behavior.
 
 ### What information is sent to Shorebird servers?
 
 Although Shorebird connects to the network, it does not send any personally
-identifiable information. Including Shorebird should not affect your
+identifiable information (PII). Including Shorebird should not affect your
 declarations for the Play Store or App Store.
-
-See also our privacy policy: https://shorebird.dev/privacy
 
 Requests sent from the app to Shorebird servers include:
 
@@ -373,8 +362,9 @@ Requests sent from the app to Shorebird servers include:
 - arch (e.g. 'aarch64', needed to send down the right patch)
 - platform (e.g. 'android', needed to send down the right patch)
 
-That's it. The code for this is in:
-https://github.com/shorebirdtech/updater/blob/main/library/src/network.rs
+The code for this is public in our
+[updater package](https://github.com/shorebirdtech/updater/blob/main/library/src/network.rs)
+and can be reviewed at any time.
 
 ### Do I need to keep my app_id secret?
 
@@ -388,14 +378,13 @@ aspect of your Shorebird account.
 
 ### Does code push require the internet to work?
 
-Yes. One could imagine running a server to distribute the updates separately
-from the general internet, but some form of network connectivity is required to
-transport updates to the devices.
+Yes. Some form of network connectivity is required to transport updates to the
+devices.
 
 ### How is Shorebird affected by lack of network connectivity?
 
-Shorebird updater (included in your application when you build your app with
-Shorebird) is designed to be resilient to network connectivity issues.
+The Shorebird updater is designed to be resilient to network connectivity
+issues.
 
 In the default update behavior, when the application launches it alerts the
 Shorebird updater, which spawns a separate thread to make a network request to
@@ -441,12 +430,9 @@ Shorebird can change any Dart code in your application no matter of size.
 
 ### Does Shorebird store my source code?
 
-No. Shorebird servers never see your source code. When you run
+No. Shorebird servers never see or store your source code. When you run
 `shorebird release` or `shorebird patch` the `shorebird` tool only uploads the
-same compiled app binary that you send to the app stores. Shorebird servers
-never store your source code at any time.
-
-See also our privacy policy: https://shorebird.dev/privacy
+same compiled app binary that you send to the app stores.
 
 ### Will my app still work if I cancel my Shorebird subscription?
 
@@ -491,8 +477,8 @@ If your region requires use of
 [FLUTTER_STORAGE_BASE_URL](https://docs.flutter.dev/community/china) Shorebird
 may not work for you at this time as we also use that environment variable as
 part of our implementation. We have plans to
-[remove this restriction](https://github.com/shorebirdtech/shorebird/issues/435),
-let us know if this is important to you.
+[remove this restriction](https://github.com/shorebirdtech/shorebird/issues/435)
+in the future.
 
 ### Do I need to distribute my app through a store?
 
@@ -513,32 +499,26 @@ versions of your apps to each.
 Unfortunately, these not all of these mechanisms allow 3rd parties to detect
 when apps are installed in any specific Test Track or via TestFlight. Thus, we
 do not have reliable visibility into composition of these groups, and cannot
-reliably gate access to Shorebird patches based on these groups.
-https://stackoverflow.com/questions/53291007/can-an-android-application-identify-the-test-track-within-google-play
-https://stackoverflow.com/questions/26081543/how-to-tell-at-runtime-whether-an-ios-app-is-running-through-a-testflight-beta-i
+reliably gate access to Shorebird patches based on these groups. You can read a
+bit more about this on Stack Overflow discussions specificly about
+[Android](https://stackoverflow.com/questions/53291007/can-an-android-application-identify-the-test-track-within-google-play)
+and
+[iOS](https://stackoverflow.com/questions/26081543/how-to-tell-at-runtime-whether-an-ios-app-is-running-through-a-testflight-beta-i).
 
-If you'd like to segment availability of Shorebird patches, there are 4
+If you'd like to segment availability of Shorebird patches, there are some
 potential options:
 
-1.  Use separate binaries / bundle ids for each group. This is the most
-    straightforward approach, but requires you to manage multiple binaries. On
-    Android the easy way to accomplish this is through flavors. You may already
-    have a dev flavor and prod flavor with different availability. You can thus
-    patch your dev flavor, verify it and then separately patch your prod flavor.
-    We recommend using branches / tags in your version control to help keep
-    track of the sources associated with each release.
-2.  Track your own set of opt-in users, disable automatic updates, and trigger
-    updates only for certain users via package:shorebird_code_push. This works
-    today, but requires you to manage your own opt-in list.
-3.  Shorebird could create its own opt-in mechanism on a per-device basis
-    (similar to Test Tracks or TestFlight, just platform agnostic). This could
-    allow your QA team to opt-in to patches before they're promoted to the
-    general public. If this is important to you, please let us know:
-    https://github.com/shorebirdtech/shorebird/issues/498
-4.  Shorebird plans to add percentage based rollouts. This does not let you
-    choose which devices to send to, but can help you roll out incrementally and
-    roll-back on sight of any problems.
-    https://github.com/shorebirdtech/shorebird/issues/497
+- Use separate binaries / bundle ids for each group. This is the most
+  straightforward approach, but requires you to manage multiple binaries. On
+  Android the easy way to accomplish this is through flavors. You may already
+  have a dev flavor and prod flavor with different availability. You can thus
+  patch your dev flavor, verify it and then separately patch your prod flavor.
+  We recommend using branches / tags in your version control to help keep track
+  of the sources associated with each release.
+- Track your own set of opt-in users, disable automatic updates, and trigger
+  updates only for certain users via
+  [package:shorebird_code_push](https://pub.dev/packages/shorebird_code_push).
+  This requires you to manage your own opt-in list.
 
 ## Billing
 
@@ -546,10 +526,8 @@ potential options:
 
 To upgrade your plan, you can
 [subscribe via the Shorebird console](https://console.shorebird.dev/subscriptions/create).
-
-To cancel your subscription, you can view your
-[account](https://console.shorebird.dev/account) and click "Edit" -> "Cancel
-Subscription".
+You would like to move from a monthly to yearly plan please reach out to us via
+[email](mailto:contact@shorebird.dev) to complete the change.
 
 ### When does my billing period reset?
 
@@ -568,15 +546,15 @@ your billing period.
 
 ### Can I pay for a year in advance?
 
-Currently we have not yet implemented yearly billing. We don't expect it will be
-hard, we just aren't quite sure what customers expect in terms of overage
-charges on a yearly plan. If you have thoughts on this, please let us know:
-https://github.com/shorebirdtech/shorebird/issues/733
+Yes! We launched support for self-service yearly plans in April 2025. You can
+read more about this in our
+[announcement blog post](https://shorebird.dev/blog/yearly-plans/).
 
 ### What counts as a "patch install" for Shorebird?
 
 A "patch install" is counted when a patch is successfully installed on a user's
-device.
+device. If a patch fails to install it is not counted and will not be added to
+your billing total.
 
 ## Roadmap and Support
 
@@ -593,6 +571,20 @@ any time. We're happy to answer any questions you have about our roadmap or
 priorities via GitHub issues or [Discord](https://discord.gg/shorebird).
 
 ## Scenario Based Troubleshooting
+
+### Shorebird fails to install
+
+This can happen on Windows due to Windows' limit of 260 characters for a
+filename.
+
+You can fix this by running:
+
+```sh
+git config --system core.longpaths true
+```
+
+You may need to run this as an administrator, and you will need to restart your
+terminal after running this command.
 
 ### Patch not showing up
 
@@ -664,7 +656,7 @@ Sending patch check request: PatchCheckRequest {
 
 Only patches created for this release version will be compatible with your app.
 
-### I installed Shorebird, and now I can't run my app in VS Code
+### Can't run my app in VS Code
 
 If you see error output like the following when using the Run or Debug button in
 VS Code:
@@ -693,9 +685,10 @@ Where "/path/to/flutter" is the path to your Flutter installation. You can get
 this by running `which flutter` in your terminal (or `where.exe flutter` on
 Windows) and removing the `/bin/flutter` from the end of that path.
 
-### Could not find an option named "dart define" when using the `--` separator
+### Could not find an option named "dart define"
 
-Powershell handles the `--` separator differently than other shells (see
+This typically happens on Windows when using the `--` separator. Powershell
+handles the `--` separator differently than other shells (see
 [this StackOverflow answer](https://stackoverflow.com/a/15788023) for more
 info). To work around this, you can quote the `--` separator. For example:
 
@@ -703,21 +696,7 @@ info). To work around this, you can quote the `--` separator. For example:
 shorebird release android '--' --dart-define=foo=bar
 ```
 
-### Shorebird fails to install
-
-This can happen on Windows due to Windows' limit of 260 characters for a
-filename.
-
-You can fix this by running:
-
-```sh
-git config --system core.longpaths true
-```
-
-You may need to run this as an administrator, and you will need to restart your
-terminal after running this command.
-
-### My iOS build number increments when I try to make a release or patch
+### My iOS build number is auto incrementing
 
 This is likely because you are providing an export options .plist file that sets
 `manageAppVersionAndBuildNumber` to true. This is incompatible with Shorebird
@@ -726,7 +705,7 @@ build numbers in order to target patches at specific releases. You can fix this
 problem by either setting `manageAppVersionAndBuildNumber` to false or removing
 the value from your export options .plist file.
 
-### I see a `Your app contains asset changes` warning when running `shorebird patch`
+### `Your app contains asset changes` warning when creating a patch
 
 The `shorebird patch` command will print a warning if it detects changes to
 files in your compiled app that correspond to asset changes (e.g. added or
@@ -792,7 +771,7 @@ If you are not sure whether your change is safe, you can
 [stage your patch](/code-push/guides/staging-patches) and test locally before
 deploying it to users.
 
-### I see a `Your app contains native changes` warning when running `shorebird patch`, even though I haven't changed Swift/Objective-C/Kotlin/Java code
+#### `Your app contains native changes` warning when creating a patch, even though you haven't changed Swift/Objective-C/Kotlin/Java code
 
 The `shorebird patch` command will print a warning if it detects changes to
 files in your compiled app that correspond to native code changes (`.dex` files
@@ -871,7 +850,7 @@ deploying it to users.
 If you are sure the changes are safe, you can bypass this warning by passing the
 `--allow-native-diffs` flag to the `shorebird patch` command.
 
-### "Invalid `Podfile` file: cannot load such file" when running `pod install`
+### Invalid Podfile file
 
 You might see this error message if the `FLUTTER_ROOT` definition in your
 project's `ios/Flutter/Generated.xcconfig` points to a Shorebird Flutter
@@ -905,48 +884,14 @@ to check which Java version works with which Gradle release.
   and set the path where it was installed in the `JAVA_HOME` environment
   variable.
 
-### When creating an iOS release, I see an error saying that I'm missing a provisioning profile or that no signing team was found.
+### Missing a provisioning profile or no signing team was found
 
 We address this issue in our [releasing guide](/code-push/release). Take a look
 at the iOS section for more information.
 
-### When creating an iOS release, I see an error that the patch might run slowly.
+### Message saying patch might run slowly
 
 iOS uses a very different patching process than Android does. The details of
-which are described in [Architecture docs](/code-push/system-architecture).
-
-Notably iOS attempts to re-use as much code from the original release as
-possible when creating a patch. "Linking" in Shorebird terms is the process of
-deciding which code in the original release is possible to re-use after applying
-this patch, vs when we need to use an interpreter (slower) for the new patched
-code.
-
-Because very little of a Flutter app is typically your code (the vast majority
-of any Flutter app is usually the Flutter Framework itself), any patch should be
-able to share the majority of code with the release. Almost always above 80%.
-
-If you're seeing a warning about the patch potentially running slowly please
-reach out to us over [Discord](https://discord.gg/shorebird) or
-[email](mailto:contact@shorebird.dev) and included the mentioned patch_debug.zip
-file.
-
-"Running slowly" means that some percentage of your Dart code will end up
-executing within Shorebird's interpreter (significantly slower than executing
-compiled code on the CPU), which could result in parts of your app feeling 2x-3x
-slower.
-
-Link errors like this are not your fault, nor is there really any action that a
-developer can take to avoid them. They just represent edge-cases where our
-linker got confused about whether it could re-use a function in the release and
-took the conservative path of not, resulting in this low link percentage and
-warning. Your app, including the patch you just made, remains 100% safe to use,
-it may just run slower with the patch applied. You can of course always
-[stage the patch](/code-push/guides/staging-patches) or
-[test the patch](/code-push/guides/testing-patches) before distributing to users
-and if you encounter any complaints [roll back the patch](/code-push/rollback).
-
-The patch_debug.zip file contains debugging information relating to the linking
-process. We do not upload this file by default as it contains un-obfuscated
-class and function names (which while generally harmless, some customers are
-sensitive about sharing). The files included in the .zip are in the most part
-plain text and you should feel free to read them should you desire.
+which are described in [Architecture docs](/code-push/system-architecture). We
+also talk about this in our [Patch Performance](/code-push/performance) page as
+well.

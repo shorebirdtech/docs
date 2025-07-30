@@ -2,7 +2,7 @@
 title: Obfuscation and Security Tooling
 description: How Shorebird works with obfuscation and Security Tooling
 sidebar:
-  label: Security Tools
+  label: Obfuscation and Security Tooling
   order: 40
 ---
 
@@ -16,7 +16,7 @@ For other Security-related topics:
 - [_Patch Signing_](/code-push/guides/patch-signing) -- to cryptographically
   guarantee only you can change your app.
 
-# Obfuscation
+## Obfuscation
 
 > Obfuscate (noun): _the action of making something obscure, unclear, or
 > unintelligible._
@@ -51,7 +51,7 @@ Shorebird's other modifications on iOS. We have a plan to fix such, it just
 hasn't reached the top of our list yet:
 https://github.com/shorebirdtech/shorebird/issues/1619
 
-# Third Party Security Programs
+## Third Party Security Programs
 
 There are a variety of third party security programs for mobile. The vast
 majority of these work fine with Shorebird.
@@ -75,7 +75,7 @@ different binary than you stored with Shorebird.
 Other than the "it must be during the build" restriction, we've seen few issues
 with third party security tools and Shorebird.
 
-## GuardSquare on iOS
+### GuardSquare on iOS
 
 We have seen one issue with GuardSquare on iOS with Shorebird. Similar to the
 lack of `--obfuscate` support for Shorebird with Dart, GuardSquare (at least in

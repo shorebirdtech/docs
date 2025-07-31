@@ -8,6 +8,8 @@ sidebar:
 
 {/* cspell:words proto tlsv codemagic */}
 
+import Authentication from './_authentication.mdx';
+
 Building with Shorebird in CI should be a very small change from your existing
 Flutter CI builds. Changes required:
 
@@ -37,12 +39,7 @@ for more details, see [Getting Started](/).
 
 ## Getting Shorebird credentials onto the builder
 
-Shorebird cloud requires authentication to be able to publish releases to your
-account. Doing so is two parts. One is getting the CI token from `shorebird`
-installed on your local machine. The second is installing that token on the
-builder.
-
-import Authentication from './_authentication.mdx';
+<Authentication />
 
 Now that you have a token, it is important to keep that token secure. We
 recommend using a secrets manager for the token, or secure environment

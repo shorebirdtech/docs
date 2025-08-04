@@ -7,59 +7,96 @@ sidebar:
 
 import { Image } from 'astro:assets';
 import viewBillingPortal from '~/assets/view_billing_portal.png';
+import accountMonthlySpendingLimit from '~/assets/account_monthly_spending_limit.png';
+import setSpendingLimitDialog from '~/assets/set_spending_limit_dialog.png';
 
-## Stripe
+We believe billing should never be a blocker to using our tools. We aim to meet
+our customers where they are. Whether that means flexible payment methods,
+enterprise invoicing, or custom terms. If you’re building with Flutter, we want
+to make it as easy as possible to build with Shorebird too.
 
-Shorebird uses Stripe for all billing. We accept payment in any method that
-Stripe accepts.
+## Payment Provider - Stripe
 
-Annual billing, invoice billing and other payment methods are also available to
-customers purchasing over 1M patches per month, or custom enterprise plans. See
-our [pricing page](https://shorebird.dev/pricing) for more information.
+Shorebird uses Stripe for all billing and payments. We accept any payment method
+that Stripe supports. You can view more details in
+[Stripe's Supported Payment Methods documentation](https://docs.stripe.com/payments/payment-methods/overview).
 
-The Shorebird Pro plan costs $20 per month, due at the beginning of each billing
-cycle, starting with time of purchase.
+### Billing Email
 
-Shorebird charges based on successful patch installs, which are reported by your
-app to Shorebird servers on successful launch of your application with a newly
-installed patch (you are not charged if the user never launches the patch).
+Invoices are sent at the end of each billing period by Stripe. Since they are
+sent by Stripe, they do not use your Shorebird account email, but rather the
+email associated with your Stripe account. In most cases these emails are the
+same, but you can change them to be different.
 
-The Shorebird Pro plan includes 50,000 patch installs and supports optional
-overage billing for installs beyond 50,000.
-
-See [our blog](https://shorebird.dev/blog/simplified-pricing/) for instructions
-on how to enable overage billing.
-
-Overages will appear on the next month's invoice. For example, if you purchase a
-Pro plan (which includes 50,000 patch installs) and use 100,000 patches every
-month:
-
-- You will be billed $20 at time of purchase (Month 1)
-- At the start of every month afterwards, you will be billed for the 50,000 for
-  the that month, as well as the 50,000 overages from the previous month, for a
-  total of $40.
-
-You can view records of patch installs in
-[your accounts page](https://console.shorebird.dev/account) on the Shorebird
-Console. These numbers are updated hourly.
-
-## Billing Email
-
-Invoices are sent at the end of the billing period by Stripe. Since they are
-sent by Stripe they do not use your Shorebird account email, rather the email
-you have set within Stripe. For most cases these emails are identical however
-you can change them to be different.
-
-If you are a paying customer and would like your invoices sent to a different
-email than you log in with, you can change such within Stripe:
+If you'd like invoices sent to a different email address than the one use you
+log in,, you can change this in Stripe:
 
 1. Navigate to your "Account" panel within Shorebird.
-
 2. Click on the drop-down menu on the right side.
-
 3. Select "View Billing Portal"
 
 <Image src={viewBillingPortal} alt="Screenshot of Shorebird Console" />
 
-This will open Stripe's billing portal which includes the ability to change the
-Stripe email, which is where invoices are sent.
+This will open Stripe's billing portal, where you can update your Stripe email,
+which is where invoices are sent.
+
+## Available Plans
+
+We provide flexible options to accommodate every team and product, weather it's
+an indie/hobby project or a globally launched enterprise application. See our
+[pricing page](https://shorebird.dev/pricing) for more information.
+
+Most customers can easily get started with our self service Pro and Business
+plans. If you need invoice billing, alternative payment methods, or support for
+more then 2.5 million patches per month please
+[reach out to us regarding an Enterprise Plans](https://shorebrid.dev/talk-to-sales).
+
+## How We Bill
+
+Shorebird charges based on successful patch installs. A “patch install” is a
+successful update applied on a customer’s device.
+
+- Patch installs are only billed upon successful download and application of a
+  patch.
+- Users always skip to the latest patch. If you send two patches before a user
+  updates, you’re only billed for one patch install for that user.
+- You are not charged if the user never launches the patched application.
+
+You can view your current patch installs in
+[your accounts page](https://console.shorebird.dev/account) on the Shorebird
+Console. These numbers are updated hourly.
+
+## Overage Billing
+
+For our monthly plans, we offer optional overage billing. This is turned off by
+default.
+
+Customers can control their spending limits in the
+[Shorebird Console](https://console.shorebird.dev). Your spending limit defaults
+to the price of your plan. We'll notify you via email once when you’re close to
+your limit, and again when you’ve reached your limit.
+
+<Image
+  src={accountMonthlySpendingLimit}
+  alt="Screenshot of Shorebird Console showing a Pro account with a $20 spending limit"
+/>
+
+Clicking the "Change Limit" button let's you set a new spending limit and see
+the corresponding number of patches available for your billing cycle.
+
+<Image
+  src={setSpendingLimitDialog}
+  alt="Screenshot of the Set Spending Limit dialog"
+/>
+
+Overage charges appear on the next month's invoice.
+
+### Example
+
+If you purchase a Pro plan (which includes 50,000 patch installs) and use
+100,000 patches every month:
+
+- You'll be billed $20 at the time of purchase (Month 1)
+- At the start of each subsequent month, you'll will be billed for the 50,000
+  patch installs for the that month, plus the 50,000 overages from the previous
+  month, for a total of $40.

@@ -72,7 +72,8 @@ export default defineConfig({
           collapsed: true,
           autogenerate: { directory: 'system' },
         },
-        { label: 'FAQ & Troubleshooting', link: '/faq' },
+        { label: 'Troubleshooting', link: '/troubleshooting' },
+        { label: 'FAQ', link: '/faq' },
       ],
       plugins: [
         starlightAutoSidebar(),
@@ -148,7 +149,6 @@ export default defineConfig({
     '/shorebird-system/status': '/system/status/',
     '/status/': '/system/status/',
     '/teams': '/account/orgs/',
-    '/troubleshooting': '/faq/',
     '/uninstall': '/code-push/uninstall/',
     '/update-strategies': '/code-push/update-strategies/',
   },

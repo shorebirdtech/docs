@@ -3,8 +3,7 @@ title: Troubleshooting
 description: Troubleshooting Shorebird.
 ---
 
-Still have a question about Shorebird that our docs didn't cover? You're in the
-right place. This page covers the most common questions and issues. Still stuck?
+This page covers the most common issues with Shorebird code push. Still stuck?
 Reach out on [Discord](https://discord.gg/shorebird) or
 [file an issue](https://github.com/shorebirdtech/shorebird/issues). We're here
 to help.
@@ -223,7 +222,7 @@ deploying it to users.
 If you are sure the changes are safe, you can bypass this warning by passing the
 `--allow-native-diffs` flag to the `shorebird patch` command.
 
-### Shorebird fails to install
+## Shorebird fails to install
 
 This can happen on Windows due to Windows' limit of 260 characters for a
 filename.
@@ -237,7 +236,7 @@ git config --system core.longpaths true
 You may need to run this as an administrator, and you will need to restart your
 terminal after running this command.
 
-### Can't run my app in VS Code
+## Can't run my app in VS Code
 
 If you see error output like the following when using the Run or Debug button in
 VS Code:
@@ -266,7 +265,7 @@ Where "/path/to/flutter" is the path to your Flutter installation. You can get
 this by running `which flutter` in your terminal (or `where.exe flutter` on
 Windows) and removing the `/bin/flutter` from the end of that path.
 
-### Could not find an option named "dart define"
+## Could not find an option named "dart define"
 
 This typically happens on Windows when using the `--` separator. Powershell
 handles the `--` separator differently than other shells (see
@@ -277,7 +276,7 @@ info). To work around this, you can quote the `--` separator. For example:
 shorebird release android '--' --dart-define=foo=bar
 ```
 
-### My iOS build number is auto incrementing
+## My iOS build number is auto incrementing
 
 This is likely because you are providing an export options .plist file that sets
 `manageAppVersionAndBuildNumber` to true. This is incompatible with Shorebird
@@ -286,7 +285,7 @@ build numbers in order to target patches at specific releases. You can fix this
 problem by either setting `manageAppVersionAndBuildNumber` to false or removing
 the value from your export options .plist file.
 
-### Invalid Podfile file
+## Invalid Podfile file
 
 You might see this error message if the `FLUTTER_ROOT` definition in your
 project's `ios/Flutter/Generated.xcconfig` points to a Shorebird Flutter
@@ -297,7 +296,7 @@ installation. This can be fixed by running any of:
 1. `flutter run` in your project's root directory and targeting an iOS
    simulator/device.
 
-### Unsupported class file major version 65
+## Unsupported class file major version 65
 
 The error `Unsupported class file major version 65` (or 66—the number varies
 sometimes) happens when gradle is being executed with an incompatible Java
@@ -320,12 +319,12 @@ to check which Java version works with which Gradle release.
   and set the path where it was installed in the `JAVA_HOME` environment
   variable.
 
-### Missing a provisioning profile or no signing team was found
+## Missing a provisioning profile or no signing team was found
 
 We address this issue in our [releasing guide](/code-push/release). Take a look
 at the iOS section for more information.
 
-### Message saying patch might run slowly
+## Message saying patch might run slowly
 
 iOS uses a very different patching process than Android does. The details of
 which are described in [Architecture docs](/code-push/system-architecture). We

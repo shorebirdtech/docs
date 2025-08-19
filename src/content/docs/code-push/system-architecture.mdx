@@ -39,12 +39,9 @@ a modified format that can be then interpreted on device. Because interpreters
 are slower than running compiled code directly on a CPU, we also have built
 additional systems into Shorebird to minimize the use of our interpreter.
 
-Typically even if you were to replace your entire application with a new one via
-a patch (don't do that, it would be deceptive to users and thus against store
-policies and thus against Shorebird policies) we would still expect to run the
+Even if you were to replace all of your app code via a patch (don't do that, it would be deceptive to users and against Shorebird and store policies), we would still expect to run the
 vast majority (e.g. 80%) of your patched Dart code using the exiting compiled
-and signed Dart code in your store-distributed application, rather than
-interpreting the patch. This is because the vast majority of a typical Flutter
+and signed Dart code in your store-distributed application. This is because the vast majority of a typical Flutter
 application is actually Flutter Framework code rather than application code.
 
 Shorebird has made two major changes to Dart to facilitate patching well on iOS

@@ -27,11 +27,11 @@ On Android, Windows, Mac, and Linux, this is very straightforward: a Shorebird
 patch simply provides a new compiled version of your Dart code to run inside the
 Dart virtual machine.
 
-On iOS it's a bit more complicated. Logically it works the same way (a "patch"
-is simply replacing _all_ of the Dart code in your app), but technically it
-works very differently than it does on other platforms. Apple has restrictions
-(both policy and technical) about the mechanism through which iOS applications
-are allowed to update. Shorebird is designed to let you comply with those
+iOS is more complicated. Patching works the same way at a high level (a "patch"
+is simply replacing _all_ of the Dart code in your app), but the implementation
+is very different than on other platforms. Apple has policy and technical restrictions
+about the mechanism through which iOS applications
+are allowed to update. Shorebird is designed to comply with those
 restrictions through use of a novel Dart interpreter.
 
 On iOS, instead of compiling to the normal machine code, we instead compiled to

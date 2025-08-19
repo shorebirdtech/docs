@@ -1,0 +1,29 @@
+---
+title: Uninstall
+description: How to disable Shorebird.
+sidebar:
+  order: 8
+---
+
+_First, do no harm_
+
+Shorebird is designed to be a drop-in replacement for stock Flutter, and can be
+disabled at any time with no effect on your users.
+
+## Thank you
+
+Thank you for trying Shorebird. If you'd like to continue using Shorebird but
+have questions or concerns, please reach out to us on Discord or via email at
+[contact@shorebird.dev](mailto:contact@shorebird.dev).
+
+Otherwise, we hope you'll consider trying Shorebird again in the future.
+
+## Uninstalling Shorebird
+
+Building with `shorebird release` will include Shorebird code push in your app.
+Building with `flutter build --release` will not include Shorebird in your app.
+At any time you can simply drop back to `flutter build` and things will work as
+they did before.
+
+You can remove `shorebird` from your path by removing it from your `.bashrc` or
+`.zshrc` and deleting the `.shorebird` directory located in `~/.shorebird`.

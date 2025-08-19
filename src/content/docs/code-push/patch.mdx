@@ -3,13 +3,13 @@ title: Create a Patch
 description: Learn how to push updates to an app with Shorebird.
 sidebar:
   label: Patch
-  order: 4
+  order: 6
 ---
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
-Once you have published a release of your app, you can push updates using one
-of the `shorebird patch` commands.
+Once you have published a release of your app, you can push updates using one of
+the `shorebird patch` commands.
 
 <Tabs>
   <TabItem value="patch-command-android" label="Android">
@@ -24,6 +24,30 @@ shorebird patch android
 
 ```
 shorebird patch ios
+```
+
+</TabItem>
+
+<TabItem value="patch-command-linux" label="Linux">
+
+```
+shorebird patch linux
+```
+
+</TabItem>
+
+<TabItem value="patch-command-macos" label="macOS">
+
+```
+shorebird patch macos
+```
+
+</TabItem>
+
+<TabItem value="patch-command-windows" label="Windows">
+
+```
+shorebird patch windows
 ```
 
 </TabItem>
@@ -66,26 +90,37 @@ Would you like to continue? (y/N) Yes
 ✅ Published Patch!
 ```
 
-By default, this uses the release version that the app is currently on. If you
-want to patch a different release version, you can use the `--release-version`
-option. For example:
+By default, this uses the release version from the compiled artifact. If you
+want to target the latest release version, you can use
+`--release-version latest`. For example:
+
+```
+shorebird patch android --release-version latest
+```
+
+If you want to patch a different release version, you can use the
+`--release-version` option. For example:
 
 ```
 shorebird patch android --release-version 0.1.0+1
 ```
 
-If your application supports flavors or multiple release targets, you can specify the flavor and target using the `--flavor` and `--target` options:
+If your application supports flavors or multiple release targets, you can
+specify the flavor and target using the `--flavor` and `--target` options:
 
 ```
 shorebird patch [android|ios] --target lib/main_development.dart --flavor development
 ```
 
 :::note
+
 `shorebird patch` wraps `flutter build` and can take any argument
 `flutter build` can. To pass arguments to the underlying `flutter build` you
 need to put `flutter build` arguments after a `--` separator. For example:
-`shorebird patch android -- --dart-define="foo=bar"` will define the `"foo"` environment
-variable inside Dart as you might have done with `flutter build` directly.
+`shorebird patch android -- --dart-define="foo=bar"` will define the `"foo"`
+environment variable inside Dart as you might have done with `flutter build`
+directly.
+
 :::
 
 ### Patch Performance
@@ -94,18 +129,18 @@ variable inside Dart as you might have done with `flutter build` directly.
 
 Patching an application on Android has no effect on performance.
 
-#### iOS
+#### iOS and macOS
 
-Patching an application on iOS typically does not affect an application
-performance. However the patching mechanism on iOS is different from Android.
-Unchanged code runs as normal (on the CPU), changed (or added) code will run in
-a Dart interpreter (slower than the CPU). Typically this change is
-undetectable, but if you are changing particularly performance-sensitive Dart
-code (e.g. code for processing images, or large data) you may see a performance
-difference after patching.
+Patching an application on iOS and macOS typically does not affect an
+application performance. However the patching mechanism on iOS and macOS is
+different from Android. Unchanged code runs as normal (on the CPU), changed (or
+added) code will run in a Dart interpreter (slower than the CPU). Typically this
+change is undetectable, but if you are changing particularly
+performance-sensitive Dart code (e.g. code for processing images, or large data)
+you may see a performance difference after patching.
 
 You can always test your patches before sending them to users using by
-[staging patches](/guides/staging-patches).
+[staging patches](/code-push/guides/staging-patches).
 
-If you ever see unexpected performance changes when patching, please [contact
-us](mailto:contact@shorebird.dev) we would love to help!
+If you ever see unexpected performance changes when patching, please
+[contact us](mailto:contact@shorebird.dev) we would love to help!

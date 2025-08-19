@@ -1,0 +1,49 @@
+---
+title: Sentry Integration
+description: Integrate Shorebird into your Sentry crash reporting
+sidebar:
+  label: Sentry
+  order: 13
+---
+
+If you're using Sentry for crash reporting, it will work out-of-the-box with
+Shorebird releases and patches. However, if you have multiple patches, it can be
+unclear which patch caused the crash. This document shows how you can use Sentry
+tags to differentiate between patches.
+
+## Add the `shorebird_code_push` package to your project.
+
+[shorebird_code_push](https://pub.dev/packages/shorebird_code_push) is available
+on pub.dev and lets you programmatically determine your app's current patch
+number. To add it to your project, follow the instructions on the package's
+pub.dev page.
+
+## Configure Sentry
+
+If you haven't already, follow the Sentry
+[getting started with Flutter](https://docs.sentry.io/platforms/flutter/) guide.
+
+Update the Sentry init code to include the patch number as a tag. This will look
+something like:
+
+```dart
+Future<void> main() async {
+  // Get the current patch number. This will be null if no patch is installed.
+  final patch = await ShorebirdUpdater().readCurrentPatch();
+
+  await SentryFlutter.init(
+    (options) {
+      options.dsn = 'YOUR_DSN';
+    },
+    appRunner: () {
+      // Add the patch number as a tag. You can use whatever name you would like
+      // as the key. `$patch` will be "null" if there is no patch. You may
+      // wish to handle this case differently.
+      Sentry.configureScope((scope) {
+        scope.setTag('shorebird_patch_number', '${patch?.number}',);
+      });
+      return runApp(const MyApp());
+    },
+  );
+}
+```

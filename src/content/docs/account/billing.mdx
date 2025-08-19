@@ -1,0 +1,103 @@
+---
+title: Billing
+description: How Shorebird handles Billing
+sidebar:
+  order: 2
+---
+
+import { Image } from 'astro:assets';
+import viewBillingPortal from '~/assets/view_billing_portal.png';
+import accountMonthlySpendingLimit from '~/assets/account_monthly_spending_limit.png';
+import setSpendingLimitDialog from '~/assets/set_spending_limit_dialog.png';
+
+We believe billing should never be a blocker to using our tools. We aim to meet
+our customers where they are. Whether that means flexible payment methods,
+enterprise invoicing, or custom terms. If you’re building with Flutter, we want
+to make it as easy as possible to build with Shorebird too.
+
+## Payment Provider - Stripe
+
+Shorebird uses Stripe for all billing and payments. We accept any payment method
+that Stripe supports. You can view more details in
+[Stripe's Supported Payment Methods documentation](https://docs.stripe.com/payments/payment-methods/overview).
+
+### Billing Email
+
+Invoices are sent at the end of each billing period by Stripe. Since they are
+sent by Stripe, they do not use your Shorebird account email, but rather the
+email associated with your Stripe account. In most cases these emails are the
+same, but you can change them to be different.
+
+If you'd like invoices sent to a different email address than the one use you
+log in,, you can change this in Stripe:
+
+1. Navigate to your "Account" panel within Shorebird.
+2. Click on the drop-down menu on the right side.
+3. Select "View Billing Portal"
+
+<Image src={viewBillingPortal} alt="Screenshot of Shorebird Console" />
+
+This will open Stripe's billing portal, where you can update your Stripe email,
+which is where invoices are sent.
+
+## Available Plans
+
+We provide flexible options to accommodate every team and product, weather it's
+an indie/hobby project or a globally launched enterprise application. See our
+[pricing page](https://shorebird.dev/pricing) for more information.
+
+Most customers can easily get started with our self service Pro and Business
+plans. If you need invoice billing, alternative payment methods, custom
+contract/procurement process, or support for more then 2.5 million patches per
+month please
+[reach out to us regarding an Enterprise Plans](https://shorebrid.dev/talk-to-sales).
+
+## How We Bill
+
+Shorebird charges based on successful patch installs. A “patch install” is a
+successful update applied on a customer’s device.
+
+- Patch installs are only billed upon successful download and application of a
+  patch.
+- Users always skip to the latest patch. If you send two patches before a user
+  updates, you’re only billed for one patch install for that user.
+- You are not charged if the user never launches the patched application.
+
+You can view your current patch installs in
+[your accounts page](https://console.shorebird.dev/account) on the Shorebird
+Console. These numbers are updated hourly.
+
+## Overage Billing
+
+For our monthly plans, we offer optional overage billing. This is turned off by
+default.
+
+Customers can control their spending limits in the
+[Shorebird Console](https://console.shorebird.dev). Your spending limit defaults
+to the price of your plan. We'll notify you via email once when you’re close to
+your limit, and again when you’ve reached your limit.
+
+<Image
+  src={accountMonthlySpendingLimit}
+  alt="Screenshot of Shorebird Console showing a Pro account with a $20 spending limit"
+/>
+
+Clicking the "Change Limit" button let's you set a new spending limit and see
+the corresponding number of patches available for your billing cycle.
+
+<Image
+  src={setSpendingLimitDialog}
+  alt="Screenshot of the Set Spending Limit dialog"
+/>
+
+Overage charges appear on the next month's invoice.
+
+### Example
+
+If you purchase a Pro plan (which includes 50,000 patch installs) and use
+100,000 patches every month:
+
+- You'll be billed $20 at the time of purchase (Month 1)
+- At the start of each subsequent month, you'll will be billed for the 50,000
+  patch installs for the that month, plus the 50,000 overages from the previous
+  month, for a total of $40.

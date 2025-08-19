@@ -1,0 +1,78 @@
+---
+title: Testing Patches
+description: Distribute patches to groups of users via Tracks
+sidebar:
+  order: 18
+---
+
+We recommend that you test your patches with a subset of users before
+distributing to all users.
+
+Shorebird’s mechanism to release to a subset of users is “tracks”. You can
+create an unlimited number of tracks with arbitrary names. If no track is
+specified, patches are distributed to the “stable” track by default.
+
+Typically we see customers use "staging" for internal testing (on developers'
+machines) and "beta" for wider group testing (e.g. QA teams where `shorebird`
+commands are not available).
+
+As part of our privacy stance, we _never_ know anything about your users, so we
+have no way to tell users apart or to specify which users should receive a patch
+from within our product. However, we do provide you mechanisms for controlling
+updates via Shorebird with user information you have access to from within your
+company and your application. See the
+[Percentage Based Rollouts guide](/code-push/guides/percentage-based-rollouts)
+for examples.
+
+We recommend using one of the following three approaches to distribute patches
+to a subset of users (e.g. your QA team) for testing without affecting your
+public users in production.
+
+All of these options require disabling `auto_update` support, and using
+[package:shorebird_code_push](https://pub.dev/packages/shorebird_code_push) for
+more advanced control over the update process.
+
+### Option 1: Control Shorebird track based on the current user’s account.
+
+If your app has a login mechanism, this is your best option. If it does not, we
+recommend option 2.
+
+Once your user has logged in, you determine whether the user is a tester and
+then change your Shorebird update code to use that information when updating,
+e.g.
+
+```dart
+final track = user.isTester ? UpdateTrack.beta : UpdateTrack.stable;
+shorebirdUpdater.update(track: track);
+```
+
+### Option 2: Control Shorebird track with a hidden UI.
+
+If your app does not have a login/user-account mechanism, this is your best
+option. If it does, we recommend option 1.
+
+Some stores discourage hidden UIs; however our customers tell us it is common
+practice. For example, some apps may enable a “QA” mode in their app after a
+certain series of clicks or special gestures, etc., similar to how Android
+enables developer mode when
+[tapping 7 times on the Android version text in the settings app](https://developer.android.com/studio/debug/dev-options)
+From a QA mode, you could allow testers to switch to the “beta” patch track,
+even from your production app. They could similarly switch back to “stable” to
+move back to what production users see today.
+
+### Option 3: Control Shorebird Track based on how the app was installed.
+
+Other companies provide existing mechanisms for testing mobile apps before
+production. Apple TestFlight, Google Release Tracks, Firebase App Distribution
+are all examples of this. Shorebird does not have built-in detection of these
+distribution mechanisms, but it is typically possible to detect the mechanism
+via which an App was installed on the user’s device.
+
+It is then possible to pick the Shorebird track based on the detected install
+mechanism, allowing you to thus distribute patches _only_ to your TestFlight
+users, etc.
+
+Because detection of install mechanisms can be unreliable, we recommend option 1
+or 2 for most teams, but include this option for completeness. Most teams who
+distribute via TestFlight, for example, also have QA-specific accounts and thus
+option 2 is strictly better.

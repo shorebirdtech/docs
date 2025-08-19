@@ -13,7 +13,9 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # Building on macos because pagefind cannot be installed on ubuntu-latest.
+    # https://github.com/CloudCannon/pagefind/issues/574
+    runs-on: macos-latest
 
     steps:
       - name: 📚 Git Checkout
@@ -25,7 +27,9 @@ jobs:
   deploy:
     needs: build
 
-    runs-on: ubuntu-latest
+    # Deploying on macos because pagefind cannot be installed on ubuntu-latest.
+    # https://github.com/CloudCannon/pagefind/issues/574
+    runs-on: macos-latest
 
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
 

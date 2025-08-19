@@ -3,13 +3,19 @@ title: Roll back a Patch
 description: Learn how to roll back a patch in Shorebird.
 sidebar:
   label: Rollback
-  order: 5
+  order: 7
 ---
 
 If you discover that a live patch has a bug, Shorebird supports patch roll back.
 When a patch is rolled back, it is remotely uninstalled from end users' devices
 and replaced by either the previous patch or the base release if no previous
 patch is available.
+
+:::note
+
+Roll back requires a minimum Flutter version of 3.27.4
+
+:::
 
 ## How to roll back a patch
 
@@ -33,7 +39,8 @@ Console will look like this after a rollback:
 
 ![The Shorebird Console showing three patches, with patch 3 rolled back and patch 2 as the active patch](https://github.com/user-attachments/assets/7ba4ff2c-5823-4c9f-a260-68ca6ce1e10a)
 
-Users who download the app from the store will now get patch 2 instead of patch 3. Users who already had patch 3 installed will be downgraded to patch 2.
+Users who download the app from the store will now get patch 2 instead of
+patch 3. Users who already had patch 3 installed will be downgraded to patch 2.
 
 ### Under the hood
 
@@ -43,7 +50,44 @@ installed, it deletes them and reverts to the last "good" patch, which will be
 visible the next time the app starts.
 
 :::note
-If you app needs to download an older patch as part of a rollback,
-installing that patch will count against your monthly patch installs. If you
-have no remaining patch installs, the app will revert to the base release.
+
+If you app needs to download an older patch as part of a rollback, installing
+that patch will count against your monthly patch installs. If you have no
+remaining patch installs, the app will revert to the base release.
+
 :::
+
+## Patch Integrity and Automatic Rollback
+
+Shorebird includes safety features to prevent needing to issue the manual
+rollback of a patch.
+
+`shorebird patch` also generates a hash of your patch file which is stored
+separately from the patch and checked every time your patch is installed, or
+booted from on the user's device.
+
+Customers are also encouraged to use Shorebird's
+[patch-signing feature](https://docs.shorebird.dev/guides/patch-signing/) to
+cryptographically sign patch files. This uses the same cryptographic algorithms
+used in the Google and Apple app stores. When enabled, your
+[public key](https://en.wikipedia.org/wiki/Public-key_cryptography) is included
+in your app bundle and a patch's signature is checked on every install and boot
+to ensure your app can never accept a patch file not signed by your secret key.
+
+Finally Shorebird's [updater](https://github.com/shorebirdtech/updater) includes
+automatic on-device rollback. If for any reason a patch's hash or signature does
+not match, the patch is discarded. If for any reason a patch fails to load into
+the Dart runtime, a patch will be marked "bad" on that device, and the app will
+be automatically rolled back to the latest installed patch.
+
+The previous patch file is always kept on disk until at least one successful
+boot is made of the next patch, after which a patch file is automatically
+cleaned up from the user's device to minimize disk usage.
+
+All of code which implements these integrity measures is of course open source
+and available for review on [GitHub](https://github.com/shorebirdtech/). An
+overview of our code locations is available under
+[System Architecture](/code-push/system-architecture).
+
+See also
+[Shorebird Public Security Policies](https://handbook.shorebird.dev/security/).

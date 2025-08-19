@@ -29,20 +29,22 @@ Dart virtual machine.
 
 iOS is more complicated. Patching works the same way at a high level (a "patch"
 is simply replacing _all_ of the Dart code in your app), but the implementation
-is very different than on other platforms. Apple has policy and technical restrictions
-about the mechanism through which iOS applications
-are allowed to update. Shorebird is designed to comply with those
-restrictions through use of a novel Dart interpreter.
+is very different than on other platforms. Apple has policy and technical
+restrictions about the mechanism through which iOS applications are allowed to
+update. Shorebird is designed to comply with those restrictions through use of a
+novel Dart interpreter.
 
-On iOS, instead of compiling to the normal machine code, we instead compile to
-a modified format that can be then interpreted on device. Because interpreters
-are slower than running compiled code directly on a CPU, we also have built
+On iOS, instead of compiling to the normal machine code, we instead compile to a
+modified format that can be then interpreted on device. Because interpreters are
+slower than running compiled code directly on a CPU, we also have built
 additional systems into Shorebird to minimize the use of our interpreter.
 
-Even if you were to replace all of your app code via a patch (don't do that, it would be deceptive to users and against Shorebird and store policies), we would still expect to run the
-vast majority (e.g. 80%) of your patched Dart code using the exiting compiled
-and signed Dart code in your store-distributed application. This is because the vast majority of a typical Flutter
-application is actually Flutter Framework code rather than application code.
+Even if you were to replace all of your app code via a patch (don't do that, it
+would be deceptive to users and against Shorebird and store policies), we would
+still expect to run the vast majority (e.g. 80%) of your patched Dart code using
+the exiting compiled and signed Dart code in your store-distributed application.
+This is because the vast majority of a typical Flutter application is actually
+Flutter Framework code rather than application code.
 
 Shorebird has made two major changes to Dart to facilitate patching well on iOS
 including:
@@ -55,9 +57,9 @@ including:
   "previous" when executing "new" at a per-function level.
 
 These two changes combined make it so that you should expect almost all
-(typically 98% or higher with occasional outliers) of the patched code to
-run out of the "previous" binary included in the IPA, and thus run full-speed on
-the CPU.
+(typically 98% or higher with occasional outliers) of the patched code to run
+out of the "previous" binary included in the IPA, and thus run full-speed on the
+CPU.
 
 See also articles on our blog explaining
 [How Code Push Works](https://shorebird.dev/blog/how-we-built-code-push/).

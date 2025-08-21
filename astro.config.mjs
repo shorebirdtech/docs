@@ -63,7 +63,7 @@ export default defineConfig({
           autogenerate: { directory: 'code-push' },
         },
         {
-          label: 'CI (Dev Preview)',
+          label: 'CI (Beta)',
           collapsed: true,
           autogenerate: { directory: 'ci' },
         },

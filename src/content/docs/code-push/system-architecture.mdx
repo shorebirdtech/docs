@@ -13,6 +13,57 @@ your Flutter app directly to your users' devices.
 This document exists to explain how Shorebird works and to provide a high-level
 overview of the components that make up the Shorebird system.
 
+## How Shorebird Code Push works
+
+When you make a Shorebird "release", that's just using `flutter build` under the
+covers, the only change being that it's also including the Shorebird updater
+library (with small modifications to the Flutter Engine) inside your
+application. These changes make it possible for your app to request "patches"
+when running and thus replace its Dart code with new Dart code.
+
+A Shorebird "patch" essentially replaces all of the Dart code in your app.
+
+On Android, Windows, Mac, and Linux, this is very straightforward: a Shorebird
+patch simply provides a new compiled version of your Dart code to run inside the
+Dart virtual machine.
+
+iOS is more complicated. Patching works the same way at a high level (a "patch"
+is simply replacing _all_ of the Dart code in your app), but the implementation
+is very different than on other platforms. Apple has policy and technical
+restrictions about the mechanism through which iOS applications are allowed to
+update. Shorebird is designed to comply with those restrictions through use of a
+novel Dart interpreter.
+
+On iOS, instead of compiling to the normal machine code, we instead compile to a
+modified format that can be then interpreted on device. Because interpreters are
+slower than running compiled code directly on a CPU, we also have built
+additional systems into Shorebird to minimize the use of our interpreter.
+
+Even if you were to replace all of your app code via a patch (don't do that, it
+would be deceptive to users and against Shorebird and store policies), we would
+still expect to run the vast majority (e.g. 80%) of your patched Dart code using
+the exiting compiled and signed Dart code in your store-distributed application.
+This is because the vast majority of a typical Flutter application is actually
+Flutter Framework code rather than application code.
+
+Shorebird has made two major changes to Dart to facilitate patching well on iOS
+including:
+
+- Modifying the Dart compiler not just convert "source" -> "new compiled
+  output", but to also take a second parameter "previous compiled output" and
+  make "previous compiled output" maximally similar to the previous
+- Creating a new "linker" for Dart which is able to look at two separate Dart
+  programs "previous" and "new" and decide which code can be used out of
+  "previous" when executing "new" at a per-function level.
+
+These two changes combined make it so that you should expect almost all
+(typically 98% or higher with occasional outliers) of the patched code to run
+out of the "previous" binary included in the IPA, and thus run full-speed on the
+CPU.
+
+See also articles on our blog explaining
+[How Code Push Works](https://shorebird.dev/blog/how-we-built-code-push/).
+
 ## Lifetime of a Shorebird Update
 
 This assumes the developer already has installed Shorebird and has a working

@@ -60,7 +60,7 @@ export default defineConfig({
         {
           label: 'Code Push',
           collapsed: true,
-          autogenerate: { directory: 'code-push' },
+          autogenerate: { directory: 'code-push', collapsed: true },
         },
         {
           label: 'CI (Beta)',
@@ -77,8 +77,6 @@ export default defineConfig({
           collapsed: true,
           autogenerate: { directory: 'system' },
         },
-        { label: 'Troubleshooting', link: '/troubleshooting' },
-        { label: 'FAQ', link: '/faq' },
       ],
       plugins: [
         starlightAutoSidebar(),
@@ -113,6 +111,7 @@ export default defineConfig({
     '/code_push/release': '/code-push/release/',
     '/code_push/run': '/code-push/preview/',
     '/concepts': '/code-push/overview/',
+    '/faq': '/code-push/faq/',
     '/flavors': '/code-push/guides/flavors/android/',
     '/flutter-version': '/getting-started/flutter-version/',
     '/getting-started/quick-start/': '/getting-started/',
@@ -154,6 +153,7 @@ export default defineConfig({
     '/shorebird-system/status': '/system/status/',
     '/status/': '/system/status/',
     '/teams': '/account/orgs/',
+    '/troubleshooting': 'code-push/troubleshooting/',
     '/uninstall': '/code-push/uninstall/',
     '/update-strategies': '/code-push/update-strategies/',
   },

@@ -5,6 +5,14 @@ sidebar:
   order: 1
 ---
 
+import { Image } from 'astro:assets';
+import createOrg from '~/assets/create_org.png';
+import accessOrgSettings from '~/assets/access_org_settings.png';
+import addMemberToOrg from '~/assets/add_member_to_org.png';
+import completedAddMemberToOrg from '~/assets/completed_add_member_to_org.png';
+import transferAppToDifferentOrg from '~/assets/transfer_app_to_different_org.png';
+import initWithOrg from '~/assets/init_with_org.png';
+
 Shorebird's Pro tier unlocks new features for collaborating with your peers
 including:
 
@@ -39,28 +47,37 @@ Organizations are a way share groups of apps with groups of people. To create an
 organization, visit the Shorebird console and click the account dropdown in the
 top left corner. From there, click the "+" button next to "Organizations".
 
-![Create
-Organization](https://github.com/user-attachments/assets/6117e85f-ff07-4ffa-9683-3b4543f252d1)
+<Image
+  src={createOrg}
+  alt="Screenshot of where to start the creation of an organization in the Shorebird Console"
+/>
 
 This will automatically create a new organization called "My Organization". You
-can head over to the organization's settings to change the name:
+can head over to the organization's settings to change the details of it
+including the name.
 
-![Rename
-Organization](https://github.com/user-attachments/assets/c33eda7c-bdd3-4ef2-ab0e-cbcaadbdd99f)
+<Image
+  src={accessOrgSettings}
+  alt="Screenshot of how to get to Organization settings in the Shorebird Console"
+/>
 
 ## Managing Organization Members
 
 To add one or more members to your organization, visit the organization's
 settings and click the "Add member" button.
 
-![Add
-Member](https://github.com/user-attachments/assets/584703fc-d20d-49b2-8358-b3b187c7fefc)
+<Image
+  src={addMemberToOrg}
+  alt="Screenshot of how to get to add a member to an Organization in the Shorebird Console"
+/>
 
 You can also edit a member's role or remove them from the organization from the
 same organization settings page.
 
-![Organization Settings with new
-Member](https://github.com/user-attachments/assets/4936b211-23d8-4a44-90e6-06fab421a4f4)
+<Image
+  src={completedAddMemberToOrg}
+  alt="Screenshot of successfully adding a member to an Organization in the Shorebird Console"
+/>
 
 ## Managing Organization Apps
 
@@ -72,14 +89,18 @@ To transfer an existing app to an organization, visit the app's settings and
 click the "Transfer app" button. You can then select the organization you want
 to transfer the app to from the dropdown.
 
-![Transfer
-App](https://github.com/user-attachments/assets/9d7c5428-ebfd-4c9c-9777-4ca06da8d962)
+<Image
+  src={transferAppToDifferentOrg}
+  alt="Screenshot of dialog for transferring app to a different org in the Shorebird Console"
+/>
 
 To create a new app within an organization, select the organization when running
 `shorebird init`:
 
-![Shorebird Init with
-Organization](https://github.com/user-attachments/assets/6a07fb1f-1fc6-4b41-9df8-60a50c42b475)
+<Image
+  src={initWithOrg}
+  alt="Screenshot of doing `shorebird init` command and selecting an organization"
+/>
 
 ## Organization Roles
 

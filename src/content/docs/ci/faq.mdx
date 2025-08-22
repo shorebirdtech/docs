@@ -1,0 +1,109 @@
+---
+title: FAQ
+description: Frequently asked questions about Shorebird CI
+sidebar:
+  order: 5
+---
+
+Still have a question about Shorebird CI that our docs didn’t cover? You’re in
+the right place. This page covers the most common questions. If you have a
+question not answered here or elsewhere in the docs, reach out on Discord or
+file an issue. We’re here to help.
+
+## Product Overview
+
+### Why should I use this rather then another solution?
+
+- **Designed for Flutter & Dart** - With this as our leading prinicpal Shorbird
+  CI has support for Flutter & Dart specific features. This includes automatic
+  monorepo & workspace support, automatic paralallzation across multiple package
+  builds, and chacing for all critical tooling for fast execution.
+- **Zero config** - Nothing to think about (or worry about keeping up to date).
+  Shorebird CI just “does the right thing” for Flutter and Dart projects. (We
+  expect we’ll eventually expose a small amount of configuration, but we’re
+  intentionally starting maximally simple.)
+- **Fast** - On par with GitHub actions (and we know how to make it faster
+  still). Quick bootups, uses similar (if slightly larger) machine instances,
+  uses namespace.so’s fancy caching mechanism, etc.
+
+:::note
+
+This is not currently designed to replace your existing release flow (e.g.
+CodeMagic, fastlane, etc.) but rather to supplement them.
+
+:::
+
+### How fast is it?
+
+Checks typically complete in under a minute even with our (large) monorepos.
+Mostly due to our (very basic) caching of Flutter/Dart and automatic
+parallelization of packages. We haven’t yet done a pass of performance
+optimizations but we plan to invest time in making performance even better in
+the coming days/weeks.
+
+### What checks are supported
+
+Not yet. But we would love to know how we can improve the service for you!
+
+Let us know what you’d like to see added either by Asking on Discord
+https://discord.gg/shorebird (ideally the #ci-alpha channel:
+https://discord.com/channels/1030243211995791380/1395167987211833456) Commenting
+on this doc Or emailing contact@shorebird.dev
+
+## GitHub
+
+### What GitHub permissions does it require and why?
+
+Read access to code and metadata Necessary to run checks. You can restrict the
+app to one repo, or use it across all repositories. The system will only do any
+work for repositories it detects are Flutter or Dart. Read access to
+organization members Necessary to list organizations you’re a member of. Read
+and write access to actions, checks, commit statuses, issues, pull requests, and
+repository hooks. Necessary to report check status back to GitHub.
+
+## Data Privacy
+
+### Where do builds happen?
+
+Currently builds are happening through partnership with namespace.so. Namespace
+uses several custom datacenters throughout the world.
+
+### Are there usage limits?
+
+Currently no. We will be adding limits as we get closer to production. There are
+already some abuse mitigations in place.
+
+### What data do you retain?
+
+The only data we intentionally retain is your build logs, which are served from
+ci.shorebird.dev. These logs are currently public, since we only support public
+repositories at this time.
+
+namespace.so, also does not retain your data other than logs (even your public
+data) past the point of executing the build. See their terms:
+https://namespace.so/terms
+
+We also maintain some minimal metadata to associate a pull request/commit with a
+build log.
+
+We retain a copy of your (public) source code to speed up repeated builds. We do
+not currently have an explicit retention time on this, but will before we
+support private repositories.
+
+We do reserve the right to automatically resume/repeat checks at a later time
+(e.g. after an outage), so it is possible you will see duplicate/additional
+build messages on your PRs (or if your tests make mutating network requests,
+etc.) as a result while we’re tuning the system.
+
+We expect to fully reset the system (delete all historical data) between now and
+production, possibly multiple times. Significant work is still required to
+support full multi-tenant privacy up to our standards (e.g. so we can support
+private repos/paid customers).
+
+### How can I delete my data from the service?
+
+Uninstall the app on GitHub.
+
+Public log links (ci.shorebird.dev) are currently retained after un-install (to
+not break links on existing PRs), email us if you require those deleted:
+contact@shorebird.dev.

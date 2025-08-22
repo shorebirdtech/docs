@@ -2,3 +2,22 @@
 title: Format
 description: The details of the Format check in Shorebird CI
 ---
+
+Run Dart Format Checks
+
+## Description
+
+Shorebird CI's "Format" check uses
+`[dart format](https://dart.dev/tools/dart-format)` to look for consistent
+formatting across all of your Dart files. If you have a analysis_options.yaml
+file with customizations they are recognized during this check.
+
+## Available Statuses
+
+### Pass
+
+This check passes if the format check returns "0 changed".
+
+### Fail
+
+This check fails if the format check finds changes in files.

@@ -28,4 +28,13 @@ can too!
 
 ## How does Shorebird CI work?
 
-tbd
+When you install the Shorebird CI GitHub app on a repository, it subscribes to
+pull request notifications. Each time a pull request is opened or updated,
+Shorebird CI runs an initial check to analyze the repository and determine what
+work needs to be performed. Within about 10 seconds, you’ll see one or more jobs
+appear directly on the PR.
+
+For most repositories, this will be a single package, and the job will display
+using the package’s name. You can click the job name to view detailed logs and
+results. If you’d like even more context, select "View more details on Shorebird
+CI" to open the full run information in the Shorebird dashboard.

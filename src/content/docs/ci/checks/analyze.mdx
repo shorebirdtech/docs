@@ -1,0 +1,19 @@
+---
+title: Analyze
+description: The details of the Analyze check in Shorebird CI
+---
+
+Shorebird CI's "Analyze" check uses
+[`dart analyze`](https://dart.dev/tools/dart-analyze) to perform static analysis
+across all of your Dart files. If you have a analysis_options.yaml file with
+customizations they are recognized during this check.
+
+## Available Statuses
+
+### Pass
+
+This check passes if the check returns `No issues found!`.
+
+### Fail
+
+This check fails if the check finds any analysis issues.

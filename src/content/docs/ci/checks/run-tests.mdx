@@ -1,0 +1,22 @@
+---
+title: Run Tests
+description: The details of the Run Tests check in Shorebird CI
+---
+
+Shorebird CI's "Run Test" check will run any test files that are found to ensure
+they are passing.
+
+## Requirements
+
+None. As long as your repository has Dart or Flutter tests detected this check
+will run.
+
+## Available Statuses
+
+### Pass
+
+This check passes if the check returns "0 failed".
+
+### Fail
+
+This check fails if the check returns with any number of failed tests above 0.

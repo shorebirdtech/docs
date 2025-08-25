@@ -5,8 +5,14 @@ description: The details of the Format check in Shorebird CI
 
 Shorebird CI's "Format" check uses
 [`dart format`](https://dart.dev/tools/dart-format) to look for consistent
-formatting across all of your Dart files. If you have a analysis_options.yaml
-file with customizations they are recognized during this check.
+formatting across all of your Dart files.
+
+## Requirements
+
+None. As long as your repository has Dart code detected this check will run.
+
+If you have an `analysis_options.yaml` file with customizations, they are
+recognized during this check.
 
 ## Available Statuses
 

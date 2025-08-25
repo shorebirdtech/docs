@@ -1,0 +1,33 @@
+---
+title: Uninstall
+description: How to uninstall Shorebird CI from your repository
+sidebar:
+  order: 4
+---
+
+import { Image } from 'astro:assets';
+import ciListInstalledGHApps from '~/assets/ci_list_installed_gh_apps.png';
+import ciGHAppSettings from '~/assets/ci_gh_app_settings.png';
+
+If you need to remove Shorebird CI from your workflow you can follow the steps
+below.
+
+1. Go to your “Installed GitHub Apps” page for your repository.
+   - For installations at the Organization level you can go to
+     https://github.com/organizations/ORG_NAME_HERE/settings/installations
+   - For personal or user level installations this can be done at
+     https://github.com/settings/installations
+2. Click configure.
+
+   <Image
+     src={ciListInstalledGHApps}
+     alt="Screenshot of installed GitHub applications at an organization level"
+   />
+
+3. You can then restrict Shorebird CI to specific repositories, or uninstall the
+   app entirely
+
+   <Image
+     src={ciGHAppSettings}
+     alt="Screenshot of the Shorebird CI GitHub Applications settings"
+   />

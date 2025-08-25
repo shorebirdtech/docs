@@ -1,0 +1,44 @@
+---
+title: Setup
+description: How to get Shorebird CI setup and ready for use in your repository.
+sidebar:
+  label: Setup
+  order: 2
+---
+
+import { Image } from 'astro:assets';
+import ciGitHubMarketplace from '~/assets/ci_gh_marketplace.png';
+import ciGitHubInstall from '~/assets/ci_gh_install.png';
+import ciChecksPassing from '~/assets/ci_checks_passing.png';
+
+Getting setup and running with Shorebird CI is quick and easy.
+
+1. Go to the
+   [Shorebird CI GitHub Application](https://github.com/apps/shorebird-ci) in
+   the [GitHub Marketplace](https://github.com/marketplace).
+
+   <Image
+     src={ciGitHubMarketplace}
+     alt="Screenshot of the Shorebird CI GitHub Marketplace listing."
+   />
+
+2. Click the "Install" button
+
+3. Confirm the install and setup the correct permissions
+   - We recommend choosing specific repositories, unless all your repos are
+     Flutter/Dart.
+     <Image
+       src={ciGitHubInstall}
+       alt="Screenshot of the Shorebird CI GitHub App install configuration"
+     />
+
+## Running Shorebird CI
+
+When you open a pull request, or push a new commit to an existing pull request,
+Shorebird CI will automatically run for you. It will detect if there are any
+Dart or Flutter packages and automatically starts running the available checks.
+
+<Image
+  src={ciChecksPassing}
+  alt="Screenshot of the Shorebird CI GitHub App checks passing during a pull request"
+/>

@@ -48,7 +48,7 @@ to create a release with a different version of Flutter, you can use the
 `--flutter-version` option with the `shorebird release` command:
 
 ```sh
-shorebird release android --flutter-version=3.10.6
+shorebird release android --flutter-version=3.32.8
 ```
 
 Any patches created with this release will be built with the version of Flutter
@@ -74,13 +74,13 @@ upgrading or deploying.
   versions 3.19.5 - 3.22.1 due to a bug where "try/catch" clauses would not
   always run the "catch" block after an exception was thrown. This bug only
   affected iOS apps after patching.
-- August 2025: There is a potential crash bug present in all versions of Flutter
-  3.11.x to 3.29.1, when using "async" ffi calls (via NativeCallable). The crash
-  was identified in spring of 2025 when package:ffigen (the package used to
-  generate ffi calls) changed its default behavior to use NativeCallable. We
-  recommend all apps use Flutter 3.29.1 or later if possible or carefully
-  control their dependencies to avoid using recent versions of ffigen or
-  packages generated with ffigen.
+- August 7, 2025: There is a potential crash bug present in all versions of
+  Flutter 3.11.x to 3.29.1, when using "async" ffi calls (via NativeCallable).
+  The crash was identified in spring of 2025 when package:ffigen (the package
+  used to generate ffi calls) changed its default behavior to use
+  NativeCallable. We recommend all apps use Flutter 3.29.1 or later if possible
+  or carefully control their dependencies to avoid using recent versions of
+  ffigen or packages generated with ffigen.
 - August 26, 2025: Shorebird has skipped support for 3.35.0 and 3.35.1 and have
   fast forwarded to 3.35.2. If your using the 3.35.x release please ensure your
   using at least 3.35.2.

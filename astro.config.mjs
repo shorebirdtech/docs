@@ -92,7 +92,10 @@ export default defineConfig({
     // Redirects to preserve legacy URLs.
     '/architecture': '/code-push/system-architecture/',
     '/billing': '/account/billing/',
-    '/ci': '/code-push/ci/generic/',
+    // There was an old redirect from /ci to /code-push/ci/generic, but
+    // now that we have a ci product directing to that.
+    '/ci': '/ci/overview/',
+    // Keeping these old /ci/* redirects for now.
     '/ci/codemagic': '/code-push/ci/codemagic/',
     '/ci/fastlane': '/code-push/ci/fastlane/',
     '/ci/generic': '/code-push/ci/generic/',

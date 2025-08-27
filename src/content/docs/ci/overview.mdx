@@ -1,0 +1,53 @@
+---
+title: Overview
+description: A high-level explanation of what Shorebird CI is and how it works.
+sidebar:
+  label: Overview
+  order: 1
+---
+
+:::note
+
+Shorebird CI is currently in beta. You can expect some rough edges at this time.
+If you have questions please join the
+[ci channel](https://discord.com/channels/1030243211995791380/1395167987211833456)
+in our [Discord Server](https://discord.gg/shorebird) for help.
+
+:::
+
+## What is Shorebird CI?
+
+Zero config, production-grade continuous integration for Flutter & Dart.
+
+Shorebird CI runs best-practice Flutter & Dart checks on every pull request
+automatically. We built it for ourselves and use it in all our repos and now you
+can too!
+
+- ✨ Setup takes < 1 min
+- 🚀 Fast Checks
+- ✅ Production Ready
+- 💙 Built for Flutter & Dart
+
+## Requirements for Use
+
+Shorebird CI will work on any Flutter/Dart project repository. This means as
+long as you have a repository that meets one of the points below you can use
+Shorebird CI.
+
+- Contains a Flutter application
+- Contains a Dart package
+
+Shorebird CI will also work with mono-repo setups.
+
+## How does Shorebird CI work?
+
+When you install the Shorebird CI GitHub app on a repository, it subscribes to
+pull request notifications. Each time a pull request is opened or updated,
+Shorebird CI runs an initial check to analyze the repository and determine what
+work needs to be performed. Within about 10 seconds, you’ll see one or more jobs
+appear directly on the PR.
+
+For most repositories, this will be a single package, and the job will display
+using the package’s name. You can click the job name to view detailed logs and
+results. If you’d like even more context, select "View more details on Shorebird
+CI" to open the full run information in the Shorebird dashboard.

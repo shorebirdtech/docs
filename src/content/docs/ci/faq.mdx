@@ -1,0 +1,101 @@
+---
+title: FAQ
+description: Frequently asked questions about Shorebird CI
+sidebar:
+  order: 5
+---
+
+Still have a question about Shorebird CI that our docs didn’t cover? You’re in
+the right place. This page covers the most common questions. If you have a
+question not answered here or elsewhere in the docs, reach out on Discord or
+file an issue. We’re here to help.
+
+## Product Overview
+
+### Why should I use this rather then another solution?
+
+- **Designed for Flutter & Dart** - With this as our leading principal Shorebird
+  CI has support for Flutter & Dart specific features. This includes automatic
+  monorepo & workspace support, automatic parallelization across multiple
+  package builds, and caching for all critical tooling for fast execution.
+- **Zero config** - Nothing to think about (or worry about keeping up to date).
+  Shorebird CI just “does the right thing” for Flutter and Dart projects. (We
+  expect we’ll eventually expose a small amount of configuration, but we’re
+  intentionally starting maximally simple.)
+- **Fast** - On par with GitHub actions (and we know how to make it faster
+  still). Quick boot ups, uses similar (if slightly larger) machine instances,
+  uses namespace.so’s fancy caching mechanism, etc.
+
+:::note
+
+This is not currently designed to replace your existing release flow (e.g.
+CodeMagic, fastlane, etc.) but rather to supplement them.
+
+:::
+
+### How fast is it?
+
+Our checks typically complete in under a minute even with large repos, including
+monorepos. This is mostly due to our caching of Dart & Flutter and automatic
+parallelization of packages. We will continue to invest in this over time as we
+see more usage and understand the communities needs when it comes to Dart
+specific pipelines.
+
+### What checks are supported?
+
+We are starting with a few key ones that we see our own need for and what other
+open source repo's are doing. We will continue to keep our [Checks](/ci/checks/)
+documentation up to date with what we currently have available.
+
+If you have a specific check that you are looking for please don't hesitate to
+reach out. We are always looking to implement more based on community needs.
+
+## GitHub Integration
+
+### What GitHub permissions does this require and why?
+
+In order to use Shorebird CI, our GitHub Application requires the following
+permissions
+
+- **Read access to code, metadata, and pull requests** - This allows for our
+  application to checkout your codebase and run the necessary checks. All code
+  is securely deleted after runs.
+- **Read and write access to checks, commit statuses, and workflows** - This
+  allows for our application to report back on the status checks that are
+  running and display them in the GitHub UI.
+
+## Data Privacy
+
+### Where do builds happen?
+
+Builds are happening through our partnership with namespace.so. Namespace uses
+several custom datacenters throughout the world and you can read more about this
+in their [Documentation Site](https://namespace.so/docs) and
+[Trust Center](https://trust.namespace.so).
+
+### What data do you retain?
+
+In order to provide a complete service we do need to retain some of your data.
+
+- **Logs** - The only data we intentionally retain is your build logs, which are
+  served from
+  [the CI section of our web console](https://console.shorebird.dev/ci/). We
+  also maintain some minimal metadata to associate a pull request/commit with a
+  build log.
+  - Our build provider [Namespace](https://namespace.so), also does retain logs
+    in accordance with their [Terms of Use](https://namespace.so/terms).
+- **Source Code** - We retain a copy of your public source code to speed up
+  repeated builds. We do not currently have an explicit retention time on this.
+  Private repositories are currently under development and will have more
+  stringent requirements.
+
+### How can I delete my data from the service?
+
+You need to start by [uninstalling the app on GitHub](/ci/uninstall). After this
+no additional information or data will be sent to Shorebird CI.
+
+Public log links are currently retained after an uninstall in order to not break
+links on existing PRs. If you require those to be deleted as well please reach
+out to us
+[via email](mailto:contact@shorebird.dev?subject=CI%20Data%20Delete%20Request)
+from the account owners address and it will be handled manually.

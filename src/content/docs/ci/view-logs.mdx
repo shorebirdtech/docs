@@ -1,0 +1,27 @@
+---
+title: Viewing Logs
+description: How to view the logs for a check run on Shorebird CI
+sidebar:
+  order: 3
+---
+
+import { Image } from 'astro:assets';
+import ciViewRunDetails from '~/assets/ci_view_run_details.png';
+import ciWebConsoleLogs from '~/assets/ci_web_console_logs.png';
+
+While Shorebird CI is executing the details from the run will be automatically
+updated as steps are running, succeed, or failed.
+
+<Image
+  src={ciViewRunDetails}
+  alt="Screenshot of the details of a Shorebird CI run"
+/>
+
+By clicking on the "View more details" button you will be taken to the Shorebird
+CI web console. This web console allow you to see the detailed logs for each
+step in the run.
+
+<Image
+  src={ciWebConsoleLogs}
+  alt="Screenshot of the details of a Shorebird CI run via the Shorebird CI Web Console"
+/>

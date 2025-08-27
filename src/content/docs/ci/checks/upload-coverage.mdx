@@ -1,0 +1,25 @@
+---
+title: Upload Coverage
+description: The details of the Upload Coverage check in Shorebird CI
+---
+
+Shorebird CI's "Upload Coverage" check will upload your coverage report to
+[Codecov](https://about.codecov.io) in order to see a comprehensive history of
+your coverage for your code base.
+
+## Requirements
+
+This check only runs if a Codecov Config file is found in the repository. For
+more information on this please consult the
+[Codecov YAML documentation](https://docs.codecov.com/docs/codecov-yaml) for
+details.
+
+## Available Statuses
+
+### Pass
+
+This check passes if the check returns `Process Upload complete`.
+
+### Fail
+
+This check fails if the check returns an error during the upload process.

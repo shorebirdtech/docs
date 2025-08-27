@@ -9,24 +9,23 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 Welcome to Shorebird! 👋
 
-In this guide, we'll walk you through setting up Shorebird and integrating it
+In this guide, we’ll walk you through setting up Shorebird and integrating it
 into your app in just a few minutes.
 
 ## Sign up
 
-The first thing you'll need to do is sign up for a Shorebird account. This will
-allow you to use the Shorebird CLI to manage your apps.
+The first thing you'll need to do is sign up for a Shorebird account. It's free
+to do and you can signup in a manner of seconds.
 
-### Create an account
-
-To create an account, head over to the
-[Shorebird Console](https://console.shorebird.dev) and authenticate with one of
-the available authentication methods. Once you've authenticated, you will have a
-free Shorebird account.
-
-Next, let's install the Shorebird CLI on your machine.
+To create an account, head over to our
+[Web Console](https://console.shorebird.dev) and authenticate with one of the
+available authentication methods.
 
 ## Install
+
+While a full install may not be required to access and use all of our product
+offerings, we recommend installing everything locally to make debugging easier
+as you continue using our services.
 
 ### Using install script
 
@@ -152,26 +151,17 @@ shorebird login
 
 ## Integrate Shorebird
 
-Once you have registered, installed the CLI, and logged in, you're ready to use
-code push!
+Your now ready to add Shorebird to your app.
 
-Start by creating a new Flutter app:
+You can start by creating a new Flutter app or navigating to the directory of
+your already created Flutter app.
 
 ```sh
 flutter create my_shorebird_app
-```
-
-As with any Flutter app, you can verify this created the standard Counter app by
-following the instructions printed by `flutter create`:
-
-```sh
 cd my_shorebird_app
-flutter run
 ```
 
-### Initialize Shorebird
-
-To make this a Shorebird app, run:
+To enable this app for Shorebird just run:
 
 ```sh
 shorebird init
@@ -192,160 +182,8 @@ more info.
 
 :::
 
-### Create a release
+## Next Steps
 
-We will create a release using the unmodified Counter app. Run:
-
-<Tabs>
-
-<TabItem value="android" label="Android">
-
-```sh
-shorebird release android
-```
-
-</TabItem>
-
-<TabItem value="ios" label="iOS">
-
-```sh
-shorebird release ios
-```
-
-</TabItem>
-
-<TabItem value="linux" label="Linux">
-
-```sh
-shorebird release linux
-```
-
-</TabItem>
-
-<TabItem value="macos" label="macOS">
-
-```sh
-shorebird release macos
-```
-
-</TabItem>
-
-<TabItem value="windows" label="Windows">
-
-```sh
-shorebird release windows
-```
-
-</TabItem>
-</Tabs>
-
-When prompted, use the suggested version number (`1.0.0+1`), and enter `y` when
-asked if you would like to continue.
-
-### Preview the release
-
-To run the app created by `shorebird release` on a device or emulator
-(Android-only), use `shorebird preview`
-
-```sh
-shorebird preview
-```
-
-Now kill the app on your device or emulator.
-
-### Create a patch
-
-We will now make a small change to the Counter app. In `lib/main.dart`, change
-the app theme's `colorScheme` from purple to green:
-
-```diff
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
--       colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-+       colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-```
-
-After making this change, save the file and run:
-
-<Tabs>
-
-<TabItem value="android" label="Android">
-
-```sh
-shorebird patch android
-```
-
-</TabItem>
-
-<TabItem value="ios" label="iOS">
-
-```sh
-shorebird patch ios
-```
-
-</TabItem>
-
-<TabItem value="linux" label="Linux">
-
-```sh
-shorebird patch linux
-```
-
-</TabItem>
-
-<TabItem value="macos" label="macOS">
-
-```sh
-shorebird patch macos
-```
-
-</TabItem>
-
-<TabItem value="indows" label="Windows">
-
-```sh
-shorebird patch windows
-```
-
-</TabItem>
-
-</Tabs>
-
-### See the patch in action
-
-Launch the app from your device or emulator. The app will still have the
-original purple theme, but it will be downloading the patch we just created in
-the background. Kill and launch the app again, and the app will be green! 🎉
-
-## Connect on Discord
-
-Shorebird has an active Discord where we're happy to help you with any questions
-https://discord.gg/shorebird
+Now that your account is set up and your app is initialized, you’re all set to
+begin. Check out the detailed sections here in our docs to learn more about each
+product and how to get the most out of them.

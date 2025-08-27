@@ -1,0 +1,24 @@
+---
+title: Check Spelling
+description: The details of the Check Spelling check in Shorebird CI
+---
+
+Shorebird CI's "Check Spelling" check uses [CSpell](https://cspell.org/docs/) to
+look for misspelled words in your code base.
+
+## Requirements
+
+This check only runs if a CSpell Config file is found in the repository. For
+more information on this please consult the
+[Getting Started in CSpell Docs](https://cspell.org/docs/getting-started#1-create-a-configuration-file)
+for details.
+
+## Available Statuses
+
+### Pass
+
+This check passes if the check returns `Issues found: 0 in 0 files`.
+
+### Fail
+
+This check fails if the check finds any misspellings in any files.

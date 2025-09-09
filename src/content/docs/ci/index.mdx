@@ -19,9 +19,9 @@ in our [Discord Server](https://discord.gg/shorebird) for help.
 
 Zero config, production-grade continuous integration for Flutter & Dart.
 
-Shorebird CI runs best-practice Flutter & Dart checks on every pull request
-automatically. We built it for ourselves and use it in all our repos and now you
-can too!
+Shorebird CI automatically runs best-practice Flutter & Dart checks on every
+pull request and push. We built it for ourselves and use it in all our repos and
+now you can too!
 
 - ✨ Setup takes < 1 min
 - 🚀 Fast Checks
@@ -41,13 +41,15 @@ Shorebird CI will also work with mono-repo setups.
 
 ## How does Shorebird CI work?
 
-When you install the Shorebird CI GitHub app on a repository, it subscribes to
-pull request notifications. Each time a pull request is opened or updated,
-Shorebird CI runs an initial check to analyze the repository and determine what
-work needs to be performed. Within about 10 seconds, you’ll see one or more jobs
-appear directly on the PR.
+When you install the
+[Shorebird CI GitHub app](https://github.com/apps/shorebird-ci) on a GitHub
+organization or repository, Shorebird CI is able to automatically run when a
+relevant GitHub event occurs (e.g. a push or pull request). Shorebird CI
+statically analyzes the repository to determine what checks need to be run and,
+within seconds, the relevant jobs are queued and executed in parallel.
 
-For most repositories, this will be a single package, and the job will display
-using the package’s name. You can click the job name to view detailed logs and
-results. If you’d like even more context, select "View more details on Shorebird
-CI" to open the full run information in the Shorebird dashboard.
+For most repositories, this will be a single package, and the job display name
+will be the name of the package (derived from the `pubspec.yaml`). You can click
+the job to view a summary, detailed logs, and overall results. If you'd like
+even more information, click "View more details on Shorebird CI" to see the full
+logs in the Shorebird Console.

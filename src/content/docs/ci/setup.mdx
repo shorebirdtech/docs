@@ -7,30 +7,57 @@ sidebar:
 ---
 
 import { Image } from 'astro:assets';
-import ciGitHubMarketplace from '~/assets/ci_gh_marketplace.png';
+import ciConsoleNavigation from '~/assets/ci_console_navigation.png';
+import ciLoginWithGitHub from '~/assets/ci_login_with_github_screen.png';
+import ciSetupGitHubOrg from '~/assets/ci_setup_github_org.png';
 import ciGitHubInstall from '~/assets/ci_gh_install.png';
+import ciEnable from '~/assets/ci_enable.png';
+import ciEnabled from '~/assets/ci_enabled.png';
 import ciChecksPassing from '~/assets/ci_checks_passing.png';
 
-Getting setup and running with Shorebird CI is quick and easy.
+:::note
 
-1. Go to the
-   [Shorebird CI GitHub Application](https://github.com/apps/shorebird-ci) in
-   the [GitHub Marketplace](https://github.com/marketplace).
+Shorebird CI requires a "Pro" subscription in order to run checks on private
+repositories. Upgrade to the "Pro" CI plan from the
+[Web Console](https://console.shorebird.dev/ci).
 
+:::
+
+Configuring Shorebird CI takes less than a minute and requires zero code
+changes.
+
+1. From the [Web Console](https://console.shorebird.dev) select CI from the
+   navigation panel.
    <Image
-     src={ciGitHubMarketplace}
-     alt="Screenshot of the Shorebird CI GitHub Marketplace listing."
+     src={ciConsoleNavigation}
+     alt="Screenshot of the Shorebird Web Console showing the CI item in the navigation panel."
    />
-
-2. Click the "Install" button
-
-3. Confirm the install and setup the correct permissions
-   - We recommend choosing specific repositories, unless all your repos are
-     Flutter/Dart.
-     <Image
-       src={ciGitHubInstall}
-       alt="Screenshot of the Shorebird CI GitHub App install configuration"
-     />
+2. Sign in with your GitHub account.
+   <Image
+     src={ciLoginWithGitHub}
+     alt="Screenshot of the Shorebird Web Console prompting the user to login with their GitHub account."
+   />
+3. Install the Shorebird CI GitHub app on the desired GitHub
+   organizations/repositories.
+   <Image
+     src={ciSetupGitHubOrg}
+     alt="Screenshot of the Shorebird Web Console asking to install the Shorebird CI GitHub Application."
+   />
+4. Confirm the installation for the desired organizations/repositories.
+   <Image
+     src={ciGitHubInstall}
+     alt="Screenshot of the Shorebird CI GitHub Application install configuration."
+   />
+5. Refresh the [Web Console](https://console.shorebird.dev/ci) and enable the
+   Shorebird CI service for the desired GitHub organizations.
+   <Image
+     src={ciEnable}
+     alt="Screenshot of the the Shorebird Web Console enabling the Shorebird CI service for a specific organization."
+   />
+   <Image
+     src={ciEnabled}
+     alt="Screenshot of the the Shorebird Web Console showing the Shorebird CI service enabled for a specific organization."
+   />
 
 ## Running Shorebird CI
 
@@ -42,3 +69,6 @@ Dart or Flutter packages and automatically starts running the available checks.
   src={ciChecksPassing}
   alt="Screenshot of the Shorebird CI GitHub App checks passing during a pull request"
 />
+
+To see more details from these checks you can
+[view the logs for the run](/ci/view-logs/)

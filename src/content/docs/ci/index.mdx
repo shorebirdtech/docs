@@ -10,7 +10,7 @@ sidebar:
 
 Shorebird CI is currently in beta. You can expect some rough edges at this time.
 If you have questions please join the
-[ci channel](https://discord.com/channels/1030243211995791380/1395167987211833456)
+[CI channel](https://discord.com/channels/1030243211995791380/1395167987211833456)
 in our [Discord Server](https://discord.gg/shorebird) for help.
 
 :::
@@ -19,25 +19,31 @@ in our [Discord Server](https://discord.gg/shorebird) for help.
 
 Zero config, production-grade continuous integration for Flutter & Dart.
 
-Shorebird CI automatically runs best-practice Flutter & Dart checks on every
-pull request and push. We built it for ourselves and use it in all our repos and
-now you can too!
+Shorebird CI automatically runs best practice Flutter & Dart checks on every
+pull request. We built it for ourselves and use it in all our repos and now you
+can too!
 
 - ✨ Setup takes < 1 min
 - 🚀 Fast Checks
 - ✅ Production Ready
 - 💙 Built for Flutter & Dart
 
+<div style="display:flex;justify-content:center">
+  <iframe
+    style="aspect-ratio:16/9;width:100%;margin-inline:auto;margin-bottom:1em"
+    src="https://www.youtube.com/embed/ZMMV418Dt80?si=yIiBjNynHxrL_DpR"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen
+  ></iframe>
+</div>
+
 ## Requirements for Use
 
-Shorebird CI will work on any Flutter/Dart project repository. This means as
-long as you have a repository that meets one of the points below you can use
-Shorebird CI.
-
-- Contains a Flutter application
-- Contains a Dart package
-
-Shorebird CI will also work with mono-repo setups.
+Shorebird CI will work on any repository that contains at least one Flutter or
+Dart project, including monorepos.
 
 ## How does Shorebird CI work?
 
@@ -50,6 +56,6 @@ within seconds, the relevant jobs are queued and executed in parallel.
 
 For most repositories, this will be a single package, and the job display name
 will be the name of the package (derived from the `pubspec.yaml`). You can click
-the job to view a summary, detailed logs, and overall results. If you'd like
-even more information, click "View more details on Shorebird CI" to see the full
-logs in the Shorebird Console.
+the job to view a summary, detailed logs, and overall results. Click
+`"View more details on Shorebird CI"` to see the full logs in the
+[Shorebird Console](https://console.shorebird.dev/ci).

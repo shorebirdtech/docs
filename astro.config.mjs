@@ -58,14 +58,17 @@ export default defineConfig({
           autogenerate: { directory: 'getting-started' },
         },
         {
+          label: 'CI',
+          collapsed: true,
+          badge: {
+            text: 'beta',
+          },
+          autogenerate: { directory: 'ci' },
+        },
+        {
           label: 'Code Push',
           collapsed: true,
           autogenerate: { directory: 'code-push', collapsed: true },
-        },
-        {
-          label: 'CI (Beta)',
-          collapsed: true,
-          autogenerate: { directory: 'ci' },
         },
         {
           label: 'Account',

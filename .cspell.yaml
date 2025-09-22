@@ -1,0 +1,50 @@
+$schema: https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json
+version: 0.2
+dictionaries:
+  - allowed
+  - forbidden
+dictionaryDefinitions:
+  - name: allowed
+    path: https://raw.githubusercontent.com/verygoodopensource/very_good_dictionaries/main/allowed.txt
+    description: Allowed spellings
+  - name: forbidden
+    path: https://raw.githubusercontent.com/verygoodopensource/very_good_dictionaries/main/forbidden.txt
+    description: Forbidden spellings
+useGitignore: false
+ignorePaths: [dist, node_modules, plugins]
+words:
+  - aarch
+  - aars
+  - altool
+  - appcenter
+  - astro
+  - astrojs
+  - boltman
+  - bryanoltman
+  - buildroot
+  - canva
+  - classpath
+  - codemagic
+  - codepush
+  - codesign
+  - elif
+  - ffigen
+  - libapp
+  - libflutter
+  - libupdater
+  - logcat
+  - longpaths
+  - maclinux
+  - microsoftonline
+  - mipmap
+  - podfile
+  - prefs
+  - previewable
+  - rollouts
+  - sdkman
+  - shorebirdtech
+  - temurin
+  - xcarchive
+  - xcframework
+  - xcframeworks
+  - xcrun

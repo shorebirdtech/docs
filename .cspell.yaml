@@ -28,6 +28,7 @@ words:
   - codepush
   - codesign
   - elif
+  - evenodd
   - ffigen
   - libapp
   - libflutter
@@ -43,6 +44,7 @@ words:
   - rollouts
   - sdkman
   - shorebirdtech
+  - subosito
   - temurin
   - xcarchive
   - xcframework

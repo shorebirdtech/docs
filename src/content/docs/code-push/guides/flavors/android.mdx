@@ -6,6 +6,8 @@ sidebar:
   order: 21
 ---
 
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
 This guide will walk through how to setup an app in which there are 2 deployment
 flavors: `internal` and `stable`. It will cover how to validate a patch on the
 internal flavor and then promote the patch to the stable flavor on Android.
@@ -30,7 +32,40 @@ Create a new project using `flutter create flavors`.
 
 ## Configure Flavors
 
-Next, edit the `android/app/build.gradle` to contain two productFlavors:
+<Tabs>
+
+<TabItem value="kotlin" label="Kotlin DSL">
+
+Next edit the `android/app/build.gradle.kts` to contain two productFlavors:
+
+```diff
+defaultConfig {
+    ...
+}
+
++    flavorDimensions += "track"
++    productFlavors {
++        create("internal") {
++            dimension = "track"
++            applicationIdSuffix = ".internal"
++            manifestPlaceholders["applicationLabel"] = "[Internal] Shorebird Example"
++        }
++        create("stable") {
++            dimension = "track"
++            manifestPlaceholders["applicationLabel"] = "Shorebird Example"
++        }
++    }
+
+buildTypes {
+  ...
+}
+```
+
+</TabItem>
+
+<TabItem value="groovy" label="Groovy DSL">
+
+Next edit the `android/app/build.gradle` to contain two productFlavors:
 
 ```diff
 defaultConfig {
@@ -54,6 +89,9 @@ buildTypes {
   ...
 }
 ```
+
+</TabItem>
+</Tabs>
 
 Lastly, edit `android/app/src/main/AndroidManifest.xml` to use the
 `applicationLabel` so that we can differentiate the two apps easily:

@@ -7,19 +7,6 @@ sidebar:
 
 {/* cspell:words outform pubout */}
 
-:::note
-
-We've shipped this version of patch signing to unblock certain customer
-evaluations. While we're confident that this feature adds a useful layer of
-security, it does not yet have all the expected integrations with cloud signing,
-keychains, etc. that a final product would expect to have. We also do not yet
-manage signing keys for you or support many key formats or signature types.
-Signed patches are safe and ready for use, but may have rough edges or missing
-conveniences. Any customer should feel welcome to use this in production, and we
-encourage you to file bugs or feedback for any issues you encounter.
-
-:::
-
 In addition to our default security measures, Shorebird also provides optional
 patch signing.
 
@@ -77,6 +64,14 @@ a public key in `public.pem`. The file containing the private key should be
 stored securely and kept secret. While the private key is not itself sufficient
 to make an update to your application (someone would also need access to your
 Shorebird credentials), it should not be checked into public source control.
+
+:::note
+
+We do not yet manage signing keys for you or support non-RSA keys. Please
+contact us if you have other requirements—we'd be happy to work with you to
+support your needs.
+
+:::
 
 ### Create a release containing the public key
 
@@ -165,3 +160,11 @@ own key material to use signing.
 There is a very small slowdown in application launch. In our testing signature
 verification on launch takes &lt;50ms on a 5 year old android phone. This
 accounts for &lt;10% slowdown on a fast application launch.
+
+:::note
+
+If this solution does not meet your needs, please reach out to us at
+contact@shorebird.dev. We'd love to hear from you and see if we can find a
+solution that works for you.
+
+:::

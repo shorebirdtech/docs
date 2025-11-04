@@ -128,7 +128,7 @@ jobs:
           java-version: '17'
 
       - name: 🚀 Shorebird Release
-        uses: shorebirdtech/shorebird-release@v0
+        uses: shorebirdtech/shorebird-release@v1
         with:
           platform: android # or 'ios'
 ```
@@ -140,7 +140,7 @@ The `shorebird-release` action also outputs the release version:
 ```yaml
 - name: 🚀 Shorebird Release
   id: shorebird-release
-  uses: shorebirdtech/shorebird-release@v0
+  uses: shorebirdtech/shorebird-release@v1
   with:
     platform: android # or 'ios'
 
@@ -187,7 +187,7 @@ jobs:
       # Note: all signing information (key.properties, etc.) must be set up on
       # this runner for `shorebird patch android` to work.
       - name: 🚀 Shorebird Patch
-        uses: shorebirdtech/shorebird-patch@v0
+        uses: shorebirdtech/shorebird-patch@v1
         with:
           platform: android # or 'ios'
 ```
@@ -199,7 +199,7 @@ tip The `shorebird-patch` action also outputs the patch number:
 ```yaml
 - name: 🚀 Shorebird Patch
   id: shorebird-patch
-  uses: shorebirdtech/shorebird-patch@v0
+  uses: shorebirdtech/shorebird-patch@v1
   with:
     platform: android # or 'ios'
 

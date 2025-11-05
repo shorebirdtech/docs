@@ -144,8 +144,9 @@ The hash is not meant to be a security feature, but rather a way to detect
 errors in the patch diff. A common error we see is that developers
 `shorebird release` with one source and then actually build and release a
 different binary, resulting then in invalid patches. This hash helps detect such
-errors. We currently do not sign patches, but plan to add that capability in the
-near future.
+errors. For added security, we also provide a way for you to
+[sign your patches](/code-push/guides/patch-signing/) if needed per your
+security requirements.
 
 The modified Flutter engine also reports successful or failed launch of a patch
 back to our servers the next time it makes a patch check.

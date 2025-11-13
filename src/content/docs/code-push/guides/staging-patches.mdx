@@ -157,5 +157,16 @@ appears.
 
 <Image src={goLive} alt="Screenshot of the 'switch track' dialog" />
 
+<details>
+<summary>You can also use the Shorebird CLI to promote the patch.</summary>
+
+You can promote the patch to the stable channel using the following command:
+
+```sh
+shorebird patches promote --release-version 1.0.0+1 --patch-number 1
+```
+
+</details>
+
 At this point, you have a setup which allows you to preview patches locally
 before promoting them to production 🎉

@@ -38,6 +38,7 @@ words:
   - maclinux
   - microsoftonline
   - mipmap
+  - mozallowfullscreen
   - podfile
   - prefs
   - previewable
@@ -46,6 +47,7 @@ words:
   - shorebirdtech
   - subosito
   - temurin
+  - webkitallowfullscreen
   - xcarchive
   - xcframework
   - xcframeworks

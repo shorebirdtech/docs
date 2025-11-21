@@ -131,12 +131,13 @@ Patching an application on Android has no effect on performance.
 
 #### iOS and macOS
 
-Patching an application on iOS and macOS typically does not affect application performance. However the patching mechanism on iOS and macOS is
-different from Android. Unchanged code runs as normal (on the CPU), changed (or
-added) code will run in a Dart interpreter (slower than the CPU). Typically this
-change is undetectable, but if you are changing particularly
-performance-sensitive Dart code (e.g. code for processing images, or large data)
-you may see a performance difference after patching.
+Patching an application on iOS and macOS typically does not affect application
+performance. However the patching mechanism on iOS and macOS is different from
+Android. Unchanged code runs as normal (on the CPU), changed (or added) code
+will run in a Dart interpreter (slower than the CPU). Typically this change is
+undetectable, but if you are changing particularly performance-sensitive Dart
+code (e.g. code for processing images, or large data) you may see a performance
+difference after patching.
 
 You can always test your patches before sending them to users using by
 [staging patches](/code-push/guides/staging-patches).

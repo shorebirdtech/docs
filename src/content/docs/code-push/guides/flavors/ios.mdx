@@ -16,7 +16,7 @@ macOS.
 ## Prerequisites
 
 This guide assumes the Shorebird command-line is installed on your machine and
-that you are logged into an account. Refer to the [getting started](/)
+that you are logged into an account. Refer to the [getting started](https://docs.shorebird.dev/getting-started/)
 instructions for more information.
 
 ## Create a Project
@@ -29,7 +29,7 @@ ahead.
 
 :::
 
-Create a new project using `flutter create flavors`.
+Create a new project using `shorebird create flavors`.
 
 ## Configure Flavors
 
@@ -37,15 +37,15 @@ Next, edit the iOS project to support two flavors: `internal` and `stable` by
 following the instructions in the
 [Flutter documentation](https://docs.flutter.dev/deployment/flavors-ios).
 
-## Initialize Shorebird
+## Re-initialize Shorebird
 
-Next, initialize Shorebird in the current project via `shorebird init`.
+Next, re-initialize Shorebird in the current project via `shorebird init --force`.
 
 ```sh
-shorebird init
+shorebird init --force
 ```
 
-The generated `shorebird.yaml` should look something like:
+The re-generated `shorebird.yaml` should look something like:
 
 ```yaml
 # This file is used to configure the Shorebird updater used by your application.

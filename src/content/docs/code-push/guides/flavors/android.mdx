@@ -15,8 +15,9 @@ internal flavor and then promote the patch to the stable flavor on Android.
 ## Prerequisites
 
 This guide assumes the Shorebird command-line is installed on your machine and
-that you are logged into an account. Refer to the [getting started](/)
-instructions for more information.
+that you are logged into an account. Refer to the
+[getting started](https://docs.shorebird.dev/getting-started/) instructions for
+more information.
 
 ## Create a Project
 
@@ -28,7 +29,7 @@ ahead.
 
 :::
 
-Create a new project using `flutter create flavors`.
+Create a new project using `shorebird create flavors`.
 
 ## Configure Flavors
 
@@ -110,12 +111,13 @@ To learn more about configuring `productFlavors` refer to the
 
 :::
 
-## Initialize Shorebird
+## Re-initialize Shorebird
 
-Next, initialize Shorebird in the current project via `shorebird init`.
+Next, re-initialize Shorebird in the current project via
+`shorebird init --force` to update the YAML file.
 
 ```sh
-shorebird init
+shorebird init --force
 ```
 
 The generated `shorebird.yaml` should look something like:
@@ -133,7 +135,7 @@ flavors:
   stable: 904bd3d5-3526-4c1c-a832-7ac23c95302d
 ```
 
-Because the project contains flavors, `shorebird init` generates an app per
+Because the project contains flavors, `shorebird init` now generates an app per
 flavor and you can validate the release flavor by visiting
 [Shorebird console](https://console.shorebird.dev/).
 

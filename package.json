@@ -15,6 +15,7 @@
     "@astrojs/check": "^0.9.6",
     "@astrojs/starlight": "^0.37.0",
     "@astrojs/starlight-tailwind": "^4.0.2",
+    "@lavamoat/preinstall-always-fail": "^1.0.3",
     "astro": "^5.16.3",
     "sharp": "^0.34.5",
     "starlight-auto-sidebar": "^0.1.3",
@@ -23,9 +24,17 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
+    "@lavamoat/allow-scripts": "^2.5.1",
     "prettier": "^3.7.3",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.7.1",
     "starlight-links-validator": "^0.19.1"
+  },
+  "lavamoat": {
+    "allowScripts": {
+      "@lavamoat/preinstall-always-fail": false,
+      "astro>esbuild": false,
+      "sharp": false
+    }
   }
 }

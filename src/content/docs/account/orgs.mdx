@@ -13,39 +13,25 @@ import completedAddMemberToOrg from '~/assets/completed_add_member_to_org.png';
 import transferAppToDifferentOrg from '~/assets/transfer_app_to_different_org.png';
 import initWithOrg from '~/assets/init_with_org.png';
 
-Shorebird's Pro tier unlocks new features for collaborating with your peers
-including:
+Organizations are a way share groups of apps with people. This is useful for any
+team collaborating across a company to have access as needed to releases,
+patches, and more.
 
-- Creating unlimited organizations
-- Adding unlimited members to your organizations
-- Managing roles for your organization members
-- Adding unlimited collaborators to an individual app
-- Managing roles for your app collaborators
+## Account Requirements
 
-Shorebird free "Hobby" users can upgrade to the Pro tier to add these features
+Shorebird's paid plans unlocks features for collaborating with your peers.
+Shorebird free plan users can upgrade to a paid plan to access these features
 via the account settings page in the
 [Shorebird console](https://console.shorebird.dev/account).
 
-## Upgrading to Pro
-
-You can manage your account and billing at any time via
-https://console.shorebird.dev/account
-
-There is an "Edit" drop-down there, and from within that an "Upgrade Account"
-option which will present you a pop-up dialog and allow you to upgrade to the
-"Pro" plan.
-
 If you do not see the plan you're expecting, please reach out to
-contact@shorebird.dev we'd be happy to work with you.
-
-Once you've upgraded to the Pro plan, you have the ability to use the above
-features.
+contact@shorebird.dev we'd be happy help you.
 
 ## Creating an Organization
 
-Organizations are a way share groups of apps with groups of people. To create an
-organization, visit the Shorebird console and click the account dropdown in the
-top left corner. From there, click the "+" button next to "Organizations".
+To create an organization, visit the Shorebird console and click the account
+dropdown in the top left corner. From there, click the "+" button next to
+"Organizations".
 
 <Image
   src={createOrg}
@@ -61,7 +47,36 @@ including the name.
   alt="Screenshot of how to get to Organization settings in the Shorebird Console"
 />
 
-## Managing Organization Members
+## Managing Apps
+
+Organizations can have multiple apps associated with them. You can either
+transfer existing apps to an organization or create new apps within the
+organization directly.
+
+### Create a New App
+
+To create a new app within an organization, select the organization when running
+`shorebird init`:
+
+<Image
+  src={initWithOrg}
+  alt="Screenshot of doing `shorebird init` command and selecting an organization"
+/>
+
+### Transfer an App
+
+To transfer an existing app to an organization, visit the app's settings and
+click the "Transfer app" button. You can then select the organization you want
+to transfer the app to from the dropdown.
+
+<Image
+  src={transferAppToDifferentOrg}
+  alt="Screenshot of dialog for transferring app to a different org in the Shorebird Console"
+/>
+
+## Managing Members
+
+### Add a Member
 
 To add one or more members to your organization, visit the organization's
 settings and click the "Add member" button.
@@ -79,74 +94,61 @@ same organization settings page.
   alt="Screenshot of successfully adding a member to an Organization in the Shorebird Console"
 />
 
-## Managing Organization Apps
+### Remove a Member
 
-Organizations can have multiple apps associated with them. You can either
-transfer existing apps to an organization or create new apps within the
-organization directly.
+You can easily remove a member from an organization via the organizations
+settings page. Locate the member you wish to remove, click the Trash icon, and
+confirm the action.
 
-To transfer an existing app to an organization, visit the app's settings and
-click the "Transfer app" button. You can then select the organization you want
-to transfer the app to from the dropdown.
-
-<Image
-  src={transferAppToDifferentOrg}
-  alt="Screenshot of dialog for transferring app to a different org in the Shorebird Console"
-/>
-
-To create a new app within an organization, select the organization when running
-`shorebird init`:
-
-<Image
-  src={initWithOrg}
-  alt="Screenshot of doing `shorebird init` command and selecting an organization"
-/>
-
-## Organization Roles
+## Member Roles
 
 Organization roles apply to all apps within the organization and can be managed
-via the organization settings page in the Shorebird console.
+via the organization settings page in the Shorebird console. The roles available
+to you are based on the plan that you have.
 
-If you have any questions about access control for your app, please do not
-hesitate to reach out to contact@shorebird.dev.
+|             | Free | Pro | Business | Enterprise |
+| ----------- | ---- | --- | -------- | ---------- |
+| Viewer      |      |     | ✅       | ✅         |
+| Developer   |      | ✅  | ✅       | ✅         |
+| App Manager |      |     |          | ✅         |
+| Admin       |      | ✅  | ✅       | ✅         |
+| Owner       |      | ✅  | ✅       | ✅         |
 
-### Organization Member
+### Viewer
 
-New members added to an organization are assigned the "Member" role by default.
+Read-only access for stakeholders who need visibility into apps, releases, and
+patches without the ability to make changes. Ideal for product managers, QA,
+support, or leadership teams.
 
-Members can:
+### Developer
 
-- Read information for all apps within the organization
-- View collaborators on all apps within the organization
-- Create releases and patches for all apps within the organization
-- View insights for all apps within the organization
+Hands-on role for engineers actively building and shipping apps. Can create
+releases and patches, promote patches, and manage day-to-day development
+workflows without administrative access.
 
-### Organization Admin
+### App Manager
 
-Organization Admins can:
+Responsible for managing application lifecycle and release strategy. Has all
+Developer capabilities plus elevated control over app-level configuration,
+environments, and release coordination.
 
-- Do everything a Member can do
-- Add and Remove Members for the organization
-- Delete Apps within the organization
-- Delete Releases within the organization
+### Admin
 
-### Organization Owner
+Administrative role for managing team access and organization-level settings.
+Can configure apps, manage users and roles, and handle most operational tasks,
+excluding billing and plan changes.
 
-There is only one owner per organization (the person who created the
-organization) and they have full control over the organization and all apps
-within it.
+### Owner
 
-The owner can:
+Full control over the organization. Can manage billing and plans, ownership
+settings, and all platform capabilities. Intended for primary account holders.
 
-- Do everything an Admin can do
-- Manage the billing information for the organization
-
-If you need more control or custom roles, consider our
-[enterprise plan](https://shorebird.dev/pricing).
-
-## Managing Collaborators
+## Managing Per App Collaborators
 
 Per app collaborators can also be added and managed via the Shorebird console.
+The same management and permissions structure of organizations applies to
+collaborators, just at a per app level.
+
 To add a collaborator, from your app's page:
 
 1. Select the "Collaborators" tab.
@@ -159,43 +161,3 @@ To add a collaborator, from your app's page:
 
 Existing collaborators can be removed by clicking the trash icon next to their
 email address.
-
-## Collaborator Roles
-
-Collaborators are used for per-app access controls. Typically used to provide
-someone temporary access to only one of your applications.
-
-Collaborators allow you to provide access to one of your apps without granting
-someone access to all of the apps in an organization.
-
-Collaborators can be added both to apps within your personal account as well as
-on any organization which you are a member of.
-
-Collaborators can see the existence of an organization and its name, but cannot
-see any other aspects of an organization.
-
-### App Developer
-
-The Developer role can:
-
-- Read information for a single app
-- View collaborators on that app
-- Create releases and patches for that app
-- View insights for that app
-
-Developers can be added and removed by any Admin, see below.
-
-### App Admin
-
-The Admin role can:
-
-- Do everything a Developer can do
-- Add and Remove Developers for an App
-- Delete Apps
-- Delete Releases
-
-## Transferring Ownership
-
-The easiest way to transfer app ownership is to have the desired owner create an
-organization and add the current owner to the organization. The current owner
-can then transfer the app to the organization.

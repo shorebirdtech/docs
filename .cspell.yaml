@@ -30,6 +30,7 @@ words:
   - elif
   - evenodd
   - ffigen
+  - jank
   - libapp
   - libflutter
   - libupdater
@@ -42,6 +43,8 @@ words:
   - podfile
   - prefs
   - previewable
+  - recompiles
+  - riverpod
   - rollouts
   - sdkman
   - shorebirdtech

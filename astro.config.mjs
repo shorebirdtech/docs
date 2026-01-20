@@ -80,6 +80,11 @@ export default defineConfig({
           collapsed: true,
           autogenerate: { directory: 'system' },
         },
+        {
+          label: 'Flutter Concepts',
+          collapsed: true,
+          autogenerate: { directory: 'flutter-concepts' },
+        },
       ],
       plugins: [
         starlightAutoSidebar(),

@@ -31,6 +31,7 @@ words:
   - evenodd
   - ffigen
   - jank
+  - janky
   - libapp
   - libflutter
   - libupdater
@@ -40,6 +41,7 @@ words:
   - microsoftonline
   - mipmap
   - mozallowfullscreen
+  - nubank
   - podfile
   - prefs
   - previewable
@@ -51,6 +53,7 @@ words:
   - subosito
   - temurin
   - webkitallowfullscreen
+  - widgetbook
   - xcarchive
   - xcframework
   - xcframeworks

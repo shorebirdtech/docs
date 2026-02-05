@@ -7,6 +7,8 @@ sidebar:
 ---
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Image } from 'astro:assets';
+import releaseDeleteDialog from '~/assets/release_delete_dialog.png';
 
 In order to start pushing updates, you will need to create a release.
 
@@ -423,6 +425,16 @@ You can delete a release for your app (as defined by your shorebird.yaml) on the
 2. Click on the release you wish to delete
 3. Go to the "Settings" tab at the top of the page
 4. In the "Danger Zone" there will be a "Delete" button
+
+In order to complete the delete request you do need to confirm which binaries
+you would like to be deleted. You can easily delete all releases or pick by
+platform. The list of platforms shown is based on the binaries that are uploaded
+for that release.
+
+<Image
+  src={releaseDeleteDialog}
+  alt="Release Delete Platform Confirm Dialog in Shorebird Console"
+/>
 
 ## Side-loading and MDM
 

@@ -17,9 +17,9 @@ content of your patches without your private cryptographic keys.
 
 Signing works in two parts. First, `shorebird release` commands can take an
 optional `--public-key-path` argument to embed a public key in your released
-application. The Shorebird updater will enforce that only patches signed with a
-corresponding private key will be allowed to load for applications that include
-a public key.
+application. The [Shorebird updater](https://github.com/shorebirdtech/updater)
+will enforce that only patches signed with a corresponding private key will be
+allowed to load for applications that include a public key.
 
 Second, when you build your patch with `shorebird patch`, you can pass
 `--private-key-path` to have Shorebird sign your patch with your private key.

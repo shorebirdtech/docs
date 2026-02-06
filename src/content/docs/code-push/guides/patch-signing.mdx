@@ -37,16 +37,32 @@ By default, `shorebird` reads private and public keys from `.pem` files on disk.
 
 ### Cloud Signing & Key Management Services
 
-If your organization uses a cloud key management service (AWS KMS, GCP Cloud
-KMS, Azure Key Vault, HashiCorp Vault) or hardware security modules (HSMs),
-Shorebird's signing architecture can support these integrations. Since patch
-signing only requires signing a small hash value, integrating with external
-signing services is straightforward.
+Shorebird supports command-based signing for integration with cloud key
+management services (AWS KMS, GCP Cloud KMS, Azure Key Vault, HashiCorp Vault),
+hardware security modules (HSMs), and secrets managers (1Password, etc.).
 
-Please [contact us](mailto:contact@shorebird.dev) if you'd like to discuss
-integrating Shorebird with your existing key management infrastructure.
+Instead of storing keys on disk, you can use `--public-key-cmd` and `--sign-cmd`
+to delegate key operations to external tools:
 
-### Generate keys
+```sh
+# Release with cloud-managed public key
+shorebird release android \
+  --public-key-cmd="your-command-that-outputs-pem-public-key"
+
+# Patch with cloud-managed signing
+shorebird patch android \
+  --public-key-cmd="your-command-that-outputs-pem-public-key" \
+  --sign-cmd="your-command-that-signs-stdin-and-outputs-base64"
+```
+
+**Contract:**
+- `--public-key-cmd`: Command outputs a PEM-encoded public key to stdout
+- `--sign-cmd`: Command reads data from stdin and outputs a base64 signature to stdout
+
+See [Cloud KMS Examples](#cloud-kms-examples) below for integration examples
+with popular services.
+
+### Generate keys (file-based)
 
 If you do not already have an RSA key pair you'd like to use, you can generate a
 pair with `openssl`:
@@ -101,13 +117,10 @@ This tells shorebird to sign the patch with the key pair you provided.
 
 :::tip[Enterprise Key Management]
 
-Storing private keys on disk is not ideal for production environments. If your
-organization requires integration with cloud KMS (AWS, GCP, Azure), HSMs, or
-secrets managers like HashiCorp Vault or 1Password, we'd love to help. Shorebird
-only needs to sign a small hash, making integration with external signing
-services straightforward.
-
-[Contact us](mailto:contact@shorebird.dev) to discuss your key management needs.
+For production environments, we recommend using `--public-key-cmd` and
+`--sign-cmd` to integrate with your existing key management infrastructure
+rather than storing keys on disk. See [Cloud KMS Examples](#cloud-kms-examples)
+for integration patterns with AWS KMS, GCP Cloud KMS, HashiCorp Vault, and more.
 
 :::
 
@@ -160,3 +173,187 @@ increases with application size. For very large apps, if this overhead shows up
 on your benchmarks, you can set `patch_verification: install_only` in
 `shorebird.yaml` to verify signatures only when patches are installed rather
 than on every launch.
+
+## Cloud KMS Examples
+
+The following examples show how to integrate Shorebird patch signing with
+popular key management services using `--public-key-cmd` and `--sign-cmd`.
+
+### HashiCorp Vault
+
+Vault's Transit secrets engine provides cryptographic operations without
+exposing keys:
+
+```sh
+# Store your key in Vault Transit
+vault write transit/keys/shorebird-signing type=rsa-2048
+
+# Release
+shorebird release android \
+  --public-key-cmd="vault read -field=public_key transit/keys/shorebird-signing"
+
+# Patch
+shorebird patch android \
+  --public-key-cmd="vault read -field=public_key transit/keys/shorebird-signing" \
+  --sign-cmd="vault write -field=signature transit/sign/shorebird-signing \
+    hash_algorithm=sha2-256 signature_algorithm=pkcs1v15 input=-"
+```
+
+### GCP Cloud KMS
+
+GCP Cloud KMS outputs PEM format natively:
+
+```sh
+# Create a key ring and key
+gcloud kms keyrings create shorebird --location=global
+gcloud kms keys create signing-key --keyring=shorebird --location=global \
+  --purpose=asymmetric-signing --default-algorithm=rsa-sign-pkcs1-2048-sha256
+
+# Release
+shorebird release android \
+  --public-key-cmd="gcloud kms keys versions get-public-key 1 \
+    --key=signing-key --keyring=shorebird --location=global"
+
+# Patch (using a helper script for signing)
+shorebird patch android \
+  --public-key-cmd="gcloud kms keys versions get-public-key 1 \
+    --key=signing-key --keyring=shorebird --location=global" \
+  --sign-cmd="gcloud kms asymmetric-sign --version=1 \
+    --key=signing-key --keyring=shorebird --location=global \
+    --digest-algorithm=sha256 --input-file=- --signature-file=- | base64"
+```
+
+### AWS KMS
+
+AWS KMS outputs DER format, which needs conversion to PEM:
+
+```sh
+# Create an RSA signing key
+aws kms create-key --key-spec RSA_2048 --key-usage SIGN_VERIFY
+
+# Create a helper script for public key (aws-kms-pubkey.sh)
+#!/bin/bash
+aws kms get-public-key --key-id alias/shorebird-signing --output text \
+  --query PublicKey | base64 -d | openssl rsa -pubin -inform DER -outform PEM
+
+# Create a helper script for signing (aws-kms-sign.sh)
+#!/bin/bash
+HASH=$(cat - | openssl dgst -sha256 -binary | base64)
+aws kms sign --key-id alias/shorebird-signing \
+  --signing-algorithm RSASSA_PKCS1_V1_5_SHA_256 \
+  --message-type DIGEST --message "$HASH" \
+  --output text --query Signature
+
+# Release
+shorebird release android --public-key-cmd="./aws-kms-pubkey.sh"
+
+# Patch
+shorebird patch android \
+  --public-key-cmd="./aws-kms-pubkey.sh" \
+  --sign-cmd="./aws-kms-sign.sh"
+```
+
+### Azure Key Vault
+
+```sh
+# Create a key in Azure Key Vault
+az keyvault key create --vault-name myVault --name shorebird-signing \
+  --kty RSA --size 2048
+
+# Helper script for public key (azure-kv-pubkey.sh)
+#!/bin/bash
+az keyvault key download --vault-name myVault --name shorebird-signing \
+  --encoding PEM --file /dev/stdout
+
+# Helper script for signing (azure-kv-sign.sh)
+#!/bin/bash
+HASH=$(cat - | openssl dgst -sha256 -binary | base64 -w0)
+az keyvault key sign --vault-name myVault --name shorebird-signing \
+  --algorithm RS256 --digest "$HASH" --query value -o tsv
+
+# Release
+shorebird release android --public-key-cmd="./azure-kv-pubkey.sh"
+
+# Patch
+shorebird patch android \
+  --public-key-cmd="./azure-kv-pubkey.sh" \
+  --sign-cmd="./azure-kv-sign.sh"
+```
+
+### 1Password CLI
+
+1Password can store and retrieve keys securely:
+
+```sh
+# Store your keys in 1Password
+op item create --category="Secure Note" --title="Shorebird Signing" \
+  "public_key[text]=$(cat public.pem)" \
+  "private_key[text]=$(cat private.pem)"
+
+# Helper script for signing (1password-sign.sh)
+#!/bin/bash
+PRIVATE_KEY=$(op item get "Shorebird Signing" --fields private_key)
+cat - | openssl dgst -sha256 -sign <(echo "$PRIVATE_KEY") | base64
+
+# Release
+shorebird release android \
+  --public-key-cmd="op item get 'Shorebird Signing' --fields public_key"
+
+# Patch
+shorebird patch android \
+  --public-key-cmd="op item get 'Shorebird Signing' --fields public_key" \
+  --sign-cmd="./1password-sign.sh"
+```
+
+### macOS Keychain (Local Development)
+
+For local development on macOS, you can use the system keychain:
+
+```sh
+# Import your key into the keychain
+security import private.pem -k ~/Library/Keychains/login.keychain-db
+
+# Helper script for signing (keychain-sign.sh)
+#!/bin/bash
+# Note: This requires the key to be stored as an identity
+security find-identity -v -p codesigning  # List available identities
+cat - | openssl dgst -sha256 -sign <(security find-key -l "your-key-label" \
+  -w ~/Library/Keychains/login.keychain-db) | base64
+
+# For simpler setups, store the PEM in keychain as a generic password
+security add-generic-password -a "shorebird" -s "signing-key" \
+  -w "$(cat private.pem)"
+
+# Helper script using generic password
+#!/bin/bash
+KEY=$(security find-generic-password -a "shorebird" -s "signing-key" -w)
+cat - | openssl dgst -sha256 -sign <(echo "$KEY") | base64
+```
+
+### CI/CD Integration Tips
+
+When using command-based signing in CI/CD pipelines:
+
+1. **Use environment variables** for sensitive configuration (key IDs, vault
+   addresses)
+2. **Authenticate before running Shorebird** - ensure your cloud CLI is
+   authenticated (e.g., `gcloud auth`, `aws configure`, `vault login`)
+3. **Use service accounts** with minimal permissions for automated pipelines
+4. **Consider wrapper scripts** that handle authentication and error handling
+5. **Test commands independently** before integrating with Shorebird
+
+Example GitHub Actions workflow:
+
+```yaml
+- name: Authenticate to GCP
+  uses: google-github-actions/auth@v2
+  with:
+    credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+- name: Create signed patch
+  run: |
+    shorebird patch android \
+      --public-key-cmd="gcloud kms keys versions get-public-key 1 \
+        --key=signing-key --keyring=shorebird --location=global" \
+      --sign-cmd="./scripts/gcp-sign.sh"
+```

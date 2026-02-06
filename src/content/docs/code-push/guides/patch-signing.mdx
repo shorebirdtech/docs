@@ -30,12 +30,10 @@ application.
 
 ## Adding patch signing to your application
 
-To start, you will need an RSA key pair. Shorebird has only tested with a
-limited set of signing algorithms at this time. Please contact us if you have
-other requirements—we'd be happy to work with you to support your needs.
+To start, you will need an RSA key pair. Shorebird supports RSA keys in PEM
+format (both PKCS#1 and PKCS#8).
 
-The `shorebird` tool expects to be able to read private and public keys from
-`.pem` files on disk by default.
+By default, `shorebird` reads private and public keys from `.pem` files on disk.
 
 ### Cloud Signing & Key Management Services
 
@@ -74,14 +72,6 @@ stored securely and kept secret. While the private key is not itself sufficient
 to make an update to your application (someone would also need access to your
 Shorebird credentials), it should not be checked into public source control.
 
-:::note
-
-We do not yet manage signing keys for you or support non-RSA keys. Please
-contact us if you have other requirements—we'd be happy to work with you to
-support your needs.
-
-:::
-
 ### Create a release containing the public key
 
 To create a release that requires signed patches, run the following command:
@@ -95,8 +85,7 @@ This will include the public key in the release artifact produced by
 
 :::note
 
-We're using Android to demo, but this will work on any platform Shorebird
-supports.
+These examples use Android, but patch signing works on all platforms.
 
 :::
 
@@ -170,14 +159,5 @@ your organization already uses a cloud KMS or secrets manager, integrating with
 Shorebird is straightforward since we only sign a small hash. Otherwise, you
 will need to create and manage your own key material.
 
-There is a very small slowdown in application launch. In our testing signature
-verification on launch takes &lt;50ms on a 5 year old android phone. This
-accounts for &lt;10% slowdown on a fast application launch.
-
-:::note
-
-If this solution does not meet your needs, please reach out to us at
-contact@shorebird.dev. We'd love to hear from you and see if we can find a
-solution that works for you.
-
-:::
+Signature verification adds a small overhead at app launch—under 50ms in our
+testing on a 5-year-old Android phone.

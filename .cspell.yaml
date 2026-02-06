@@ -27,11 +27,13 @@ words:
   - codemagic
   - codepush
   - codesign
+  - codesigning
   - elif
   - evenodd
   - ffigen
   - jank
   - janky
+  - keyrings
   - libapp
   - libflutter
   - libupdater
@@ -44,10 +46,12 @@ words:
   - nubank
   - podfile
   - prefs
+  - pubin
   - previewable
   - recompiles
   - riverpod
   - rollouts
+  - rsassa
   - sdkman
   - shorebirdtech
   - subosito

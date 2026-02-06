@@ -154,11 +154,6 @@ application to send patches to it.
 
 ## Trade Offs
 
-The primary trade-off of using patch signing is key management complexity. If
-your organization already uses a cloud KMS or secrets manager, integrating with
-Shorebird is straightforward since we only sign a small hash. Otherwise, you
-will need to create and manage your own key material.
-
 Signature verification adds a small overhead at app launch (under 50ms in our
 testing with a medium size app on a 5-year-old Android phone). This overhead
 increases with application size. For very large apps, if this overhead shows up

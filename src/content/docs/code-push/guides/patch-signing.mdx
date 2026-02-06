@@ -160,6 +160,8 @@ Shorebird is straightforward since we only sign a small hash. Otherwise, you
 will need to create and manage your own key material.
 
 Signature verification adds a small overhead at app launch (under 50ms in our
-testing on a 5-year-old Android phone). For very large apps where this overhead increases, you can set
-`patch_verification: install_only` in `shorebird.yaml` to verify signatures only
-when patches are installed rather than on every launch.
+testing with a medium size app on a 5-year-old Android phone). This overhead
+increases with application size. For very large apps, if this overhead shows up
+on your benchmarks, you can set `patch_verification: install_only` in
+`shorebird.yaml` to verify signatures only when patches are installed rather
+than on every launch.

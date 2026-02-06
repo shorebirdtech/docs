@@ -35,9 +35,18 @@ limited set of signing algorithms at this time. Please contact us if you have
 other requirements—we'd be happy to work with you to support your needs.
 
 The `shorebird` tool expects to be able to read private and public keys from
-`.pem` files on disk. If you need other ways of accessing your key material (or
-signing via a cloud signing service) please contact us. We'd be happy to work
-with you to support such.
+`.pem` files on disk by default.
+
+### Cloud Signing & Key Management Services
+
+If your organization uses a cloud key management service (AWS KMS, GCP Cloud
+KMS, Azure Key Vault, HashiCorp Vault) or hardware security modules (HSMs),
+Shorebird's signing architecture can support these integrations. Since patch
+signing only requires signing a small hash value, integrating with external
+signing services is straightforward.
+
+Please [contact us](mailto:contact@shorebird.dev) if you'd like to discuss
+integrating Shorebird with your existing key management infrastructure.
 
 ### Generate keys
 
@@ -101,12 +110,15 @@ shorebird patch android --public-key-path /path/to/public.pem --private-key-path
 
 This tells shorebird to sign the patch with the key pair you provided.
 
-:::note
+:::tip[Enterprise Key Management]
 
-Storing private keys on disk is not best-practice, and we recognize this. This
-was built as a demonstration of the system, we look forward to working with
-customers to integrate Shorebird to using the signing services and key storage
-methods they are used to.
+Storing private keys on disk is not ideal for production environments. If your
+organization requires integration with cloud KMS (AWS, GCP, Azure), HSMs, or
+secrets managers like HashiCorp Vault or 1Password, we'd love to help. Shorebird
+only needs to sign a small hash, making integration with external signing
+services straightforward.
+
+[Contact us](mailto:contact@shorebird.dev) to discuss your key management needs.
 
 :::
 
@@ -153,9 +165,10 @@ application to send patches to it.
 
 ## Trade Offs
 
-The primary trade-off of using patch signing is complexity. Shorebird does not
-yet offer automatic key management, so you will need to create and manage your
-own key material to use signing.
+The primary trade-off of using patch signing is key management complexity. If
+your organization already uses a cloud KMS or secrets manager, integrating with
+Shorebird is straightforward since we only sign a small hash. Otherwise, you
+will need to create and manage your own key material.
 
 There is a very small slowdown in application launch. In our testing signature
 verification on launch takes &lt;50ms on a 5 year old android phone. This

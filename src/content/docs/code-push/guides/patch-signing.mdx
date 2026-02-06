@@ -5,10 +5,8 @@ sidebar:
   order: 19
 ---
 
-{/* cspell:words outform pubout */}
-
 In addition to our default security measures, Shorebird also provides patch
-signing for additonal security. This is optional at this time and needs to be
+signing for additional security. This is optional at this time and needs to be
 setup during your build and patch process.
 
 Patch signing allows developers to cryptographically sign patch updates with
@@ -158,7 +156,7 @@ crash.
 ## Trade Offs
 
 Signature verification does add a small overhead at app launch. During our
-testing this has been obvserved to be under 50ms with a medium size app on a
+testing this has been observed to be under 50ms with a medium size app on a
 5-year-old Android phone. This overhead increases with application size. For
 very large apps, if this overhead shows up on your benchmarks, you can set
 `patch_verification: install_only` in `shorebird.yaml` to verify signatures only

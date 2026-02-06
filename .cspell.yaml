@@ -45,9 +45,11 @@ words:
   - mipmap
   - mozallowfullscreen
   - nubank
+  - outform
   - podfile
   - prefs
   - pubin
+  - pubout
   - previewable
   - recompiles
   - riverpod

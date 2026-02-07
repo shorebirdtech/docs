@@ -1,8 +1,13 @@
 ---
 import Default from '@astrojs/starlight/components/Head.astro';
+import { getImagePath } from 'astro-opengraph-images';
+
+const ogImageUrl = getImagePath({ url: Astro.url, site: Astro.site });
 ---
 
 <Default><slot /></Default>
+<meta property="og:image" content={ogImageUrl} />
+<meta property="twitter:image" content={ogImageUrl} />
 
 <!-- Plausible analytics -->
 <script

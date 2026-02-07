@@ -1,10 +1,13 @@
-// cspell:words astro astrojs rehype
+// cspell:words astro astrojs rehype opengraph
 
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightLinksValidator from 'starlight-links-validator';
 import starlightAutoSidebar from 'starlight-auto-sidebar';
 import starlightImageZoom from 'starlight-image-zoom';
+import opengraphImages from 'astro-opengraph-images';
+import { renderer } from './src/og/renderer.tsx';
+import { readFileSync } from 'node:fs';
 
 const site = 'https://docs.shorebird.dev/';
 
@@ -34,19 +37,6 @@ export default defineConfig({
       ],
       editLink: { baseUrl: 'https://github.com/shorebirdtech/docs/edit/main/' },
       favicon: 'favicon.svg',
-      head: [
-        {
-          tag: 'meta',
-          attrs: { property: 'og:image', content: site + 'open-graph.png?v=1' },
-        },
-        {
-          tag: 'meta',
-          attrs: {
-            property: 'twitter:image',
-            content: site + 'open-graph.png?v=1',
-          },
-        },
-      ],
       components: { Head: './src/components/starlight/Head.astro' },
       customCss: ['./src/tailwind.css'],
       expressiveCode: { themes: ['dark-plus', 'github-light'] },
@@ -94,6 +84,19 @@ export default defineConfig({
           errorOnInconsistentLocale: true,
         }),
       ],
+    }),
+    opengraphImages({
+      options: {
+        fonts: [
+          {
+            name: 'General Sans',
+            weight: 600,
+            style: 'normal',
+            data: readFileSync('src/fonts/GeneralSans-Semibold.ttf'),
+          },
+        ],
+      },
+      render: renderer,
     }),
   ],
   redirects: {

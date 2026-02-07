@@ -1,15 +1,15 @@
-import React from "react";
-import { readFileSync } from "node:fs";
-import type { RenderFunctionInput } from "astro-opengraph-images";
+import React from 'react';
+import { readFileSync } from 'node:fs';
+import type { RenderFunctionInput } from 'astro-opengraph-images';
 
 function svgToBase64(path: string): string {
-  const svg = readFileSync(path, "utf-8");
-  return `data:image/svg+xml;base64,${Buffer.from(svg).toString("base64")}`;
+  const svg = readFileSync(path, 'utf-8');
+  return `data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}`;
 }
 
-const backgroundBase64 = svgToBase64("src/og/assets/background.svg");
-const logoBase64 = svgToBase64("src/assets/shorebird-light.svg");
-const docIconBase64 = svgToBase64("src/og/assets/doc-icon.svg");
+const backgroundBase64 = svgToBase64('src/og/assets/background.svg');
+const logoBase64 = svgToBase64('src/assets/shorebird-light.svg');
+const docIconBase64 = svgToBase64('src/og/assets/doc-icon.svg');
 
 /**
  * Custom OG image renderer for Shorebird docs.
@@ -25,12 +25,12 @@ export async function renderer({
   description,
   pathname,
 }: RenderFunctionInput): Promise<React.ReactNode> {
-  const isHomepage = pathname === "/" || pathname === "";
+  const isHomepage = pathname === '/' || pathname === '';
   return (
     <div
       style={{
-        display: "flex",
-        position: "relative",
+        display: 'flex',
+        position: 'relative',
         width: 1200,
         height: 630,
       }}
@@ -38,7 +38,7 @@ export async function renderer({
       <img
         src={backgroundBase64}
         style={{
-          position: "absolute",
+          position: 'absolute',
           top: 0,
           left: 0,
           width: 1200,
@@ -49,7 +49,7 @@ export async function renderer({
         <img
           src={logoBase64}
           style={{
-            position: "absolute",
+            position: 'absolute',
             top: 46,
             left: 75,
             height: 88,
@@ -59,7 +59,7 @@ export async function renderer({
       <img
         src={docIconBase64}
         style={{
-          position: "absolute",
+          position: 'absolute',
           top: 22,
           right: 30,
           width: 140,
@@ -68,39 +68,36 @@ export async function renderer({
       />
       <div
         style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100%",
-          height: "100%",
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100%',
+          height: '100%',
           padding: 80,
           paddingTop: 100,
-          fontFamily: "General Sans",
+          fontFamily: 'General Sans',
         }}
       >
         {isHomepage ? (
-          <img
-            src={logoBase64}
-            style={{ height: 147, marginTop: -20 }}
-          />
+          <img src={logoBase64} style={{ height: 147, marginTop: -20 }} />
         ) : (
           <div
             style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
             }}
           >
             <div
               style={{
-                display: "flex",
+                display: 'flex',
                 fontSize: 80,
                 fontWeight: 600,
                 lineHeight: 1.2,
                 letterSpacing: -1.6,
-                color: "#0a0a0a",
-                textAlign: "center",
+                color: '#0a0a0a',
+                textAlign: 'center',
               }}
             >
               {title}
@@ -108,13 +105,13 @@ export async function renderer({
             {description && (
               <div
                 style={{
-                  display: "flex",
+                  display: 'flex',
                   fontSize: 28,
-                  color: "#55556B",
+                  color: '#55556B',
                   letterSpacing: -0.56,
                   lineHeight: 1.4,
                   marginTop: 24,
-                  textAlign: "center",
+                  textAlign: 'center',
                 }}
               >
                 {description}

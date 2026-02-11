@@ -364,7 +364,8 @@ Requests sent from the app to Shorebird servers include:
 - patch_number (generated as part of `shorebird patch android`)
 - arch (e.g. 'aarch64', needed to send down the right patch)
 - platform (e.g. 'android', needed to send down the right patch)
-- client_id (anonymous, aggregated, per-app identifier used to provide active user metrics)
+- client_id (anonymous, aggregated, per-app identifier used to provide active
+  user metrics)
 
 The code for this is public in our
 [updater package](https://github.com/shorebirdtech/updater/blob/main/library/src/network.rs)

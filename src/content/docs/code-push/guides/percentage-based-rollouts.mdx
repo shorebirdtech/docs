@@ -127,7 +127,10 @@ distribute your apps today.
 Now, we'll launch our example using `shorebird preview`, which downloads the
 release and runs it on a local device:
 
-<Image src={rolloutGroup76Red} alt="Release build showing group number 76 with a red background" />
+<Image
+  src={rolloutGroup76Red}
+  alt="Release build showing group number 76 with a red background"
+/>
 
 We can see from this screenshot that our device is in group 76. This means that
 we will request patches on the stable track until our rollout percentage is >=
@@ -145,7 +148,10 @@ shorebird patch android --track=beta
 
 And update the rollout percentage in Firebase:
 
-<Image src={rolloutFirestore50pct} alt="Cloud Firestore showing 1.0.0+1 at 50% rollout" />
+<Image
+  src={rolloutFirestore50pct}
+  alt="Cloud Firestore showing 1.0.0+1 at 50% rollout"
+/>
 
 Press the update button, and our shorebird preview output shows the following
 (formatted for readability):
@@ -163,7 +169,10 @@ Press the update button, and our shorebird preview output shows the following
 
 Now if we change the rollout percentage in Firebase to 76%:
 
-<Image src={rolloutFirestore76pct} alt="Cloud Firestore showing 1.0.0+1 at 76% rollout" />
+<Image
+  src={rolloutFirestore76pct}
+  alt="Cloud Firestore showing 1.0.0+1 at 76% rollout"
+/>
 
 And press the update button again, we will now see:
 
@@ -196,4 +205,7 @@ And press the update button again, we will now see:
 Note that the channel field in the patch check request has changed from stable
 to beta, and that we've downloaded our patch.
 
-<Image src={rolloutGroup76Purple} alt="Patched build showing group number 76 with a purple background" />
+<Image
+  src={rolloutGroup76Purple}
+  alt="Patched build showing group number 76 with a purple background"
+/>

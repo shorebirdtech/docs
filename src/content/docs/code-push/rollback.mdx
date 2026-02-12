@@ -42,13 +42,19 @@ In the [Shorebird Console](https://console.shorebird.dev/), navigate to the
 release that contains the patch you want to roll back. On the right side of the
 patch row, click the "more" icon (three vertical dots) and select "Rollback":
 
-<Image src={rollbackButton} alt='The Shorebird Console showing a "roll back patch" button' />
+<Image
+  src={rollbackButton}
+  alt='The Shorebird Console showing a "roll back patch" button'
+/>
 
 ## What happens when a patch is rolled back?
 
 Imagine we have a release with three patches:
 
-<Image src={rollbackPatch3Active} alt="The Shorebird Console showing three patches, with patch 3 as the active patch" />
+<Image
+  src={rollbackPatch3Active}
+  alt="The Shorebird Console showing three patches, with patch 3 as the active patch"
+/>
 
 When a user downloads this release from the store, Shorebird will see that patch
 3 is the latest available patch and download it.
@@ -56,7 +62,10 @@ When a user downloads this release from the store, Shorebird will see that patch
 If we discover that there is a problem with patch 3, we can roll it back. The
 Console will look like this after a rollback:
 
-<Image src={rollbackPatch3RolledBack} alt="The Shorebird Console showing three patches, with patch 3 rolled back and patch 2 as the active patch" />
+<Image
+  src={rollbackPatch3RolledBack}
+  alt="The Shorebird Console showing three patches, with patch 3 rolled back and patch 2 as the active patch"
+/>
 
 Users who download the app from the store will now get patch 2 instead of
 patch 3. Users who already had patch 3 installed will be downgraded to patch 2.

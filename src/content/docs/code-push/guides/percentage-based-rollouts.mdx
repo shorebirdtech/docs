@@ -5,6 +5,12 @@ sidebar:
   order: 20
 ---
 
+import { Image } from 'astro:assets';
+import rolloutGroup76Red from '~/assets/rollout_group_76_red.png';
+import rolloutFirestore50pct from '~/assets/rollout_firestore_50pct.png';
+import rolloutFirestore76pct from '~/assets/rollout_firestore_76pct.png';
+import rolloutGroup76Purple from '~/assets/rollout_group_76_purple.png';
+
 This guide describes how you can implement a percentage-based patch rollout
 system using predefined tracks.
 
@@ -121,7 +127,7 @@ distribute your apps today.
 Now, we'll launch our example using `shorebird preview`, which downloads the
 release and runs it on a local device:
 
-![Release build showing group number 76 with a red background](https://github.com/user-attachments/assets/b82c3e48-c2b0-4c91-8c8f-58fe475a4439)
+<Image src={rolloutGroup76Red} alt="Release build showing group number 76 with a red background" />
 
 We can see from this screenshot that our device is in group 76. This means that
 we will request patches on the stable track until our rollout percentage is >=
@@ -139,7 +145,7 @@ shorebird patch android --track=beta
 
 And update the rollout percentage in Firebase:
 
-![Cloud Firestore showing 1.0.0+1 at 50% rollout](https://github.com/user-attachments/assets/378eefbc-7299-4d7c-a9d4-7dd08957a596)
+<Image src={rolloutFirestore50pct} alt="Cloud Firestore showing 1.0.0+1 at 50% rollout" />
 
 Press the update button, and our shorebird preview output shows the following
 (formatted for readability):
@@ -157,7 +163,7 @@ Press the update button, and our shorebird preview output shows the following
 
 Now if we change the rollout percentage in Firebase to 76%:
 
-![Cloud Firestore showing 1.0.0+1 at 76% rollout](https://github.com/user-attachments/assets/28adc8ae-8eb2-4770-b79d-1143bc1e2632)
+<Image src={rolloutFirestore76pct} alt="Cloud Firestore showing 1.0.0+1 at 76% rollout" />
 
 And press the update button again, we will now see:
 
@@ -190,4 +196,4 @@ And press the update button again, we will now see:
 Note that the channel field in the patch check request has changed from stable
 to beta, and that we've downloaded our patch.
 
-![Patched build showing group number 76 with a purple background](https://github.com/user-attachments/assets/cfcc1010-5475-456a-ad25-d9415d1b5ca6)
+<Image src={rolloutGroup76Purple} alt="Patched build showing group number 76 with a purple background" />

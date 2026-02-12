@@ -7,8 +7,12 @@ sidebar:
   order: 16
 ---
 
+import { Image } from 'astro:assets';
 import RemoteCode from '~/components/RemoteCode.astro';
 import CICheckSnippet from '~/components/guides/development-workflow/CICheckSnippet.astro';
+import devWorkflow from '~/assets/dev_workflow.png';
+import releaseWorkflow from '~/assets/release_workflow.png';
+import patchWorkflow from '~/assets/patch_workflow.png';
 
 This guide will walk through an opinionated development workflow with Shorebird.
 We'll cover how to automate releasing and patching with Shorebird to streamline
@@ -33,7 +37,7 @@ development workflow.
 While there are many ways to integrate Shorebird, the following workflow is a
 common approach that we recommend:
 
-![Development Workflow](https://github.com/user-attachments/assets/61fc8e5b-b77e-42e7-a1d6-5db50a232d02)
+<Image src={devWorkflow} alt="Development Workflow" />
 
 The illustration above, uses
 [trunk based development](https://trunkbaseddevelopment.com) and tags to trigger
@@ -99,7 +103,7 @@ You can refer to the following GitHub Actions workflow for an example.
 When the release workflow has finished running, the artifacts are ready to be
 distributed to customers via the appropriate channels.
 
-![Release Workflow](https://github.com/user-attachments/assets/7c9cf689-bd07-40c0-ad0b-e08935cb4424)
+<Image src={releaseWorkflow} alt="Release Workflow" />
 
 :::note
 
@@ -162,7 +166,7 @@ validated in
 [Shorebird's staging environment](/code-push/guides/staging-patches) and
 promoted to production.
 
-![Patch Workflow](https://github.com/user-attachments/assets/ca1957ad-ee52-4cff-a93f-03fceb6ca591)
+<Image src={patchWorkflow} alt="Patch Workflow" />
 
 ## Recap
 

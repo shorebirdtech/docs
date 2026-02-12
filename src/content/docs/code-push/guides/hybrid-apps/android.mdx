@@ -6,6 +6,9 @@ sidebar:
   order: 25
 ---
 
+import { Image } from 'astro:assets';
+import hybridAndroidScreenshot from '~/assets/hybrid_android_screenshot.png';
+
 This guide explains how to use Shorebird in an Android hybrid app scenario (that
 is, your app embeds Flutter UI in non-Flutter UI).
 
@@ -137,7 +140,7 @@ Your app should work as before with no differences.
 To set the active build variant to release, click on the "Build Variants" tab in
 the lower left corner of Android Studio. Then select "release" from the "Active
 Build Variant" dropdown.
-![Screenshot 2023-10-06 at 1 15 14 PM](https://github.com/shorebirdtech/docs/assets/581764/91b68c2c-7cee-44f1-a78a-eec443c353a3)
+<Image src={hybridAndroidScreenshot} alt="Android Studio build variant set to release" />
 
 :::warning
 

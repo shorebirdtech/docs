@@ -5,10 +5,9 @@ sidebar:
   order: 19
 ---
 
-{/* cspell:words outform pubout */}
-
-In addition to our default security measures, Shorebird also provides optional
-patch signing.
+In addition to our default security measures, Shorebird also provides patch
+signing for additional security. This is optional at this time and needs to be
+setup during your build and patch process.
 
 Patch signing allows developers to cryptographically sign patch updates with
 their own keys. This ensures that no one (including Shorebird) can change the
@@ -16,9 +15,9 @@ content of your patches without your private cryptographic keys.
 
 Signing works in two parts. First, `shorebird release` commands can take an
 optional `--public-key-path` argument to embed a public key in your released
-application. The Shorebird updater will enforce that only patches signed with a
-corresponding private key will be allowed to load for applications that include
-a public key.
+application. The [Shorebird updater](https://github.com/shorebirdtech/updater)
+will enforce that only patches signed with a corresponding private key will be
+allowed to load for applications that include a public key.
 
 Second, when you build your patch with `shorebird patch`, you can pass
 `--private-key-path` to have Shorebird sign your patch with your private key.
@@ -28,18 +27,12 @@ There are no required changes to your code and you can add or remove this
 signing requirement at any time by simply making a new release of your
 application.
 
-## Adding patch signing to your application
+## Implementation
 
-To start, you will need an RSA key pair. Shorebird has only tested with a
-limited set of signing algorithms at this time. Please contact us if you have
-other requirements—we'd be happy to work with you to support your needs.
+You will need an RSA key pair. Shorebird supports RSA keys in PEM format, both
+PKCS#1 and PKCS#8.
 
-The `shorebird` tool expects to be able to read private and public keys from
-`.pem` files on disk. If you need other ways of accessing your key material (or
-signing via a cloud signing service) please contact us. We'd be happy to work
-with you to support such.
-
-### Generate keys
+### Generate Keys
 
 If you do not already have an RSA key pair you'd like to use, you can generate a
 pair with `openssl`:
@@ -65,52 +58,70 @@ stored securely and kept secret. While the private key is not itself sufficient
 to make an update to your application (someone would also need access to your
 Shorebird credentials), it should not be checked into public source control.
 
+### Key Storage
+
+Shorebird does not provided a Key Storage solution at this time. If you are
+using this feature we highly recommend using a cloud key management service
+instead of just storing keys on disk. **If for any reason you were to lose your
+private key, there is no way to create a patch for an application containing the
+corresponding public key.** Even Shorebird is not able to create a patch for
+your application without your private key. In such a case, you would need to
+make and distribute a new release of your application to send patches to it.
+
+Shorebird does support command-based signing for integration with cloud key
+management services (HashiCorp Vault, GCP Cloud KMS, AWS KMS, Azure Key Vault),
+hardware security modules (HSMs), and secrets managers (1Password, etc.). Please
+ensure you are using at least
+[v1.6.81](https://github.com/shorebirdtech/shorebird/releases/tag/v1.6.81) or
+greater to use this feature.
+
+See [Cloud KMS Examples](#cloud-kms-examples) below for integration examples
+with popular services.
+
+### Create a Signed Release
+
 :::note
 
-We do not yet manage signing keys for you or support non-RSA keys. Please
-contact us if you have other requirements—we'd be happy to work with you to
-support your needs.
+These examples use Android, but patch signing works on all platforms.
 
 :::
-
-### Create a release containing the public key
 
 To create a release that requires signed patches, run the following command:
 
 ```sh
+# Build Release with local path to key file
 shorebird release android --public-key-path /path/to/public.pem
+
+# Build Release with command for cloud-managed public key
+# Ensure that the command outputs a PEM-encoded public key to stdout
+shorebird release android \
+  --public-key-cmd="your-command-that-outputs-pem-public-key"
 ```
 
 This will include the public key in the release artifact produced by
 `shorebird release` and cause the released app to require signed patches.
 
-:::note
-
-We're using Android to demo, but this will work on any platform Shorebird
-supports.
-
-:::
-
-### Create a signed patch
+### Create a Signed Patch
 
 To create a signed patch, run the following command:
 
 ```sh
-shorebird patch android --public-key-path /path/to/public.pem --private-key-path /path/to/private.pem
+# Build Patch with local path to key files
+shorebird patch android --public-key-path /path/to/public.pem \
+ --private-key-path /path/to/private.pem
+
+# Build Patch with cloud-managed signing
+# Ensure that the command outputs a PEM-encoded public key to stdout
+# sign-cmd Should read data from stdin and outputs a base64 signature to
+#stdout
+ shorebird patch android \
+   --public-key-cmd="your-command-that-outputs-pem-public-key" \
+   --sign-cmd="your-command-that-signs-stdin-and-outputs-base64"
 ```
 
 This tells shorebird to sign the patch with the key pair you provided.
 
-:::note
-
-Storing private keys on disk is not best-practice, and we recognize this. This
-was built as a demonstration of the system, we look forward to working with
-customers to integrate Shorebird to using the signing services and key storage
-methods they are used to.
-
-:::
-
-### Test it out
+### Test and Verify Signed Patch
 
 You can verify that the patch is properly signed using `shorebird preview`. On
 the first launch, you should see something like the following in your app logs:
@@ -145,26 +156,134 @@ patch at boot time. It will instead boot from the last known good patch (if
 still on disk) or the release build of the app. This will not cause your app to
 crash.
 
-If for any reason you were to lose your private key, there is no way to create a
-patch for an application containing the corresponding public key. Even Shorebird
-is not able to create a patch for your application without your private key. In
-such a case, you would need to make and distribute a new release of your
-application to send patches to it.
-
 ## Trade Offs
 
-The primary trade-off of using patch signing is complexity. Shorebird does not
-yet offer automatic key management, so you will need to create and manage your
-own key material to use signing.
+Signature verification does add a small overhead at app launch. During our
+testing this has been observed to be under 50ms with a medium size app on a
+5-year-old Android phone. This overhead increases with application size. For
+very large apps, if this overhead shows up on your benchmarks, you can set
+`patch_verification: install_only` in `shorebird.yaml` to verify signatures only
+when patches are installed rather than on every launch.
 
-There is a very small slowdown in application launch. In our testing signature
-verification on launch takes &lt;50ms on a 5 year old android phone. This
-accounts for &lt;10% slowdown on a fast application launch.
+## Cloud KMS Examples
 
-:::note
+The following examples show how to integrate Shorebird patch signing with
+popular key management services using `--public-key-cmd` and `--sign-cmd`.
 
-If this solution does not meet your needs, please reach out to us at
-contact@shorebird.dev. We'd love to hear from you and see if we can find a
-solution that works for you.
+### HashiCorp Vault
 
-:::
+```sh
+# Store your key in Vault Transit
+vault write transit/keys/shorebird-signing type=rsa-2048
+
+# Release
+shorebird release android \
+  --public-key-cmd="vault read -field=public_key transit/keys/shorebird-signing"
+
+# Patch
+shorebird patch android \
+  --public-key-cmd="vault read -field=public_key transit/keys/shorebird-signing" \
+  --sign-cmd="vault write -field=signature transit/sign/shorebird-signing \
+    hash_algorithm=sha2-256 signature_algorithm=pkcs1v15 input=-"
+```
+
+### GCP Cloud KMS
+
+```sh
+# Create a key ring and key
+gcloud kms keyrings create shorebird --location=global
+gcloud kms keys create signing-key --keyring=shorebird --location=global \
+  --purpose=asymmetric-signing --default-algorithm=rsa-sign-pkcs1-2048-sha256
+
+# Release
+shorebird release android \
+  --public-key-cmd="gcloud kms keys versions get-public-key 1 \
+    --key=signing-key --keyring=shorebird --location=global"
+
+# Patch (using a helper script for signing)
+shorebird patch android \
+  --public-key-cmd="gcloud kms keys versions get-public-key 1 \
+    --key=signing-key --keyring=shorebird --location=global" \
+  --sign-cmd="gcloud kms asymmetric-sign --version=1 \
+    --key=signing-key --keyring=shorebird --location=global \
+    --digest-algorithm=sha256 --input-file=- --signature-file=- | base64"
+```
+
+### AWS KMS
+
+```sh
+# Create an RSA signing key
+aws kms create-key --key-spec RSA_2048 --key-usage SIGN_VERIFY
+
+# Create a helper script for public key (aws-kms-pubkey.sh).
+# Needed to get the format correct from DER to PEM
+#!/bin/bash
+aws kms get-public-key --key-id alias/shorebird-signing --output text \
+  --query PublicKey | base64 -d | openssl rsa -pubin -inform DER -outform PEM
+
+# Create a helper script for signing (aws-kms-sign.sh)
+#!/bin/bash
+HASH=$(cat - | openssl dgst -sha256 -binary | base64)
+aws kms sign --key-id alias/shorebird-signing \
+  --signing-algorithm RSASSA_PKCS1_V1_5_SHA_256 \
+  --message-type DIGEST --message "$HASH" \
+  --output text --query Signature
+
+# Release
+shorebird release android --public-key-cmd="./aws-kms-pubkey.sh"
+
+# Patch
+shorebird patch android \
+  --public-key-cmd="./aws-kms-pubkey.sh" \
+  --sign-cmd="./aws-kms-sign.sh"
+```
+
+### Azure Key Vault
+
+```sh
+# Create a key in Azure Key Vault
+az keyvault key create --vault-name myVault --name shorebird-signing \
+  --kty RSA --size 2048
+
+# Helper script for public key (azure-kv-pubkey.sh)
+#!/bin/bash
+az keyvault key download --vault-name myVault --name shorebird-signing \
+  --encoding PEM --file /dev/stdout
+
+# Helper script for signing (azure-kv-sign.sh)
+#!/bin/bash
+HASH=$(cat - | openssl dgst -sha256 -binary | base64 -w0)
+az keyvault key sign --vault-name myVault --name shorebird-signing \
+  --algorithm RS256 --digest "$HASH" --query value -o tsv
+
+# Release
+shorebird release android --public-key-cmd="./azure-kv-pubkey.sh"
+
+# Patch
+shorebird patch android \
+  --public-key-cmd="./azure-kv-pubkey.sh" \
+  --sign-cmd="./azure-kv-sign.sh"
+```
+
+### 1Password CLI
+
+```sh
+# Store your keys in 1Password
+op item create --category="Secure Note" --title="Shorebird Signing" \
+  "public_key[text]=$(cat public.pem)" \
+  "private_key[text]=$(cat private.pem)"
+
+# Helper script for signing (1password-sign.sh)
+#!/bin/bash
+PRIVATE_KEY=$(op item get "Shorebird Signing" --fields private_key)
+cat - | openssl dgst -sha256 -sign <(echo "$PRIVATE_KEY") | base64
+
+# Release
+shorebird release android \
+  --public-key-cmd="op item get 'Shorebird Signing' --fields public_key"
+
+# Patch
+shorebird patch android \
+  --public-key-cmd="op item get 'Shorebird Signing' --fields public_key" \
+  --sign-cmd="./1password-sign.sh"
+```

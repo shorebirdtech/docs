@@ -6,6 +6,11 @@ sidebar:
   order: 23
 ---
 
+import { Image } from 'astro:assets';
+import playStoreCreateRelease from '~/assets/play_store_create_release.png';
+import playStoreUploadedBundle from '~/assets/play_store_uploaded_bundle.png';
+import playStoreInReview from '~/assets/play_store_in_review.png';
+
 This guide walks through releasing a code push app to the Google Play Store and
 applying a patch to that release.
 
@@ -126,7 +131,7 @@ Store.
 1. Select "Testing -> Open Testing" from the side bar.
 1. Click the "Create new release" button.
 
-![CreateNewRelease](https://github.com/shorebirdtech/docs/assets/581764/90c9c7ed-bc39-4731-bfec-524f89e2baf6)
+<Image src={playStoreCreateRelease} alt="CreateNewRelease" />
 
 Upload the `.aab` file located at
 `./build/app/outputs/bundle/release/app-release.aab`.
@@ -139,7 +144,7 @@ Upload the `.aab` file located at
 Once the upload completes, the Play Store will correctly recognize the new
 version as `6 (1.0.3)`.
 
-![UploadedBundle](https://github.com/shorebirdtech/docs/assets/581764/1994cb5a-4cd6-4f1b-a88c-f5aaa3d1433d)
+<Image src={playStoreUploadedBundle} alt="UploadedBundle" />
 
 Click "Next" and then "Save" (both in the bottom-right corner) to submit.
 
@@ -149,7 +154,7 @@ submit the release for review.
 You should now see a release in the Play Store console with an "In review"
 status:
 
-![InReview](https://github.com/shorebirdtech/docs/assets/581764/4cfdc7fb-2049-4110-b1cd-da99c7a491f7)
+<Image src={playStoreInReview} alt="InReview" />
 
 Now you must wait for the Play Store to approve the release.
 

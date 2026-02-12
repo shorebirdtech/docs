@@ -6,6 +6,11 @@ sidebar:
   order: 7
 ---
 
+import { Image } from 'astro:assets';
+import rollbackButton from '~/assets/rollback_button.png';
+import rollbackPatch3Active from '~/assets/rollback_patch3_active.png';
+import rollbackPatch3RolledBack from '~/assets/rollback_patch3_rolled_back.png';
+
 If you discover that a live patch has a bug, Shorebird supports patch roll back.
 When a patch is rolled back, it is remotely uninstalled from end users' devices
 and replaced by either the previous patch or the base release if no previous
@@ -37,13 +42,19 @@ In the [Shorebird Console](https://console.shorebird.dev/), navigate to the
 release that contains the patch you want to roll back. On the right side of the
 patch row, click the "more" icon (three vertical dots) and select "Rollback":
 
-![The Shorebird Console showing a "roll back patch" button](https://github.com/user-attachments/assets/941fdc46-d0f3-463f-835f-5c8eb8a02e83)
+<Image
+  src={rollbackButton}
+  alt='The Shorebird Console showing a "roll back patch" button'
+/>
 
 ## What happens when a patch is rolled back?
 
 Imagine we have a release with three patches:
 
-![The Shorebird Console showing three patches, with patch 3 as the active patch](https://github.com/user-attachments/assets/ee5d4e2b-eca3-4318-99e9-038c0134bfff)
+<Image
+  src={rollbackPatch3Active}
+  alt="The Shorebird Console showing three patches, with patch 3 as the active patch"
+/>
 
 When a user downloads this release from the store, Shorebird will see that patch
 3 is the latest available patch and download it.
@@ -51,7 +62,10 @@ When a user downloads this release from the store, Shorebird will see that patch
 If we discover that there is a problem with patch 3, we can roll it back. The
 Console will look like this after a rollback:
 
-![The Shorebird Console showing three patches, with patch 3 rolled back and patch 2 as the active patch](https://github.com/user-attachments/assets/7ba4ff2c-5823-4c9f-a260-68ca6ce1e10a)
+<Image
+  src={rollbackPatch3RolledBack}
+  alt="The Shorebird Console showing three patches, with patch 3 rolled back and patch 2 as the active patch"
+/>
 
 Users who download the app from the store will now get patch 2 instead of
 patch 3. Users who already had patch 3 installed will be downgraded to patch 2.

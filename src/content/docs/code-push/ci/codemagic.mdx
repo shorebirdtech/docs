@@ -78,12 +78,12 @@ As a preview, our finished `codemagic.yaml` file will look like this:
 definitions:
   environment:
     shared_env: &shared_env
-      flutter: 3.41.0
+      flutter: 3.41.1
       groups:
         - shorebird
         - play_store
       vars:
-        FLUTTER_VERSION: 3.41.0
+        FLUTTER_VERSION: 3.41.1
   scripts:
     - &shorebird_install
       name: Install Shorebird
@@ -189,7 +189,7 @@ definitions:
     # Use &shared_env to allow us to reference this environment in other
     #   parts of the file
     shared_env: &shared_env
-      flutter: 3.41.0
+      flutter: 3.41.1
       groups:
         # Add the shorebird group to make $SHOREBIRD_TOKEN available to
         #   the Shorebird CLI.
@@ -198,7 +198,7 @@ definitions:
         #   available to the Google Play Publishing step.
         - play_store
       vars:
-        FLUTTER_VERSION: 3.41.0
+        FLUTTER_VERSION: 3.41.1
   scripts:
     # A step to install Shorebird and add it to the host machine's PATH
     - &shorebird_install
@@ -358,7 +358,7 @@ locally.
 definitions:
   environment:
     shared_env: &shared_env
-      flutter: 3.41.0
+      flutter: 3.41.1
       groups:
         # Export the shorebird group to make $SHOREBIRD_TOKEN available to
         #   the Shorebird CLI.
@@ -370,7 +370,7 @@ definitions:
         # The bundle ID of this example app.
         # Replace this with your app's bundle id.
         BUNDLE_ID: dev.shorebird.codemagic-demo
-        FLUTTER_VERSION: 3.41.0
+        FLUTTER_VERSION: 3.41.1
   scripts:
     # Download the Shorebird CLI and add it to the PATH.
     - &shorebird_install

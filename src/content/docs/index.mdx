@@ -5,21 +5,20 @@ sidebar:
   order: 1
 ---
 
+import { LinkButton, LinkCard } from 'starlight-theme-nova/components';
+
 Welcome to Shorebird! 👋
 
 Whether you're just getting started or looking to dive deeper into advance usage
 of our products, you'll find everything you need here—from quick start guides to
 in-depth technical references.
 
-Not sure how to get started? Check out
-[our Quick Start guide](/getting-started/) to get going.
+<LinkButton href="/getting-started/" icon="rocket">Quick Start</LinkButton>
 
 ## Contact Us
 
 Still have questions? We are here to help and can be contacted in a variety of
 ways.
 
-- We have an active Discord community where we're happy to help you. Join us at
-  https://discord.gg/shorebird
-- If you have a private/confidential issue and would prefer email you can reach
-  us at contact@shorebird.dev
+<LinkCard href="https://discord.gg/shorebird" title="Discord" description="Join our active community where we're happy to help you." />
+<LinkCard href="mailto:contact@shorebird.dev" title="Email" description="For private or confidential issues, reach us at contact@shorebird.dev." />

@@ -2,15 +2,20 @@
 
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import tailwindcss from '@tailwindcss/vite';
 import starlightLinksValidator from 'starlight-links-validator';
 import starlightAutoSidebar from 'starlight-auto-sidebar';
 import starlightImageZoom from 'starlight-image-zoom';
+import starlightThemeNova from 'starlight-theme-nova';
 
 const site = 'https://docs.shorebird.dev/';
 
 // https://astro.build/config
 export default defineConfig({
   site,
+  vite: {
+    plugins: [tailwindcss()],
+  },
   integrations: [
     starlight({
       title: 'Shorebird',
@@ -36,6 +41,16 @@ export default defineConfig({
       favicon: 'favicon.svg',
       head: [
         {
+          tag: 'link',
+          attrs: {
+            rel: 'preload',
+            href: '/fonts/GeneralSans-Variable.woff2',
+            as: 'font',
+            type: 'font/woff2',
+            crossorigin: '',
+          },
+        },
+        {
           tag: 'meta',
           attrs: { property: 'og:image', content: site + 'open-graph.png?v=1' },
         },
@@ -47,9 +62,11 @@ export default defineConfig({
           },
         },
       ],
-      components: { Head: './src/components/starlight/Head.astro' },
-      customCss: ['./src/tailwind.css'],
-      expressiveCode: { themes: ['dark-plus', 'github-light'] },
+      components: {
+        Head: './src/components/starlight/Head.astro',
+        ThemeSelect: './src/components/ThemeSelect.astro',
+      },
+      customCss: ['./src/styles/custom.css'],
       sidebar: [
         { label: 'Welcome', link: '/' },
         {
@@ -87,6 +104,7 @@ export default defineConfig({
         },
       ],
       plugins: [
+        starlightThemeNova(),
         starlightAutoSidebar(),
         starlightImageZoom(),
         starlightLinksValidator({

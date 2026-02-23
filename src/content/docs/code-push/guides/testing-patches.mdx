@@ -5,6 +5,8 @@ sidebar:
   order: 18
 ---
 
+import { LinkCard } from 'starlight-theme-nova/components';
+
 We recommend that you test your patches with a subset of users before
 distributing to all users.
 
@@ -20,9 +22,14 @@ As part of our privacy stance, we _never_ know anything about your users, so we
 have no way to tell users apart or to specify which users should receive a patch
 from within our product. However, we do provide you mechanisms for controlling
 updates via Shorebird with user information you have access to from within your
-company and your application. See the
-[Percentage Based Rollouts guide](/code-push/guides/percentage-based-rollouts)
-for examples.
+company and your application. See the Percentage Based Rollouts guide for
+examples.
+
+<LinkCard
+  href="/code-push/guides/percentage-based-rollouts"
+  title="Percentage Based Rollouts"
+  description="Control which users receive patches using percentage-based distribution."
+/>
 
 We recommend using one of the following three approaches to distribute patches
 to a subset of users (e.g. your QA team) for testing without affecting your

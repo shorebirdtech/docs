@@ -6,6 +6,8 @@ sidebar:
   order: 7
 ---
 
+import { LinkCard } from 'starlight-theme-nova/components';
+
 If you discover that a live patch has a bug, Shorebird supports patch roll back.
 When a patch is rolled back, it is remotely uninstalled from end users' devices
 and replaced by either the previous patch or the base release if no previous
@@ -103,5 +105,8 @@ available for review on [GitHub](https://github.com/shorebirdtech/). An overview
 of our code locations is available under
 [System Architecture](/code-push/system-architecture).
 
-See also
-[Shorebird Public Security Policies](https://handbook.shorebird.dev/security/).
+## Related
+
+<LinkCard href="/code-push/guides/patch-signing" title="Patch Signing" description="Cryptographically sign your patches for added security." />
+<LinkCard href="https://handbook.shorebird.dev/security/" title="Security Policies" description="Shorebird's public security policies and compliance." />
+<LinkCard href="/code-push/system-architecture" title="System Architecture" description="Overview of Shorebird's components and source code." />

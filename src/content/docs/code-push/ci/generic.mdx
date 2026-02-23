@@ -9,6 +9,7 @@ sidebar:
 {/* cspell:words proto tlsv codemagic */}
 
 import Authentication from './_authentication.mdx';
+import { LinkCard } from 'starlight-theme-nova/components';
 
 Building with Shorebird in CI should be a very small change from your existing
 Flutter CI builds. Changes required:
@@ -18,12 +19,12 @@ Flutter CI builds. Changes required:
 3. Replacing `flutter build --release` with `shorebird release` or
    `shorebird patch`.
 
-We have detailed instructions for integrating into
+We have detailed instructions for integrating into these providers:
 
-- [GitHub](/code-push/ci/github)
-- [Codemagic](/code-push/ci/codemagic)
+<LinkCard href="/code-push/ci/github" title="GitHub" description="Integrate Shorebird into your GitHub Actions workflows." />
+<LinkCard href="/code-push/ci/codemagic" title="Codemagic" description="Integrate Shorebird into your Codemagic CI/CD pipelines." />
 
-However if you do not use these providers, we've also provided generic
+If you do not use these providers, we've also provided generic
 instructions below:
 
 ## Installing Shorebird

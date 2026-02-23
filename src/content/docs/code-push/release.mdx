@@ -7,6 +7,7 @@ sidebar:
 ---
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { LinkCard } from 'starlight-theme-nova/components';
 import { Image } from 'astro:assets';
 import releaseDeleteDialog from '~/assets/release_delete_dialog.png';
 
@@ -454,3 +455,9 @@ shorebird release android --artifact=apk
 
 That will produce _both_ .apk and .aab files. You can distribute either or both
 as needed.
+
+## What's Next
+
+<LinkCard href="/code-push/patch" title="Create a Patch" description="Push over-the-air updates to your published release." />
+<LinkCard href="/code-push/guides/stores/play-store" title="Play Store Guide" description="Learn how to submit your release to the Google Play Store." />
+<LinkCard href="/code-push/guides/stores/app-store" title="App Store Guide" description="Learn how to submit your release to the Apple App Store." />

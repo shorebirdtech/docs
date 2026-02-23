@@ -5,6 +5,7 @@ sidebar:
   order: 17
 ---
 
+import { CodeTabs } from 'starlight-theme-nova/components';
 import { Image } from 'astro:assets';
 import goLive from '~/assets/staging_patches_change_track_dropdown.png';
 import switchTrack from '~/assets/staging_patches_patch_context_menu.png';
@@ -53,16 +54,19 @@ Now that we've created our apps on shorebird, we need to create releases (one
 for each platform). To create a release, we'll use the `shorebird release`
 command.
 
-```sh
-# Create a release for Android
+<CodeTabs>
+```bash title="Android"
 shorebird release android
+```
 
-# Create a release for iOS
+```bash title="iOS"
 shorebird release ios
+```
 
-# Create a release for macOS
+```bash title="macOS"
 shorebird release macos
 ```
+</CodeTabs>
 
 We can verify the releases were created successfully by visiting
 [Shorebird console](https://console.shorebird.dev).
@@ -105,16 +109,19 @@ class MainApp extends StatelessWidget {
 
 Now that we've applied the changes, let's create a patch:
 
-```sh
-# Stage a patch on Android
+<CodeTabs>
+```bash title="Android"
 shorebird patch android --track=staging
+```
 
-# Stage a patch on iOS
+```bash title="iOS"
 shorebird patch ios --track=staging
+```
 
-# Stage a patch on macOS
+```bash title="macOS"
 shorebird patch macos --track=staging
 ```
+</CodeTabs>
 
 ## Preview the release
 

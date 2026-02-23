@@ -21,6 +21,7 @@ export default defineConfig({
   },
   integrations: [
     starlight({
+      expressiveCode: false,
       title: 'Shorebird',
       tagline: 'Flutter Code Push',
       logo: {

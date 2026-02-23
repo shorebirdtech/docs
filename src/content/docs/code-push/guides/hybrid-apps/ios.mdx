@@ -6,6 +6,13 @@ sidebar:
   order: 26
 ---
 
+import { Image } from 'astro:assets';
+import hybridIosBuildVersion from '~/assets/hybrid_ios_build_version.png';
+import hybridIosFrameworkSearchPaths from '~/assets/hybrid_ios_framework_search_paths.png';
+import hybridIosEmbedFrameworks from '~/assets/hybrid_ios_embed_frameworks.png';
+import hybridIosEditSchemes from '~/assets/hybrid_ios_edit_schemes.png';
+import hybridIosReleaseScheme from '~/assets/hybrid_ios_release_scheme.png';
+
 This guide explains how to use Shorebird in an iOS hybrid app scenario (that is,
 your app embeds Flutter UI in non-Flutter UI).
 
@@ -66,7 +73,7 @@ The `release-version` parameter needs to match the version of the iOS app that
 uses this module (i.e., `version+build` from the Xcode settings, or
 `CFBundleShortVersionString+CFBundleVersion` from your app's Info.plist).
 
-![Xcode build version](https://github.com/shorebirdtech/shorebird/assets/581764/314289ed-b3bd-46fa-b49a-cea7d482d831)
+<Image src={hybridIosBuildVersion} alt="Xcode build version" />
 
 _The version number for this app would be 1.2.3+4_
 
@@ -119,7 +126,7 @@ In Xcode:
    `release` directory in the root of your Flutter module, but you should feel
    free to move them elsewhere if you prefer.
 
-![Xcode framework search paths](https://github.com/shorebirdtech/shorebird/assets/581764/50f92f9c-4bf6-49ce-a4e7-664b8bf8283a)
+<Image src={hybridIosFrameworkSearchPaths} alt="Xcode framework search paths" />
 
 ### Embed App.xcframework and Flutter.xcframework in your app
 
@@ -127,7 +134,7 @@ In the "General" tab of your app target, add `App.xcframework` and
 `ShorebirdFlutter.xcframework` from to the "Frameworks, Libraries, and Embedded
 Content" section. Make sure to select "Embed & Sign" for both frameworks.
 
-![Xcode embed frameworks](https://github.com/shorebirdtech/shorebird/assets/581764/fe5911bd-046b-47f9-a4d8-d8548e651bd6)
+<Image src={hybridIosEmbedFrameworks} alt="Xcode embed frameworks" />
 
 :::note
 
@@ -140,8 +147,8 @@ That's us 🙂
 
 In Xcode, update the current scheme's build configuration to "Release"
 
-![Xcode edit schemes](https://github.com/shorebirdtech/shorebird/assets/581764/cf32be57-c49e-4ff6-aca2-8be06b44f2f9)
-![Xcode release scheme](https://github.com/shorebirdtech/shorebird/assets/581764/92417ee8-dc66-4cbb-99e7-d940165e4caf)
+<Image src={hybridIosEditSchemes} alt="Xcode edit schemes" />
+<Image src={hybridIosReleaseScheme} alt="Xcode release scheme" />
 
 Now run your app on a device (_not_ a simulator). Your app should run as normal,
 and you should see debug logs from Shorebird.

@@ -8,6 +8,8 @@ sidebar:
 import { Image } from 'astro:assets';
 import patches from '~/assets/patches.png';
 import rollback from '~/assets/rollback.png';
+import flutterBeginnersInitialApp from '~/assets/flutter_beginners_initial_app.jpg';
+import flutterBeginnersUpdatedApp from '~/assets/flutter_beginners_updated_app.jpg';
 
 The traditional Flutter development workflow has a significant gap: you build an
 app, ship it to the app stores, and then wait days or weeks for approval
@@ -254,7 +256,7 @@ flutter run
 
 Here's what the app will look like on an Android device:
 
-![Initial app UI on Android](https://i.postimg.cc/x1ZmgsSj/Whats-App-Image-2026-01-21-at-14-29-22.jpg)
+<Image src={flutterBeginnersInitialApp} alt="Initial app UI on Android" />
 
 Before shipping anything, let’s make a small but visible change so you can see
 how Flutter’s UI responds to code edits. We’ll tweak the app’s theme color and
@@ -313,7 +315,7 @@ flutter run
 Within seconds, you should see the updated theme color and new text reflected in
 the UI:
 
-![Updated app UI on Android](<https://i.postimg.cc/RZYtGPzv/Whats-App-Image-2026-01-21-at-14-29-22-(1).jpg>)
+<Image src={flutterBeginnersUpdatedApp} alt="Updated app UI on Android" />
 
 This fast feedback loop is one of Flutter’s biggest strengths. You edit Dart
 code, the framework rebuilds the widget tree, and the changes appear
@@ -382,7 +384,7 @@ Then, run `shorebird patch android`. Once the command completes running, try
 closing and restarting an installed release of the app. The theme of the app
 should get updated on a fresh run:
 
-![Releasing a patch](https://i.postimg.cc/0y393fhD/patch.gif)
+![Releasing a patch](/assets/flutter_beginners_patch.gif)
 
 Also, you will be able to view the patch on your Shorebird Console:
 

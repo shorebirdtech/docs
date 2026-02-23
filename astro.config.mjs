@@ -1,4 +1,4 @@
-// cspell:words astro astrojs rehype
+// cspell:words astro astrojs rehype opengraph
 
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
@@ -7,6 +7,9 @@ import starlightLinksValidator from 'starlight-links-validator';
 import starlightAutoSidebar from 'starlight-auto-sidebar';
 import starlightImageZoom from 'starlight-image-zoom';
 import starlightThemeNova from 'starlight-theme-nova';
+import opengraphImages from 'astro-opengraph-images';
+import { renderer } from './src/og/renderer.tsx';
+import { readFileSync } from 'node:fs';
 
 const site = 'https://docs.shorebird.dev/';
 
@@ -48,17 +51,6 @@ export default defineConfig({
             as: 'font',
             type: 'font/woff2',
             crossorigin: '',
-          },
-        },
-        {
-          tag: 'meta',
-          attrs: { property: 'og:image', content: site + 'open-graph.png?v=1' },
-        },
-        {
-          tag: 'meta',
-          attrs: {
-            property: 'twitter:image',
-            content: site + 'open-graph.png?v=1',
           },
         },
       ],
@@ -112,6 +104,19 @@ export default defineConfig({
           errorOnInconsistentLocale: true,
         }),
       ],
+    }),
+    opengraphImages({
+      options: {
+        fonts: [
+          {
+            name: 'General Sans',
+            weight: 600,
+            style: 'normal',
+            data: readFileSync('src/fonts/GeneralSans-Semibold.ttf'),
+          },
+        ],
+      },
+      render: renderer,
     }),
   ],
   redirects: {

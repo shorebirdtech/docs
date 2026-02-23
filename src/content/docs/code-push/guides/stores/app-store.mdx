@@ -8,6 +8,19 @@ sidebar:
 
 {/* cspell:words xcodebuild */}
 
+import { Image } from 'astro:assets';
+import appStoreDevTeam from '~/assets/app_store_dev_team.png';
+import appStoreConnectVersion from '~/assets/app_store_connect_version.png';
+import xcodeOrganizer from '~/assets/xcode_organizer.png';
+import xcodeDistributionMethod1 from '~/assets/xcode_distribution_method_1.png';
+import xcodeDistributionMethod2 from '~/assets/xcode_distribution_method_2.png';
+import xcodeUploadDestination from '~/assets/xcode_upload_destination.png';
+import xcodeDistributionOptions from '~/assets/xcode_distribution_options.png';
+import xcodeUploadSucceeded from '~/assets/xcode_upload_succeeded.png';
+import appStoreConnectProcessing from '~/assets/app_store_connect_processing.png';
+import appStoreConnectAddBuild from '~/assets/app_store_connect_add_build.png';
+import appStoreConnectReviewIssues from '~/assets/app_store_connect_review_issues.png';
+
 This guide walks through releasing a code push app to the Apple App Store and
 applying a patch to that release.
 
@@ -37,7 +50,7 @@ To follow along with this guide, you will need the following:
 To build an iOS app for distribution, we need to specify a development team in
 Xcode. Open `ios/Runner.xcworkspace` in Xcode and select the `Runner` target:
 
-![Xcode development team](https://github.com/shorebirdtech/docs/assets/581764/786b1def-6198-4be0-90ac-d307e9b1a289)
+<Image src={appStoreDevTeam} alt="Xcode development team" />
 
 ## Creating a release
 
@@ -55,7 +68,7 @@ Follow the instructions in the
 [official documentation](https://developer.apple.com/help/app-store-connect/update-your-app/create-a-new-version)
 to create a new version in App Store Connect.
 
-![App Store Connect version](https://github.com/shorebirdtech/docs/assets/581764/549a42ac-0202-4c72-a9a9-d0196a0308b6)
+<Image src={appStoreConnectVersion} alt="App Store Connect version" />
 
 ### Update the version in `pubspec.yaml`
 
@@ -127,21 +140,21 @@ run `xcodebuild --help` and look under the
 
 Open the .xcarchive in Xcode and use the "Distribute App" flow:
 
-![Xcode Organizer](https://github.com/shorebirdtech/shorebird/assets/581764/eafebdee-0e26-410a-8997-4eed056d4b6d)
+<Image src={xcodeOrganizer} alt="Xcode Organizer" />
 
 As of Xcode 15, you will make the following choices:
 
 1. "Custom" as the distribution method.
-   ![Xcode distribution method 1](https://github.com/shorebirdtech/docs/assets/581764/8b049b0b-d6f5-419e-a91f-511923997f50)
+   <Image src={xcodeDistributionMethod1} alt="Xcode distribution method 1" />
 1. "App Store Connect" as the distribution method.
-   ![Xcode distribution method 2](https://github.com/shorebirdtech/docs/assets/581764/4fd6821a-80b4-4a35-b081-e8f97c59b8a2)
+   <Image src={xcodeDistributionMethod2} alt="Xcode distribution method 2" />
 1. "Upload" as the destination.
-   ![Upload destination](https://github.com/shorebirdtech/docs/assets/581764/f05c3603-c045-4662-84ad-c0a218e7145b)
+   <Image src={xcodeUploadDestination} alt="Upload destination" />
 1. A few distribution options that are up to you. Importantly, **Manage Version
    and Build Number must be unchecked for Shorebird to work**. Because Shorebird
    targets patches at specific release versions, changing the version or build
    number will prevent your app from receiving patches.
-   ![Xcode distribution options](https://github.com/shorebirdtech/shorebird/assets/581764/c6ae0857-7ad8-4a8f-ae8b-55d05d52f3b3)
+   <Image src={xcodeDistributionOptions} alt="Xcode distribution options" />
 1. Automatically manage signing or manually manage signing. This is up to you.
    If you choose to manually manage signing, you will need to select the
    appropriate development team, provisioning profile, and signing certificate
@@ -151,23 +164,26 @@ As of Xcode 15, you will make the following choices:
 Xcode will upload your archive, and if no issues are found, will show a message
 telling you that the upload was successful:
 
-![Xcode upload succeeded](https://github.com/shorebirdtech/shorebird/assets/581764/678354e5-a445-4c55-94fc-7608ff0b241d)
+<Image src={xcodeUploadSucceeded} alt="Xcode upload succeeded" />
 
 After a short delay (usually a minute or two), you will see the build listed as
 "Processing" in App Store Connect:
 
-![App Store Connect Processing](https://github.com/shorebirdtech/docs/assets/581764/a87cdb31-9f8d-4838-b21b-38a3dbf9dcd1)
+<Image src={appStoreConnectProcessing} alt="App Store Connect Processing" />
 
 Once the app has finished processing, we can add it to our release:
 
-![App Store Connect add build](https://github.com/shorebirdtech/docs/assets/581764/da2f1253-610b-4ee5-abb4-7c088da1631c)
+<Image src={appStoreConnectAddBuild} alt="App Store Connect add build" />
 
 ## Submit the app for review
 
 When we attempt to submit the app for review, App Store Connect will list the
 issues we need to resolve before we can submit the app:
 
-![App Store Connect review issues](https://github.com/shorebirdtech/docs/assets/581764/576459e0-3212-4ead-8388-eabb3b01c68a)
+<Image
+  src={appStoreConnectReviewIssues}
+  alt="App Store Connect review issues"
+/>
 
 ## After the release is approved
 

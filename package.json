@@ -13,10 +13,11 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
-    "@astrojs/starlight": "^0.37.5",
+    "@astrojs/starlight": "^0.37.6",
     "@lavamoat/preinstall-always-fail": "^2.1.1",
     "@tailwindcss/vite": "^4.1.18",
-    "astro": "^5.17.1",
+    "astro": "^5.17.2",
+    "astro-opengraph-images": "^1.14.2",
     "sharp": "^0.34.5",
     "starlight-auto-sidebar": "^0.1.4",
     "starlight-image-zoom": "^0.13.2",
@@ -25,17 +26,20 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
-    "@lavamoat/allow-scripts": "^3.4.2",
+    "@lavamoat/allow-scripts": "^3.4.3",
+    "@types/react": "^19.2.13",
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
+    "react": "^19.2.4",
     "starlight-links-validator": "^0.19.2"
   },
   "lavamoat": {
     "allowScripts": {
       "@lavamoat/preinstall-always-fail": false,
       "astro>esbuild": false,
-      "sharp": false
+      "sharp": false,
+      "astro>vite>esbuild": false
     }
   }
 }

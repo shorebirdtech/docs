@@ -39,6 +39,11 @@ h6 {
   font-family: 'General Sans', sans-serif;
 }
 
+/* Add spacing between paragraphs and interactive components (e.g. LinkButton) */
+.sl-markdown-content > p + .not-content {
+  margin-top: 1rem;
+}
+
 /* Make code blocks stand out from surrounding content (dark mode only) */
 :root:not([data-theme='light']) {
   .astro-code,

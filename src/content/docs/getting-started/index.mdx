@@ -5,7 +5,11 @@ sidebar:
   order: 1
 ---
 
-import { CodeTabs, LinkButton, LinkCard } from 'starlight-theme-nova/components';
+import {
+  CodeTabs,
+  LinkButton,
+  LinkCard,
+} from 'starlight-theme-nova/components';
 
 Welcome to Shorebird! 👋
 
@@ -17,7 +21,9 @@ into your app in just a few minutes.
 The first thing you'll need to do is sign up for a Shorebird account. It's free
 to do and you can signup in a manner of seconds.
 
-<LinkButton href="https://console.shorebird.dev" variant="primary">Create an Account</LinkButton>
+<LinkButton href="https://console.shorebird.dev" variant="primary">
+  Create an Account
+</LinkButton>
 
 ## Install
 
@@ -38,6 +44,7 @@ curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/
 Set-ExecutionPolicy RemoteSigned -scope CurrentUser # Needed to execute remote scripts
 iwr -UseBasicParsing 'https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1'|iex
 ```
+
 </CodeTabs>
 
 :::note
@@ -177,6 +184,18 @@ more info.
 Now that your account is set up and your app is initialized, you're all set to
 begin.
 
-<LinkCard href="/code-push/release" title="Create a Release" description="Build and submit your app to Shorebird." />
-<LinkCard href="/code-push/patch" title="Create a Patch" description="Push over-the-air updates to your users." />
-<LinkCard href="/code-push/preview" title="Preview Locally" description="Test your release on a local device before publishing." />
+<LinkCard
+  href="/code-push/release"
+  title="Create a Release"
+  description="Build and submit your app to Shorebird."
+/>
+<LinkCard
+  href="/code-push/patch"
+  title="Create a Patch"
+  description="Push over-the-air updates to your users."
+/>
+<LinkCard
+  href="/code-push/preview"
+  title="Preview Locally"
+  description="Test your release on a local device before publishing."
+/>

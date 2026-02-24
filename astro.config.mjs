@@ -10,6 +10,7 @@ import starlightThemeNova from 'starlight-theme-nova';
 import opengraphImages from 'astro-opengraph-images';
 import { renderer } from './src/og/renderer.tsx';
 import { readFileSync } from 'node:fs';
+import starlightLlmsTxt from 'starlight-llms-txt';
 
 const site = 'https://docs.shorebird.dev/';
 
@@ -104,6 +105,7 @@ export default defineConfig({
           errorOnFallbackPages: false,
           errorOnInconsistentLocale: true,
         }),
+        starlightLlmsTxt(),
       ],
     }),
     opengraphImages({

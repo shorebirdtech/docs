@@ -58,6 +58,7 @@ export default defineConfig({
       ],
       components: {
         Head: './src/components/starlight/Head.astro',
+        MarkdownContent: './src/components/starlight/MarkdownContent.astro',
         ThemeSelect: './src/components/ThemeSelect.astro',
       },
       customCss: ['./src/styles/custom.css'],

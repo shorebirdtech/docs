@@ -39,6 +39,18 @@ h6 {
   font-family: 'General Sans', sans-serif;
 }
 
+/* Restore list styles removed by Tailwind preflight. */
+@layer base {
+  ul {
+    list-style: disc;
+    padding-left: 1.5rem;
+  }
+  ol {
+    list-style: decimal;
+    padding-left: 1.5rem;
+  }
+}
+
 /* Add spacing between paragraphs and interactive components (e.g. LinkButton) */
 .sl-markdown-content > p + .not-content {
   margin-top: 1rem;

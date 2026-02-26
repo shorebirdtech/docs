@@ -1,0 +1,576 @@
+---
+title: How to Install Flutter
+description: A complete guide for installing Flutter on Windows, Mac, and Linux
+sidebar:
+  order: 4
+---
+
+Flutter 3.41 is the latest stable release as of February 2026, bundled with Dart
+3.11, and installing it correctly from day one, alongside
+[Shorebird](https://shorebird.dev/) for over-the-air updates, eliminates the
+most common developer pain points, such as broken PATH variables, missing
+Android SDK command-line tools, and CocoaPods failures on Apple Silicon.
+
+This guide covers exact commands and configuration for macOS, Windows, and
+Linux, prioritizing the professional workflow used in production teams. macOS
+remains the only platform that can target all six Flutter output formats (iOS,
+Android, web, macOS desktop, Windows via cross-compilation, and Linux), making
+it the dominant choice for mobile development shops.
+
+---
+
+## System requirements and prerequisites across all platforms
+
+Flutter's SDK weighs approximately 2.8 GB on disk, but a realistic production
+setup, including Android SDK, emulator images, and an IDE, requires 10 GB or
+more of free space. The
+[official docs](https://docs.flutter.dev/get-started/install) do not specify a
+hard RAM floor, but community consensus and practical experience put the minimum
+at 8 GB, with 16 GB strongly recommended when running Android emulators or iOS
+simulators alongside an IDE.
+
+Every platform requires Git 2.x as a prerequisite. On macOS, Git ships with
+[Xcode Command-Line Tools](https://developer.apple.com/xcode/resources/). On
+Windows, install [Git for Windows](https://git-scm.com/downloads/win). On
+Ubuntu, `sudo apt-get install git` handles it. Verify with `git --version`
+before proceeding.
+
+Here's a quick rundown of the requirements for each platform:
+
+| Requirement    | macOS                                       | Windows                           | Linux (Ubuntu LTS)                                 |
+| -------------- | ------------------------------------------- | --------------------------------- | -------------------------------------------------- |
+| **OS version** | macOS 10.15 Catalina through macOS 26 Tahoe | 64-bit Windows 10 or 11           | 64-bit Debian-based or Fedora                      |
+| **Disk space** | 10 GB+ recommended                          | 10 GB+ recommended                | 10 GB+ recommended                                 |
+| **RAM**        | 8 GB min, 16 GB ideal                       | 8 GB min, 16 GB ideal             | 8 GB recommended                                   |
+| **Git**        | Via Xcode CLI tools                         | Git for Windows                   | `apt-get install git`                              |
+| **Additional** | Xcode, CocoaPods                            | Visual Studio 2022+ (for desktop) | `curl`, `unzip`, `xz-utils`, `zip`, `libglu1-mesa` |
+
+Flutter bundles the [Dart SDK](https://dart.dev/get-dart), no separate Dart
+installation is needed.
+
+Always use the stable channel for production work. Four stable releases are
+[planned for 2026](https://blog.flutter.dev/whats-new-in-flutter-3-41-302ec140e632#:~:text=For%202026%2C%20we%20plan%20to%20release%20four%20stable%20releases).
+
+---
+
+## macOS installation
+
+macOS setup carries the most complexity because it's the only platform
+supporting both iOS and Android development simultaneously. The single biggest
+architectural decision is whether you're on Apple Silicon (M1/M2/M3/M4) or
+Intel, because [Homebrew](https://brew.sh/) install paths, Ruby environments,
+and emulator image choices all differ.
+
+### Installing the Flutter SDK
+
+The fastest method is Homebrew:
+
+```bash
+brew install --cask flutter
+```
+
+Homebrew automatically selects the correct architecture. On Apple Silicon,
+Homebrew lives at `/opt/homebrew/`; on Intel, it's at `/usr/local/`.
+
+If you prefer manual installation, download the architecture-specific zip from
+the
+[Flutter SDK archive](https://docs.flutter.dev/install/archive#stable-channel).
+Apple Silicon uses the `flutter_macos_arm64_*.zip` bundle and Intel uses
+`flutter_macos_*.zip`.
+
+Once downloaded, extract the zip to a development directory:
+
+```bash
+mkdir -p ~/develop
+unzip ~/Downloads/flutter_macos_arm64_3.41.0-stable.zip -d ~/develop/
+```
+
+For manual installs, add Flutter to your PATH. Since macOS defaults to **zsh**
+(since Catalina), edit `~/.zshrc`:
+
+```bash
+export PATH="\$HOME/develop/flutter/bin:\$PATH"
+```
+
+For bash users, add the same line to `~/.bash_profile`. Apple Silicon users also
+need Homebrew's shell environment configured:
+
+```bash
+eval "\$(/opt/homebrew/bin/brew shellenv)"
+```
+
+Intel users must substitute `/usr/local/bin/brew`. You can verify your Flutter
+CLI installation with the `which flutter` and `flutter --version` commands.
+
+### Xcode and iOS toolchain
+
+Install [Xcode](https://developer.apple.com/xcode/) from the Mac App Store
+(Flutter 3.38+ fully supports Xcode 26 and iOS 26), then run these commands in
+sequence:
+
+```bash
+xcode-select --install
+sudo sh -c 'xcode-select -s /Applications/Xcode.app/Contents/Developer && xcodebuild -runFirstLaunch'
+sudo xcodebuild -license accept
+xcodebuild -downloadPlatform iOS
+```
+
+### CocoaPods: the Apple Silicon pain point
+
+[CocoaPods](https://cocoapods.org/) remains required for Flutter plugins that
+use native iOS/macOS code, and it is the single most common source of build
+failures on Apple Silicon.
+
+Here's how to install CocoaPods via Homebrew:
+
+```bash
+brew install cocoapods
+```
+
+Typically, the system Ruby shipped with macOS (2.6.x) is too old. Therefore, you
+could install a modern Ruby first and then install CocoaPods via gem if the
+first option doesn't work:
+
+```bash
+brew install ruby
+echo 'export PATH="/opt/homebrew/opt/ruby/bin:\$PATH"' >> ~/.zshrc
+source ~/.zshrc
+gem install cocoapods
+```
+
+If you encounter `ffi` gem errors on Apple Silicon, run `sudo gem install ffi`.
+[Rosetta 2](https://support.apple.com/en-us/HT211861) may still be needed for
+some edge-case components. To install that, run
+`sudo softwareupdate --install-rosetta --agree-to-license`.
+
+Also, never use `sudo gem install` with the system Ruby. It can corrupt future
+macOS updates.
+
+A notable 2025–2026 development: _Swift Package Manager_ is now supported as an
+alternative to CocoaPods for Flutter plugins, documented in the
+[Flutter Swift Package Manager guide](https://docs.flutter.dev/packages-and-plugins/swift-package-manager/for-app-developers).
+
+---
+
+## Windows and Linux installation procedures
+
+### Windows 10/11 setup
+
+After installing Git for Windows, the Flutter team recommends the VS Code
+quick-install path:
+
+1. Install [VS Code](https://code.visualstudio.com/)
+2. Add the Flutter extension
+3. Open the Command Palette (`Ctrl+Shift+P`)
+4. Type `Flutter: New Project`, and VS Code will prompt you to download the SDK
+   and add it to PATH automatically.
+
+For manual installation, download the latest `.zip` from the
+[Flutter SDK archive](https://docs.flutter.dev/install/archive#stable-channel)
+and extract it to a path without spaces or special characters (as a reminder,
+never use `C:\Program Files\`). A good choice is `%USERPROFILE%\develop\`:
+
+```powershell
+Expand-Archive -Path \$env:USERPROFILE\Downloads\flutter_windows_3.41.0-stable.zip -Destination \$env:USERPROFILE\develop\
+```
+
+Next, to add Flutter to your path, configure PATH through **System Properties →
+Advanced → Environment Variables**. Edit the `Path` user variable and add
+`C:\Users\{username}\develop\flutter\bin`. Move this entry to the top of the
+list. Once done, close and reopen all terminal windows to ensure the new path
+gets applied.
+
+Three Windows-specific gotchas trip up nearly every developer.
+
+First, Windows Defender scanning Flutter's hundreds of thousands of small files
+causes severe performance degradation. To avoid this, add exclusions for the
+Flutter SDK directory and the pub cache (`%LOCALAPPDATA%\Pub\Cache`):
+
+```powershell
+Add-MpExclusion -ExclusionPath "C:\Users\{username}\develop\flutter"
+```
+
+Second, Developer Mode must be enabled for building Windows apps with plugins
+(**Settings → Privacy & Security → For Developers → Developer Mode: On**).
+
+Third, for Windows desktop development, you need
+[Visual Studio 2022+](https://visualstudio.microsoft.com/downloads/) with the
+"Desktop development with C++" workload. Remember, this is Visual Studio, not VS
+Code.
+
+---
+
+### Linux (Ubuntu LTS) setup
+
+To get started, install required dependencies first:
+
+```bash
+sudo apt-get update -y && sudo apt-get upgrade -y
+sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+```
+
+The simplest method to install Flutter is via **snap**:
+
+```bash
+sudo snap install flutter --classic
+```
+
+If you want to install Flutter, manually, download the `.tar.xz` from the
+[SDK archive](https://docs.flutter.dev/release/archive) and extract:
+
+```bash
+mkdir -p ~/develop
+tar -xf ~/Downloads/flutter_linux_3.41.0-stable.tar.xz -C ~/develop/
+```
+
+```bash
+echo 'export PATH="\$HOME/develop/flutter/bin:\$PATH"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+For Linux desktop development, additional packages are required as documented in
+the
+[Flutter Linux desktop setup guide](https://docs.flutter.dev/platform-integration/linux/setup):
+
+```bash
+sudo apt-get install clang cmake git ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
+```
+
+> Never run Flutter commands with `sudo` on Linux, as this can create permission
+> issues that are painful to unwind.
+
+---
+
+## Android SDK setup
+
+Regardless of your operating system, the Android toolchain is where most
+`flutter doctor` failures occur.
+
+To get started, install the latest Android Studio from the
+[Android Studio download page](https://developer.android.com/studio). During the
+setup wizard, Android Studio installs the base SDK. But the wizard does not
+install everything Flutter needs.
+
+To do that, open the SDK Manager (Android Studio → **Tools** →**SDK Manager**,
+or from the welcome screen: **More Actions** → **SDK Manager**). You need to
+configure two tabs:
+
+1. In the **SDK Platforms** tab, install the platform for **API Level 36**
+   (Android 16).
+2. In the **SDK Tools** tab (this is the critical step that most guides gloss
+   over) ensure all four of these are checked:
+   - **Android SDK Command-line Tools (latest)**, the #1 most common missing
+     component
+   - **Android SDK Build-Tools** (latest)
+   - **Android SDK Platform-Tools** (includes `adb`)
+   - **Android Emulator**
+
+Click **Apply** and confirm.
+
+> Without the command-line tools specifically, `flutter doctor` will fail with:
+> `cmdline-tools component is missing`.
+
+### Environment variables for the Android SDK
+
+Set `ANDROID_HOME` and add platform-tools to PATH. The default SDK locations
+differ by OS:
+
+**macOS** (`~/.zshrc`):
+
+```bash
+export ANDROID_HOME="\$HOME/Library/Android/sdk"
+export PATH="\$PATH:\$ANDROID_HOME/platform-tools"
+export PATH="\$PATH:\$ANDROID_HOME/cmdline-tools/latest/bin"
+export PATH="\$PATH:\$ANDROID_HOME/emulator"
+```
+
+**Windows** (System Environment Variables):
+
+- Variable: `ANDROID_HOME` = `C:\Users\{username}\AppData\Local\Android\Sdk`
+- Add to PATH: `%ANDROID_HOME%\platform-tools` and
+  `%ANDROID_HOME%\cmdline-tools\latest\bin`
+
+**Linux** (`~/.bashrc`):
+
+```bash
+export ANDROID_HOME="\$HOME/Android/Sdk"
+export PATH="\$PATH:\$ANDROID_HOME/platform-tools"
+export PATH="\$PATH:\$ANDROID_HOME/cmdline-tools/latest/bin"
+```
+
+After configuring the SDK, accept all Android licenses:
+
+```bash
+flutter doctor --android-licenses
+```
+
+Type `y` at each prompt. This step is mandatory before Flutter can build any
+Android app.
+
+---
+
+## Shorebird CLI belongs in your initial setup, not as an afterthought
+
+[Shorebird](https://shorebird.dev/), founded by Flutter creator Eric Seidel,
+enables over-the-air code push, pushing Dart code updates directly to users'
+devices without App Store or Play Store review cycles.
+
+Installing it alongside Flutter from day one avoids the common "retrofit under
+pressure" scenario where teams scramble to add OTA capability while rushing to
+fix a production bug. [Patches](https://docs.shorebird.dev/code-push/patch/) are
+tied to exact release versions, so having Shorebird configured early prevents
+version-matching headaches.
+
+### Installation commands
+
+**macOS / Linux:**
+
+```bash
+curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+```
+
+**Windows (PowerShell):**
+
+```powershell
+Set-ExecutionPolicy RemoteSigned -scope CurrentUser
+iwr -UseBasicParsing 'https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1' | iex
+```
+
+Shorebird installs to `~/.shorebird/bin` and automatically adds itself to PATH.
+It also installs a private copy of Flutter inside
+`~/.shorebird/bin/cache/flutter`, this is Shorebird's modified Flutter for code
+push and should **not** be added to your PATH. The total installation size is
+approximately **300 MB**.
+
+You can verify the installation by running this:
+
+```bash
+shorebird --version
+shorebird doctor
+```
+
+The `shorebird doctor` output checks connectivity to Shorebird's API, console,
+OAuth, storage, and CDN endpoints, and verifies that the Flutter installation is
+correct. A clean output should look like this:
+
+```
+✓ https://api.shorebird.dev OK
+✓ https://console.shorebird.dev OK
+✓ Shorebird is up-to-date
+✓ Flutter install is correct
+No issues detected!
+```
+
+The core workflow to get started is:
+
+1. `shorebird login` (authenticates via Google OAuth)
+2. [Initialize your project](https://docs.shorebird.dev/code-push/initialize/)
+   with `shorebird init` (creates `shorebird.yaml` with your app ID)
+3. [Create a release](https://docs.shorebird.dev/code-push/release/) with
+   `shorebird release android` or `shorebird release ios`,
+4. [Push OTA updates](https://docs.shorebird.dev/code-push/patch/) with
+   `shorebird patch android/ios`.
+
+The [`shorebird create` command](https://shorebird.dev/blog/shorebird-create/)
+scaffolds new projects with OTA, CI/CD, and release tooling baked in from the
+start.
+
+Shorebird is purely CLI-driven and works seamlessly alongside the standard
+Flutter and Dart VS Code extensions.
+
+---
+
+## VS Code configuration for professional Flutter development
+
+Install the **Flutter extension** (ID: `Dart-Code.flutter`) from the VS Code
+marketplace. It automatically installs the **Dart extension**
+(`Dart-Code.dart-code`) as a dependency. These two extensions provide debugging,
+hot reload, widget inspector, code completion, refactoring, and snippets.
+
+After installation, open the Command Palette (Ctrl + Shift + P) and run
+`Dart: Use Recommended Settings` to apply sensible defaults, or add these to
+your `settings.json`:
+
+```json
+{
+  "[dart]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.rulers": [80],
+    "editor.selectionHighlight": false,
+    "editor.wordBasedSuggestions": "off",
+    "editor.tabCompletion": "onlySnippets"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "debug.internalConsoleOptions": "openOnSessionStart"
+}
+```
+
+Key shortcuts to remember:
+
+- `F5` starts debugging
+- `Ctrl+F5` / `Cmd+F5` triggers hot reload
+- `Ctrl+Shift+F5` performs a hot restart
+- `Ctrl+.` / `Cmd+.` opens quick-fix actions for wrapping or extracting widgets.
+
+Creating a new project is done through the Command Palette:
+`Flutter: New Project` → select Application → choose directory → enter name.
+
+---
+
+## Reading `flutter doctor` output and fixing what's broken
+
+Run `flutter doctor -v` (verbose mode) after completing setup. The command
+checks eight categories: Flutter SDK, Android toolchain, Xcode (macOS only),
+Chrome, Android Studio, VS Code, connected devices, and network resources. Each
+line is prefixed with one of three symbols:
+
+| Symbol  | Meaning | Action needed                                     |
+| ------- | ------- | ------------------------------------------------- |
+| **[✓]** | Passed  | None                                              |
+| **[!]** | Warning | May need attention; development often still works |
+| **[✗]** | Error   | Must fix before building for that platform        |
+
+A fully healthy macOS output looks like:
+
+```
+[✓] Flutter (Channel stable, 3.41.1, on macOS 26.2 25C56 darwin-arm64, locale
+    en-IN) [605ms]
+    • Flutter version 3.41.1 on channel stable at
+      /Users/<username>/development/flutter
+    • Upstream repository https://github.com/flutter/flutter.git
+    • Framework revision 582a0e7c55 (5 days ago), 2026-02-12 17:12:32 -0800
+    • Engine revision 3452d735bd
+    • Dart version 3.11.0
+    • DevTools version 2.54.1
+    • Feature flags: enable-web, enable-linux-desktop, enable-macos-desktop,
+      enable-windows-desktop, enable-android, enable-ios, cli-animations,
+      enable-native-assets, omit-legacy-version-file, enable-lldb-debugging,
+      enable-uiscene-migration
+
+[✓] Android toolchain - develop for Android devices (Android SDK version 36.1.0)
+    [1,702ms]
+    • Android SDK at /Users/<username>/Library/Android/sdk
+    • Emulator version 33.1.24.0 (build_id 11237101) (CL:N/A)
+    • Platform android-36-ext19, build-tools 36.1.0
+    • Java binary at: /Applications/Android
+      Studio.app/Contents/jbr/Contents/Home/bin/java
+      This is the JDK bundled with the latest Android Studio installation on
+      this machine.
+      To manually set the JDK path, use: `flutter config
+      --jdk-dir="path/to/jdk"`.
+    • Java version OpenJDK Runtime Environment (build
+      17.0.10+0-17.0.10b1087.21-11572160)
+    • All Android licenses accepted.
+
+[✓] Xcode - develop for iOS and macOS (Xcode 26.2) [1,475ms]
+    • Xcode at /Applications/Xcode.app/Contents/Developer
+    • Build 17C52
+    • CocoaPods version 1.16.2
+
+[✓] Chrome - develop for the web [7ms]
+    • Chrome at /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+
+[✓] Connected device (3 available) [7.2s]
+    • User’s iPhone (wireless) (mobile) • 00XXXX01-00XXXXXXXXXXXX1E • ios
+      • iOS 26.0 2XXXX1
+    • macOS (desktop)                    • macos                     •
+      darwin-arm64   • macOS 26.2 25C56 darwin-arm64
+    • Chrome (web)                       • chrome                    •
+      web-javascript • Google Chrome 144.0.7559.135
+
+[✓] Network resources [6.8s]
+    • All expected network resources are available.
+
+• No issues found!
+```
+
+The most frequently encountered errors and their fixes:
+
+- **`flutter: command not found`**, Flutter is not in PATH. Re-add the
+  `export PATH=...` line to the correct shell config file (`~/.zshrc`,
+  `~/.bashrc`, or Windows Environment Variables) and restart your terminal.
+- **`cmdline-tools component is missing`**, Open Android Studio → Tools → SDK
+  Manager → SDK Tools tab → check "Android SDK Command-line Tools (latest)" →
+  Apply.
+- **`Android license status unknown`**, Run `flutter doctor --android-licenses`
+  and accept each license with `y`.
+- **`Unable to find bundled Java version`**, Newer Android Studio versions
+  renamed the `jre` directory to `jbr`. On macOS, create a symlink:
+  `cd "/Applications/Android Studio.app/Contents" && ln -s jbr jre`. This issue
+  is resolved in recent Flutter+Android Studio combinations, but persists if
+  either is outdated.
+- **CocoaPods failures on Apple Silicon**, Ensure you're using Homebrew Ruby,
+  not system Ruby. Run `which ruby`, it should show
+  `/opt/homebrew/opt/ruby/bin/ruby`, not `/usr/bin/ruby`. Reinstall CocoaPods
+  via `brew install cocoapods` if needed.
+- **Lock file errors during `pub get`**, Run `flutter clean`, then
+  `flutter pub cache repair`, then `flutter pub get`. If persistent, delete
+  `pubspec.lock` and retry.
+- **"No devices available"**, Either no emulator is running, no physical device
+  is connected, or platform support isn't enabled. Start an emulator from
+  Android Studio's Device Manager or run `flutter emulators --launch` with an
+  available emulator name.
+
+---
+
+## Conclusion
+
+The 2026 Flutter installation process has matured significantly, the VS Code
+quick-install path now handles SDK download and PATH configuration in one step,
+and Swift Package Manager offers a welcome alternative to the historically
+fragile CocoaPods dependency chain.
+
+Three setup decisions matter most for production teams: choosing Homebrew on
+macOS (it handles architecture differences automatically), installing Android
+SDK Command-line Tools explicitly via SDK Manager (the universal failure point
+that no wizard handles automatically), and integrating Shorebird from project
+inception rather than retrofitting it under deadline pressure.
+
+To confirm everything works, run `flutter doctor -v` and `shorebird doctor`
+after every installation step. If both report no issues, your environment is
+production-ready.
+
+---
+
+## Next Steps
+
+Now that your Flutter environment is properly configured, here are strategic
+next steps based on your project needs:
+
+**For production deployment planning**: Explore
+[Shorebird's code push system architecture](https://docs.shorebird.dev/code-push/system-architecture/)
+to understand how over-the-air updates work at a technical level, then review
+[update strategies](https://docs.shorebird.dev/code-push/update-strategies/) to
+determine when patches download and apply in your app's lifecycle.
+
+**For team collaboration**: Set up
+[organizations in Shorebird](https://docs.shorebird.dev/account/orgs/) to manage
+team access and permissions, and integrate with your
+[CI/CD pipeline using GitHub Actions](https://docs.shorebird.dev/code-push/ci/github/),
+[Codemagic](https://docs.shorebird.dev/code-push/ci/codemagic/), or
+[generic CI systems](https://docs.shorebird.dev/code-push/ci/generic/).
+
+**For security-conscious environments**: Review
+[patch signing](https://docs.shorebird.dev/code-push/guides/patch-signing/) to
+cryptographically verify patch authenticity, understand
+[Shorebird's security model](https://docs.shorebird.dev/system/security/), and
+learn about
+[obfuscation and security tooling integration](https://docs.shorebird.dev/code-push/guides/security-tools/).
+
+**For staged rollouts**: Implement
+[percentage-based rollouts](https://docs.shorebird.dev/code-push/guides/percentage-based-rollouts/)
+to gradually deploy patches to user segments, set up
+[staging patches](https://docs.shorebird.dev/code-push/guides/staging-patches/)
+for internal testing, and understand
+[patch rollback procedures](https://docs.shorebird.dev/code-push/rollback/) for
+emergency scenarios.
+
+**For multi-flavor apps**: Configure
+[Android flavors](https://docs.shorebird.dev/code-push/guides/flavors/android/)
+and
+[iOS/macOS flavors](https://docs.shorebird.dev/code-push/guides/flavors/ios/) to
+manage separate development, staging, and production builds with independent
+patch tracks.

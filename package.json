@@ -14,14 +14,15 @@
   "dependencies": {
     "@astrojs/check": "^0.9.6",
     "@astrojs/starlight": "^0.37.6",
-    "@astrojs/starlight-tailwind": "^4.0.2",
     "@lavamoat/preinstall-always-fail": "^2.1.1",
+    "@tailwindcss/vite": "^4.1.18",
     "astro": "^5.17.3",
     "astro-opengraph-images": "^1.14.3",
     "sharp": "^0.34.5",
     "starlight-auto-sidebar": "^0.1.4",
     "starlight-image-zoom": "^0.13.2",
     "starlight-llms-txt": "^0.7.0",
+    "starlight-theme-nova": "^0.11.5",
     "tailwindcss": "^4.2.0",
     "typescript": "^5.9.3"
   },

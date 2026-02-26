@@ -6,6 +6,7 @@ sidebar:
   order: 7
 ---
 
+import { LinkCard } from 'starlight-theme-nova/components';
 import { Image } from 'astro:assets';
 import rollbackButton from '~/assets/rollback_button.png';
 import rollbackPatch3Active from '~/assets/rollback_patch3_active.png';
@@ -117,5 +118,20 @@ available for review on [GitHub](https://github.com/shorebirdtech/). An overview
 of our code locations is available under
 [System Architecture](/code-push/system-architecture).
 
-See also
-[Shorebird Public Security Policies](https://handbook.shorebird.dev/security/).
+## Related
+
+<LinkCard
+  href="/code-push/guides/patch-signing"
+  title="Patch Signing"
+  description="Cryptographically sign your patches for added security."
+/>
+<LinkCard
+  href="https://handbook.shorebird.dev/security/"
+  title="Security Policies"
+  description="Shorebird's public security policies and compliance."
+/>
+<LinkCard
+  href="/code-push/system-architecture"
+  title="System Architecture"
+  description="Overview of Shorebird's components and source code."
+/>

@@ -6,52 +6,33 @@ sidebar:
   order: 6
 ---
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { CodeTabs } from 'starlight-theme-nova/components';
 
 Once you have published a release of your app, you can push updates using one of
 the `shorebird patch` commands.
 
-<Tabs>
-  <TabItem value="patch-command-android" label="Android">
-
-```
+<CodeTabs>
+```bash title="Android"
 shorebird patch android
 ```
 
-</TabItem>
-
-<TabItem value="patch-command-ios" label="iOS">
-
-```
+```bash title="iOS"
 shorebird patch ios
 ```
 
-</TabItem>
-
-<TabItem value="patch-command-linux" label="Linux">
-
-```
+```bash title="Linux"
 shorebird patch linux
 ```
 
-</TabItem>
-
-<TabItem value="patch-command-macos" label="macOS">
-
-```
+```bash title="macOS"
 shorebird patch macos
 ```
 
-</TabItem>
-
-<TabItem value="patch-command-windows" label="Windows">
-
-```
+```bash title="Windows"
 shorebird patch windows
 ```
 
-</TabItem>
-</Tabs>
+</CodeTabs>
 
 This will do several things:
 

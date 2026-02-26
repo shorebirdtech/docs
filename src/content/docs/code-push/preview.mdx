@@ -6,6 +6,8 @@ sidebar:
   order: 5
 ---
 
+import { LinkCard } from 'starlight-theme-nova/components';
+
 Once you have [created a release](/code-push/release), you can preview your
 release on an Android device, Android emulator, or iOS device using the
 `shorebird preview` command.
@@ -37,3 +39,16 @@ artifacts that Shorebird creates. For example, if you launch your app normally
 from Xcode or Android Studio _with a Release configuration_, you will see
 Shorebird logs in its output. If you have published a patch, it should be
 downloaded on the first run of your app and visible on subsequent runs.
+
+## What's Next
+
+<LinkCard
+  href="/code-push/patch"
+  title="Create a Patch"
+  description="Push over-the-air updates to your published release."
+/>
+<LinkCard
+  href="/code-push/guides/staging-patches"
+  title="Staging Patches"
+  description="Validate patches in a staging environment before promoting to production."
+/>

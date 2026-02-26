@@ -5,11 +5,15 @@ sidebar:
   order: 1
 ---
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
+import {
+  CodeTabs,
+  LinkButton,
+  LinkCard,
+} from 'starlight-theme-nova/components';
 
 Welcome to Shorebird! 👋
 
-In this guide, we’ll walk you through setting up Shorebird and integrating it
+In this guide, we'll walk you through setting up Shorebird and integrating it
 into your app in just a few minutes.
 
 ## Sign up
@@ -17,9 +21,9 @@ into your app in just a few minutes.
 The first thing you'll need to do is sign up for a Shorebird account. It's free
 to do and you can signup in a manner of seconds.
 
-To create an account, head over to our
-[Web Console](https://console.shorebird.dev) and authenticate with one of the
-available authentication methods.
+<LinkButton href="https://console.shorebird.dev" variant="primary">
+  Create an Account
+</LinkButton>
 
 ## Install
 
@@ -31,26 +35,17 @@ as you continue using our services.
 
 To install the Shorebird command line interface (CLI):
 
-<Tabs>
-  <TabItem value="maclinux" label="Mac/Linux" default>
-
-Open a terminal and run:
-
-```bash
+<CodeTabs>
+```bash title="Mac/Linux"
 curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
 ```
 
-  </TabItem>
-  <TabItem value="windows" label="Windows" default>
-Open a PowerShell terminal and run:
-
-```powershell
+```powershell title="Windows"
 Set-ExecutionPolicy RemoteSigned -scope CurrentUser # Needed to execute remote scripts
 iwr -UseBasicParsing 'https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1'|iex
 ```
 
-  </TabItem>
-</Tabs>
+</CodeTabs>
 
 :::note
 
@@ -186,6 +181,21 @@ more info.
 
 ## Next Steps
 
-Now that your account is set up and your app is initialized, you’re all set to
-begin. Check out the detailed sections here in our docs to learn more about each
-product and how to get the most out of them.
+Now that your account is set up and your app is initialized, you're all set to
+begin.
+
+<LinkCard
+  href="/code-push/release"
+  title="Create a Release"
+  description="Build and submit your app to Shorebird."
+/>
+<LinkCard
+  href="/code-push/patch"
+  title="Create a Patch"
+  description="Push over-the-air updates to your users."
+/>
+<LinkCard
+  href="/code-push/preview"
+  title="Preview Locally"
+  description="Test your release on a local device before publishing."
+/>

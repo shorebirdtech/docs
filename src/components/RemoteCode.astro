@@ -1,5 +1,5 @@
 ---
-import { Code } from '@astrojs/starlight/components';
+import { Code } from 'starlight-theme-nova/components';
 import { z } from 'astro/zod';
 
 interface Props {
@@ -15,7 +15,7 @@ const propsSchema = z.object({
 const { url, title } = propsSchema.parse(Astro.props);
 
 const segments = url.split('.');
-const lang = segments[segments.length - 1];
+const lang = segments[segments.length - 1] as any;
 const response = await fetch(url);
 const code = await response.text();
 ---

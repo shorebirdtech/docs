@@ -25,6 +25,8 @@ words:
   - buildroot
   - canva
   - classpath
+  - cmdline
+  - cocoapods
   - codemagic
   - codepush
   - codesign
@@ -37,7 +39,10 @@ words:
   - keyrings
   - libapp
   - libflutter
+  - libglu
+  - libstdc
   - libupdater
+  - localappdata
   - logcat
   - longpaths
   - maclinux
@@ -56,9 +61,13 @@ words:
   - rollouts
   - rsassa
   - sdkman
+  - seidel
+  - shellenv
   - shorebirdtech
+  - softwareupdate
   - subosito
   - temurin
+  - uiscene
   - webkitallowfullscreen
   - widgetbook
   - xcarchive

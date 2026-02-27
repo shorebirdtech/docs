@@ -53,11 +53,32 @@ All you have to do is pass `--obfuscate` to your `flutter build` (or
 This obfuscation isn't particularly fancy, but it will rename all library,
 method and field names in your program to unique identifiers during compilation.
 
-Shorebird also supports this same obfuscation, on all platforms other than iOS.
-Currently obfuscation support in Dart's compiler is incompatible with
-Shorebird's other modifications on iOS. We have a plan to fix such, it just
-hasn't reached the top of our list yet:
-https://github.com/shorebirdtech/shorebird/issues/1619
+### Using obfuscation with Shorebird
+
+As of Shorebird 1.6.84 with Flutter 3.41.2 and later, Shorebird supports
+obfuscation on all platforms, including iOS.
+
+To use obfuscation, pass `--obfuscate` to your `shorebird release` command:
+
+```sh
+shorebird release android --obfuscate
+shorebird release ios --obfuscate
+```
+
+When you create a patch, Shorebird will automatically detect that the release
+was built with obfuscation and apply the same obfuscation to the patch. No
+extra flags are needed:
+
+```sh
+shorebird patch android
+shorebird patch ios
+```
+
+:::note
+Obfuscation support requires Flutter 3.41.2 or later. If you are using an
+older version of Flutter, `shorebird release --obfuscate` will display an
+error asking you to upgrade.
+:::
 
 ## Third Party Security Programs
 
@@ -85,13 +106,12 @@ with third party security tools and Shorebird.
 
 ### GuardSquare on iOS
 
-We have seen one issue with GuardSquare on iOS with Shorebird. Similar to the
-lack of `--obfuscate` support for Shorebird with Dart, GuardSquare (at least in
-some configurations) will make an attempt to "obfuscate" iOS binaries further
-replacing the implementations of some functions with code which is used to
-provide obscured access to constants/strings/numbers stored within the binary.
-This is currently incompatible with our Dart modifications for iOS. If this is
-an issue for your product, we'd be happy to discuss with your GuardSquare
-support team if there are workarounds we could build together.
+We have seen one issue with GuardSquare on iOS with Shorebird. GuardSquare (at
+least in some configurations) will make an attempt to "obfuscate" iOS binaries
+further, replacing the implementations of some functions with code which is used
+to provide obscured access to constants/strings/numbers stored within the
+binary. This may be incompatible with Shorebird's Dart modifications for iOS.
+If this is an issue for your product, we'd be happy to discuss with your
+GuardSquare support team if there are workarounds we could build together.
 
 Reach out to us at contact@shorebird.dev.

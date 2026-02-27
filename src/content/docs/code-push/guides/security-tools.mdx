@@ -66,19 +66,17 @@ shorebird release ios --obfuscate
 ```
 
 When you create a patch, Shorebird will automatically detect that the release
-was built with obfuscation and apply the same obfuscation to the patch. No
-extra flags are needed:
+was built with obfuscation and apply the same obfuscation to the patch. No extra
+flags are needed:
 
 ```sh
 shorebird patch android
 shorebird patch ios
 ```
 
-:::note
-Obfuscation support requires Flutter 3.41.2 or later. If you are using an
-older version of Flutter, `shorebird release --obfuscate` will display an
-error asking you to upgrade.
-:::
+:::note Obfuscation support requires Flutter 3.41.2 or later. If you are using
+an older version of Flutter, `shorebird release --obfuscate` will display an
+error asking you to upgrade. :::
 
 ## Third Party Security Programs
 
@@ -110,8 +108,8 @@ We have seen one issue with GuardSquare on iOS with Shorebird. GuardSquare (at
 least in some configurations) will make an attempt to "obfuscate" iOS binaries
 further, replacing the implementations of some functions with code which is used
 to provide obscured access to constants/strings/numbers stored within the
-binary. This may be incompatible with Shorebird's Dart modifications for iOS.
-If this is an issue for your product, we'd be happy to discuss with your
+binary. This may be incompatible with Shorebird's Dart modifications for iOS. If
+this is an issue for your product, we'd be happy to discuss with your
 GuardSquare support team if there are workarounds we could build together.
 
 Reach out to us at contact@shorebird.dev.

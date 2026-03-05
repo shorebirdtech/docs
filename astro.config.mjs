@@ -11,12 +11,16 @@ import opengraphImages from 'astro-opengraph-images';
 import { renderer } from './src/og/renderer.tsx';
 import { readFileSync } from 'node:fs';
 import starlightLlmsTxt from 'starlight-llms-txt';
+import { remarkReplaceVersions } from './src/plugins/replace-versions.ts';
 
 const site = 'https://docs.shorebird.dev/';
 
 // https://astro.build/config
 export default defineConfig({
   site,
+  markdown: {
+    remarkPlugins: [remarkReplaceVersions],
+  },
   vite: {
     plugins: [tailwindcss()],
   },

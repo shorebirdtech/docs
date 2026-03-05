@@ -4,9 +4,10 @@ import type { Root, RootContent } from 'mdast';
 const replacements: Record<string, string> = {
   '%flutter_version%': versions.flutter,
   '%dart_version%': versions.dart,
+  '%flutter_release_date%': versions.flutter_release_date,
 };
 
-const pattern = /%(?:flutter_version|dart_version)%/g;
+const pattern = /%(?:flutter_version|dart_version|flutter_release_date)%/g;
 
 function replaceInString(value: string): string {
   return value.replace(pattern, (match) => replacements[match] ?? match);

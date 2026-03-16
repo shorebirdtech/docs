@@ -266,7 +266,7 @@ import 'package:http/http.dart' as http;
 import '../models/weather.dart';
 
 /// Repository that:
-/// 1) Geocodes a city name -> lat/long
+/// 1) Geo codes a city name -> lat/long
 /// 2) Fetches current weather for lat/long
 ///
 /// Uses Open-Meteo:
@@ -770,7 +770,7 @@ Here are some best practices to keep in mind when working with BLoC in Flutter:
 ## Conclusion
 
 BLoC asks for more structure up front. The payoff is clarity under pressure.
-When async calls overlap, when screens multiply, when hotfixes need to ship
+When async calls overlap, when screens multiply, when hot fixes need to ship
 quickly, a predictable “event in, state out” architecture is what keeps a
 Flutter app maintainable.
 

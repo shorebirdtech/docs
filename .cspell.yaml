@@ -69,7 +69,6 @@ words:
   - softwareupdate
   - subosito
   - temurin
-  - timezone
   - uiscene
   - webkitallowfullscreen
   - widgetbook
@@ -77,3 +76,5 @@ words:
   - xcframework
   - xcframeworks
   - xcrun
+ignoreWords:
+  - timezone

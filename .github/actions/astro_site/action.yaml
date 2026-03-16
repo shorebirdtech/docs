@@ -8,14 +8,14 @@ inputs:
     description: The working directory for this workflow
   node_version:
     required: false
-    default: '22.13.0'
+    default: '24.14.0'
     description: The node version to use.
 
 runs:
   using: 'composite'
   steps:
     - name: ⚙️ Setup Node
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v6
       with:
         node-version: ${{ inputs.node_version }}
 
@@ -30,7 +30,7 @@ runs:
       working-directory: ${{ inputs.working_directory }}
 
     - name: 📦 Build Site
-      uses: withastro/action@v3
+      uses: withastro/action@v5
       with:
         path: ${{ inputs.working_directory }}
         node-version: ${{ inputs.node_version }}

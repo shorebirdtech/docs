@@ -5,11 +5,12 @@ sidebar:
   order: 4
 ---
 
-Flutter 3.41 is the latest stable release as of February 2026, bundled with Dart
-3.11, and installing it correctly from day one, alongside
-[Shorebird](https://shorebird.dev/) for over-the-air updates, eliminates the
-most common developer pain points, such as broken PATH variables, missing
-Android SDK command-line tools, and CocoaPods failures on Apple Silicon.
+Flutter %flutter_version% is the latest stable release as of
+%flutter_release_date%, bundled with Dart %dart_version%, and installing it
+correctly from day one, alongside [Shorebird](https://shorebird.dev/) for
+over-the-air updates, eliminates the most common developer pain points, such as
+broken PATH variables, missing Android SDK command-line tools, and CocoaPods
+failures on Apple Silicon.
 
 This guide covers exact commands and configuration for macOS, Windows, and
 Linux, prioritizing the professional workflow used in production teams. macOS
@@ -82,7 +83,7 @@ Once downloaded, extract the zip to a development directory:
 
 ```bash
 mkdir -p ~/develop
-unzip ~/Downloads/flutter_macos_arm64_3.41.4-stable.zip -d ~/develop/
+unzip ~/Downloads/flutter_macos_arm64_%flutter_version%-stable.zip -d ~/develop/
 ```
 
 For manual installs, add Flutter to your PATH. Since macOS defaults to **zsh**
@@ -171,7 +172,7 @@ and extract it to a path without spaces or special characters (as a reminder,
 never use `C:\Program Files\`). A good choice is `%USERPROFILE%\develop\`:
 
 ```powershell
-Expand-Archive -Path \$env:USERPROFILE\Downloads\flutter_windows_3.41.4-stable.zip -Destination \$env:USERPROFILE\develop\
+Expand-Archive -Path \$env:USERPROFILE\Downloads\flutter_windows_%flutter_version%-stable.zip -Destination \$env:USERPROFILE\develop\
 ```
 
 Next, to add Flutter to your path, configure PATH through **System Properties →
@@ -220,7 +221,7 @@ If you want to install Flutter, manually, download the `.tar.xz` from the
 
 ```bash
 mkdir -p ~/develop
-tar -xf ~/Downloads/flutter_linux_3.41.4-stable.tar.xz -C ~/develop/
+tar -xf ~/Downloads/flutter_linux_%flutter_version%-stable.tar.xz -C ~/develop/
 ```
 
 ```bash

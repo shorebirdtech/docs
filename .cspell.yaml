@@ -16,6 +16,7 @@ words:
   - aarch
   - aars
   - altool
+  - angelov
   - apks
   - appcenter
   - astro
@@ -46,6 +47,7 @@ words:
   - logcat
   - longpaths
   - maclinux
+  - meteo
   - microsoftonline
   - mipmap
   - mozallowfullscreen
@@ -74,3 +76,5 @@ words:
   - xcframework
   - xcframeworks
   - xcrun
+ignoreWords:
+  - timezone

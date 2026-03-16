@@ -12,16 +12,16 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.6",
-    "@astrojs/starlight": "^0.37.7",
+    "@astrojs/check": "^0.9.7",
+    "@astrojs/starlight": "^0.38.1",
     "@lavamoat/preinstall-always-fail": "^2.1.1",
     "@tailwindcss/vite": "^4.1.18",
-    "astro": "^5.18.0",
+    "astro": "^6.0.4",
     "astro-opengraph-images": "^1.14.3",
     "sharp": "^0.34.5",
-    "starlight-auto-sidebar": "^0.1.4",
-    "starlight-image-zoom": "^0.13.2",
-    "starlight-llms-txt": "^0.7.0",
+    "starlight-auto-sidebar": "^0.2.0",
+    "starlight-image-zoom": "^0.14.1",
+    "starlight-llms-txt": "^0.8.0",
     "starlight-theme-nova": "^0.11.7",
     "tailwindcss": "^4.2.0",
     "typescript": "^5.9.3"
@@ -33,7 +33,7 @@
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "react": "^19.2.4",
-    "starlight-links-validator": "^0.19.2"
+    "starlight-links-validator": "^0.20.1"
   },
   "lavamoat": {
     "allowScripts": {

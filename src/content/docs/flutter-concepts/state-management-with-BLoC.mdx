@@ -5,6 +5,9 @@ sidebar:
   order: 5
 ---
 
+import { Image } from 'astro:assets';
+import bloc_event_diagram from '~/assets/bloc_event_diagram.jpeg';
+
 When your Flutter app has three screens, `setState` works fine. When it has
 thirty, shared user sessions, paginated lists, real-time socket data, and
 concurrent API calls turn `setState` into an obstacle. You start passing
@@ -44,7 +47,10 @@ parts:
    caching), and emits new states through a Dart `Stream`. Widgets listen and
    rebuild when the state changes.
 
-![Diagram of how BLoC interacts with widgets and APIs](BLoC_diagram)
+<Image
+  src={bloc_event_diagram}
+  alt="Diagram of how BLoC interacts with widgets and APIs"
+/>
 
 ## Dart 3 Changes the Game
 
@@ -704,7 +710,7 @@ class AppBlocObserver extends BlocObserver {
 And you're done! You can try running the app now (using `flutter run`) and watch
 it in action:
 
-![App walkthrough](BLoC_app_walkthorugh)
+![App walkthrough](/assets/bloc_demo.gif)
 
 Two key points about this setup:
 

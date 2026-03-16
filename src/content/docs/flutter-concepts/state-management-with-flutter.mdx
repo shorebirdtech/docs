@@ -1,0 +1,780 @@
+---
+title: State Management in Flutter
+description: How to master state management in Flutter with BLoC
+sidebar:
+  order: 5
+---
+
+import { Image } from 'astro:assets';
+import bloc_event_diagram from '~/assets/bloc_event_diagram.jpeg';
+
+When your Flutter app has three screens, `setState` works fine. When it has
+thirty, shared user sessions, paginated lists, real-time socket data, and
+concurrent API calls turn `setState` into an obstacle. You start passing
+callbacks five widgets deep. Your `Provider` notifiers accumulate business
+logic, and suddenly you're calling repository methods from inside `build()`. The
+app works, but nobody on the team can trace what triggered a UI rebuild.
+
+This is the state management inflection point. It's the moment teams either
+adopt a disciplined architecture or spend the next 18 months debugging race
+conditions and unintended rebuilds.
+
+The [BLoC (Business Logic Component) pattern](https://bloclibrary.dev/),
+authored by former Shorebird team member Felix Angelov, is the answer most
+serious teams land on. Google's own Flutter team uses it internally.
+[Nubank](https://nubank.com.br/en/), one of the world's largest digital banks
+with 90 million customers, built its app on it.
+[BMW](https://flutter.dev/showcase/bmw) runs it in production. The
+[`flutter_bloc`](https://pub.dev/packages/flutter_bloc) package has logged over
+1.4 million downloads on pub.dev. That’s not hype, it’s validation at scale.
+
+This guide shows you how BLoC works, how to implement it with modern Dart 3.x
+features, and why its predictability makes it a strong foundation when you’re
+using tools like [Shorebird](https://shorebird.dev/) to ship over-the-air
+patches to a live app.
+
+## Core Concepts: Events, States, and Streams
+
+Before we get started, let's look at the basics first. BLoC has three moving
+parts:
+
+1. An **Event** is an intention. The user taps “Fetch Weather,” and your app
+   dispatches an event. Events don’t carry logic; they carry data. They say
+   “something happened” and provide whatever context is needed to handle it.
+2. A **State** is a snapshot of what the UI should reflect. Loading, success,
+   failure, plus any data needed to render.
+3. The **BLoC** receives events, executes business logic (validation, API calls,
+   caching), and emits new states through a Dart `Stream`. Widgets listen and
+   rebuild when the state changes.
+
+<Image
+  src={bloc_event_diagram}
+  alt="Diagram of how BLoC interacts with widgets and APIs"
+/>
+
+## Dart 3 Changes the Game
+
+Dart 3 gives you `sealed` classes and exhaustive `switch` expressions. With a
+`sealed` base state, the compiler knows every possible subtype, so your UI
+`switch` becomes a compile-time guarantee. Add a new state and forget to render
+it, and the build fails.
+
+That’s one of the biggest quality-of-life improvements for BLoC codebases in
+years.
+
+## Trying out BLoC in a Simple Weather App
+
+Let's see how BLoC works in action by building a weather app using it.
+
+To get started, create a new Flutter app by running the following command:
+
+```bash
+flutter create my_new_app
+```
+
+Alternatively, you could
+[install the Shorebird CLI](https://docs.shorebird.dev/getting-started/) and run
+this command instead if you want support for over-the-air updates from day 1:
+
+```bash
+shorebird create my_new_app
+```
+
+### Setting Up: Packages
+
+Add the following packages to your pubspec.yaml file:
+
+```yaml
+dependencies:
+  flutter_bloc: ^9.1.0
+  equatable: ^2.0.5
+  http: ^1.2.0
+```
+
+- `flutter_bloc` wires streams into the widget tree with `BlocProvider` and
+  `BlocBuilder`.
+- `equatable` gives your events, states, and models value equality.
+- `http` is used by the repository to call Open-Meteo.
+
+### Step-by-Step Implementation: Weather Fetch With Refresh
+
+This implementation includes two user actions.
+
+- Fetch shows a spinner and replaces the UI state.
+- Refresh updates silently so you don’t flash a loading indicator over existing
+  content.
+
+#### Step 1: Model the domain
+
+A small, UI-friendly model makes state rendering predictable. It also keeps your
+UI independent of the raw API response shape.
+
+```dart
+// lib/features/weather/models/weather.dart
+import 'package:equatable/equatable.dart';
+
+/// A minimal, UI-friendly weather model for the BLoC tutorial.
+///
+/// Notes
+/// - `tempC` is Celsius to keep formatting predictable in the UI.
+/// - `conditionCode` is the raw weather code from the API (useful for icons).
+/// - `fetchedAt` helps you show "updated X min ago" and supports refresh logic.
+final class Weather extends Equatable {
+  final String city;
+  final double tempC;
+  final int conditionCode;
+  final String condition;
+  final DateTime fetchedAt;
+
+  const Weather({
+    required this.city,
+    required this.tempC,
+    required this.conditionCode,
+    required this.condition,
+    required this.fetchedAt,
+  });
+
+  /// Open-Meteo returns current conditions with numeric weather codes.
+  /// We fetch the human-readable condition name ourselves.
+  factory Weather.fromOpenMeteo({
+    required String city,
+    required Map<String, dynamic> json,
+  }) {
+    final current = (json['current'] as Map?)?.cast<String, dynamic>();
+    if (current == null) {
+      throw const FormatException('Missing "current" in weather response.');
+    }
+
+    final temp = current['temperature_2m'];
+    final code = current['weather_code'];
+    final time = current['time'];
+
+    if (temp == null || code == null || time == null) {
+      throw const FormatException('Weather response missing required fields.');
+    }
+
+    final fetchedAt = DateTime.tryParse(time.toString());
+    if (fetchedAt == null) {
+      throw const FormatException('Invalid "time" in weather response.');
+    }
+
+    final codeInt = (code as num).toInt();
+
+    return Weather(
+      city: city,
+      tempC: (temp as num).toDouble(),
+      conditionCode: codeInt,
+      condition: WeatherCondition.fromCode(codeInt).label,
+      fetchedAt: fetchedAt.toLocal(),
+    );
+  }
+
+  @override
+  List<Object> get props => [city, tempC, conditionCode, condition, fetchedAt];
+}
+
+/// Weather condition mapping for Open-Meteo weather codes.
+/// Source: Open-Meteo weather codes list.
+enum WeatherCondition {
+  clear('Clear'),
+  mainlyClear('Mainly clear'),
+  partlyCloudy('Partly cloudy'),
+  overcast('Overcast'),
+  fog('Fog'),
+  depositingRimeFog('Depositing rime fog'),
+  drizzleLight('Light drizzle'),
+  drizzleModerate('Moderate drizzle'),
+  drizzleDense('Dense drizzle'),
+  freezingDrizzleLight('Light freezing drizzle'),
+  freezingDrizzleDense('Dense freezing drizzle'),
+  rainSlight('Slight rain'),
+  rainModerate('Moderate rain'),
+  rainHeavy('Heavy rain'),
+  freezingRainLight('Light freezing rain'),
+  freezingRainHeavy('Heavy freezing rain'),
+  snowSlight('Slight snow'),
+  snowModerate('Moderate snow'),
+  snowHeavy('Heavy snow'),
+  snowGrains('Snow grains'),
+  rainShowersSlight('Slight rain showers'),
+  rainShowersModerate('Moderate rain showers'),
+  rainShowersViolent('Violent rain showers'),
+  snowShowersSlight('Slight snow showers'),
+  snowShowersHeavy('Heavy snow showers'),
+  thunderstormSlight('Thunderstorm'),
+  thunderstormSlightHail('Thunderstorm with slight hail'),
+  thunderstormHeavyHail('Thunderstorm with heavy hail'),
+  unknown('Unknown');
+
+  final String label;
+  const WeatherCondition(this.label);
+
+  static WeatherCondition fromCode(int code) => switch (code) {
+    0 => WeatherCondition.clear,
+    1 => WeatherCondition.mainlyClear,
+    2 => WeatherCondition.partlyCloudy,
+    3 => WeatherCondition.overcast,
+    45 => WeatherCondition.fog,
+    48 => WeatherCondition.depositingRimeFog,
+    51 => WeatherCondition.drizzleLight,
+    53 => WeatherCondition.drizzleModerate,
+    55 => WeatherCondition.drizzleDense,
+    56 => WeatherCondition.freezingDrizzleLight,
+    57 => WeatherCondition.freezingDrizzleDense,
+    61 => WeatherCondition.rainSlight,
+    63 => WeatherCondition.rainModerate,
+    65 => WeatherCondition.rainHeavy,
+    66 => WeatherCondition.freezingRainLight,
+    67 => WeatherCondition.freezingRainHeavy,
+    71 => WeatherCondition.snowSlight,
+    73 => WeatherCondition.snowModerate,
+    75 => WeatherCondition.snowHeavy,
+    77 => WeatherCondition.snowGrains,
+    80 => WeatherCondition.rainShowersSlight,
+    81 => WeatherCondition.rainShowersModerate,
+    82 => WeatherCondition.rainShowersViolent,
+    85 => WeatherCondition.snowShowersSlight,
+    86 => WeatherCondition.snowShowersHeavy,
+    95 => WeatherCondition.thunderstormSlight,
+    96 => WeatherCondition.thunderstormSlightHail,
+    99 => WeatherCondition.thunderstormHeavyHail,
+    _ => WeatherCondition.unknown,
+  };
+}
+```
+
+A key detail here is `Equatable`. It prevents subtle UI churn because identical
+values compare equal, which helps reduce unnecessary rebuilds.
+
+#### Step 2: Build a repository that owns HTTP and parsing
+
+The repository has one job. Take a city string and return a `Weather` model, or
+throw a meaningful error.
+
+It does two network calls:
+
+1. Geocode city name to coordinates
+2. Fetch current conditions for those coordinates
+
+```dart
+// lib/features/weather/repositories/weather_repository.dart
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:http/http.dart' as http;
+
+import '../models/weather.dart';
+
+/// Repository that:
+/// 1) Geo codes a city name -> lat/long
+/// 2) Fetches current weather for lat/long
+///
+/// Uses Open-Meteo:
+/// - Geocoding: https://geocoding-api.open-meteo.com/v1/search
+/// - Forecast:   https://api.open-meteo.com/v1/forecast
+class WeatherRepository {
+  final http.Client _client;
+
+  WeatherRepository({http.Client? client}) : _client = client ?? http.Client();
+
+  Future<Weather> fetchWeather(String city) async {
+    final normalized = city.trim();
+    if (normalized.isEmpty) {
+      throw const FormatException('City cannot be empty.');
+    }
+
+    final coords = await _geocodeCity(normalized);
+    final json = await _fetchCurrentWeather(coords.latitude, coords.longitude);
+
+    return Weather.fromOpenMeteo(city: coords.displayName, json: json);
+  }
+
+  Future<_GeoResult> _geocodeCity(String city) async {
+    final uri = Uri.https(
+      'geocoding-api.open-meteo.com',
+      '/v1/search',
+      <String, String>{
+        'name': city,
+        'count': '1',
+        'language': 'en',
+        'format': 'json',
+      },
+    );
+
+    final res = await _client.get(uri, headers: _headers());
+    if (res.statusCode != 200) {
+      throw HttpException('Geocoding failed (HTTP ${res.statusCode}).');
+    }
+
+    final body = jsonDecode(res.body);
+    if (body is! Map<String, dynamic>) {
+      throw const FormatException('Invalid geocoding response.');
+    }
+
+    final results = body['results'];
+    if (results is! List || results.isEmpty) {
+      throw StateError('No results found for "$city".');
+    }
+
+    final first = results.first;
+    if (first is! Map) {
+      throw const FormatException('Invalid geocoding result.');
+    }
+
+    final lat = first['latitude'];
+    final lon = first['longitude'];
+    final name = first['name'];
+
+    if (lat == null || lon == null || name == null) {
+      throw const FormatException('Geocoding result missing fields.');
+    }
+
+    final admin1 = first['admin1'];
+    final country = first['country'];
+
+    final displayName = [
+      name.toString(),
+      if (admin1 != null) admin1.toString(),
+      if (country != null) country.toString(),
+    ].join(', ');
+
+    return _GeoResult(
+      latitude: (lat as num).toDouble(),
+      longitude: (lon as num).toDouble(),
+      displayName: displayName,
+    );
+  }
+
+  Future<Map<String, dynamic>> _fetchCurrentWeather(
+    double latitude,
+    double longitude,
+  ) async {
+    final uri =
+        Uri.https('api.open-meteo.com', '/v1/forecast', <String, String>{
+          'latitude': latitude.toString(),
+          'longitude': longitude.toString(),
+          'current': 'temperature_2m,weather_code',
+          'temperature_unit': 'celsius',
+          'timezone': 'auto',
+        });
+
+    final res = await _client.get(uri, headers: _headers());
+    if (res.statusCode != 200) {
+      throw HttpException('Weather fetch failed (HTTP ${res.statusCode}).');
+    }
+
+    final body = jsonDecode(res.body);
+    if (body is! Map<String, dynamic>) {
+      throw const FormatException('Invalid weather response.');
+    }
+
+    return body;
+  }
+
+  Map<String, String> _headers() => const {'Accept': 'application/json'};
+}
+
+final class _GeoResult {
+  final double latitude;
+  final double longitude;
+  final String displayName;
+
+  const _GeoResult({
+    required this.latitude,
+    required this.longitude,
+    required this.displayName,
+  });
+}
+```
+
+Separating this logic helps because if you swap Open-Meteo for a paid provider
+later, add caching, or move from REST to GraphQL, your BLoC and UI code can
+remain unchanged. The repository absorbs the change.
+
+#### Step 3: Define events
+
+Next, define two events, both carrying the city string. That keeps the public
+BLoC API small and makes the event history readable in logs.
+
+```dart
+// lib/features/weather/bloc/weather_event.dart
+part of 'weather_bloc.dart';
+
+sealed class WeatherEvent extends Equatable {
+  const WeatherEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
+final class WeatherFetchRequested extends WeatherEvent {
+  final String city;
+  const WeatherFetchRequested(this.city);
+
+  @override
+  List<Object> get props => [city];
+}
+
+final class WeatherRefreshRequested extends WeatherEvent {
+  final String city;
+  const WeatherRefreshRequested(this.city);
+
+  @override
+  List<Object> get props => [city];
+}
+```
+
+#### Step 4: Define states
+
+This is the classic "initial, loading, success, failure" set. It’s predictable,
+testable, and maps cleanly to UI.
+
+```dart
+// lib/features/weather/bloc/weather_state.dart
+part of 'weather_bloc.dart';
+
+sealed class WeatherState extends Equatable {
+  const WeatherState();
+
+  @override
+  List<Object> get props => [];
+}
+
+final class WeatherInitial extends WeatherState {
+  const WeatherInitial();
+}
+
+final class WeatherLoading extends WeatherState {
+  const WeatherLoading();
+}
+
+final class WeatherSuccess extends WeatherState {
+  final Weather weather;
+  const WeatherSuccess(this.weather);
+
+  @override
+  List<Object> get props => [weather];
+}
+
+final class WeatherFailure extends WeatherState {
+  final String message;
+  const WeatherFailure(this.message);
+
+  @override
+  List<Object> get props => [message];
+}
+```
+
+#### Step 5: Implement the BLoC
+
+This BLoC uses the modern `on<Event>(handler)` style. Fetch shows a loading
+state. Refresh tries to update without forcing a spinner, so the UI stays stable
+when the user is already looking at data.
+
+```dart
+// lib/features/weather/bloc/weather_bloc.dart
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:equatable/equatable.dart';
+import '../models/weather.dart';
+import '../repositories/weather_repository.dart';
+
+part 'weather_event.dart';
+part 'weather_state.dart';
+
+class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
+  final WeatherRepository _repository;
+
+  WeatherBloc({required WeatherRepository repository})
+    : _repository = repository,
+      super(const WeatherInitial()) {
+    on<WeatherFetchRequested>(_onFetchRequested);
+    on<WeatherRefreshRequested>(_onRefreshRequested);
+  }
+
+  Future<void> _onFetchRequested(
+    WeatherFetchRequested event,
+    Emitter<WeatherState> emit,
+  ) async {
+    emit(const WeatherLoading());
+    try {
+      final weather = await _repository.fetchWeather(event.city);
+      emit(WeatherSuccess(weather));
+    } catch (e) {
+      emit(WeatherFailure(e.toString()));
+    }
+  }
+
+  Future<void> _onRefreshRequested(
+    WeatherRefreshRequested event,
+    Emitter<WeatherState> emit,
+  ) async {
+    // Refresh silently: don't replace existing data with a spinner
+    try {
+      final weather = await _repository.fetchWeather(event.city);
+      emit(WeatherSuccess(weather));
+    } catch (e) {
+      emit(WeatherFailure(e.toString()));
+    }
+  }
+}
+```
+
+> This code emits `WeatherFailure` on refresh errors. In some apps you might
+> keep the previous `WeatherSuccess` state and show a non-blocking toast
+> instead. That’s a product decision, not an architecture limitation.
+
+#### Step 6: Wiring It Into the UI
+
+This tutorial uses a small two-widget split.
+
+- `WeatherPage` sets up the feature scope and dependency injection.
+- `WeatherView` owns the `TextEditingController` and renders states.
+
+**WeatherPage**
+
+Notice what it does not do. It does not construct the repository. It reads it
+from the tree, then constructs the BLoC with it.
+
+```dart
+// lib/features/weather/view/weather_page.dart
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/weather_bloc.dart';
+import '../repositories/weather_repository.dart';
+import 'weather_view.dart';
+
+class WeatherPage extends StatelessWidget {
+  const WeatherPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => WeatherBloc(repository: context.read<WeatherRepository>()),
+      child: const WeatherView(),
+    );
+  }
+}
+```
+
+That small pattern scales nicely. Your feature doesn’t need to care whether the
+repository is real, cached, mocked, or decorated for analytics.
+
+**WeatherView**
+
+This view uses Dart 3 pattern matching in the UI. Each state maps to a clear
+piece of output.
+
+```dart
+// lib/features/weather/view/weather_view.dart
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/weather_bloc.dart';
+
+class WeatherView extends StatefulWidget {
+  const WeatherView({super.key});
+
+  @override
+  State<WeatherView> createState() => _WeatherViewState();
+}
+
+class _WeatherViewState extends State<WeatherView> {
+  final _controller = TextEditingController(text: 'London');
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Weather BLoC')),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            TextField(
+              controller: _controller,
+              decoration: const InputDecoration(
+                labelText: 'City',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: () {
+                context.read<WeatherBloc>().add(
+                  WeatherFetchRequested(_controller.text),
+                );
+              },
+              child: const Text('Fetch Weather'),
+            ),
+            const SizedBox(height: 24),
+            BlocBuilder<WeatherBloc, WeatherState>(
+              builder: (context, state) {
+                return switch (state) {
+                  WeatherInitial() => const Text(
+                    'Enter a city and fetch weather',
+                  ),
+                  WeatherLoading() => const CircularProgressIndicator(),
+                  WeatherSuccess(:final weather) => Column(
+                    children: [
+                      Text(
+                        weather.city,
+                        style: Theme.of(context).textTheme.headlineMedium,
+                      ),
+                      Text(
+                        '${weather.tempC.toStringAsFixed(1)} °C',
+                        style: Theme.of(context).textTheme.displaySmall,
+                      ),
+                      Text(weather.condition),
+                    ],
+                  ),
+                  WeatherFailure(:final message) => Text(
+                    message,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                };
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+If you want a refresh button in the UI, you already have the event. Add an
+`IconButton` in the `AppBar` that dispatches
+`WeatherRefreshRequested(_controller.text)` and you’ll get the silent refresh
+behavior from the BLoC.
+
+#### Step 7: Composing the App in main.dart
+
+This app uses `RepositoryProvider` at the root so any feature can read the
+repository. It also registers a global `BlocObserver` so state transitions show
+up in logs.
+
+```dart
+// lib/main.dart
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'features/weather/repositories/weather_repository.dart';
+import 'features/weather/view/weather_page.dart';
+
+void main() {
+  Bloc.observer = AppBlocObserver();
+  runApp(const App());
+}
+
+class App extends StatelessWidget {
+  const App({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return RepositoryProvider(
+      create: (_) => WeatherRepository(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Weather BLoC Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+          useMaterial3: true,
+        ),
+        home: const WeatherPage(),
+      ),
+    );
+  }
+}
+
+/// Optional but highly recommended in real apps.
+/// Logs all BLoC state transitions globally.
+class AppBlocObserver extends BlocObserver {
+  @override
+  void onChange(BlocBase bloc, Change change) {
+    super.onChange(bloc, change);
+    debugPrint(
+      '[${bloc.runtimeType}] '
+      '${change.currentState.runtimeType} → '
+      '${change.nextState.runtimeType}',
+    );
+  }
+
+  @override
+  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
+    debugPrint('[${bloc.runtimeType}] ERROR: $error');
+    super.onError(bloc, error, stackTrace);
+  }
+}
+```
+
+And you're done! You can try running the app now (using `flutter run`) and watch
+it in action:
+
+![App walkthrough](/assets/bloc_demo.gif)
+
+Two key points about this setup:
+
+- You can replace `WeatherRepository()` with a mock in tests by swapping the
+  provider.
+- When a bug report arrives, transition logs tell you what happened without
+  guessing.
+
+## Why Enterprise Teams Choose BLoC
+
+BLoC isn’t popular because it’s trendy. It sticks because it turns app behavior
+into something you can reason about under pressure. When the codebase grows, the
+team grows, and production issues start showing up at 2 AM, having one
+predictable place where "what happened" becomes "what state did we emit, and
+why" is the difference between fast fixes and long debugging sessions.
+
+Other benefits include:
+
+- Testability without an emulator: `WeatherBloc` has no dependency on Flutter
+  rendering, so you can test it using unit tests. The
+  [`bloc_test`](https://pub.dev/packages/bloc_test) package makes those tests
+  read like specs.
+- Traceability with BlocObserver: A `BlocObserver` gives you a global lens into
+  the app’s behavior. When state transitions are visible, debugging becomes less
+  like archaeology.
+- Separation of concerns at team scale: The UI consumes states. It does not
+  fetch or parse data. The repository handles IO and parsing. The BLoC handles
+  orchestration. That division is what keeps larger teams from stepping on each
+  other.
+
+## BLoC + Shorebird: Safer OTA Updates
+
+[Shorebird](https://shorebird.dev/) gives Flutter teams code push, so critical
+fixes can ship without waiting on store review. That only stays safe if the code
+you’re patching is predictable.
+
+BLoC helps by concentrating behavior in small, isolated units. If the weather
+refresh behavior is wrong, the fix is likely confined to `WeatherBloc` or
+`WeatherRepository`, not scattered across widget lifecycle methods. Smaller
+change surface, smaller blast radius.
+
+Shorebird solves delivery. BLoC reduces uncertainty.
+
+## Best Practices and Common Pitfalls
+
+Here are some best practices to keep in mind when working with BLoC in Flutter:
+
+- Keep navigation out of BLoCs. Emit a state and handle navigation in the UI
+  layer.
+- Prefer immutable state objects. Your states already use `final` fields and
+  `const` constructors, keep that discipline.
+- Keep a BLoC single-purpose. If a BLoC starts owning unrelated domains, it
+  becomes a bottleneck.
+- Use `Cubit` when you don’t need an event stream. For many UI-only toggles,
+  that simplicity is worth it.
+
+## Conclusion
+
+BLoC asks for more structure up front. The payoff is clarity under pressure.
+When async calls overlap, when screens multiply, when hot fixes need to ship
+quickly, a predictable “event in, state out” architecture is what keeps a
+Flutter app maintainable.
+
+If you’re building something that will grow beyond one developer and one
+quarter, BLoC is a pattern worth investing in. Once it’s in place, a tool like
+[Shorebird](https://shorebird.dev/) makes delivery match the architecture, fast
+updates without crossing fingers.

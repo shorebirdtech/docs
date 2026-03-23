@@ -12,11 +12,11 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.7",
-    "@astrojs/starlight": "^0.38.1",
-    "@lavamoat/preinstall-always-fail": "^2.1.1",
-    "@tailwindcss/vite": "^4.1.18",
-    "astro": "^6.0.4",
+    "@astrojs/check": "^0.9.8",
+    "@astrojs/starlight": "^0.38.2",
+    "@lavamoat/preinstall-always-fail": "^3.0.0",
+    "@tailwindcss/vite": "^4.2.2",
+    "astro": "^6.0.8",
     "astro-opengraph-images": "^1.14.3",
     "sharp": "^0.34.5",
     "starlight-auto-sidebar": "^0.2.0",
@@ -27,7 +27,7 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
-    "@lavamoat/allow-scripts": "^3.4.3",
+    "@lavamoat/allow-scripts": "^4.0.0",
     "@types/react": "^19.2.14",
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",

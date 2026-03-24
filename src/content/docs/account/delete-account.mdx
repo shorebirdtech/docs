@@ -1,31 +1,46 @@
 ---
 title: Delete Account
-description: How Shorebird handles account cancellation and deletion
+description: How to permanently delete your Shorebird account
 sidebar:
   order: 3
 ---
 
-import { Image } from 'astro:assets';
-import deleteAccountScreenshot from '~/assets/delete_account_screenshot.png';
+## Before you begin
 
-## Canceling your subscription
+Account deletion is **permanent and cannot be undone**. Deleting your account
+will permanently remove all associated data, including your:
 
-To cancel your subscription, navigate to the
-[Account](https://console.shorebird.dev/account) page on the Shorebird console,
-select the "Edit" dropdown, and click "Cancel Subscription".
+- Personal organization
+- Apps
+- Releases
+- Patches
+- Artifacts
+- Collaborator associations
 
-<Image
-  src={deleteAccountScreenshot}
-  alt="Screenshot of account cancellation options in Shorebird Console"
-/>
+If you are a member (but not the owner) of any team organizations, your
+membership in those organizations will be removed, but the organizations
+themselves will not be affected.
 
-This will take you to a Stripe page that will allow you to cancel your
-subscription. After cancelling, your access (and updates for your users) will
-continue until the end of the current billing period. After this, Shorebird will
-no longer send updates to your apps. Your apps will continue to function
-normally.
+## Handling team organizations
+
+If you are the owner of any team organizations, you must transfer or delete each
+one before you can delete your account. This ensures that no team organization
+is left without an owner.
+
+To transfer ownership of an organization, visit the organization's settings in
+the [Shorebird console](https://console.shorebird.dev) and assign a new owner.
+Alternatively, you can delete the organization if it is no longer needed.
+
+You will not be able to proceed with account deletion until all team
+organizations you own have been transferred or deleted.
 
 ## Deleting your account
 
-To delete your account, email us at contact@shorebird.dev. We'll be happy to
-help.
+1. Navigate to the [Account](https://console.shorebird.dev/account) page in the
+   Shorebird console.
+2. Select **Delete Account**.
+3. If you own any team organizations, you will be prompted to transfer or delete
+   them first.
+4. Complete the verification step to confirm the deletion.
+
+Your account and all associated data will be permanently deleted.

@@ -23,3 +23,14 @@ This check passes if the check returns `Process Upload complete`.
 ### Fail
 
 This check fails if the check returns an error during the upload process.
+
+## Carryforward Flags
+
+Shorebird CI uploads coverage for each package independently and only re-uploads
+coverage for packages that needed to run. This means that on any given CI run,
+only a subset of packages may have fresh coverage data. To avoid coverage gaps
+for packages that were not re-uploaded, you should enable
+[carryforward flags](https://docs.codecov.com/docs/carryforward-flags) in your
+Codecov configuration. Carryforward flags tell Codecov to use the most recent
+coverage data from a previous upload when a flag is not included in the current
+upload.

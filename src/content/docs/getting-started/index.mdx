@@ -47,6 +47,15 @@ iwr -UseBasicParsing 'https://raw.githubusercontent.com/shorebirdtech/install/ma
 
 </CodeTabs>
 
+:::tip
+If you already have Shorebird installed and want to overwrite the existing installation, pass `--force` to the install script:
+
+```bash
+curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash -s -- --force
+```
+
+:::
+
 :::note
 
 Installing Shorebird CLI requires `git`.

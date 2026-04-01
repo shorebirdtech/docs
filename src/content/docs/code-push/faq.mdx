@@ -294,6 +294,17 @@ the latest version from the server if needed.
 If you have a use case for code push with Fluter web, we'd
 [love to know](mailto:contact@shorebird.dev)!
 
+### Does Shorebird work on the iOS Simulator?
+
+No. Shorebird's code push does not work on the iOS Simulator. On physical iOS
+devices, Shorebird uses a custom ARM interpreter to run patched Dart code. The
+iOS Simulator runs on your Mac's native architecture (x86_64 or Apple Silicon),
+which is fundamentally different from the ARM environment on real iOS devices.
+Because the patching mechanism is built specifically for the iOS device runtime,
+it cannot function in the simulator.
+
+To test patches on iOS, you will need to use a physical iOS device.
+
 ## Technical Details
 
 ### What does the Shorebird updater store on disk?

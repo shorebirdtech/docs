@@ -13,6 +13,43 @@ your Flutter app directly to your users' devices.
 This document exists to explain how Shorebird works and to provide a high-level
 overview of the components that make up the Shorebird system.
 
+## Data Flow Diagram
+
+```mermaid
+flowchart TD
+   DEV["Developer machine\n(source code never leaves)"]
+   CLI["Shorebird CLI"]
+
+   DEV --> CLI
+
+   subgraph CLOUD ["Shorebird Cloud (GCP)"]
+       API["API server\napi.shorebird.dev"]
+       CONSOLE["Console\nconsole.shorebird.dev"]
+       DB["AlloyDB\n(encrypted, not public)"]
+       API <--> DB
+
+       subgraph GCS ["Google Cloud Storage"]
+           PRIV["Private release bucket\nstorage.googleapis.com"]
+       end
+   end
+
+   subgraph CF ["Cloudflare"]
+       CDN["Public patch CDN\ncdn.shorebird.cloud"]
+   end
+
+   subgraph DEVICE ["End-user device"]
+       APP["Customer app\n(Shorebird updater embedded)"]
+   end
+
+   CLI -. "app_id, metadata (HTTPS)" .-> API
+   API -- "release binary upload" --> PRIV
+   CONSOLE -- "uses" --> API
+
+   APP -. "patch check (HTTPS)" .-> API
+   API -. "download URL" .-> APP
+   APP -- "patch diff download" --> CDN
+```
+
 ## How Shorebird Code Push works
 
 When you make a Shorebird "release", that's just using `flutter build` under the

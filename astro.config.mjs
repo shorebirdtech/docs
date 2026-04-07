@@ -12,6 +12,7 @@ import { renderer } from './src/og/renderer.tsx';
 import { readFileSync } from 'node:fs';
 import starlightLlmsTxt from 'starlight-llms-txt';
 import { remarkReplaceVersions } from './src/plugins/replace-versions.ts';
+import mermaid from 'astro-mermaid';
 
 const site = 'https://docs.shorebird.dev/';
 
@@ -25,6 +26,7 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   integrations: [
+    mermaid({ autoTheme: true }),
     starlight({
       expressiveCode: false,
       title: 'Shorebird',

@@ -19,7 +19,7 @@ overview of the components that make up the Shorebird system.
 flowchart TD
    DEV["Developer machine\n(source code never leaves)"]
    CLI["Shorebird CLI"]
-   APPSTORES["App/Play Stores"]
+   APP_STORES["App/Play Stores"]
 
    DEV --> CLI
 
@@ -45,7 +45,7 @@ flowchart TD
    API -. "signed upload URL" .-> CLI
    CLI -- "release binary upload (direct)" --> PRIV
    CONSOLE -- "uses" --> API
-   CLI -- "create binary for upload" --> APPSTORES
+   CLI -- "create binary for upload" --> APP_STORES
    APP -. "patch check (HTTPS)" .-> API
    API -. "download URL" .-> APP
    APP -- "patch diff download" --> CDN

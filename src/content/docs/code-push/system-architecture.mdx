@@ -23,13 +23,11 @@ flowchart TD
 
    DEV --> CLI
 
-
    subgraph CLOUD ["Shorebird Cloud (GCP)"]
        API["API server\napi.shorebird.dev"]
        CONSOLE["Console\nconsole.shorebird.dev"]
        DB["AlloyDB\n(encrypted, not public)"]
        API <--> DB
-
        subgraph GCS ["Google Cloud Storage"]
            PRIV["Private release bucket\nstorage.googleapis.com"]
        end
@@ -44,11 +42,10 @@ flowchart TD
    end
 
    CLI -. "app_id, metadata (HTTPS)" .-> API
-   API -- "release binary upload" --> PRIV
+   API -. "signed upload URL" .-> CLI
+   CLI -- "release binary upload (direct)" --> PRIV
    CONSOLE -- "uses" --> API
-
    CLI -- "create binary for upload" --> APPSTORES
-
    APP -. "patch check (HTTPS)" .-> API
    API -. "download URL" .-> APP
    APP -- "patch diff download" --> CDN

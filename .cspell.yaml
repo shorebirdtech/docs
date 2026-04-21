@@ -11,7 +11,12 @@ dictionaryDefinitions:
     path: https://raw.githubusercontent.com/verygoodopensource/very_good_dictionaries/main/forbidden.txt
     description: Forbidden spellings
 useGitignore: false
-ignorePaths: [dist, node_modules, package-lock.json, plugins]
+ignorePaths:
+  - dist
+  - node_modules
+  - package-lock.json
+  - plugins
+  - '**/*.svg'
 words:
   - aarch
   - aars
@@ -38,11 +43,13 @@ words:
   - jank
   - janky
   - keyrings
+  - lavamoat
   - libapp
   - libflutter
   - libglu
   - libstdc
   - libupdater
+  - llms
   - localappdata
   - logcat
   - longpaths
@@ -52,7 +59,10 @@ words:
   - mipmap
   - mozallowfullscreen
   - nubank
+  - opengraph
   - outform
+  - paweł
+  - pixelmator
   - podfile
   - prefs
   - pubin
@@ -68,6 +78,7 @@ words:
   - shorebirdtech
   - softwareupdate
   - subosito
+  - tabler
   - temurin
   - uiscene
   - webkitallowfullscreen

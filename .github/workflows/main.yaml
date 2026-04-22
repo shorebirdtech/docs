@@ -1,6 +1,9 @@
 name: ci
 
 on:
+  schedule:
+    - cron: '0 6 * * *' # 6am UTC / midnight CST — keeps roadmap data fresh
+  workflow_dispatch:
   pull_request:
   push:
     branches:
@@ -23,6 +26,8 @@ jobs:
 
       - name: 📦 Build Docs
         uses: ./.github/actions/astro_site
+        env:
+          LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
 
   deploy:
     needs: build
@@ -31,7 +36,7 @@ jobs:
     # https://github.com/CloudCannon/pagefind/issues/574
     runs-on: macos-latest
 
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    if: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
 
     environment:
       name: github-pages

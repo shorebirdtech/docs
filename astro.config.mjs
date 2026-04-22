@@ -103,6 +103,7 @@ export default defineConfig({
           collapsed: true,
           autogenerate: { directory: 'flutter-concepts' },
         },
+        { label: 'Roadmap', link: '/roadmap/' },
       ],
       plugins: [
         starlightThemeNova(),

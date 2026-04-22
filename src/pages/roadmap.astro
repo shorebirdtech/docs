@@ -1,0 +1,232 @@
+---
+// cspell:words linearapp graphql roadmap
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+
+interface LinearProject {
+  id: string;
+  name: string;
+  description: string;
+  state: string;
+  targetDate: string | null;
+  priority: number;
+}
+
+const PRIORITY_LABEL: Record<number, string> = {
+  1: 'Urgent',
+  2: 'High',
+  3: 'Medium',
+  4: 'Low',
+};
+
+function getQuarterLabel(iso: string): string {
+  const d = new Date(iso);
+  const q = Math.ceil((d.getUTCMonth() + 1) / 3);
+  return `Q${q} ${d.getUTCFullYear()}`;
+}
+
+// Returns a sortable numeric key for a quarter label like "Q2 2025" → 20252
+function quarterSortKey(label: string): number {
+  const [q, year] = label.split(' ');
+  return parseInt(year) * 10 + parseInt(q.slice(1));
+}
+
+const LINEAR_API_KEY = import.meta.env.LINEAR_API_KEY;
+
+let projects: LinearProject[] = [];
+let fetchError = false;
+
+if (LINEAR_API_KEY) {
+  try {
+    const response = await fetch('https://api.linear.app/graphql', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: LINEAR_API_KEY,
+      },
+      body: JSON.stringify({
+        query: `{
+          projects(
+            filter: { labels: { name: { eq: "Public Roadmap" } } }
+            first: 50
+          ) {
+            nodes {
+              id
+              name
+              description
+              state
+              targetDate
+              priority
+            }
+          }
+        }`,
+      }),
+    });
+
+    if (!response.ok) {
+      fetchError = true;
+    } else {
+      const json = await response.json();
+      projects = json?.data?.projects?.nodes ?? [];
+    }
+  } catch {
+    fetchError = true;
+  }
+} else {
+  fetchError = true;
+}
+
+// Group by quarter; projects without a targetDate go to the "Future" bucket
+const quarterMap = new Map<string, LinearProject[]>();
+const futureProjects: LinearProject[] = [];
+
+for (const p of projects) {
+  if (p.targetDate) {
+    const label = getQuarterLabel(p.targetDate);
+    if (!quarterMap.has(label)) quarterMap.set(label, []);
+    quarterMap.get(label)!.push(p);
+  } else {
+    futureProjects.push(p);
+  }
+}
+
+const sortedQuarters = [...quarterMap.keys()].sort(
+  (a, b) => quarterSortKey(a) - quarterSortKey(b),
+);
+
+const buildTime = new Date().toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<StarlightPage
+  frontmatter={{
+    title: 'Roadmap',
+    description: "What we're building at Shorebird",
+  }}
+>
+  <p>
+    Here's what we're working on at Shorebird. This roadmap is pulled directly
+    from our Linear backlog and reflects our current priorities.
+  </p>
+
+  {
+    fetchError ? (
+      <p class="fallback">
+        Roadmap data is not available in this environment.
+      </p>
+    ) : (
+      <>
+        {sortedQuarters.map((label) => (
+          <>
+            <h2>{label}</h2>
+            <div class="project-list">
+              {quarterMap.get(label)!.map((p) => (
+                <div class="project-card">
+                  <div class="project-header">
+                    <p class="project-name">{p.name}</p>
+                    {PRIORITY_LABEL[p.priority] && (
+                      <span class={`priority-badge priority-${p.priority}`}>
+                        {PRIORITY_LABEL[p.priority]}
+                      </span>
+                    )}
+                  </div>
+                  {p.description && (
+                    <p class="project-desc">{p.description}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </>
+        ))}
+
+        <h2>Future</h2>
+        {futureProjects.length === 0 ? (
+          <p class="empty">Nothing without a target date.</p>
+        ) : (
+          <div class="project-list">
+            {futureProjects.map((p) => (
+              <div class="project-card">
+                <p class="project-name">{p.name}</p>
+                {p.description && (
+                  <p class="project-desc">{p.description}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        <hr />
+        <p class="build-time">
+          <em>Last updated: {buildTime}</em>
+        </p>
+      </>
+    )
+  }
+</StarlightPage>
+
+<style>
+  .fallback {
+    color: var(--sl-color-text-accent);
+    font-style: italic;
+  }
+
+  .empty {
+    color: var(--sl-color-gray-3);
+    font-style: italic;
+  }
+
+  .project-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .project-card {
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+  }
+
+  .project-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin: 0 0 0.25rem;
+  }
+
+  .priority-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.1rem 0.45rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .priority-1 { background: #fee2e2; color: #b91c1c; } /* Urgent */
+  .priority-2 { background: #ffedd5; color: #c2410c; } /* High */
+  .priority-3 { background: #fef9c3; color: #a16207; } /* Medium */
+  .priority-4 { background: #f0fdf4; color: #15803d; } /* Low */
+
+  .project-name {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--sl-color-text);
+    margin: 0;
+  }
+
+  .project-desc {
+    margin: 0.4rem 0 0;
+    font-size: 0.9rem;
+    color: var(--sl-color-gray-2);
+  }
+
+  .build-time {
+    font-size: 0.85rem;
+    color: var(--sl-color-gray-3);
+    margin-top: 1.5rem;
+  }
+</style>

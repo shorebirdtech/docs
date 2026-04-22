@@ -4,6 +4,22 @@
 
 Home of the [docs.shorebird.dev](https://docs.shorebird.dev) site.
 
+## 🗺️ Roadmap page
+
+The `/roadmap` page fetches live data from Linear at build time. To see real
+data locally, export your Linear API key before running the dev server:
+
+```sh
+export LINEAR_API_KEY=your_key_here
+npm run dev
+```
+
+You can create a personal API key at **Linear → Settings → API → Personal API
+Keys**. Without the key the page renders a fallback message instead of
+crashing.
+
+In CI the key is read from the `LINEAR_API_KEY` repository secret.
+
 ## 🧞 Commands
 
 All commands are run from the root of the project, from a terminal:

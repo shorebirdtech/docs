@@ -331,10 +331,28 @@ your system should you choose.
 
 ### How big of a dependency footprint does this add?
 
-We expect the code push library to add less than one megabyte to Flutter apps.
-`flutter build apk --release` vs. `shorebird build apk --release` should give
-you a rough idea but keep in mind that many store distributions do also
-automatically thin your app for the device that it is being installed on.
+Shorebird ships its own build of the Flutter engine with the patching runtime
+included, which is where the overhead comes from. The table below compares
+Shorebird's engine against stock Flutter for the same engine version, measured
+on the stripped binaries that actually ship to users:
+
+| Platform            | Shorebird (on-disk / download) | Flutter (on-disk / download) | Shorebird overhead  |
+| ------------------- | ------------------------------ | ---------------------------- | ------------------- |
+| iOS (arm64)         | 13.25 MB / 5.68 MB             | 8.58 MB / 3.67 MB            | +4.67 MB / +2.01 MB |
+| Android (arm64-v8a) | 13.38 MB / 6.40 MB             | 10.79 MB / 5.06 MB           | +2.58 MB / +1.35 MB |
+
+"On-disk" is the uncompressed size installed on the device. "Download" is the
+approximate size shipped over the store — APKs and IPAs use DEFLATE compression,
+which `gzip -9` closely mimics, so the gzipped size is a good proxy for what a
+user's device actually pulls down.
+
+These numbers are for Flutter 3.41.7 (April 2026). Earlier Shorebird engines
+were meaningfully larger — iOS overhead alone came down by roughly 2 MB on-disk
+in the preceding month — and we continue to shrink the overhead as we optimize.
+You can reproduce a rough measurement on your own app by comparing the output of
+`flutter build apk --release` against `shorebird build apk --release`. Keep in
+mind that app stores thin distributions for the installing device, so the real
+number a given user downloads may be smaller.
 
 ### When do updates happen?
 

@@ -94,6 +94,14 @@ buildTypes {
 </TabItem>
 </Tabs>
 
+:::caution
+
+The `applicationIdSuffix` property is optional. If you use services that depend
+on a consistent package name (e.g., Firebase), removing `applicationIdSuffix`
+may be necessary to avoid configuration issues.
+
+:::
+
 Lastly, edit `android/app/src/main/AndroidManifest.xml` to use the
 `applicationLabel` so that we can differentiate the two apps easily:
 

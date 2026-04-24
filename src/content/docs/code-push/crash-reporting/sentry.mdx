@@ -8,8 +8,9 @@ sidebar:
 
 If you're using Sentry for crash reporting, it will work out-of-the-box with
 Shorebird releases and patches. However, if you have multiple patches, it can be
-unclear which patch caused the crash. This document shows how you can use Sentry
-tags to differentiate between patches.
+unclear which patch caused the crash. This document shows how to include the
+Shorebird patch number in your Sentry events so you can differentiate between
+patches.
 
 ## Add the `shorebird_code_push` package to your project.
 
@@ -21,7 +22,8 @@ pub.dev page.
 ## Configure Sentry
 
 If you haven't already, follow the Sentry
-[getting started with Flutter](https://docs.sentry.io/platforms/flutter/) guide.
+[getting started with Flutter](https://docs.sentry.io/platforms/dart/guides/flutter/)
+guide.
 
 Update the Sentry init code to include the patch number as a tag. This will look
 something like:
@@ -40,7 +42,7 @@ Future<void> main() async {
       // as the key. `$patch` will be "null" if there is no patch. You may
       // wish to handle this case differently.
       Sentry.configureScope((scope) {
-        scope.setTag('shorebird_patch_number', '${patch?.number}',);
+        scope.setTag('shorebird_patch_number', '${patch?.number}');
       });
       return runApp(const MyApp());
     },

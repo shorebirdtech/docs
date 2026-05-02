@@ -1,0 +1,21 @@
+name: Triage automation
+
+on:
+  pull_request_target:
+    types: [opened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  add-needs-triage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add needs-triage label
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          gh api -X POST "repos/$REPO/issues/$NUMBER/labels" \
+            -f 'labels[]=needs-triage'

@@ -73,7 +73,7 @@ export default defineConfig({
         {
           label: 'Getting Started',
           collapsed: true,
-          autogenerate: { directory: 'getting-started' },
+          items: [{ autogenerate: { directory: 'getting-started' } }],
         },
         {
           label: 'CI',
@@ -81,27 +81,27 @@ export default defineConfig({
           badge: {
             text: 'beta',
           },
-          autogenerate: { directory: 'ci' },
+          items: [{ autogenerate: { directory: 'ci' } }],
         },
         {
           label: 'Code Push',
           collapsed: true,
-          autogenerate: { directory: 'code-push', collapsed: true },
+          items: [{ autogenerate: { directory: 'code-push', collapsed: true } }],
         },
         {
           label: 'Account',
           collapsed: true,
-          autogenerate: { directory: 'account' },
+          items: [{ autogenerate: { directory: 'account' } }],
         },
         {
           label: 'System',
           collapsed: true,
-          autogenerate: { directory: 'system' },
+          items: [{ autogenerate: { directory: 'system' } }],
         },
         {
           label: 'Flutter Concepts',
           collapsed: true,
-          autogenerate: { directory: 'flutter-concepts' },
+          items: [{ autogenerate: { directory: 'flutter-concepts' } }],
         },
       ],
       plugins: [

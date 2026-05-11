@@ -86,7 +86,9 @@ export default defineConfig({
         {
           label: 'Code Push',
           collapsed: true,
-          items: [{ autogenerate: { directory: 'code-push', collapsed: true } }],
+          items: [
+            { autogenerate: { directory: 'code-push', collapsed: true } },
+          ],
         },
         {
           label: 'Account',

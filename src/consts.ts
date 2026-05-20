@@ -1,5 +1,5 @@
 export const versions = {
-  flutter: '3.41.9',
-  dart: '3.11.5',
-  flutter_release_date: 'April 2026',
+  flutter: '3.44.0',
+  dart: '3.12.0',
+  flutter_release_date: 'May 2026',
 };

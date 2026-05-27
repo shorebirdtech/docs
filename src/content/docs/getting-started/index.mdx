@@ -27,116 +27,131 @@ Flutter app.
 
 <Steps>
 
-1. **Sign up** for a free Shorebird account.
+1.  **Sign up** for a free Shorebird account.
 
-   <LinkButton href="https://console.shorebird.dev" variant="primary">
-     Create an Account
-   </LinkButton>
+    <LinkButton href="https://console.shorebird.dev" variant="primary">
+      Create an Account
+    </LinkButton>
 
-2. **Install Shorebird.**
+2.  **Install Shorebird.**
 
-   <Tabs>
-  <TabItem value="ai" label="Install with AI">
+    <Tabs>
 
-   Paste the following into any AI assistant (Claude, ChatGPT, etc.) for guided
-   installation:
+      <TabItem value="ai" label="Install with AI">
 
-   ```
-   Install Shorebird on my machine. Shorebird is a Flutter code push tool.
+        Paste the following into any AI assistant (Claude, ChatGPT, etc.) for guided
+        installation:
 
-   Mac/Linux:
-   curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+        ```
+        Install Shorebird on my machine. Shorebird is a Flutter code push tool.
 
-   Windows:
-   Set-ExecutionPolicy RemoteSigned -scope CurrentUser
-   iwr -UseBasicParsing 'https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1' | iex
+        Mac/Linux:
+        curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
 
-   After installing, run `shorebird doctor` to verify and help me fix any issues.
-   ```
+        Windows:
+        Set-ExecutionPolicy RemoteSigned -scope CurrentUser
+        iwr -UseBasicParsing 'https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1' | iex
 
-     </TabItem>
-  <TabItem value="script" label="Install Script">
+        After installing, run `shorebird doctor` to verify and help me fix any issues.
+        ```
 
-   Run the install script for your platform:
+      </TabItem>
 
-     <CodeTabs>
-  ```bash title="Mac/Linux"
-  curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
-  ```
+      <TabItem value="script" label="Install Script">
 
-   ```powershell title="Windows"
-   Set-ExecutionPolicy RemoteSigned -scope CurrentUser
-   iwr -UseBasicParsing 'https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1' | iex
-   ```
+        Run the install script for your platform:
 
-     </CodeTabs>
+        <CodeTabs>
+          ```bash title="Mac/Linux"
+          curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+          ```
 
-   This installs `shorebird` into `~/.shorebird/bin` and adds it to your `PATH`.
-   It also installs a bundled copy of Flutter at
-   `~/.shorebird/bin/cache/flutter` — modified to support code push and separate
-   from your existing Flutter install.
+          ```powershell title="Windows"
+          Set-ExecutionPolicy RemoteSigned -scope CurrentUser
+          iwr -UseBasicParsing 'https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1' | iex
+          ```
+        </CodeTabs>
 
-     </TabItem>
-  <TabItem value="manual" label="Manual Install">
+        This installs `shorebird` into `~/.shorebird/bin` and adds it to your `PATH`.
+        It also installs a bundled copy of Flutter at
+        `~/.shorebird/bin/cache/flutter` — modified to support code push and separate
+        from your existing Flutter install.
 
-   Clone the repository into the directory where you want Shorebird installed:
+      </TabItem>
 
-   ```bash
-   git clone -b stable https://github.com/shorebirdtech/shorebird.git
-   ```
+      <TabItem value="manual" label="Manual Install">
 
-   Add the `bin` folder to your `PATH`.
+        Clone the repository into the directory where you want Shorebird installed:
 
-   :::note The total installation size is about 300 MB. :::
+        ```bash
+        git clone -b stable https://github.com/shorebirdtech/shorebird.git
+        ```
 
-     </TabItem>
-</Tabs>
+        Add the `bin` folder to your `PATH`.
 
-   Restart your terminal to reload your `PATH`, then verify your setup:
+        :::note
+        The total installation size is about 300 MB.
+        :::
 
-   ```sh
-   shorebird doctor
-   ```
+      </TabItem>
 
-3. **Log in** to your Shorebird account.
+    </Tabs>
 
-   `shorebird login` opens a browser window for authentication. Return to your
-   terminal after logging in.
+3.  **Verify** your setup.
 
-   ```sh
-   shorebird login
-   ```
+    Restart your terminal to reload your `PATH`, then verify your setup by
+    running the following command:
 
-4. **Integrate Shorebird** into your Flutter app.
+    ```sh
+    shorebird doctor
+    ```
 
-   <Tabs>
-  <TabItem value="new-app" label="New App">
+4.  **Log in** to your Shorebird account.
 
-   Create a new Flutter app with Shorebird:
+    `shorebird login` opens a browser window for authentication. Return to your
+    terminal after logging in.
 
-   ```sh
-   shorebird create my_shorebird_app
-   cd my_shorebird_app
-   ```
+    ```sh
+    shorebird login
+    ```
 
-     </TabItem>
-  <TabItem value="existing-app" label="Existing App">
+5.  **Integrate Shorebird** into your Flutter app.
 
-   In your Flutter app's root directory, run:
+    <Tabs>
 
-   ```sh
-   shorebird init
-   ```
+      <TabItem value="new-app" label="New App">
 
-   This creates a `shorebird.yaml` file containing your `app_id`. Your `app_id`
-   is not secret and can be committed to source control.
+        Create a new Flutter app with Shorebird:
 
-     </TabItem>
-</Tabs>
+        ```sh
+        shorebird create my_shorebird_app
+        cd my_shorebird_app
+        ```
 
-   :::note Shorebird supports Flutter 3.24.0 and later. See
-   [Flutter Version Management](/getting-started/flutter-version) to configure
-   an older version. :::
+      </TabItem>
+
+      <TabItem value="existing-app" label="Existing App">
+
+        In your Flutter app's root directory, run:
+
+        ```sh
+        shorebird init
+        ```
+
+        This creates a `shorebird.yaml` file containing your `app_id`. Your `app_id`
+        is not secret and can be committed to source control.
+
+      </TabItem>
+
+    </Tabs>
+
+    :::note
+
+    Shorebird supports Flutter 3.24.0 and later. See
+    [Flutter Version Management](/getting-started/flutter-version) to configure
+    an older version.
+
+    :::
 
 </Steps>
 

@@ -1,6 +1,6 @@
 ---
 title: Quick Start
-description: The easy way to get started with Shorebird
+description: Install Shorebird and push your first patch.
 sidebar:
   order: 1
 ---
@@ -10,179 +10,130 @@ import {
   LinkButton,
   LinkCard,
 } from 'starlight-theme-nova/components';
+import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
-Welcome to Shorebird! 👋
+{/* TODO: Add 2-minute installation walkthrough video */}
 
-In this guide, we'll walk you through setting up Shorebird and integrating it
-into your app in just a few minutes.
+This guide walks you through installing Shorebird and integrating it into your Flutter app.
 
-## Sign up
+## Prerequisites
 
-The first thing you'll need to do is sign up for a Shorebird account. It's free
-to do and you can signup in a manner of seconds.
+- Flutter 3.24.0 or later ([install Flutter](https://docs.flutter.dev/get-started/install))
+- `git` installed locally
 
-<LinkButton href="https://console.shorebird.dev" variant="primary">
-  Create an Account
-</LinkButton>
+## Installation
 
-## Install
+<Steps>
 
-While a full install may not be required to access and use all of our product
-offerings, we recommend installing everything locally to make debugging easier
-as you continue using our services.
+1. **Sign up** for a free Shorebird account.
 
-### Using install script
+   <LinkButton href="https://console.shorebird.dev" variant="primary">
+     Create an Account
+   </LinkButton>
 
-To install the Shorebird command line interface (CLI):
+2. **Install Shorebird.**
 
-<CodeTabs>
-```bash title="Mac/Linux"
-curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
-```
+   <Tabs>
+     <TabItem value="ai" label="Install with AI">
 
-```powershell title="Windows"
-Set-ExecutionPolicy RemoteSigned -scope CurrentUser # Needed to execute remote scripts
-iwr -UseBasicParsing 'https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1'|iex
-```
+     Paste the following into any AI assistant (Claude, ChatGPT, etc.) for guided installation:
 
-</CodeTabs>
+     ```
+     Install Shorebird on my machine. Shorebird is a Flutter code push tool.
 
-:::note
+     Mac/Linux:
+     curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
 
-Installing Shorebird CLI requires `git`.
+     Windows:
+     Set-ExecutionPolicy RemoteSigned -scope CurrentUser
+     iwr -UseBasicParsing 'https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1' | iex
 
-:::
+     After installing, run `shorebird doctor` to verify and help me fix any issues.
+     ```
 
-This installs `shorebird` into `~/.shorebird/bin` and adds it to your `PATH`. It
-also installs a copy of Flutter and Dart inside
-`~/.shorebird/bin/cache/flutter`. The copy of Flutter is slightly modified to
-add Shorebird code push and is not intended to be added to your `PATH`. You can
-continue to use the versions of Flutter and Dart you already have installed.
+     </TabItem>
+     <TabItem value="script" label="Install Script">
 
-### Manually installing
+     Run the install script for your platform:
 
-Shorebird can also be manually installed, allowing users to choose where the
-installation will be placed.
+     <CodeTabs>
+     ```bash title="Mac/Linux"
+     curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+     ```
 
-In order to do so, in a terminal, inside the folder where Shorebird should be
-installed at, run:
+     ```powershell title="Windows"
+     Set-ExecutionPolicy RemoteSigned -scope CurrentUser
+     iwr -UseBasicParsing 'https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1' | iex
+     ```
+     </CodeTabs>
 
-```bash
-git clone -b stable https://github.com/shorebirdtech/shorebird.git
-```
+     This installs `shorebird` into `~/.shorebird/bin` and adds it to your `PATH`. It also installs a bundled copy of Flutter at `~/.shorebird/bin/cache/flutter` — modified to support code push and separate from your existing Flutter install.
 
-Add the `bin` folder from the repository you just cloned into your `PATH`.
+     </TabItem>
+     <TabItem value="manual" label="Manual Install">
 
-:::note
+     Clone the repository into the directory where you want Shorebird installed:
 
-The total installation is about 300mb.
+     ```bash
+     git clone -b stable https://github.com/shorebirdtech/shorebird.git
+     ```
 
-:::
+     Add the `bin` folder to your `PATH`.
 
-Once the installation has completed, `shorebird` should be available in your
-terminal:
+     :::note
+     The total installation size is about 300 MB.
+     :::
 
-```
-$ shorebird
-The shorebird command-line tool
+     </TabItem>
+   </Tabs>
 
-Usage: shorebird <command> [arguments]
+   Restart your terminal to reload your `PATH`, then verify your setup:
 
-Global options:
--h, --help            Print this usage information.
-    --version         Print the current version.
--v, --[no-]verbose    Noisy logging, including all shell commands executed.
+   ```sh
+   shorebird doctor
+   ```
 
-Available commands:
-  cache      Manage the Shorebird cache.
-  doctor     Show information about the installed tooling.
-  flutter    Manage your Shorebird Flutter installation.
-  init       Initialize Shorebird.
-  login      Login as a new Shorebird user.
-  login:ci   Login as a CI user.
-  logout     Logout of the current Shorebird user
-  patch      Creates a shorebird patch for the provided target platforms
-  patches    Manage Shorebird patches
-  preview    Preview a specific release on a device.
-  release    Creates a shorebird release for the provided target platforms
-  releases   Manage Shorebird releases
-  upgrade    Upgrade your copy of Shorebird.
+3. **Log in** to your Shorebird account.
 
-Run "shorebird help <command>" for more information about a command.
-```
+   `shorebird login` opens a browser window for authentication. Return to your terminal after logging in.
 
-You can use the `shorebird doctor` to ensure things are setup correctly:
+   ```sh
+   shorebird login
+   ```
 
-```sh
-shorebird doctor
-```
+4. **Integrate Shorebird** into your Flutter app.
 
-Example output:
+   <Tabs>
+     <TabItem value="new-app" label="New App">
 
-```
-$ shorebird doctor
-Shorebird 1.5.1 • git@github.com:shorebirdtech/shorebird.git
-Flutter 3.27.0 • revision 1e0e5760eeaf534c280cf59ee0504d0e2ba12a7b
-Engine • revision 59571a1190752bc1740bff652ce5f0ba7c9413f8
+     Create a new Flutter app with Shorebird:
 
-URL Reachability
-✓ https://api.shorebird.dev OK (0.1s)
-✓ https://console.shorebird.dev OK (0.1s)
-✓ https://oauth2.googleapis.com OK (60ms)
-✓ https://storage.googleapis.com OK (0.2s)
-✓ https://cdn.shorebird.cloud OK (0.1s)
+     ```sh
+     shorebird create my_shorebird_app
+     cd my_shorebird_app
+     ```
 
-✓ Shorebird is up-to-date (1.4s)
-✓ Flutter install is correct (0.4s)
+     </TabItem>
+     <TabItem value="existing-app" label="Existing App">
 
-No issues detected!
-```
+     In your Flutter app's root directory, run:
 
-Finally, you can log in to your Shorebird account on your machine:
+     ```sh
+     shorebird init
+     ```
 
-```sh
-shorebird login
-```
+     This creates a `shorebird.yaml` file containing your `app_id`. Your `app_id` is not secret and can be committed to source control.
 
-## Integrate Shorebird
+     </TabItem>
+   </Tabs>
 
-Your now ready to add Shorebird to your app.
+   :::note
+   Shorebird supports Flutter 3.24.0 and later. See [Flutter Version Management](/getting-started/flutter-version) to configure an older version.
+   :::
 
-You can start by creating a new Flutter app or navigating to the directory of
-your already created Flutter app.
-
-To create a new Flutter app:
-
-```sh
-shorebird create my_shorebird_app
-cd my_shorebird_app
-```
-
-Or, to enable Shorebird for an existing Flutter app run:
-
-```sh
-shorebird init
-```
-
-This will create a `shorebird.yaml` file in the root of your project. This file
-contains your Shorebird `app_id`. Your `app_id` is not secret and can be checked
-into source control and freely shared.
-
-This will also run `shorebird doctor` to ensure everything is set up correctly.
-
-:::note
-
-Shorebird expects to find the latest stable `flutter` installed on your machine.
-Shorebird can be configured to work with older versions of Flutter (back to
-3.10.0). See [Flutter Version Management](/getting-started/flutter-version) for
-more info.
-
-:::
+</Steps>
 
 ## Next Steps
-
-Now that your account is set up and your app is initialized, you're all set to
-begin.
 
 <LinkCard
   href="/code-push/release"

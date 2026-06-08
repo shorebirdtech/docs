@@ -15,8 +15,7 @@ npm run dev
 ```
 
 You can create a personal API key at **Linear → Settings → API → Personal API
-Keys**. Without the key the page renders a fallback message instead of
-crashing.
+Keys**. Without the key the page renders a fallback message instead of crashing.
 
 In CI the key is read from the `LINEAR_API_KEY` repository secret.
 

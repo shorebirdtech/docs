@@ -36,7 +36,10 @@ jobs:
     # https://github.com/CloudCannon/pagefind/issues/574
     runs-on: macos-latest
 
-    if: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+    if:
+      ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      github.event_name == 'schedule' || github.event_name ==
+      'workflow_dispatch' }}
 
     environment:
       name: github-pages

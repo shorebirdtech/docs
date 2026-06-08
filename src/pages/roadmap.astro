@@ -30,6 +30,24 @@ function quarterSortKey(label: string): number {
   return parseInt(year) * 10 + parseInt(q.slice(1));
 }
 
+function currentQuarterCutoff(): Date {
+  const now = new Date();
+  const quarter = Math.ceil((now.getUTCMonth() + 1) / 3);
+  // Start of one quarter behind current
+  const cutoffQuarter = quarter === 1 ? 4 : quarter - 1;
+  const cutoffYear = quarter === 1 ? now.getUTCFullYear() - 1 : now.getUTCFullYear();
+  const cutoffMonth = (cutoffQuarter - 1) * 3; // 0-indexed month start of that quarter
+  return new Date(Date.UTC(cutoffYear, cutoffMonth, 1));
+}
+
+const STATUS_LABEL: Record<string, string> = {
+  planned: 'Planned',
+  started: 'In Progress',
+  paused: 'Paused',
+  completed: 'Completed',
+  cancelled: 'Cancelled',
+};
+
 const LINEAR_API_KEY = import.meta.env.LINEAR_API_KEY;
 
 let projects: LinearProject[] = [];
@@ -76,11 +94,14 @@ if (LINEAR_API_KEY) {
 }
 
 // Group by quarter; projects without a targetDate go to the "Future" bucket
+// Filter out anything with a targetDate before the start of one quarter ago
+const cutoff = currentQuarterCutoff();
 const quarterMap = new Map<string, LinearProject[]>();
 const futureProjects: LinearProject[] = [];
 
 for (const p of projects) {
   if (p.targetDate) {
+    if (new Date(p.targetDate) < cutoff) continue;
     const label = getQuarterLabel(p.targetDate);
     if (!quarterMap.has(label)) quarterMap.set(label, []);
     quarterMap.get(label)!.push(p);
@@ -125,6 +146,11 @@ const buildTime = new Date().toLocaleDateString('en-US', {
                 <div class="project-card">
                   <div class="project-header">
                     <p class="project-name">{p.name}</p>
+                    {STATUS_LABEL[p.state] && (
+                      <span class={`status-badge status-${p.state}`}>
+                        {STATUS_LABEL[p.state]}
+                      </span>
+                    )}
                     {PRIORITY_LABEL[p.priority] && (
                       <span class={`priority-badge priority-${p.priority}`}>
                         {PRIORITY_LABEL[p.priority]}
@@ -147,7 +173,19 @@ const buildTime = new Date().toLocaleDateString('en-US', {
           <div class="project-list">
             {futureProjects.map((p) => (
               <div class="project-card">
-                <p class="project-name">{p.name}</p>
+                <div class="project-header">
+                  <p class="project-name">{p.name}</p>
+                  {STATUS_LABEL[p.state] && (
+                    <span class={`status-badge status-${p.state}`}>
+                      {STATUS_LABEL[p.state]}
+                    </span>
+                  )}
+                  {PRIORITY_LABEL[p.priority] && (
+                    <span class={`priority-badge priority-${p.priority}`}>
+                      {PRIORITY_LABEL[p.priority]}
+                    </span>
+                  )}
+                </div>
                 {p.description && (
                   <p class="project-desc">{p.description}</p>
                 )}
@@ -203,7 +241,23 @@ const buildTime = new Date().toLocaleDateString('en-US', {
     border-radius: 999px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
+    margin-left: auto;
   }
+
+  .status-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.1rem 0.45rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .status-planned    { background: #e0f2fe; color: #0369a1; }
+  .status-started    { background: #ede9fe; color: #6d28d9; }
+  .status-paused     { background: #f3f4f6; color: #4b5563; }
+  .status-completed  { background: #dcfce7; color: #15803d; }
+  .status-cancelled  { background: #f1f5f9; color: #64748b; }
 
   .priority-1 { background: #fee2e2; color: #b91c1c; } /* Urgent */
   .priority-2 { background: #ffedd5; color: #c2410c; } /* High */

@@ -40,9 +40,12 @@ words:
   - elif
   - evenodd
   - ffigen
+  - frontmatter
+  - graphql
   - jank
   - janky
   - keyrings
+  - linearapp
   - lavamoat
   - libapp
   - libflutter

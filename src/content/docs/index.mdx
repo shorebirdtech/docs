@@ -1,26 +1,52 @@
 ---
-title: Welcome
+title: Welcome to Shorebird Docs
 description: Welcome to Shorebird Docs
-sidebar:
-  order: 1
 ---
 
 import { LinkButton, LinkCard } from 'starlight-theme-nova/components';
 
-Welcome to Shorebird! 👋
+## What is Shorebird?
 
-Whether you're just getting started or looking to dive deeper into advance usage
-of our products, you'll find everything you need here—from quick start guides to
-in-depth technical references.
+Shorebird lets you push code updates to your Flutter app instantly, without
+waiting for app store review. These docs are for Flutter developers integrating
+Shorebird into new or existing Flutter apps. These docs cover everything from
+your first integration to your custom deployment workflows.
+
+## Before You Begin
+
+You'll need the following before getting started:
+
+- [Flutter 3.24.0 or later](https://docs.flutter.dev/install/quick) installed
+  locally
+- [Git](https://git-scm.com) installed locally
+
+<br />
 
 <LinkButton href="/getting-started/" icon="rocket">
   Quick Start
 </LinkButton>
 
+## Explore the Docs
+
+<LinkCard
+  href="/getting-started/"
+  title="Getting Started"
+  description="Install Shorebird, create your first release, and push your first patch."
+/>
+<LinkCard
+  href="/code-push/"
+  title="Code Push"
+  description="Learn how code push works, manage releases and patches, and configure update strategies."
+/>
+<LinkCard
+  href="/ci/"
+  title="CI Integration"
+  description="Automate releases and patches in your CI/CD pipeline."
+/>
+
 ## Contact Us
 
-Still have questions? We are here to help and can be contacted in a variety of
-ways.
+Still have questions? Reach us through any of these channels.
 
 <LinkCard
   href="https://discord.gg/shorebird"

@@ -53,13 +53,12 @@ h6 {
 }
 
 /* Add spacing between paragraphs and interactive components (e.g. LinkButton) */
-.sl-markdown-content>p+.not-content {
+.sl-markdown-content > p + .not-content {
   margin-top: 1rem;
 }
 
 /* Make code blocks stand out from surrounding content (dark mode only) */
 :root:not([data-theme='light']) {
-
   .astro-code,
   .code-tabs {
     background-color: var(--sl-color-gray-6) !important;

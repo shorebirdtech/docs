@@ -45,6 +45,7 @@ h6 {
     list-style: disc;
     padding-left: 1.5rem;
   }
+
   ol {
     list-style: decimal;
     padding-left: 1.5rem;
@@ -52,14 +53,27 @@ h6 {
 }
 
 /* Add spacing between paragraphs and interactive components (e.g. LinkButton) */
-.sl-markdown-content > p + .not-content {
+.sl-markdown-content>p+.not-content {
   margin-top: 1rem;
 }
 
 /* Make code blocks stand out from surrounding content (dark mode only) */
 :root:not([data-theme='light']) {
+
   .astro-code,
   .code-tabs {
     background-color: var(--sl-color-gray-6) !important;
   }
+}
+
+/* Override nested sidebar group labels to match regular article links */
+.sidebar-content details details summary .large {
+  font-size: var(--sl-text-sm) !important;
+  color: var(--sl-color-gray-2) !important;
+  font-weight: normal !important;
+}
+
+/* Match hover behavior of regular article links */
+.sidebar-content details details summary:hover .large {
+  color: var(--sl-color-white) !important;
 }

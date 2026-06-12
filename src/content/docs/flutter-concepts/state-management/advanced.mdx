@@ -1,21 +1,27 @@
 ---
 title: Advanced State Management (BLoC)
-description: Build a production-ready weather app with the BLoC Single State pattern
+description:
+  Build a production-ready weather app with the BLoC Single State pattern
 sidebar:
   order: 2
 ---
 
-In the [Beginner Guide](/flutter-concepts/state-management/beginner), we explored the core philosophy of BLoC and how to leverage the Single State + Enum pattern to avoid screen flickering and preserve data.
+In the [Beginner Guide](/flutter-concepts/state-management/beginner), we
+explored the core philosophy of BLoC and how to leverage the Single State + Enum
+pattern to avoid screen flickering and preserve data.
 
-Now, let's put these professional state management practices into action by building a fully-featured, production-ready weather app from scratch using BLoC, the repository pattern, and HTTP integrations.
+Now, let's put these professional state management practices into action by
+building a fully-featured, production-ready weather app from scratch using BLoC,
+the repository pattern, and HTTP integrations.
 
 This walkthrough will cover:
-*   Modeling domain entities with value equality (`Equatable`)
-*   Fetching and parsing multi-step HTTP requests in a repository
-*   Creating a single-state BLoC using status enums
-*   Implementing silent pulls-to-refresh
-*   Wiring the BLoC and repository dependencies into the Flutter UI
-*   Using `BlocObserver` to log and trace transitions
+
+- Modeling domain entities with value equality (`Equatable`)
+- Fetching and parsing multi-step HTTP requests in a repository
+- Creating a single-state BLoC using status enums
+- Implementing silent pulls-to-refresh
+- Wiring the BLoC and repository dependencies into the Flutter UI
+- Using `BlocObserver` to log and trace transitions
 
 ---
 
@@ -27,7 +33,8 @@ To get started, create a new Flutter app by running the following command:
 flutter create my_new_app
 ```
 
-Alternatively, if you want support for over-the-air updates from day 1, you can [install the Shorebird CLI](/getting-started/) and run:
+Alternatively, if you want support for over-the-air updates from day 1, you can
+[install the Shorebird CLI](/getting-started/) and run:
 
 ```bash
 shorebird create my_new_app
@@ -44,21 +51,25 @@ dependencies:
   http: ^1.2.0
 ```
 
-*   `flutter_bloc` wires streams into the widget tree with `BlocProvider` and `BlocBuilder`.
-*   `equatable` gives your events, states, and models value equality.
-*   `http` is used by the repository to call the weather API.
+- `flutter_bloc` wires streams into the widget tree with `BlocProvider` and
+  `BlocBuilder`.
+- `equatable` gives your events, states, and models value equality.
+- `http` is used by the repository to call the weather API.
 
 ---
 
 ## Step-by-Step Implementation
 
 This implementation includes two user actions:
+
 1. **Fetch** shows a spinner and replaces the UI state.
-2. **Refresh** updates silently in the background, keeping the existing content visible while indicating a loading overlay.
+2. **Refresh** updates silently in the background, keeping the existing content
+   visible while indicating a loading overlay.
 
 ### Step 1: Model the Domain
 
-A small, UI-friendly model makes state rendering predictable. It also keeps your UI independent of the raw API response shape.
+A small, UI-friendly model makes state rendering predictable. It also keeps your
+UI independent of the raw API response shape.
 
 ```dart
 // lib/features/weather/models/weather.dart
@@ -186,11 +197,13 @@ enum WeatherCondition {
 }
 ```
 
-A key detail here is using `Equatable`. It prevents subtle UI churn because identical values compare equal, avoiding unnecessary rebuilds.
+A key detail here is using `Equatable`. It prevents subtle UI churn because
+identical values compare equal, avoiding unnecessary rebuilds.
 
 ### Step 2: Build the Weather Repository
 
-The repository has one job: take a city name, search coordinates, fetch the forecast, and return a structured `Weather` model (or throw an error).
+The repository has one job: take a city name, search coordinates, fetch the
+forecast, and return a structured `Weather` model (or throw an error).
 
 ```dart
 // lib/features/weather/repositories/weather_repository.dart
@@ -314,7 +327,8 @@ final class _GeoResult {
 }
 ```
 
-Separating this logic ensures that if you swap weather providers or add caching layers later, your BLoC and UI layers remain unaffected.
+Separating this logic ensures that if you swap weather providers or add caching
+layers later, your BLoC and UI layers remain unaffected.
 
 ### Step 3: Define Events
 
@@ -350,7 +364,8 @@ final class WeatherRefreshRequested extends WeatherEvent {
 
 ### Step 4: Define States using the Single State Pattern
 
-Instead of creating separate classes for each state (which breaks data retention during refreshes), we use a Single State Class with a status enum.
+Instead of creating separate classes for each state (which breaks data retention
+during refreshes), we use a Single State Class with a status enum.
 
 ```dart
 // lib/features/weather/bloc/weather_state.dart
@@ -388,7 +403,9 @@ class WeatherState extends Equatable {
 
 ### Step 5: Implement the BLoC
 
-Now we write the business logic orchestrator. We use `copyWith` to emit state modifications. Notice that during refreshes, we preserve the existing weather data.
+Now we write the business logic orchestrator. We use `copyWith` to emit state
+modifications. Notice that during refreshes, we preserve the existing weather
+data.
 
 ```dart
 // lib/features/weather/bloc/weather_bloc.dart
@@ -454,10 +471,12 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
 ### Step 6: Wiring It Into the UI
 
 We split this feature layout into:
-*   `WeatherPage` – Sets up the dependency injection context.
-*   `WeatherView` – Owns the text controllers and renders states.
+
+- `WeatherPage` – Sets up the dependency injection context.
+- `WeatherView` – Owns the text controllers and renders states.
 
 **WeatherPage**
+
 ```dart
 // lib/features/weather/view/weather_page.dart
 import 'package:flutter/material.dart';
@@ -480,6 +499,7 @@ class WeatherPage extends StatelessWidget {
 ```
 
 **WeatherView**
+
 ```dart
 // lib/features/weather/view/weather_view.dart
 import 'package:flutter/material.dart';
@@ -537,7 +557,7 @@ class _WeatherViewState extends State<WeatherView> {
                         style: Theme.of(context).textTheme.displaySmall,
                       ),
                       Text(state.weather!.condition),
-                      
+
                       // Overlay an activity bar if a background refresh is in progress
                       if (state.status == WeatherStatus.loading) ...[
                         const SizedBox(height: 16),
@@ -628,18 +648,32 @@ class AppBlocObserver extends BlocObserver {
 
 ## Why Enterprise Teams Choose BLoC
 
-BLoC isn't popular because it is trendy; it sticks because it makes app behavior extremely predictable. When the codebase grows, and production issues happen under pressure, having one place where "what happened" maps strictly to state output reduces debugging surface area.
+BLoC isn't popular because it is trendy; it sticks because it makes app behavior
+extremely predictable. When the codebase grows, and production issues happen
+under pressure, having one place where "what happened" maps strictly to state
+output reduces debugging surface area.
 
-*   **Testability without emulation**: `WeatherBloc` has no dependencies on the Flutter UI, so you can test it entirely using standard unit tests or the [`bloc_test`](https://pub.dev/packages/bloc_test) package.
-*   **Traceability with observers**: A custom `BlocObserver` logs all transitions globally. 
-*   **Decoupled code ownership**: Designers work on the UI matching state variables, network developers write repositories, and logic developers write BLoCs. 
+- **Testability without emulation**: `WeatherBloc` has no dependencies on the
+  Flutter UI, so you can test it entirely using standard unit tests or the
+  [`bloc_test`](https://pub.dev/packages/bloc_test) package.
+- **Traceability with observers**: A custom `BlocObserver` logs all transitions
+  globally.
+- **Decoupled code ownership**: Designers work on the UI matching state
+  variables, network developers write repositories, and logic developers write
+  BLoCs.
 
 ---
 
 ## BLoC + Shorebird: OTA Code Push Optimization
 
-[Shorebird](https://shorebird.dev/) enables Flutter applications to download code updates on the fly without waiting for store reviews. 
+[Shorebird](https://shorebird.dev/) enables Flutter applications to download
+code updates on the fly without waiting for store reviews.
 
 The Single State pattern works hand-in-hand with Shorebird:
-1.  **Minimized Change blast radius**: If you need to fix state mappings or API endpoints, the code changes are isolated to standard Dart files (`WeatherBloc` or `WeatherRepository`) rather than UI layout files.
-2.  **Stable State Restoration**: Because the state structure is single-class and predictable, patching business logic does not break active UI memory sessions.
+
+1.  **Minimized Change blast radius**: If you need to fix state mappings or API
+    endpoints, the code changes are isolated to standard Dart files
+    (`WeatherBloc` or `WeatherRepository`) rather than UI layout files.
+2.  **Stable State Restoration**: Because the state structure is single-class
+    and predictable, patching business logic does not break active UI memory
+    sessions.

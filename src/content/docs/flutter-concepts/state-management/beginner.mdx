@@ -1,6 +1,7 @@
 ---
 title: State Management in Flutter
-description: Master state management in Flutter using the BLoC Single State pattern.
+description:
+  Master state management in Flutter using the BLoC Single State pattern.
 sidebar:
   order: 1
 ---
@@ -8,25 +9,41 @@ sidebar:
 import { Image } from 'astro:assets';
 import bloc_event_diagram from '~/assets/bloc_event_diagram.jpeg';
 
-There are lots of "State Management" techniques in the Flutter ecosystem. You don't need to learn all of them; just this one is enough for your production app!
+There are lots of "State Management" techniques in the Flutter ecosystem. You
+don't need to learn all of them; just this one is enough for your production
+app!
 
-You're learning Flutter. You've mastered stacking widgets to build beautiful UIs, and now it's time to manage real data. You ask the community for advice, and the answer is almost always: "Use BLoC."
+You're learning Flutter. You've mastered stacking widgets to build beautiful
+UIs, and now it's time to manage real data. You ask the community for advice,
+and the answer is almost always: "Use BLoC."
 
-But be careful. If you pull up a standard beginner tutorial, you are likely going to be taught a fundamental architectural trap: **creating a completely different class for every state.**
+But be careful. If you pull up a standard beginner tutorial, you are likely
+going to be taught a fundamental architectural trap: **creating a completely
+different class for every state.**
 
-While this looks easy at first, it's the exact reason why so many beginner apps feel clunky. It causes your app to "forget" its data every time it loads something new, resulting in jarring, flashing screens.
+While this looks easy at first, it's the exact reason why so many beginner apps
+feel clunky. It causes your app to "forget" its data every time it loads
+something new, resulting in jarring, flashing screens.
 
-Instead of unlearning bad habits later, let's get it right from the start. Today, we are going to learn how to structure BLoC the professional way using the **Single State pattern**.
+Instead of unlearning bad habits later, let's get it right from the start.
+Today, we are going to learn how to structure BLoC the professional way using
+the **Single State pattern**.
 
 ## The Philosophy of BLoC
 
-When you start learning Flutter and get to state management, the first thing you will hear is BLoC. **BLoC (Business Logic Component)** is the gold standard for state management. The philosophy is incredibly simple, even if the boilerplate sometimes feels heavy:
+When you start learning Flutter and get to state management, the first thing you
+will hear is BLoC. **BLoC (Business Logic Component)** is the gold standard for
+state management. The philosophy is incredibly simple, even if the boilerplate
+sometimes feels heavy:
 
-*   **Events go in:** A user taps a button, or a lifecycle hook fires.
-*   **Logic happens:** The BLoC does the processing (API calls, database reads, complex calculations).
-*   **States come out:** The UI listens to these states and rebuilds itself accordingly.
+- **Events go in:** A user taps a button, or a lifecycle hook fires.
+- **Logic happens:** The BLoC does the processing (API calls, database reads,
+  complex calculations).
+- **States come out:** The UI listens to these states and rebuilds itself
+  accordingly.
 
-By strictly separating the UI layer from the business logic, your codebase becomes highly testable and deeply predictable.
+By strictly separating the UI layer from the business logic, your codebase
+becomes highly testable and deeply predictable.
 
 <Image
   src={bloc_event_diagram}
@@ -35,9 +52,11 @@ By strictly separating the UI layer from the business logic, your codebase becom
 
 ## The Great BLoC Anti-Pattern
 
-Despite its popularity, there is a massive trap that a large percentage of developers fall into early on: **creating a separate class for every state.**
+Despite its popularity, there is a massive trap that a large percentage of
+developers fall into early on: **creating a separate class for every state.**
 
-You've probably seen (or written) codebases littered with state classes like this:
+You've probably seen (or written) codebases littered with state classes like
+this:
 
 ```dart
 // ❌ The Anti-Pattern
@@ -58,15 +77,23 @@ class UserFailure extends UserState {
 }
 ```
 
-Why is this a problem for complex apps? Imagine your user has already loaded their profile (`UserSuccess`). Now, they pull to refresh. You dispatch a new event, and your BLoC emits `UserLoading`.
+Why is this a problem for complex apps? Imagine your user has already loaded
+their profile (`UserSuccess`). Now, they pull to refresh. You dispatch a new
+event, and your BLoC emits `UserLoading`.
 
-Because `UserLoading` is a completely different class, **it doesn't have the profile data!** Your UI suddenly forgets the user's name, the screen goes blank, a spinner appears, and your app feels jarring and broken. You lose context every time the state type changes.
+Because `UserLoading` is a completely different class, **it doesn't have the
+profile data!** Your UI suddenly forgets the user's name, the screen goes blank,
+a spinner appears, and your app feels jarring and broken. You lose context every
+time the state type changes.
 
 ## The Best Practice: The Single State + Enum Pattern
 
-To build fluid, professional applications, we need to abandon the use of multiple state classes. Instead, we use a **Single State Class** equipped with a **status enum** and a `copyWith` method.
+To build fluid, professional applications, we need to abandon the use of
+multiple state classes. Instead, we use a **Single State Class** equipped with a
+**status enum** and a `copyWith` method.
 
-This allows us to transition the app to a "loading" state while retaining the data we already fetched.
+This allows us to transition the app to a "loading" state while retaining the
+data we already fetched.
 
 Here is what a clean, production-ready state looks like:
 
@@ -80,7 +107,10 @@ enum UserStatus { initial, loading, success, failure }
 
 ### 2. The Single State Class
 
-Notice how we use the `Equatable` package. This package allows us to compare instances of objects. This is crucial as it tells BLoC only to trigger a UI rebuild if the actual values inside the state have changed, saving us from performance bottlenecks.
+Notice how we use the `Equatable` package. This package allows us to compare
+instances of objects. This is crucial as it tells BLoC only to trigger a UI
+rebuild if the actual values inside the state have changed, saving us from
+performance bottlenecks.
 
 ```dart
 import 'package:equatable/equatable.dart';
@@ -96,7 +126,7 @@ class UserState extends Equatable {
     this.errorMessage,
   });
 
-  // The MVP of state management. 
+  // The MVP of state management.
   // copyWith lets us update the status without deleting the loaded profile!
   UserState copyWith({
     UserStatus? status,
@@ -117,7 +147,8 @@ class UserState extends Equatable {
 
 ### 3. The Events
 
-Events should be named as actions that happened, not what you want the BLoC to do.
+Events should be named as actions that happened, not what you want the BLoC to
+do.
 
 ```dart
 abstract class UserEvent extends Equatable {
@@ -131,7 +162,9 @@ class UserProfileRefreshRequested extends UserEvent {}
 
 ## Writing the BLoC
 
-Now we build the brain. We map our events to state emissions. When an event comes in to refresh the profile, we don't destroy our existing state. We simply change the status.
+Now we build the brain. We map our events to state emissions. When an event
+comes in to refresh the profile, we don't destroy our existing state. We simply
+change the status.
 
 ```dart
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -147,23 +180,23 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     UserProfileRefreshRequested event,
     Emitter<UserState> emit,
   ) async {
-    // 1. Tell the UI we are loading. 
+    // 1. Tell the UI we are loading.
     // Because we use copyWith, the existing profile data stays on the screen!
     emit(state.copyWith(status: UserStatus.loading));
-    
+
     try {
       final profile = await repository.fetchProfile();
-      
+
       // 2. Data fetched successfully. Update status and profile.
       emit(state.copyWith(
-        status: UserStatus.success, 
+        status: UserStatus.success,
         profile: profile,
       ));
-      
+
     } catch (e) {
       // 3. It failed. Emit the error, but keep the old profile data visible!
       emit(state.copyWith(
-        status: UserStatus.failure, 
+        status: UserStatus.failure,
         errorMessage: e.toString(),
       ));
     }
@@ -173,9 +206,12 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
 ## The Magic on the Screen (UI)
 
-By shifting to this pattern early in your learning journey, your UI code becomes drastically simpler, and that clunky "flashing white screen" disappears forever. 
+By shifting to this pattern early in your learning journey, your UI code becomes
+drastically simpler, and that clunky "flashing white screen" disappears forever.
 
-If a user refreshes and their internet goes out, you can now show a subtle `SnackBar` popup with the error message while still displaying their previously loaded profile.
+If a user refreshes and their internet goes out, you can now show a subtle
+`SnackBar` popup with the error message while still displaying their previously
+loaded profile.
 
 ```dart
 BlocConsumer<UserBloc, UserState>(
@@ -193,14 +229,14 @@ BlocConsumer<UserBloc, UserState>(
       return Stack(
         children: [
           ProfileWidget(profile: state.profile!),
-          
+
           // Show a subtle, modern loading bar over the existing data
-          if (state.status == UserStatus.loading) 
+          if (state.status == UserStatus.loading)
             const LinearProgressIndicator(),
         ],
       );
     }
-    
+
     // Only show a full-screen loader if we have NO data at all (first time opening)
     return const Center(child: CircularProgressIndicator());
   },
@@ -209,10 +245,19 @@ BlocConsumer<UserBloc, UserState>(
 
 ## Bonus: The Hidden Superpower of Clean Architecture
 
-Writing your BLoC this way doesn't just make your UI smoother, it actually unlocks advanced deployment capabilities for your app.
+Writing your BLoC this way doesn't just make your UI smoother, it actually
+unlocks advanced deployment capabilities for your app.
 
-When you use the Single State pattern, you are strictly separating your UI code from your business logic. This separation makes you the perfect candidate for **Code Push**.
+When you use the Single State pattern, you are strictly separating your UI code
+from your business logic. This separation makes you the perfect candidate for
+**Code Push**.
 
-Because your logic is perfectly isolated, tools like [Shorebird](https://shorebird.dev/) can easily identify your Dart code and push updates directly to your users' devices over the air. If you accidentally deploy a bug in your `UserBloc` (like a typo in your API endpoint), you can patch that single BLoC file and fix the app instantly, completely bypassing the App Store or Google Play review process.
+Because your logic is perfectly isolated, tools like
+[Shorebird](https://shorebird.dev/) can easily identify your Dart code and push
+updates directly to your users' devices over the air. If you accidentally deploy
+a bug in your `UserBloc` (like a typo in your API endpoint), you can patch that
+single BLoC file and fix the app instantly, completely bypassing the App Store
+or Google Play review process.
 
-Shorebird works like magic, but the magic only works when your architecture is clean.
+Shorebird works like magic, but the magic only works when your architecture is
+clean.

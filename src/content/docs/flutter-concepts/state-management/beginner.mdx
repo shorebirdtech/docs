@@ -5,6 +5,9 @@ sidebar:
   order: 1
 ---
 
+import { Image } from 'astro:assets';
+import bloc_event_diagram from '~/assets/bloc_event_diagram.jpeg';
+
 There are lots of "State Management" techniques in the Flutter ecosystem. You don't need to learn all of them; just this one is enough for your production app!
 
 You're learning Flutter. You've mastered stacking widgets to build beautiful UIs, and now it's time to manage real data. You ask the community for advice, and the answer is almost always: "Use BLoC."
@@ -24,6 +27,11 @@ When you start learning Flutter and get to state management, the first thing you
 *   **States come out:** The UI listens to these states and rebuilds itself accordingly.
 
 By strictly separating the UI layer from the business logic, your codebase becomes highly testable and deeply predictable.
+
+<Image
+  src={bloc_event_diagram}
+  alt="Diagram of how BLoC interacts with widgets and APIs"
+/>
 
 ## The Great BLoC Anti-Pattern
 

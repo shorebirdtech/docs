@@ -195,7 +195,7 @@ advertised purpose of the Application as submitted to the App Store,
 ```
 
 Shorebird uses a custom Dart interpreter to comply with the interpreter-only
-restriction for updates on iOS. So long as your application is not engaging in
+restriction for updates on iOS. So as long as your application is not engaging in
 deceptive behavior via updates (e.g. changing the purpose of the app via
 update), updating via Shorebird (or any other code push solution) is standard
 industry practice and compliant with
@@ -377,12 +377,12 @@ declarations for the Play Store or App Store.
 
 Requests sent from the app to Shorebird servers include:
 
-- app_id (specified `shorebird.yaml`)
+- app_id (specified in `shorebird.yaml`)
 - channel (optional in `shorebird.yaml`)
-- release_version (versionName from AndroidManifest.xml)
+- release_version (`versionName` from `AndroidManifest.xml`)
 - patch_number (generated as part of `shorebird patch android`)
-- arch (e.g. 'aarch64', needed to send down the right patch)
-- platform (e.g. 'android', needed to send down the right patch)
+- arch (e.g. `aarch64`, needed to send down the right patch)
+- platform (e.g. `android`, needed to send down the right patch)
 - client_id (anonymous, aggregated, per-app identifier used to provide active
   user metrics)
 
@@ -521,7 +521,7 @@ groups of users (e.g. "internal testing", "closed beta", etc.). These are all
 mechanisms for segmenting your users into groups and distributing specific
 versions of your apps to each.
 
-Unfortunately, these not all of these mechanisms allow 3rd parties to detect
+Unfortunately, not all of these mechanisms allow 3rd parties to detect
 when apps are installed in any specific Test Track or via TestFlight. Thus, we
 do not have reliable visibility into composition of these groups, and cannot
 reliably gate access to Shorebird patches based on these groups. You can read a
@@ -569,7 +569,7 @@ month, your billing period will reset on the 15th of every month.
 ### How do I cancel my subscription?
 
 To cancel your subscription, you can view your
-[account](https://console.shorebird.dev/account) and click "Edit" -> "Cancel
+[account](https://console.shorebird.dev/account) and click "Manage Plan" -> "Edit" -> "Cancel
 Subscription".
 
 You will continue to have all the features of a paid account until the end of

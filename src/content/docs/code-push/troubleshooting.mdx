@@ -105,11 +105,12 @@ An example of this warning:
 Continue anyways? (y/N)
 ```
 
-So what does this mean? In this case, it means you added a new image to your app.
-The warning is because your patched Dart code could _depend_ on those new assets
-which will not be present when the patch is applied in the wild. It can be safe
-to ignore this kind of warning if you're removing an asset that is not used by
-your code, or your Dart code knows how to handle the asset being missing.
+So what does this mean? In this case, it means you added a new image to your
+app. The warning is because your patched Dart code could _depend_ on those new
+assets which will not be present when the patch is applied in the wild. It can
+be safe to ignore this kind of warning if you're removing an asset that is not
+used by your code, or your Dart code knows how to handle the asset being
+missing.
 
 Also included in the above changes are the `AssetManifest` files. These files
 change any time you add or remove an asset from your app, and are generally a
@@ -187,9 +188,9 @@ This can be caused by a number of things. The most common causes are:
    :::
 
 2. A dependency/plugin produces a different output on every build. This can
-   happen if the dependency includes a timestamp indicating when it was
-   built, for example. This kind of change is usually safe to publish, but you
-   should be sure this is the only reason you are seeing this warning.
+   happen if the dependency includes a timestamp indicating when it was built,
+   for example. This kind of change is usually safe to publish, but you should
+   be sure this is the only reason you are seeing this warning.
 3. (iOS only) The release was built with a different version of Xcode than the
    patch. This can be fixed by ensuring that you are using the same version of
    Xcode to build the release and the patch. If you've upgraded to a newer

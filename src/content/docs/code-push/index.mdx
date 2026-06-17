@@ -56,7 +56,7 @@ Shorebird. Feel free to skip it now and come back later if you need.
 
 Code push, also referred to as "over the air updates" (OTA) is a cloud service
 enabling Flutter developers to deploy updates to their apps in production.
-Shorebird works on all platforms where Flutter works.
+Shorebird works on Android, iOS, macOS, Linux and Windows.
 
 "Code Push" is a reference to the name of a deploy feature used by the React
 Native community from [Microsoft](https://appcenter.ms) and
@@ -117,7 +117,7 @@ Store or Play Store.
 A release can have zero or more [patches](#patch) applied to it.
 
 Releases are created by running `shorebird release [platform]`, where `platform`
-is `android`, `ios`, `windows` or `macos`.
+is `android`, `ios`, `windows`, `linux` or `macos`.
 
 #### Patch
 
@@ -131,7 +131,7 @@ When your application starts, it checks for available patches and applies the
 latest one. This patch will be visible the next time your application launches.
 
 Patches are created by running `shorebird patch [platform]`, where `platform` is
-`android`, `ios`, `windows` or `macos`.
+`android`, `ios`, `windows`, `linux`, or `macos`.
 
 :::note
 

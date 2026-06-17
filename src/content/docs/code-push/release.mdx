@@ -10,6 +10,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 import { LinkCard } from 'starlight-theme-nova/components';
 import { Image } from 'astro:assets';
 import releaseDeleteDialog from '~/assets/release_delete_dialog.png';
+import listReleases from '~/assets/list_releases.png';
 
 In order to start pushing updates, you will need to create a release.
 
@@ -409,6 +410,11 @@ shorebird release windows --flutter-version %flutter_version%
 
 You can view all of your releases for your current app (as defined by your
 shorebird.yaml) on the [Shorebird console](https://console.shorebird.dev/).
+
+<Image
+  src={listReleases}
+  alt="Shorebird Console List Releases"
+/>
 
 ### Delete Releases
 

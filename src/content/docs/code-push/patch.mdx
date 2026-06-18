@@ -102,7 +102,7 @@ If your application supports flavors or multiple release targets, you can
 specify the flavor and target using the `--flavor` and `--target` options:
 
 ```
-shorebird patch [android|ios] --target lib/main_development.dart --flavor development
+shorebird patch android --target lib/main_development.dart --flavor development
 ```
 
 :::note
@@ -133,7 +133,9 @@ code (e.g., code for processing images, or large datasets), you may see a
 performance difference after patching.
 
 You can always test your patches before sending them to users by
-[staging patches](/code-push/guides/staging-patches).
+[staging patches](/code-push/guides/staging-patches). For a detailed look at how
+iOS and macOS patching works, see
+[System Architecture](/code-push/system-architecture).
 
 If you ever see unexpected performance changes when patching, please
 [contact us](mailto:contact@shorebird.dev), and we would love to help!

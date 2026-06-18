@@ -404,6 +404,19 @@ shorebird release windows --flutter-version %flutter_version%
 
 </Tabs>
 
+### Releasing for Multiple Platforms Simultaneously
+
+If your app supports multiple platforms, you can build and publish releases for
+them in a single command using the `--platforms` (or `-p`) option:
+
+```sh
+shorebird release --platforms=android,ios
+```
+
+This will compile the binaries for the specified platforms and register them as
+a single version release in your Shorebird console. Note that to release for iOS
+or macOS, you must run this command on macOS hardware.
+
 ## Manage Releases
 
 ### List Releases

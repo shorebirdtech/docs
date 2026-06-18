@@ -46,6 +46,18 @@ shorebird patch windows
 
 </CodeTabs>
 
+### Patching Multiple Platforms Simultaneously
+
+If your app supports multiple platforms, you can build and publish patches for
+them in a single command using the `--platforms` (or `-p`) option:
+
+```sh
+shorebird patch --platforms=android,ios
+```
+
+This will build and promote the patches for the specified platforms to their
+respective releases in one step.
+
 This will do several things:
 
 1. Builds the artifacts for the update.

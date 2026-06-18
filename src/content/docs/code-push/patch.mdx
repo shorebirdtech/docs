@@ -151,3 +151,50 @@ iOS and macOS patching works, see
 
 If you ever see unexpected performance changes when patching, please
 [contact us](mailto:contact@shorebird.dev), and we would love to help!
+
+---
+
+## Manage Patches
+
+You can manage your patches directly from the command line using the
+`shorebird patches` commands.
+
+### List Patches
+
+To list all patches associated with a specific release version:
+
+```sh
+shorebird patches list --release-version 1.0.0+1
+```
+
+This will display a list of all patches published for that release, their patch
+numbers, active status, and tracks.
+
+### View Patch Details
+
+To view detailed information for a specific patch number:
+
+```sh
+shorebird patches info --release-version 1.0.0+1 --patch-number 1
+```
+
+This command shows metadata for the specified patch, including build logs,
+checksums, and deployment track information.
+
+### Promote a Patch
+
+If you published a patch to a staging track (e.g., `staging`) and verified it
+works correctly, you can promote it directly to the `stable` track using:
+
+```sh
+shorebird patches promote --release-version 1.0.0+1 --patch-number 1
+```
+
+### Set Patch Track
+
+To assign a patch directly to a specific deployment track (e.g., promoting or
+routing to a staging beta group):
+
+```sh
+shorebird patches set-track --release-version 1.0.0+1 --patch-number 1 --track staging
+```

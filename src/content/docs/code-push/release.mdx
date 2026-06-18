@@ -419,12 +419,53 @@ or macOS, you must run this command on macOS hardware.
 
 ## Manage Releases
 
+In addition to using the [Shorebird console](https://console.shorebird.dev/),
+you can manage your app's releases directly from the command line using the
+`shorebird releases` commands.
+
 ### List Releases
+
+#### Via the Shorebird CLI
+
+To list all releases associated with your app:
+
+```sh
+shorebird releases list
+```
+
+This will output a list of all releases, showing their version number, target
+platform, Flutter version, and active patch number.
+
+#### Via the Console
 
 You can view all of your releases for your current app (as defined by your
 `shorebird.yaml`) on the [Shorebird console](https://console.shorebird.dev/).
 
 <Image src={listReleases} alt="Shorebird Console List Releases" />
+
+### View Release Details
+
+To view detailed information for a specific release version:
+
+```sh
+shorebird releases info --release-version 1.0.0+1
+```
+
+This command displays metadata for the release, including which platforms are
+active and details of any patches created for it.
+
+### Get APKs from a Release (Android only)
+
+If you created an Android release using an App Bundle (`.aab`) and want to
+generate local APKs from it for testing or side-loading, you can download them
+using:
+
+```sh
+shorebird releases get-apks --release-version 1.0.0+1
+```
+
+This will download the release artifacts and extract the compatible APK files to
+your machine.
 
 ### Delete Releases
 

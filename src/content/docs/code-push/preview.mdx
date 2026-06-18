@@ -27,6 +27,39 @@ useful for verifying releases that were created on a CI/CD server.
 
 :::
 
+## Options
+
+| Option              | Abbreviation | Description                                                                          |
+| ------------------- | ------------ | ------------------------------------------------------------------------------------ |
+| `--release-version` |              | The release version to preview (e.g., `1.0.0+1`). Defaults to an interactive prompt. |
+| `--platform`        |              | Target platform to preview: `android`, `ios`, `macos`, `linux`, or `windows`.        |
+| `--device-id`       | `-d`         | The ID of the device or simulator to preview on. Defaults to an interactive prompt.  |
+| `--track`           |              | The deployment track to preview (e.g., `stable`, `staging`). Defaults to `stable`.   |
+| `--app-id`          |              | The Shorebird app ID. Inferred from `shorebird.yaml` if not specified.               |
+
+### Android Keystore Options
+
+When previewing an Android release with a production keystore (instead of a
+debug key):
+
+| Option           | Description                                                                         |
+| ---------------- | ----------------------------------------------------------------------------------- |
+| `--ks`           | Path to the deployment keystore used to sign the APKs.                              |
+| `--ks-pass`      | Keystore password, prefixed with `pass:` (plain text) or `file:` (path to a file).  |
+| `--ks-key-pass`  | Password for the signing key. Can be omitted if identical to the keystore password. |
+| `--ks-key-alias` | Alias of the signing key to use.                                                    |
+
+**Example (Android with keystore):**
+
+```sh
+shorebird preview \
+  --platform android \
+  --release-version 1.0.0+1 \
+  --ks /path/to/keystore.jks \
+  --ks-pass pass:my_keystore_password \
+  --ks-key-alias my_key_alias
+```
+
 ## Hybrid apps
 
 Because Flutter modules (.aars and .xcframeworks, created with

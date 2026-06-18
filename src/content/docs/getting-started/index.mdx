@@ -157,6 +157,16 @@ URL Reachability
 No issues detected!
 ```
 
+:::tip[Useful `doctor` flags]
+
+- **`shorebird doctor -v`** — verbose mode, also prints Android toolchain info
+  (Android Studio, SDK, ADB, Java version, Gradle) and runs a GCP network speed
+  test.
+- **`shorebird doctor -f`** — attempts to auto-fix any detected issues (e.g.,
+  adding missing `INTERNET` permission to `AndroidManifest.xml`).
+
+:::
+
 Finally, you can log in to your Shorebird account on your machine:
 
 ```sh

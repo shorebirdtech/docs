@@ -266,8 +266,8 @@ import 'package:http/http.dart' as http;
 import '../models/weather.dart';
 
 /// Repository that:
-/// 1) Geo codes a city name -> lat/long
-/// 2) Fetches current weather for lat/long
+/// 1) Geocodes a city name -> latitude/longitude
+/// 2) Fetches current weather for latitude/longitude
 ///
 /// Uses Open-Meteo:
 /// - Geocoding: https://geocoding-api.open-meteo.com/v1/search
@@ -519,7 +519,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
 }
 ```
 
-> This code emits `WeatherFailure` on refresh errors. In some apps you might
+> This code emits `WeatherFailure` on refresh errors. In some apps, you might
 > keep the previous `WeatherSuccess` state and show a non-blocking toast
 > instead. That’s a product decision, not an architecture limitation.
 

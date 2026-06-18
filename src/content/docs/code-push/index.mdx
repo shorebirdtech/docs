@@ -24,7 +24,7 @@ A typical Code Push workflow looks like this:
 1. Use the Shorebird CLI to create a new **release** of your app.
 1. Distribute that release through the App Store or Google Play.
 1. Make changes to your app's Dart code. This could be a bug fix, a new feature,
-   or anything else, and is not limited to your app's UI – this can include
+   or anything else, and is not limited to your app's UI — this can include
    updated Dart dependencies as well.
 1. Use the Shorebird CLI to create a new **patch** to the release you created in
    the first step.
@@ -54,7 +54,7 @@ Shorebird. Feel free to skip it now and come back later if you need.
 
 ### Code Push
 
-Code push, also referred to as "over the air updates" (OTA) is a cloud service
+Code push, also referred to as "over-the-air updates" (OTA), is a cloud service
 enabling Flutter developers to deploy updates to their apps in production.
 Shorebird works on Android, iOS, macOS, Linux and Windows.
 
@@ -95,7 +95,7 @@ An application is what is created by running `flutter create [app_name]` and
 corresponds to a listing in the App Store or Play Store.
 
 Each application has a unique `app_id` that is assigned when you run
-`shorebird init`. You can find your application's id in the `shorebird.yaml`
+`shorebird init`. You can find your application's ID in the `shorebird.yaml`
 file at the root of your project.
 
 An application can have zero or more [releases](#release).
@@ -109,7 +109,7 @@ Applications that use build flavors will have a unique `app_id` for each flavor.
 #### Release
 
 A release is a specific version of an [application](#application), identified by
-a version and build number (e.g. `1.0.0+1`). Although code push works for apps
+a version and build number (e.g., `1.0.0+1`). Although code push works for apps
 distributed outside of the App Store and Play Store, a release most often
 corresponds with a specific version of your app that is published to the App
 Store or Play Store.
@@ -136,7 +136,7 @@ Patches are created by running `shorebird patch [platform]`, where `platform` is
 :::note
 
 For more information regarding when to create a patch, refer to our
-[FAQs](/code-push/faq#when-should-i-create-a-patch-vs-a-release)
+[FAQs](/code-push/faq#when-should-i-create-a-patch-vs-a-release).
 
 :::
 
@@ -145,7 +145,7 @@ For more information regarding when to create a patch, refer to our
 An artifact is the output of a build or patch operation. For example:
 
 - `shorebird release android` generates and uploads several
-  architecture-specific `libapp.so` files and an Android archive (.aab) file.
+  architecture-specific `libapp.so` files and an Android App Bundle (.aab) file.
   These are **release artifacts**.
 - `shorebird patch android` generates and uploads diff files that capture
   differences between your Dart code at patch time and the code in the

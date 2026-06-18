@@ -10,7 +10,7 @@ import { Image } from 'astro:assets';
 import goLive from '~/assets/staging_patches_change_track_dropdown.png';
 import switchTrack from '~/assets/staging_patches_patch_context_menu.png';
 
-This guide will walk through how to validate a patch in Shorebird's staging
+This guide will walk you through how to validate a patch in Shorebird's staging
 environment before promoting the patch to production.
 
 ## Prerequisites
@@ -50,7 +50,7 @@ app_id: ee322dc4-3dc2-4324-90a9-04c40a62ae76
 
 ## Create a release
 
-Now that we've created our apps on shorebird, we need to create releases (one
+Now that we've created our apps on Shorebird, we need to create releases (one
 for each platform). To create a release, we'll use the `shorebird release`
 command.
 
@@ -75,7 +75,7 @@ We can verify the releases were created successfully by visiting
 You should also
 [submit the generated app bundles to the Play Store](/code-push/guides/stores/play-store#upload-to-the-play-store)
 and
-[submit the generated ipa to the App Store](/code-push/guides/stores/app-store#upload-to-the-app-store).
+[submit the generated IPA to the App Store](/code-push/guides/stores/app-store#upload-to-the-app-store).
 
 ## Creating a patch
 
@@ -127,7 +127,7 @@ shorebird patch macos --track=staging
 
 ## Preview the release
 
-Next, preview the app release locally on a device or emulator, use
+To preview the app release locally on a device or emulator, use
 `shorebird preview`.
 
 ```sh
@@ -139,12 +139,12 @@ Shorebird will download the release and run it on your device in the staging
 environment.
 
 The first time the app is re-launched, we should still see the white `Scaffold`
-and shorebird will detect and install the patch in the background. Kill and
+and Shorebird will detect and install the patch in the background. Kill and
 re-launch the app a second time to see the applied patch with the cyan
 `Scaffold` background.
 
 If all went well, you should see the patch was applied after re-launching the
-app a second time. Congrats, you've validated your patch in the staging
+app a second time. Congratulations, you've validated your patch in the staging
 environment 🥳
 
 ## Promote the patch

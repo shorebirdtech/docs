@@ -4,8 +4,8 @@ description: Security practices of the Shorebird system
 ---
 
 This is our public security policy for the Shorebird system and products. This
-document exists both for education of our employees as well as for reference by
-our customers. Pull requests are welcome.
+document exists both for educating our employees as well as for reference by our
+customers. Pull requests are welcome.
 
 Authorship and change history for this policy are visible in the git history of
 this document.
@@ -21,9 +21,9 @@ publicly reviewable on GitHub. We use Google Cloud for the bulk of our
 infrastructure.
 
 Shorebird takes security very seriously. We take several steps to make sure that
-we protect the data you give us, only require data that is absolutely necessary
-for product functionality, and that only you can publish changes to your account
-and applications.
+we protect the data you give us, require only data that is absolutely necessary
+for product functionality, and ensure that only you can publish changes to your
+account and applications.
 
 Shorebird only offers a hosted service at this time. We do not currently offer
 [on-prem or cloud-prem](https://github.com/shorebirdtech/shorebird/issues/485)
@@ -32,13 +32,13 @@ solutions.
 ### Company Security Policy
 
 This document is focused on the specifics of the Shorebird system and product.
-If there are questions that relate to the overall company security policy please
-refer to the
+If there are questions that relate to the overall company security policy,
+please refer to the
 [Compliance section in our Handbook](https://handbook.shorebird.dev/compliance/).
 
 ## Terms
 
-Throughout this document we will refer to the following terms:
+Throughout this document, we will refer to the following terms:
 
 - Customer / you: A user of Shorebird.
 - End User: A user of a Customer's application.
@@ -55,7 +55,7 @@ would disrupt the service for other users.
 Shorebird is hosted on Google Cloud. We use Google Cloud's security features to
 secure our infrastructure. We have a dedicated VPC for our infrastructure.
 
-Currently Shorebird only uses Google Cloud's Iowa region. We have plans to
+Currently, Shorebird only uses Google Cloud's Iowa region. We have plans to
 expand to other regions in the future for our international customers.
 
 Shorebird uses Google Cloud's managed services where possible. We do not manage
@@ -68,7 +68,7 @@ infrastructure are similar.
 
 ### Architecture
 
-We've written more on the architecture of Shorebird in our
+We have written more on the architecture of Shorebird in our
 [architecture documentation](/code-push/system-architecture/).
 
 ### Shorebird Servers
@@ -82,19 +82,19 @@ The following URLs are used by Shorebird.
 
 - [https://console.shorebird.dev](https://console.shorebird.dev) — used to
   interact with Shorebird’s services via the web.
-- https://api.shorebird.dev — used by the shorebird command line tools to
+- https://api.shorebird.dev — used by the `shorebird` command-line tools to
   interact with the Shorebird servers as well as the Shorebird updater on users’
   devices to check for updates.
-- https://download.shorebird.dev — used by the shorebird command line tool to
+- https://download.shorebird.dev — used by the `shorebird` command-line tool to
   download Flutter artifacts for building releases and patches.
-- https://storage.googleapis.com — used by the shorebird command line tool to
+- https://storage.googleapis.com — used by the `shorebird` command-line tool to
   upload and download release and patch artifacts, and by the Shorebird updater
   on user’s devices to download the patches.
 - https://cdn.shorebird.cloud/ — used by the Shorebird updater when downloading
   patches to a user’s device.
 
-Because all access done via https to public cloud infrastructure, typically no
-specific access rules are required to access Shorebird servers from within a
+Because all access is done via HTTPS to public cloud infrastructure, typically
+no specific access rules are required to access Shorebird servers from within a
 company network.
 
 ### Product Access Control
@@ -103,9 +103,9 @@ Shorebird accounts are managed through Google or Microsoft SSO (OAuth). We
 intentionally do not support other access methods and do not store passwords for
 our users.
 
-Shorebird accounts provided role-based access control on a per-application
-basis. We have three roles: Owner, Admin, and Developer which are described in
-our [Organizations product documentation](/account/orgs/)
+Shorebird accounts provide role-based access control on a per-application basis.
+We have three roles: Owner, Admin, and Developer, which are described in our
+[Organizations product documentation](/account/orgs/)
 
 ### Production Access
 
@@ -138,9 +138,9 @@ See also https://docs.shorebird.dev/faq/#can-i-use-shorebird-in-my-country.
 
 ### User Access Review
 
-We review all user access to our systems periodically, as well as as part of an
-employee joining or leaving the company. All access to Shorebird systems is
-gated through Google SSO including required two factor authentication.
+We review all user access to our systems periodically, as well as when an
+employee joins or leaves the company. All access to Shorebird systems is gated
+through Google SSO, including required two-factor authentication.
 
 ### Network Security
 
@@ -192,9 +192,9 @@ have the minimum permissions necessary to deploy to production.
 
 ### Rollbacks
 
-We have the ability to rollback changes to production. Typically we execute a
-rollback via a revert commit in our codebase and a new deployment, however we
-also have the ability to rollback individual services in our infrastructure to
+We have the ability to roll back changes to production. Typically we execute a
+roll back via a revert commit in our codebase and a new deployment; however, we
+also have the ability to roll back individual services in our infrastructure to
 previous versions if necessary.
 
 ## Incident Response
@@ -209,12 +209,12 @@ always notified all customers when affected by incidents (security or otherwise)
 via their billing email address in the past and will continue to do so going
 forward.
 
-### Post Mortem's
+### Post-Mortems
 
-We have a post mortem process in place for incidents. We prepare a post-mortem
-for all incidents within 48 hours of their occurrence. We use these post
-mortem's to improve our systems and processes. We do not currently share our
-post mortem's publicly, although we are considering doing so in the future.
+We have a post-mortem process in place for incidents. We prepare a post-mortem
+for all incidents within 48 hours of their occurrence. We use these post-mortems
+to improve our systems and processes. We do not currently share our post-mortems
+publicly, although we are considering doing so in the future.
 
 ## Data Usage & Security
 
@@ -227,7 +227,7 @@ do not sell or share your information with third parties, except as required by
 law. Your data is stored in association with your account and deleted when you
 delete your account.
 
-Shorebird does not process, transmit or store personally identifiable
+Shorebird does not process, transmit, or store personally identifiable
 information for our customers' end users. Additionally, we take care to store as
 little data from our customers (you) as possible.
 
@@ -237,7 +237,7 @@ We retain customer data for as long as you have an account with us. Customers
 are able to access and delete their data at any time. We retain aggregated,
 anonymized data for analytics purposes beyond termination of your account.
 
-Customers can delete almost all information in their account by hand, however
+Customers can delete almost all information in their account by hand; however,
 deleting the final database row requires contacting support at this time:
 https://docs.shorebird.dev/uninstall/
 
@@ -250,9 +250,9 @@ as all data in Google Cloud) is encrypted at rest.
 https://cloud.google.com/docs/security/encryption-in-transit
 https://cloud.google.com/docs/security/encryption/default-encryption
 
-We are not aware of any past data breaches for Shorebird of any form. In the
-event of such we will notify all customers promptly unless otherwise required by
-local law enforcement.
+We are not aware of any past data breaches of any form for Shorebird. In the
+event of a breach, we will notify all customers promptly unless otherwise
+required by local law enforcement.
 
 ### Data Separation
 
@@ -275,7 +275,7 @@ our customer.
 
 #### Customer Data (data about you as a user of Shorebird)
 
-In general we do not access customer data unless required as part of providing
+In general, we do not access customer data unless required as part of providing
 you support or monitoring the service for usage and security.
 
 We treat customer data as confidential. We have logging in place to detect
@@ -283,7 +283,7 @@ unauthorized access to customer data. Customer data may be accessed by employees
 as part of providing support to you.
 
 We do not share customer data with third parties except as required by law. We
-have a few third party services that we use to run our business, see our privacy
+have a few third-party services that we use to run our business; see our privacy
 policy for our list of vendors: https://shorebird.dev/privacy/
 
 We try to store very little data for or about our customers. Examples of
@@ -291,8 +291,9 @@ customer data we store include:
 
 - Email address and Name
 - Stripe Customer ID (we do not store payment information)
-- Built applications archives (e.g. .xcarchive, .aab for Releases and Patches)
-- Release Metadata (e.g. flutter version, xcode version, java version, etc.)
+- Built applications archives (e.g., `.xcarchive`, `.aab` for Releases and
+  Patches)
+- Release Metadata (e.g., Flutter version, Xcode version, Java version, etc.)
 
 Shorebird servers never see or store your source code. All `shorebird` commands
 run locally on devices you control and only upload the built application
@@ -318,8 +319,8 @@ information from these users or devices.
 
 ## Third-Party Assessments
 
-We have no third party security, network or otherwise assessments to share at
-this time. Some of our larger customers have performed their own audits of our
+We have no third-party security, network, or other assessments to share at this
+time. Some of our larger customers have performed their own audits of our
 provided infrastructure and when appropriate we have made adjustments based on
 their feedback.
 

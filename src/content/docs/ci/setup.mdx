@@ -1,6 +1,7 @@
 ---
 title: Setup
-description: How to get Shorebird CI setup and ready for use in your repository.
+description:
+  How to get Shorebird CI set up and ready for use in your repository.
 sidebar:
   label: Setup
   order: 2
@@ -35,7 +36,7 @@ repositories. Upgrade to the "Pro" CI plan from the
 Configuring Shorebird CI takes less than a minute and requires zero code
 changes.
 
-1. From the [Web Console](https://console.shorebird.dev) select CI from the
+1. From the [Web Console](https://console.shorebird.dev), select **CI** from the
    navigation panel.
    <Image
      src={ciConsoleNavigation}
@@ -44,7 +45,7 @@ changes.
 2. Sign in with your GitHub account.
    <Image
      src={ciLoginWithGitHub}
-     alt="Screenshot of the Shorebird Web Console prompting the user to login with their GitHub account."
+     alt="Screenshot of the Shorebird Web Console prompting the user to log in with their GitHub account."
    />
 3. Install the Shorebird CI GitHub app on the desired GitHub
    organizations/repositories.
@@ -61,23 +62,23 @@ changes.
    Shorebird CI service for the desired GitHub organizations.
    <Image
      src={ciEnable}
-     alt="Screenshot of the the Shorebird Web Console enabling the Shorebird CI service for a specific organization."
+     alt="Screenshot of the Shorebird Web Console enabling the Shorebird CI service for a specific organization."
    />
    <Image
      src={ciEnabled}
-     alt="Screenshot of the the Shorebird Web Console showing the Shorebird CI service enabled for a specific organization."
+     alt="Screenshot of the Shorebird Web Console showing the Shorebird CI service enabled for a specific organization."
    />
 
 ## Running Shorebird CI
 
-When you open a pull request, or push a new commit to an existing pull request,
+When you open a pull request or push a new commit to an existing pull request,
 Shorebird CI will automatically run for you. It will detect if there are any
-Dart or Flutter packages and automatically starts running the available checks.
+Dart or Flutter packages and automatically start running the available checks.
 
 <Image
   src={ciChecksPassing}
   alt="Screenshot of the Shorebird CI GitHub App checks passing during a pull request"
 />
 
-To see more details from these checks you can
-[view the logs for the run](/ci/view-logs/)
+To see more details from these checks, you can
+[view the logs for the run](/ci/view-logs/).

@@ -19,7 +19,7 @@ into your app in just a few minutes.
 ## Sign up
 
 The first thing you'll need to do is sign up for a Shorebird account. It's free
-to do and you can signup in a manner of seconds.
+to do and you can sign up in a matter of seconds.
 
 <LinkButton href="https://console.shorebird.dev" variant="primary">
   Create an Account
@@ -91,27 +91,30 @@ Usage: shorebird <command> [arguments]
 Global options:
 -h, --help            Print this usage information.
     --version         Print the current version.
+    --json            Output results in JSON format (implies non-interactive mode).
 -v, --[no-]verbose    Noisy logging, including all shell commands executed.
 
 Available commands:
+  account    Manage your Shorebird account.
   cache      Manage the Shorebird cache.
+  create     Create a new Flutter project with Shorebird.
   doctor     Show information about the installed tooling.
   flutter    Manage your Shorebird Flutter installation.
   init       Initialize Shorebird.
   login      Login as a new Shorebird user.
-  login:ci   Login as a CI user.
-  logout     Logout of the current Shorebird user
-  patch      Creates a shorebird patch for the provided target platforms
-  patches    Manage Shorebird patches
+  login:ci   Removed — use API keys instead.
+  logout     Logout of the current Shorebird user.
+  patch      Creates a shorebird patch for the provided target platforms.
+  patches    Manage Shorebird patches.
   preview    Preview a specific release on a device.
-  release    Creates a shorebird release for the provided target platforms
-  releases   Manage Shorebird releases
+  release    Creates a shorebird release for the provided target platforms.
+  releases   Manage Shorebird releases.
   upgrade    Upgrade your copy of Shorebird.
 
 Run "shorebird help <command>" for more information about a command.
 ```
 
-You can use the `shorebird doctor` to ensure things are setup correctly:
+You can use `shorebird doctor` to ensure things are set up correctly:
 
 ```sh
 shorebird doctor
@@ -146,7 +149,7 @@ shorebird login
 
 ## Integrate Shorebird
 
-Your now ready to add Shorebird to your app.
+You're now ready to add Shorebird to your app.
 
 You can start by creating a new Flutter app or navigating to the directory of
 your already created Flutter app.
@@ -158,7 +161,7 @@ shorebird create my_shorebird_app
 cd my_shorebird_app
 ```
 
-Or, to enable Shorebird for an existing Flutter app run:
+Or, to enable Shorebird for an existing Flutter app, run:
 
 ```sh
 shorebird init

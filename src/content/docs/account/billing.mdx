@@ -11,7 +11,7 @@ import accountMonthlySpendingLimit from '~/assets/account_monthly_spending_limit
 import setSpendingLimitDialog from '~/assets/set_spending_limit_dialog.png';
 
 We believe billing should never be a blocker to using our tools. We aim to meet
-our customers where they are. Whether that means flexible payment methods,
+our customers where they are, whether that means flexible payment methods,
 enterprise invoicing, or custom terms. If you’re building with Flutter, we want
 to make it as easy as possible to build with Shorebird too.
 
@@ -25,15 +25,15 @@ that Stripe supports. You can view more details in
 
 Invoices are sent at the end of each billing period by Stripe. Since they are
 sent by Stripe, they do not use your Shorebird account email, but rather the
-email associated with your Stripe account. In most cases these emails are the
+email associated with your Stripe account. In most cases, these emails are the
 same, but you can change them to be different.
 
-If you'd like invoices sent to a different email address than the one use you
-log in,, you can change this in Stripe:
+If you'd like invoices sent to a different email address than the one you use to
+log in, you can change this in Stripe:
 
 1. Navigate to your "Account" panel within Shorebird.
 2. Click on the drop-down menu on the right side.
-3. Select "View Billing Portal"
+3. Select "View Billing Portal".
 
 <Image src={viewBillingPortal} alt="Screenshot of Shorebird Console" />
 
@@ -42,19 +42,19 @@ which is where invoices are sent.
 
 ## Available Plans
 
-We provide flexible options to accommodate every team and product, weather it's
+We provide flexible options to accommodate every team and product, whether it's
 an indie/hobby project or a globally launched enterprise application. See our
 [pricing page](https://shorebird.dev/pricing) for more information.
 
-Most customers can easily get started with our self service Pro and Business
+Most customers can easily get started with our self-service Pro and Business
 plans. If you need invoice billing, tax support, alternative payment methods,
-custom contract/procurement process, or support for more then 2.5 million
-patches per month please
-[reach out to us regarding an Enterprise Plans](https://shorebird.dev/talk-to-sales).
+custom contract/procurement process, or support for more than 2.5 million
+patches per month, please
+[reach out to us regarding an Enterprise Plan](https://shorebird.dev/talk-to-sales).
 
 ### Organizations & Billing
 
-Billing is tied to the **organizations owner's account**, not to individual
+Billing is tied to the **organization's owner's account**, not to individual
 organizations. When you create an organization, it inherits its plan from your
 subscription. This means a single account can own multiple organizations and
 each organization will share the owner's plan.
@@ -74,7 +74,7 @@ successful update applied on a customer’s device.
 - You are not charged if the user never launches the patched application.
 
 You can view your current patch installs in
-[your accounts page](https://console.shorebird.dev/account) on the Shorebird
+[your account page](https://console.shorebird.dev/account) on the Shorebird
 Console. These numbers are updated hourly.
 
 ### Overage Billing
@@ -92,8 +92,8 @@ your limit, and again when you’ve reached your limit.
   alt="Screenshot of Shorebird Console showing a Pro account with a $20 spending limit"
 />
 
-Clicking the "Change Limit" button let's you set a new spending limit and see
-the corresponding number of patches available for your billing cycle.
+Clicking the "Change Limit" button lets you set a new spending limit and see the
+corresponding number of patches available for your billing cycle.
 
 <Image
   src={setSpendingLimitDialog}
@@ -108,6 +108,6 @@ If you purchase a Pro plan (which includes 50,000 patch installs) and use
 100,000 patches every month:
 
 - You'll be billed $20 at the time of purchase (Month 1)
-- At the start of each subsequent month, you'll will be billed for the 50,000
-  patch installs for that month, plus the 50,000 overages from the previous
-  month, for a total of $40.
+- At the start of each subsequent month, you'll be billed for the 50,000 patch
+  installs for that month, plus the 50,000 overages from the previous month, for
+  a total of $40.

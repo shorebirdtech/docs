@@ -7,7 +7,7 @@ sidebar:
 
 In addition to our default security measures, Shorebird also provides patch
 signing for additional security. This is optional at this time and needs to be
-setup during your build and patch process.
+set up during your build and patch process.
 
 Patch signing allows developers to cryptographically sign patch updates with
 their own keys. This ensures that no one (including Shorebird) can change the
@@ -23,7 +23,7 @@ Second, when you build your patch with `shorebird patch`, you can pass
 `--private-key-path` to have Shorebird sign your patch with your private key.
 This is required if you created your release with a public key included.
 
-There are no required changes to your code and you can add or remove this
+There are no required changes to your code, and you can add or remove this
 signing requirement at any time by simply making a new release of your
 application.
 
@@ -60,10 +60,10 @@ Shorebird credentials), it should not be checked into public source control.
 
 ### Key Storage
 
-Shorebird does not provided a Key Storage solution at this time. If you are
-using this feature we highly recommend using a cloud key management service
-instead of just storing keys on disk. **If for any reason you were to lose your
-private key, there is no way to create a patch for an application containing the
+Shorebird does not provide a Key Storage solution at this time. If you are using
+this feature, we highly recommend using a cloud key management service instead
+of just storing keys on disk. **If for any reason you were to lose your private
+key, there is no way to create a patch for an application containing the
 corresponding public key.** Even Shorebird is not able to create a patch for
 your application without your private key. In such a case, you would need to
 make and distribute a new release of your application to send patches to it.
@@ -112,14 +112,14 @@ shorebird patch android --public-key-path /path/to/public.pem \
 
 # Build Patch with cloud-managed signing
 # Ensure that the command outputs a PEM-encoded public key to stdout
-# sign-cmd Should read data from stdin and outputs a base64 signature to
-#stdout
- shorebird patch android \
+# sign-cmd should read data from stdin and output a base64 signature to
+# stdout
+  shorebird patch android \
    --public-key-cmd="your-command-that-outputs-pem-public-key" \
    --sign-cmd="your-command-that-signs-stdin-and-outputs-base64"
 ```
 
-This tells shorebird to sign the patch with the key pair you provided.
+This tells Shorebird to sign the patch with the key pair you provided.
 
 ### Test and Verify Signed Patch
 
@@ -156,10 +156,10 @@ patch at boot time. It will instead boot from the last known good patch (if
 still on disk) or the release build of the app. This will not cause your app to
 crash.
 
-## Trade Offs
+## Trade-offs
 
 Signature verification does add a small overhead at app launch. During our
-testing this has been observed to be under 50ms with a medium size app on a
+testing this has been observed to be under 50ms with a medium-sized app on a
 5-year-old Android phone. This overhead increases with application size. For
 very large apps, if this overhead shows up on your benchmarks, you can set
 `patch_verification: install_only` in `shorebird.yaml` to verify signatures only

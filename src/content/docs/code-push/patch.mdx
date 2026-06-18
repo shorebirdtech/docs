@@ -39,7 +39,7 @@ This will do several things:
 1. Builds the artifacts for the update.
 1. Downloads the corresponding release artifacts.
 1. Generates a patch using the diff between the release and the current changes.
-1. Uploads the patch artifacts to the Shorebird backend
+1. Uploads the patch artifacts to the Shorebird backend.
 1. Promotes the patch to the stable channel.
 
 Example output:
@@ -96,7 +96,7 @@ shorebird patch [android|ios] --target lib/main_development.dart --flavor develo
 :::note
 
 `shorebird patch` wraps `flutter build` and can take any argument
-`flutter build` can. To pass arguments to the underlying `flutter build` you
+`flutter build` can. To pass arguments to the underlying `flutter build`, you
 need to put `flutter build` arguments after a `--` separator. For example:
 `shorebird patch android -- --dart-define="foo=bar"` will define the `"foo"`
 environment variable inside Dart as you might have done with `flutter build`
@@ -113,15 +113,15 @@ Patching an application on Android has no effect on performance.
 #### iOS and macOS
 
 Patching an application on iOS and macOS typically does not affect application
-performance. However the patching mechanism on iOS and macOS is different from
+performance. However, the patching mechanism on iOS and macOS is different from
 Android. Unchanged code runs as normal (on the CPU), changed (or added) code
 will run in a Dart interpreter (slower than the CPU). Typically this change is
 undetectable, but if you are changing particularly performance-sensitive Dart
-code (e.g. code for processing images, or large data) you may see a performance
-difference after patching.
+code (e.g., code for processing images, or large datasets), you may see a
+performance difference after patching.
 
-You can always test your patches before sending them to users using by
+You can always test your patches before sending them to users by
 [staging patches](/code-push/guides/staging-patches).
 
 If you ever see unexpected performance changes when patching, please
-[contact us](mailto:contact@shorebird.dev) we would love to help!
+[contact us](mailto:contact@shorebird.dev), and we would love to help!

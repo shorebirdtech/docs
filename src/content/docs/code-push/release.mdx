@@ -404,6 +404,29 @@ shorebird release windows --flutter-version %flutter_version%
 
 </Tabs>
 
+## Options
+
+| Option               | Abbreviation | Description                                                                                         |
+| -------------------- | ------------ | --------------------------------------------------------------------------------------------------- |
+| `--platforms`        | `-p`         | Comma-separated list of platforms to release simultaneously (e.g., `android,ios`).                  |
+| `--flavor`           |              | The product flavor to use when building.                                                            |
+| `--target`           | `-t`         | The main entrypoint file of the application.                                                        |
+| `--flutter-version`  |              | The Flutter version to build with (e.g., `3.24.0`). Defaults to the version bundled with Shorebird. |
+| `--build-name`       |              | Override the version name (e.g., `1.2.3`).                                                          |
+| `--build-number`     |              | Override the version code / build number (e.g., `42`).                                              |
+| `--artifact`         |              | Android artifact type: `aab` (default) or `apk`.                                                    |
+| `--dry-run`          | `-n`         | Build and validate the release but **do not upload** it. Ideal for CI validation.                   |
+| `--obfuscate`        |              | Obfuscate Dart code. Must be used together with `--split-debug-info`.                               |
+| `--split-debug-info` |              | Output debug symbol files to the specified directory when obfuscating.                              |
+
+### iOS-specific Options
+
+| Option                   | Description                                                                 |
+| ------------------------ | --------------------------------------------------------------------------- |
+| `--no-codesign`          | Skip code signing for the iOS build.                                        |
+| `--export-options-plist` | Path to a custom `ExportOptions.plist` for the iOS archive export step.     |
+| `--export-method`        | Distribution method: `app-store`, `ad-hoc`, `development`, or `enterprise`. |
+
 ### Releasing for Multiple Platforms Simultaneously
 
 If your app supports multiple platforms, you can build and publish releases for

@@ -130,6 +130,20 @@ Available commands:
 Run "shorebird help <command>" for more information about a command.
 ```
 
+:::tip[`--json` flag for CI scripting]
+
+All Shorebird commands accept a global `--json` flag that switches output to
+structured JSON instead of human-readable text. This is useful for parsing CLI
+results in shell scripts or CI pipelines:
+
+```sh
+shorebird account apps --json
+shorebird releases list --json
+shorebird patches list --json
+```
+
+:::
+
 You can use `shorebird doctor` to ensure things are set up correctly:
 
 ```sh
@@ -205,6 +219,25 @@ Shorebird expects to find the latest stable `flutter` installed on your machine.
 Shorebird can be configured to work with older versions of Flutter (back to
 3.10.0). See [Flutter Version Management](/getting-started/flutter-version) for
 more info.
+
+:::
+
+## Keeping Shorebird Up To Date
+
+To update your local Shorebird CLI to the latest version, run:
+
+```sh
+shorebird upgrade
+```
+
+This checks for new commits on the `stable` branch of Shorebird and updates your
+local installation if a newer version is available. If you are already up to
+date, it will tell you so.
+
+:::tip
+
+You can also see your current version at any time by running
+`shorebird --version`.
 
 :::
 

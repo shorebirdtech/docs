@@ -27,7 +27,8 @@ Building with `flutter build --release` will not include Shorebird in your app.
 At any time you can simply drop back to `flutter build` and things will work as
 they did before.
 
-If you want to remove the Shorebird CLI and its cache from your system entirely, you can run:
+If you want to remove the Shorebird CLI and its cache from your system entirely,
+you can run:
 
 ```bash
 shorebird uninstall
@@ -35,7 +36,9 @@ shorebird uninstall
 
 ### Manual Uninstallation
 
-If you are using an older version of Shorebird or are unable to run the `uninstall` command, you can manually remove Shorebird from your system by choosing your operating system below:
+If you are using an older version of Shorebird or are unable to run the
+`uninstall` command, you can manually remove Shorebird from your system by
+choosing your operating system below:
 
 <CodeTabs>
 ```bash title="Mac/Linux"
@@ -47,12 +50,13 @@ else
 fi
 
 # Remove shorebird from your PATH in shell profiles
-for rc in ~/.bashrc ~/.zshrc; do
-  if [ -f "$rc" ] && grep -q '.shorebird/bin' "$rc"; then
-    grep -v '.shorebird/bin' "$rc" > "${rc}.tmp" && mv "${rc}.tmp" "$rc"
-  fi
-done
-```
+
+for rc in ~/.bashrc ~/.zshrc; do if [ -f "$rc" ] && grep -q '.shorebird/bin'
+"$rc"; then
+    grep -v '.shorebird/bin' "$rc" > "${rc}.tmp" && mv "${rc}.tmp"
+"$rc" fi done
+
+````
 
 ```powershell title="Windows"
 # Delete the shorebird directory
@@ -64,5 +68,6 @@ if ($path) {
     $newPath = ($path -split [IO.Path]::PathSeparator | Where-Object { $_ -notlike "*\.shorebird\bin" }) -join [IO.Path]::PathSeparator
     [Environment]::SetEnvironmentVariable("Path", $newPath, "User")
 }
-```
+````
+
 </CodeTabs>

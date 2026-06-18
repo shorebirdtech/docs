@@ -128,6 +128,28 @@ directly.
 
 :::
 
+## Options
+
+| Option                 | Abbreviation | Description                                                                                                |
+| ---------------------- | ------------ | ---------------------------------------------------------------------------------------------------------- |
+| `--release-version`    |              | The release version to patch (e.g., `1.0.0+1`). Use `latest` to target the most recently updated release.  |
+| `--platforms`          | `-p`         | Comma-separated list of platforms to patch simultaneously (e.g., `android,ios`).                           |
+| `--flavor`             |              | The product flavor to use when building.                                                                   |
+| `--target`             | `-t`         | The main entrypoint file of the application.                                                               |
+| `--track`              |              | The deployment track to publish to (default: `stable`). Use `staging` to publish to a staging track first. |
+| `--dry-run`            | `-n`         | Build and validate the patch but **do not upload** it. Ideal as a CI sanity check.                         |
+| `--allow-asset-diffs`  |              | Publish even if asset differences are detected. **Not recommended.**                                       |
+| `--allow-native-diffs` |              | Publish even if native code differences are detected. **Not recommended.**                                 |
+
+### iOS-specific Options
+
+| Option                   | Description                                                                                      |
+| ------------------------ | ------------------------------------------------------------------------------------------------ |
+| `--no-codesign`          | Skip code signing for the iOS build.                                                             |
+| `--export-options-plist` | Path to a custom `ExportOptions.plist` for the iOS archive export step.                          |
+| `--export-method`        | Distribution method: `app-store`, `ad-hoc`, `development`, or `enterprise`.                      |
+| `--min-link-percentage`  | Minimum % of Dart code that must be linked (not interpreted) for the patch to publish. iOS only. |
+
 ### Patch Performance
 
 #### Android

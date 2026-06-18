@@ -19,12 +19,16 @@ updates to your app's Dart code on startup. If an update is available, the
 engine downloads the update. The user will see the update on the next app
 restart after the update is downloaded.
 
-:::tip[When do users see the update?] By default, the Shorebird updater runs on
-a background thread on startup to prevent blocking app launch. The patch is
-downloaded in the background while the user is using the app and will be applied
-on the **next launch** (meaning users will see the update on their second launch
-of the app). If you require immediate/mandatory updates, you can trigger checks
-programmatically using `package:shorebird_code_push`. :::
+:::tip[When do users see the update?]
+
+By default, the Shorebird updater runs on a background thread on startup to
+prevent blocking app launch. The patch is downloaded in the background while the
+user is using the app and will be applied on the **next launch** (meaning users
+will see the update on their second launch of the app). If you require
+immediate/mandatory updates, you can trigger checks programmatically using
+`package:shorebird_code_push`.
+
+:::
 
 ### Is my change patchable?
 

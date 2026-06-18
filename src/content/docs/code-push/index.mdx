@@ -19,6 +19,27 @@ updates to your app's Dart code on startup. If an update is available, the
 engine downloads the update. The user will see the update on the next app
 restart after the update is downloaded.
 
+:::tip[When do users see the update?] By default, the Shorebird updater runs on
+a background thread on startup to prevent blocking app launch. The patch is
+downloaded in the background while the user is using the app and will be applied
+on the **next launch** (meaning users will see the update on their second launch
+of the app). If you require immediate/mandatory updates, you can trigger checks
+programmatically using `package:shorebird_code_push`. :::
+
+### Is my change patchable?
+
+Not all changes can be shipped via a patch. Use this flowchart to decide whether
+you need to publish a new release to the app stores or if you can push a patch:
+
+```mermaid
+flowchart TD
+    A["Did you make changes?"] --> B{"Do changes include native code?\n(Java, Kotlin, Swift, Obj-C)"}
+    B -- Yes --> C["New Store Release Required\n(Run 'shorebird release')"]
+    B -- No --> D{"Do changes include asset updates?\n(Images, fonts, pubspec assets)"}
+    D -- Yes --> C
+    D -- No --> E["Patchable OTA!\n(Run 'shorebird patch')"]
+```
+
 A typical Code Push workflow looks like this:
 
 1. Use the Shorebird CLI to create a new **release** of your app.

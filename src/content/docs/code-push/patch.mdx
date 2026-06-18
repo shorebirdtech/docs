@@ -11,6 +11,18 @@ import { CodeTabs } from 'starlight-theme-nova/components';
 Once you have published a release of your app, you can push updates using one of
 the `shorebird patch` commands.
 
+:::note[Pre-Patch Checklist] Before running a patch command, review this
+checklist to ensure your patch compiles and applies cleanly:
+
+- **No Native Code Changes**: Ensure your updates do not touch native platform
+  code (e.g. Kotlin, Swift, or build configurations in `android/` or `ios/`).
+  Native updates cannot be patched.
+- **No Asset Changes**: Check that no new images, fonts, or other files have
+  been added or removed in `pubspec.yaml` (asset patching is not yet supported).
+- **Match Flutter Versions**: Ensure your local Flutter SDK version is identical
+  to the one vended by Shorebird. You can check this by running
+  `shorebird doctor`. :::
+
 <CodeTabs>
 ```bash title="Android"
 shorebird patch android

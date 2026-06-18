@@ -131,6 +131,31 @@ Use of Shorebird on each platform is an independent decision. For example, you
 can use `shorebird release` to ship to Google Play and an ipa built with
 `flutter build` to the App Store or vice versa.
 
+### Does Shorebird work on iOS Simulators?
+
+No. Shorebird patches are not supported on iOS Simulators.
+
+Shorebird's iOS engine uses a custom interpreter designed specifically for
+physical arm64 iOS devices to execute updated Dart code over-the-air while
+remaining fully compliant with Apple's security sandbox guidelines. Because of
+this, Shorebird updates cannot run on iOS Simulators (which run on x86_64 or
+arm64 macOS JIT/interpreter architectures). You must use a physical iOS device
+to test iOS patches.
+
+_Note: Android emulators are fully supported._
+
+### Does Shorebird work in Debug or Profile mode?
+
+No. Shorebird is only compiled into and active in **Release builds** of your
+application.
+
+When you run your application in Debug or Profile mode (e.g., via
+`flutter run`), the Shorebird engine is completely disabled, and the standard
+Flutter JIT or AOT engine is used. This ensures that standard development
+workflows (such as Hot Reload, Hot Restart, and DevTools debugging) are entirely
+unaffected. To test patch updates, you must build and run your application in
+Release mode.
+
 ### What OS versions does Shorebird support?
 
 Shorebird supports the same versions of platforms that Flutter supports. You can

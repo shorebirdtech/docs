@@ -41,6 +41,24 @@ Discord if such a patch exists and is not being applied.
 
 Common issues:
 
+**The app is running in Debug or Profile mode.**
+
+Shorebird updates are only compiled into and active in **Release builds** of
+your application. When you run your app in Debug or Profile mode (e.g., via
+`flutter run`), the Shorebird updater is completely disabled, and standard
+Flutter JIT or AOT engines are used. Ensure you test updates using a release
+build (e.g., generated via `shorebird release` or tested via
+`shorebird preview`).
+
+**You are testing on an iOS Simulator.**
+
+Shorebird patches are not supported on iOS Simulators. Shorebird's iOS engine
+uses a custom interpreter designed specifically for physical arm64 iOS devices
+to comply with Apple's security sandbox. Because of this, Shorebird updates
+cannot run on iOS Simulators (which run on x86*64 or arm64 macOS JIT/interpreter
+architectures). You must use a physical iOS device to test iOS patches. Android
+emulators \_are* fully supported.
+
 **The patch was created for a different release version than the one running on
 your device/emulator.**
 

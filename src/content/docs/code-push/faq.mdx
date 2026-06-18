@@ -83,6 +83,23 @@ Yes. The `shorebird` command line tool passes through all Dart defines to the
 work as expected. Because Dart defines are compiled into your app's Dart code,
 they can be updated via patches.
 
+### How do I target different API environments (e.g., Staging vs. Production backend) for patches?
+
+You should use Flutter flavors (or `--dart-define` config variables). Shorebird
+fully supports flavors.
+
+When you initialize and release flavored builds (e.g., running
+`shorebird release android --flavor development`), Shorebird creates separate
+releases for each flavor in your Shorebird console. When you subsequently run a
+patch command (e.g., `shorebird patch android --flavor development`), the
+Shorebird servers will route that patch _only_ to the release matching that
+specific flavor. This guarantees that patches targeting development/staging
+environments never affect production users.
+
+For more details on setting up flavors, see the
+[Android Flavor Guide](/code-push/guides/flavors/android) and
+[iOS Flavor Guide](/code-push/guides/flavors/ios).
+
 ### How does Shorebird relate to Flutter?
 
 Shorebird is a fork of Flutter that adds code push. Shorebird is not a
@@ -230,6 +247,27 @@ This is for two reasons:
 Shorebird does not currently support submitting to the app stores on your
 behalf. We may end up adding this in the future, but for now you will need to
 continue to use your existing processes to submit to the app stores.
+
+### How should I handle patches during App Store or Google Play Store review?
+
+We recommend avoiding publishing patches containing major new features,
+significant behavior changes, or controversial updates to the active release
+version currently undergoing review in the store.
+
+During the review period, store reviewers will inspect the app binary you
+submitted. If a patch is active for that release version, reviewers may download
+it. To ensure a smooth, risk-free review process and remain fully compliant with
+guidelines:
+
+1. **Hold patches to the target version**: Do not release patches to the version
+   undergoing review unless they are critical, non-deceptive bug fixes.
+2. **Use staging tracks**: If you need to test code on devices without affecting
+   the version in review, publish your patches to a separate testing track
+   (e.g., `shorebird patch [platform] --track=staging`). This isolates your test
+   code.
+3. **Promote after approval**: Once the store review is complete and the new
+   version is approved and published, you can safely promote staging patches to
+   the `stable` track.
 
 ## Use Cases & Limitations
 

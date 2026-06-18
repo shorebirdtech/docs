@@ -333,3 +333,77 @@ iOS uses a very different patching process than Android does. The details of
 which are described in [System Architecture](/code-push/system-architecture/).
 We also talk about this in our [Patch Performance](/code-push/performance/)
 page.
+
+---
+
+## Resolving persistent compile or build failures
+
+If you encounter persistent compilation issues or strange env errors that
+standard builds do not trigger, the local compilation state or tool caches might
+be corrupted. You can clear all cached build states and tools to start fresh:
+
+1. **Verify environment health**:
+   ```sh
+   shorebird doctor
+   ```
+2. **Clean standard build directories**:
+   ```sh
+   flutter clean
+   ```
+3. **Clean the Shorebird tools cache**:
+   ```sh
+   shorebird cache clean
+   ```
+4. Re-run your release or patch command.
+
+---
+
+## Shorebird commands fail with network/TLS connection errors behind a proxy
+
+If your development machine or CI/CD runner is situated behind a corporate proxy
+or firewall, Shorebird CLI commands may fail to connect to Shorebird servers,
+showing timeout or TLS handshake errors.
+
+To resolve this:
+
+1. **Configure proxy environment variables**: Ensure that standard CLI proxy
+   environment variables are set up in your terminal session:
+   - **macOS/Linux**:
+     ```sh
+     export HTTP_PROXY="http://your-proxy-server:port"
+     export HTTPS_PROXY="http://your-proxy-server:port"
+     export NO_PROXY="localhost,127.0.0.1"
+     ```
+   - **Windows (PowerShell)**:
+     ```powershell
+     $env:HTTP_PROXY="http://your-proxy-server:port"
+     $env:HTTPS_PROXY="http://your-proxy-server:port"
+     $env:NO_PROXY="localhost,127.0.0.1"
+     ```
+
+2. **Whitelist Shorebird domains**: Ensure your company firewall allows outbound
+   HTTPS traffic (on port `443`) to the following domains:
+   - `api.shorebird.dev` (Management API)
+   - `download.shorebird.dev` (Engine and CLI downloads)
+   - `console.shorebird.dev` (Console interface)
+
+---
+
+## Patch download size is unexpectedly large
+
+Shorebird patches are usually small (a few hundred KB) because they only
+download the binary diff (patch artifact) of your compiled Dart code compared to
+the release version. If a patch size is unexpectedly large (several MBs):
+
+1. **Upgraded dependencies**: Adding or upgrading large third-party packages in
+   your `pubspec.yaml` can significantly change your compilation graph, causing
+   a cascading code change that results in a larger diff.
+2. **Code generators**: Extensive updates to code generation tools (e.g.,
+   `build_runner`, `freezed`, `json_serializable`) may modify large amounts of
+   boilerplate code across dozens of files, resulting in a larger binary diff.
+3. **Obfuscation configuration mismatch**: Ensure that you have not modified
+   your obfuscation settings (passing/omitting `--obfuscate`) between the
+   release build and the patch build. A mismatch in obfuscation config shuffles
+   class and method names, causing the diff calculation to result in a massive
+   file. Shorebird automatically detects release obfuscation, so you should not
+   add or remove the `--obfuscate` flag when patching.

@@ -125,6 +125,11 @@ https://support.google.com/googleplay/android-developer/answer/9859152?hl=en
 As per the instructions above, we must upload the generated `.aab` to the Play
 Store.
 
+:::warning Ensure the uploaded App Bundle version code and version name exactly
+match the release version outputted by the Shorebird CLI build step. Modifying
+the version code or build number inside the Google Play Console during or after
+upload will cause patch resolution to fail for that release. :::
+
 1. Navigate to the [Play Console](https://play.google.com/console/developers).
 1. Choose your developer account (for us, it's Shorebird.dev).
 1. Select the Time Shift app.

@@ -35,6 +35,7 @@ words:
   - cocoapods
   - codemagic
   - codepush
+  - cloudkms
   - codesign
   - codesigning
   - elif

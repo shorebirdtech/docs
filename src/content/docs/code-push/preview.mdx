@@ -40,6 +40,41 @@ from Xcode or Android Studio _with a Release configuration_, you will see
 Shorebird logs in its output. If you have published a patch, it should be
 downloaded on the first run of your app and visible on subsequent runs.
 
+## Previewing Patches
+
+You can also use `shorebird preview` to test patches locally before publishing
+them to production. This is highly recommended to verify your Dart changes and
+ensure the update downloads and runs as expected.
+
+To test a patch locally:
+
+1. **Create a release** (if you haven't already):
+   ```sh
+   shorebird release [platform]
+   ```
+2. **Run the release on your device**:
+   ```sh
+   shorebird preview
+   ```
+3. **Make changes to your Dart code**.
+4. **Publish the patch to a staging track** (e.g., `staging`):
+   ```sh
+   shorebird patch [platform] --track=staging
+   ```
+5. **Run the staging patch on your device**:
+   ```sh
+   shorebird preview --track=staging
+   ```
+6. **Trigger the update**:
+   - On launch, Shorebird checks for patches in the background and downloads
+     them.
+   - Close the app completely (kill the process).
+   - Relaunch the app. The downloaded patch will now be active, and you should
+     see your changes!
+
+:::tip For programmatic checks or showing custom update prompts, see the
+[Update Strategies](/code-push/update-strategies) guide. :::
+
 ## What's Next
 
 <LinkCard

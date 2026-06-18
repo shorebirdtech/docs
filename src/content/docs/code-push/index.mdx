@@ -68,6 +68,23 @@ For a quick overview, check out the demo below.
   ></iframe>
 </div>
 
+### Platform Feature Support Matrix
+
+Below is a summary of feature support status across all Shorebird target
+platforms:
+
+| Feature                              | Android | iOS | macOS | Windows | Linux |
+| :----------------------------------- | :-----: | :-: | :---: | :-----: | :---: |
+| **Dart Code Patching (OTA)**         |   ✅    | ✅  |  ✅   |   ✅    |  ✅   |
+| **Asset Updates** (Fonts, Images)    |   ❌    | ❌  |  ❌   |   ❌    |  ❌   |
+| **Flavors / Custom Targets**         |   ✅    | ✅  |  ✅   |   ✅    |  ✅   |
+| **Add-to-App (Hybrid Apps)**         |   ✅    | ✅  |  ❌   |   ❌    |  ❌   |
+| **Code Obfuscation (`--obfuscate`)** |   ✅    | ✅  |  ✅   |   ✅    |  ✅   |
+| **Patch Signing / KMS**              |   ✅    | ✅  |  ✅   |   ✅    |  ✅   |
+
+:::note Code Obfuscation support on all platforms requires Flutter 3.41.2 or
+later. :::
+
 ## Concepts
 
 This section contains a high-level overview of various concepts within

@@ -132,9 +132,13 @@ To ensure consistent builds, pin the Flutter version using the
 shorebird release ios --flutter-version=3.22.2
 ```
 
-:::note You do not need to pass `--flutter-version` to `shorebird patch`.
-Shorebird automatically detects the exact Flutter version used to build the
-original release and uses it to compile the patch. :::
+:::note
+
+You do not need to pass `--flutter-version` to `shorebird patch`. Shorebird
+automatically detects the exact Flutter version used to build the original
+release and uses it to compile the patch.
+
+:::
 
 ### Verify PR builds with `--dry-run`
 
@@ -160,10 +164,13 @@ patches for iOS by passing the `--no-codesign` flag:
 shorebird release ios --no-codesign
 ```
 
-:::warning Releases built with `--no-codesign` cannot be launched via
-`shorebird preview` or installed directly on devices. You must manually codesign
-the generated `.xcarchive` in Xcode or through your signing pipeline before
-distribution. :::
+:::warning
+
+Releases built with `--no-codesign` cannot be launched via `shorebird preview`
+or installed directly on devices. You must manually codesign the generated
+`.xcarchive` in Xcode or through your signing pipeline before distribution.
+
+:::
 
 ### Run CLI commands non-interactively
 

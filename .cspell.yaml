@@ -47,11 +47,13 @@ words:
   - keyrings
   - lavamoat
   - libapp
+  - libexec
   - libflutter
   - libglu
   - libstdc
   - libupdater
   - llms
+  - lobanov
   - localappdata
   - logcat
   - longpaths
@@ -60,6 +62,7 @@ words:
   - microsoftonline
   - mortems
   - mipmap
+  - mobileprovision
   - mozallowfullscreen
   - notlike
   - nubank

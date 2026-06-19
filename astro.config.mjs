@@ -13,6 +13,7 @@ import { readFileSync } from 'node:fs';
 import starlightLlmsTxt from 'starlight-llms-txt';
 import { remarkReplaceVersions } from './src/plugins/replace-versions.ts';
 import mermaid from 'astro-mermaid';
+import remarkGfm from 'remark-gfm';
 
 const site = 'https://docs.shorebird.dev/';
 
@@ -20,7 +21,7 @@ const site = 'https://docs.shorebird.dev/';
 export default defineConfig({
   site,
   markdown: {
-    remarkPlugins: [remarkReplaceVersions],
+    remarkPlugins: [remarkReplaceVersions, remarkGfm],
   },
   vite: {
     plugins: [tailwindcss()],

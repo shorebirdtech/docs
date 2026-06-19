@@ -92,8 +92,7 @@ are applied to releases, rather than being new releases themselves. This can
 complicate your analytics/reporting code as you will have the case where e.g.
 `1.0.1+13, patch 1` has identical dart code to `1.0.1+13, no patches`. You can
 get the current booted patch number via `package:shorebird_code_push`'s
-[readCurrentPatch]
-(https://pub.dev/documentation/shorebird_code_push/latest/shorebird_code_push/ShorebirdUpdater/readCurrentPatch.html)
+[readCurrentPatch](https://pub.dev/documentation/shorebird_code_push/latest/shorebird_code_push/ShorebirdUpdater/readCurrentPatch.html)
 method.
 
 Shorebird also currently makes the guarantee that we do not see or store your
@@ -114,16 +113,16 @@ why during development, if you already have your app running, you might need to
 restart the app twice (once to download and install the update, once to launch
 from the update code).
 
-Checking for an installing the update can be triggered at any time using
+Checking for and installing the update can be triggered at any time using
 `package:shorebird_code_push`. By default, Shorebird only triggers an install
 check on launch of your app, but it is possible to trigger on other signals as
 appropriate for your application (e.g. by sending a notification), see above.
 
 While the Dart VM has the ability to hot-restart, most apps use plugins or call
 out to other native code which would not be aware that the Dart portions have
-restarted and are likely to end up in in a state that could lead to a crash in
-the native side of the application. We think it might be interesting to explore
-a "hot-restart" feature in the future, in cases where the developer can ensure
+restarted and are likely to end up in a state that could lead to a crash in the
+native side of the application. We think it might be interesting to explore a
+"hot-restart" feature in the future, in cases where the developer can ensure
 that the native side of the app is in a safe state to be restarted or we can
 provide a set of plugins that are safe during a hot-restart.
 

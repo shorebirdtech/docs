@@ -1,0 +1,222 @@
+---
+title: State Management in Flutter
+description:
+  Master state management in Flutter using the BLoC Single State pattern.
+sidebar:
+  order: 1
+---
+
+import { Image } from 'astro:assets';
+import bloc_event_diagram from '~/assets/bloc_event_diagram.jpeg';
+
+There are lots of "State Management" techniques in the Flutter ecosystem which
+can feel overwhelming. In getting started its best to learn one and build on it
+over time.
+
+BLoC is a widely adopted state management solution in the Flutter ecosystem.
+When implementing BLoC, developers often face a choice in how to represent the
+different states of their application data.
+
+A common introductory approach is to create a distinct class for every possible
+state. While this demonstrates the basic flow of events and states, it
+introduces limitations as an application scales. Specifically, transitioning
+between completely different state classes can cause the UI to lose previously
+loaded data, resulting in undesirable loading indicators or blank screens when
+fetching updates.
+
+This guide outlines the recommended approach for structuring BLoC using the
+**Single State pattern**.
+
+## Core Architecture
+
+**BLoC (Business Logic Component)** separates the UI layer from the business
+logic, promoting testability and predictability. The architecture follows a
+unidirectional data flow:
+
+- **Events:** Represent user interactions or system triggers (e.g., a button
+  tap).
+- **Logic:** The BLoC processes incoming events and performs necessary
+  operations like API calls or database queries.
+- **States:** The BLoC emits new states, which the UI listens to in order to
+  rebuild dynamically.
+
+<Image
+  src={bloc_event_diagram}
+  alt="Diagram of how BLoC interacts with widgets and APIs"
+/>
+
+## Handling Multiple State Classes
+
+A common introductory pattern is defining separate classes for each state:
+
+```dart
+abstract class UserState {}
+
+class UserInitial extends UserState {}
+
+class UserLoading extends UserState {}
+
+class UserSuccess extends UserState {
+  final UserProfile profile;
+  UserSuccess(this.profile);
+}
+
+class UserFailure extends UserState {
+  final String error;
+  UserFailure(this.error);
+}
+```
+
+The limitation of this approach becomes apparent during data refreshes. If the
+current state is `UserSuccess` and the user triggers a refresh, the BLoC
+transitions to `UserLoading`. Because `UserLoading` does not contain the
+`profile` data, the UI loses access to the previously loaded information. This
+typically results in the screen clearing entirely to show a loading spinner,
+creating a jarring user experience.
+
+## Recommended Approach: The Single State Pattern
+
+To maintain context during state transitions, it is recommended to use a single
+state class combined with a status enum and a `copyWith` method. This allows the
+application to indicate loading or error states without discarding previously
+fetched data.
+
+### 1. The Status Enum
+
+Define the possible statuses for the data fetching lifecycle:
+
+```dart
+enum UserStatus { initial, loading, success, failure }
+```
+
+### 2. The Single State Class
+
+By leveraging the `Equatable` package, the BLoC can perform value-based
+comparisons to ensure the UI only rebuilds when the state has actually changed.
+
+```dart
+import 'package:equatable/equatable.dart';
+
+class UserState extends Equatable {
+  final UserStatus status;
+  final UserProfile? profile;
+  final String? errorMessage;
+
+  const UserState({
+    this.status = UserStatus.initial,
+    this.profile,
+    this.errorMessage,
+  });
+
+  // The copyWith method allows updating specific fields
+  // while preserving the rest of the existing state.
+  UserState copyWith({
+    UserStatus? status,
+    UserProfile? profile,
+    String? errorMessage,
+  }) {
+    return UserState(
+      status: status ?? this.status,
+      profile: profile ?? this.profile,
+      errorMessage: errorMessage ?? this.errorMessage,
+    );
+  }
+
+  @override
+  List<Object?> get props => [status, profile, errorMessage];
+}
+```
+
+### 3. The Events
+
+Events should represent actions that have occurred rather than commands
+indicating what the BLoC should do.
+
+```dart
+abstract class UserEvent extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
+
+class UserProfileRequested extends UserEvent {}
+class UserProfileRefreshRequested extends UserEvent {}
+```
+
+## Implementing the BLoC
+
+The BLoC maps incoming events to state emissions. When a refresh event occurs,
+the BLoC updates the status to `loading` using `copyWith`, preserving the
+existing profile data.
+
+```dart
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class UserBloc extends Bloc<UserEvent, UserState> {
+  final UserRepository repository;
+
+  UserBloc(this.repository) : super(const UserState()) {
+    on<UserProfileRefreshRequested>(_onUserProfileRefresh);
+  }
+
+  Future<void> _onUserProfileRefresh(
+    UserProfileRefreshRequested event,
+    Emitter<UserState> emit,
+  ) async {
+    // 1. Emit loading status while preserving existing profile data.
+    emit(state.copyWith(status: UserStatus.loading));
+
+    try {
+      final profile = await repository.fetchProfile();
+
+      // 2. Emit success status with the newly fetched profile.
+      emit(state.copyWith(
+        status: UserStatus.success,
+        profile: profile,
+      ));
+
+    } catch (e) {
+      // 3. Emit failure status while retaining the previous profile data.
+      emit(state.copyWith(
+        status: UserStatus.failure,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
+}
+```
+
+## UI Integration
+
+Using the single state pattern simplifies the UI implementation. The application
+can display error messages or loading indicators without removing the existing
+content from the screen.
+
+```dart
+BlocConsumer<UserBloc, UserState>(
+  listener: (context, state) {
+    // Listen for failure states to display error messages.
+    if (state.status == UserStatus.failure) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(state.errorMessage ?? 'An error occurred')),
+      );
+    }
+  },
+  builder: (context, state) {
+    // If profile data exists, display it regardless of the current status.
+    if (state.profile != null) {
+      return Stack(
+        children: [
+          ProfileWidget(profile: state.profile!),
+
+          // Display an overlay loading indicator during refresh operations.
+          if (state.status == UserStatus.loading)
+            const LinearProgressIndicator(),
+        ],
+      );
+    }
+
+    // Display a full-screen loader only on the initial fetch when no data is available.
+    return const Center(child: CircularProgressIndicator());
+  },
+)
+```

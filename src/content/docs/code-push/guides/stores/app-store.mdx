@@ -153,11 +153,15 @@ As of Xcode 15, you will make the following choices:
 1. A few distribution options that are up to you. Importantly, **Manage Version
    and Build Number must be unchecked for Shorebird to work**.
 
-   :::warning If Xcode is allowed to manage the version and build number, it
-   will automatically increment the build number during upload (e.g. from
-   `1.0.4+1` to `1.0.4+2`). Since Shorebird's release was created targeting
-   `1.0.4+1`, this mismatch in binary metadata prevents the client updater from
-   finding or applying patches. :::
+   :::warning
+
+   If Xcode is allowed to manage the version and build number, it will
+   automatically increment the build number during upload (e.g. from `1.0.4+1`
+   to `1.0.4+2`). Since Shorebird's release was created targeting `1.0.4+1`,
+   this mismatch in binary metadata prevents the client updater from finding or
+   applying patches.
+
+   :::
 
    <Image src={xcodeDistributionOptions} alt="Xcode distribution options" />
 

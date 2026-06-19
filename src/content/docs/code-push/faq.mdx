@@ -190,8 +190,8 @@ Steps to upgrade:
 
 1. Upgrade your local Flutter SDK (e.g., via `flutter upgrade` or by switching
    channels/version toolings).
-2. Run `shorebird release [platform]` (which will build the new release binary
-   using the upgraded Flutter version).
+2. Run `shorebird release [platform] --flutter-version=<version>` (which will
+   build the new release binary using the specified Flutter version).
 3. Upload the new binary to Google Play and the App Store.
 
 Any future patches created for this new release version will automatically be
@@ -299,27 +299,6 @@ Shorebird does not currently support submitting to the app stores on your
 behalf. We may end up adding this in the future, but for now you will need to
 continue to use your existing processes to submit to the app stores.
 
-### How should I handle patches during App Store or Google Play Store review?
-
-We recommend avoiding publishing patches containing major new features,
-significant behavior changes, or controversial updates to the active release
-version currently undergoing review in the store.
-
-During the review period, store reviewers will inspect the app binary you
-submitted. If a patch is active for that release version, reviewers may download
-it. To ensure a smooth, risk-free review process and remain fully compliant with
-guidelines:
-
-1. **Hold patches to the target version**: Do not release patches to the version
-   undergoing review unless they are critical, non-deceptive bug fixes.
-2. **Use staging tracks**: If you need to test code on devices without affecting
-   the version in review, publish your patches to a separate testing track
-   (e.g., `shorebird patch [platform] --track=staging`). This isolates your test
-   code.
-3. **Promote after approval**: Once the store review is complete and the new
-   version is approved and published, you can safely promote staging patches to
-   the `stable` track.
-
 ## Use Cases & Limitations
 
 ### What can I use Shorebird code push for?
@@ -367,6 +346,11 @@ It depends on whether the package contains native code:
   in the base store release, adding it in a patch will compile, but the app will
   crash or fail on user devices because the native components of that package
   are missing from the store-installed binary.
+
+You can determine if a package has native code by looking at its source code
+repository. If it contains folders like `android/`, `ios/`, `macos/`, or
+`windows/`, it uses native code. You can also check its `pubspec.yaml` for a
+`plugin` section under `flutter`.
 
 If you need to add a new package with native code, you must push a new store
 release.

@@ -170,16 +170,19 @@ when patches are installed rather than on every launch.
 The following examples show how to integrate Shorebird patch signing with
 popular key management services using `--public-key-cmd` and `--sign-cmd`.
 
-:::note Integrating with Cloud KMS requires that the executing environment (your
-local terminal or CI/CD runner) has sufficient IAM credentials to read keys and
-sign payloads.
+:::note
+
+Integrating with Cloud KMS requires that the executing environment (your local
+terminal or CI/CD runner) has sufficient IAM credentials to read keys and sign
+payloads.
 
 - **GCP Cloud KMS**: Requires the `roles/cloudkms.viewer` (to read the public
   key) and `roles/cloudkms.signerVerifier` (to sign the patch) roles.
 - **AWS KMS**: Requires the `kms:GetPublicKey` and `kms:Sign` IAM policy
   actions.
 - **Azure Key Vault**: Requires Key Vault key permissions for `get` and `sign`.
-  :::
+
+:::
 
 ### HashiCorp Vault
 

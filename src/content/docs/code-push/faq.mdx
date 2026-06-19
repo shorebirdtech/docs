@@ -347,10 +347,25 @@ It depends on whether the package contains native code:
   crash or fail on user devices because the native components of that package
   are missing from the store-installed binary.
 
-You can determine if a package has native code by looking at its source code
-repository. If it contains folders like `android/`, `ios/`, `macos/`, or
-`windows/`, it uses native code. You can also check its `pubspec.yaml` for a
-`plugin` section under `flutter`.
+:::tip[How to check if a package has native code]
+
+The easiest way to determine if a package uses native code is to check its
+`pubspec.yaml` on pub.dev. If the `flutter` section contains a `plugin`
+definition, it relies on native code:
+
+```yaml
+flutter:
+  plugin: # <-- Indicates this package uses native code
+    platforms:
+      android:
+        package: com.example.plugin
+```
+
+Alternatively, you can look at its source repository. If it contains
+platform-specific folders like `android/`, `ios/`, `macos/`, or `windows/`, it
+contains native code.
+
+:::
 
 If you need to add a new package with native code, you must push a new store
 release.

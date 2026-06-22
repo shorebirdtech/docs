@@ -151,13 +151,13 @@ jobs:
       - name: 📦 Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: flutter_and_friends-${{ github.ref_name }}.apk
+          name: my_shorebird_app-${{ github.ref_name }}.apk
           path: build/app/outputs/apk/release/app-release.apk
 
       - name: 📦 Upload App Bundle
         uses: actions/upload-artifact@v4
         with:
-          name: flutter_and_friends-${{ github.ref_name }}.aab
+          name: my_shorebird_app-${{ github.ref_name }}.aab
           path: build/app/outputs/bundle/release/app-release.aab
 
   release-ios:
@@ -231,8 +231,8 @@ jobs:
       - name: 📦 Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: flutter_and_friends-${{ github.ref_name }}.ipa
-          path: build/ios/ipa/flutter_and_friends.ipa
+          name: my_shorebird_app-${{ github.ref_name }}.ipa
+          path: build/ios/ipa/my_shorebird_app.ipa
 ```
 
 When the release workflow has finished running, the artifacts are ready to be

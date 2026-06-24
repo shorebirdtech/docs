@@ -5,6 +5,8 @@ sidebar:
   order: 8
 ---
 
+import { CodeTabs } from 'starlight-theme-nova/components';
+
 _First, do no harm_
 
 Shorebird is designed to be a drop-in replacement for stock Flutter, and can be
@@ -25,5 +27,47 @@ Building with `flutter build --release` will not include Shorebird in your app.
 At any time you can simply drop back to `flutter build` and things will work as
 they did before.
 
-You can remove `shorebird` from your path by removing it from your `.bashrc` or
-`.zshrc` and deleting the `.shorebird` directory located in `~/.shorebird`.
+If you want to remove the Shorebird CLI and its cache from your system entirely,
+you can run:
+
+```bash
+shorebird uninstall
+```
+
+### Manual Uninstallation
+
+If you are using an older version of Shorebird or are unable to run the
+`uninstall` command, you can manually remove Shorebird from your system by
+choosing your operating system below:
+
+<CodeTabs>
+```bash title="Mac/Linux"
+# Delete the shorebird directory
+if [ -n "$XDG_CONFIG_HOME" ]; then
+  rm -rf "$XDG_CONFIG_HOME/shorebird"
+else
+  rm -rf ~/.shorebird
+fi
+
+# Remove shorebird from your PATH in shell profiles
+
+for rc in ~/.bashrc ~/.zshrc; do if [ -f "$rc" ] && grep -q '.shorebird/bin'
+"$rc"; then
+    grep -v '.shorebird/bin' "$rc" > "${rc}.tmp" && mv "${rc}.tmp"
+"$rc" fi done
+
+````
+
+```powershell title="Windows"
+# Delete the shorebird directory
+Remove-Item -Recurse -Force ~\.shorebird
+
+# Remove shorebird from your User PATH environment variable
+$path = [Environment]::GetEnvironmentVariable("Path", "User")
+if ($path) {
+    $newPath = ($path -split [IO.Path]::PathSeparator | Where-Object { $_ -notlike "*\.shorebird\bin" }) -join [IO.Path]::PathSeparator
+    [Environment]::SetEnvironmentVariable("Path", $newPath, "User")
+}
+````
+
+</CodeTabs>

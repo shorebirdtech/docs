@@ -136,12 +136,12 @@ export default defineConfig({
     // Redirects to preserve legacy URLs.
     '/architecture': '/code-push/system-architecture/',
     '/billing': '/account/billing/',
-    '/code-push/overview': '/code-push',
-    '/code-push/continuous-integration/codemagic': '/code-push/ci/codemagic',
+    '/code-push/overview': '/code-push/',
+    '/code-push/continuous-integration/codemagic': '/code-push/ci/codemagic/',
     '/code-push/continuous-integration/fastlane/': '/code-push/ci/fastlane/',
     '/code-push/continuous-integration/generic/': '/code-push/ci/generic/',
     '/code-push/guides/submitting/app-store/':
-      'code-push/guides/stores/app-store/',
+      '/code-push/guides/stores/app-store/',
     '/code-push/guides/submitting/play-store/':
       '/code-push/guides/stores/play-store/',
     '/code_push/initialize': '/code-push/initialize/',
@@ -161,7 +161,7 @@ export default defineConfig({
     '/guides/crash-reporting/integrations/crashlytics/':
       '/code-push/crash-reporting/crashlytics/',
     '/guides/crash-reporting/integrations/sentry/':
-      '/code-push/crash-reporting/integrations/sentry/',
+      '/code-push/crash-reporting/sentry/',
     '/guides/crash-reporting/uploading-symbols':
       '/code-push/crash-reporting/uploading-symbols/',
     '/guides/development-workflow': '/code-push/guides/development-workflow/',
@@ -192,7 +192,7 @@ export default defineConfig({
     '/shorebird-system/status': '/system/status/',
     '/status/': '/system/status/',
     '/teams': '/account/orgs/',
-    '/troubleshooting': 'code-push/troubleshooting/',
+    '/troubleshooting': '/code-push/troubleshooting/',
     '/uninstall': '/code-push/uninstall/',
     '/update-strategies': '/code-push/update-strategies/',
   },

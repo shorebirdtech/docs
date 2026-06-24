@@ -35,29 +35,36 @@ words:
   - cocoapods
   - codemagic
   - codepush
+  - cloudkms
   - codesign
   - codesigning
   - elif
   - evenodd
   - ffigen
+  - geocodes
   - jank
   - janky
   - keyrings
   - lavamoat
   - libapp
+  - libexec
   - libflutter
   - libglu
   - libstdc
   - libupdater
   - llms
+  - lobanov
   - localappdata
   - logcat
   - longpaths
   - maclinux
   - meteo
   - microsoftonline
+  - mortems
   - mipmap
+  - mobileprovision
   - mozallowfullscreen
+  - notlike
   - nubank
   - opengraph
   - outform

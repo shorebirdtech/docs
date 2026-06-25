@@ -86,6 +86,7 @@ Future<int?> _fetchRolloutPercentage() async {
   final collection = await FirebaseFirestore.instance
     .collection(firestoreCollectionName)
     .get();
+  if (collection.docs.isEmpty) return null;
   final releaseVersion = await _releaseVersion();
   return collection.docs.first.data()[releaseVersion] as int?;
 }
@@ -99,16 +100,19 @@ the stable track.
 
 ```dart
 Future<UpdateTrack> _updateTrack() async {
-final rolloutPercentage = await _fetchRolloutPercentage();
+  final rolloutPercentage = await _fetchRolloutPercentage();
 
-// If the user's group number is less than or equal to the rollout
-// percentage, they are on the beta track. For example:
-// - if the rollout percentage is 25%, users with group numbers 1-25
-//   are on the beta track, and the other 75% are on the stable track.
-// - if the rollout percentage is 100%, all users are on the beta track.
-return widget.groupNumber <= rolloutPercentage
-    ? UpdateTrack.beta
-    : UpdateTrack.stable;
+  // If no rollout percentage is set for this version, default to stable.
+  if (rolloutPercentage == null) return UpdateTrack.stable;
+
+  // If the user's group number is less than or equal to the rollout
+  // percentage, they are on the beta track. For example:
+  // - if the rollout percentage is 25%, users with group numbers 1-25
+  //   are on the beta track, and the other 75% are on the stable track.
+  // - if the rollout percentage is 100%, all users are on the beta track.
+  return widget.groupNumber <= rolloutPercentage
+      ? UpdateTrack.beta
+      : UpdateTrack.stable;
 }
 ```
 

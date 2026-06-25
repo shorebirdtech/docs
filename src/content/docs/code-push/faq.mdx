@@ -83,6 +83,23 @@ Yes. The `shorebird` command line tool passes through all Dart defines to the
 work as expected. Because Dart defines are compiled into your app's Dart code,
 they can be updated via patches.
 
+### How do I target different API environments (e.g., Staging vs. Production backend) for patches?
+
+You should use Flutter flavors (or `--dart-define` config variables). Shorebird
+fully supports flavors.
+
+When you initialize and release flavored builds (e.g., running
+`shorebird release android --flavor development`), Shorebird creates separate
+releases for each flavor in your Shorebird console. When you subsequently run a
+patch command (e.g., `shorebird patch android --flavor development`), the
+Shorebird servers will route that patch _only_ to the release matching that
+specific flavor. This guarantees that patches targeting development/staging
+environments never affect production users.
+
+For more details on setting up flavors, see the
+[Android Flavor Guide](/code-push/guides/flavors/android) and
+[iOS Flavor Guide](/code-push/guides/flavors/ios).
+
 ### How does Shorebird relate to Flutter?
 
 Shorebird is a fork of Flutter that adds code push. Shorebird is not a
@@ -110,9 +127,34 @@ For more information about why we had to fork Flutter see
 Shorebird supports
 [Android, iOS](https://shorebird.dev/blog/1.0/)[, Mac, Windows, and Linux](https://shorebird.dev/blog/desktop-in-production/).
 
-Use of Shorebird on each platform is an independent decision. For example You
+Use of Shorebird on each platform is an independent decision. For example, you
 can use `shorebird release` to ship to Google Play and an ipa built with
 `flutter build` to the App Store or vice versa.
+
+### Does Shorebird work on iOS Simulators?
+
+No. Shorebird patches are not supported on iOS Simulators.
+
+Shorebird's iOS engine uses a custom interpreter designed specifically for
+physical arm64 iOS devices to execute updated Dart code over-the-air while
+remaining fully compliant with Apple's security sandbox guidelines. Because of
+this, Shorebird updates cannot run on iOS Simulators (which run on x86_64 or
+arm64 macOS JIT/interpreter architectures). You must use a physical iOS device
+to test iOS patches.
+
+_Note: Android emulators are fully supported._
+
+### Does Shorebird work in Debug or Profile mode?
+
+No. Shorebird is only compiled into and active in **Release builds** of your
+application.
+
+When you run your application in Debug or Profile mode (e.g., via
+`flutter run`), the Shorebird engine is completely disabled, and the standard
+Flutter JIT or AOT engine is used. This ensures that standard development
+workflows (such as Hot Reload, Hot Restart, and DevTools debugging) are entirely
+unaffected. To test patch updates, you must build and run your application in
+Release mode.
 
 ### What OS versions does Shorebird support?
 
@@ -122,12 +164,38 @@ find the details of this on the
 
 ### What versions of Flutter does Shorebird support?
 
-For specific versions by platform please consult out
+For specific versions by platform, please consult our
 [Flutter Version Management](/getting-started/flutter-version/) page.
 
 Shorebird tracks Flutter stable and generally updates within a few hours of any
 stable release. Our system for doing these updates is automated. We then do an
 extra manual verification step before publishing to our servers.
+
+### Can I use Shorebird with Flutter pre-release channels (Beta, Master)?
+
+No. Shorebird only supports the **stable** channel of Flutter.
+
+Shorebird's custom engines and automated patch-generation tests are built and
+verified specifically against stable Flutter releases. If you try to run
+Shorebird commands while using a Beta, Dev, or Master/Main branch of Flutter,
+the Shorebird CLI will display an error.
+
+### How do I upgrade the Flutter version of my app?
+
+To upgrade your application's Flutter version, you must create a new store
+release. You cannot upgrade the Flutter version of an existing release via a
+patch.
+
+Steps to upgrade:
+
+1. Upgrade your local Flutter SDK (e.g., via `flutter upgrade` or by switching
+   channels/version toolings).
+2. Run `shorebird release [platform] --flutter-version=<version>` (which will
+   build the new release binary using the specified Flutter version).
+3. Upload the new binary to Google Play and the App Store.
+
+Any future patches created for this new release version will automatically be
+built using the upgraded Flutter version.
 
 ## Store Compliance
 
@@ -264,6 +332,43 @@ providing features or functionality that are inconsistent with the intended and
 advertised purpose of the Application." Also note that patch sizes correlate
 with the total amount of Dart changed from the original released app. Each patch
 is a diff against the released dart code, not a diff to the previous patch.
+
+### Can I add new packages or plugins in a patch?
+
+It depends on whether the package contains native code:
+
+- **Pure Dart Packages**: Yes. You can add or update pure Dart dependencies
+  (e.g., helper libraries, state management utilities) in a patch, and they will
+  compile and run correctly.
+- **Packages with Native Code**: Yes, but only if they were already included in
+  the release binary. If a package contains native code (e.g., Swift, Kotlin,
+  Java, Objective-C, like `camera` or `path_provider`) and was **not** present
+  in the base store release, adding it in a patch will compile, but the app will
+  crash or fail on user devices because the native components of that package
+  are missing from the store-installed binary.
+
+:::tip[How to check if a package has native code]
+
+The easiest way to determine if a package uses native code is to check its
+`pubspec.yaml` on pub.dev. If the `flutter` section contains a `plugin`
+definition, it relies on native code:
+
+```yaml
+flutter:
+  plugin: # <-- Indicates this package uses native code
+    platforms:
+      android:
+        package: com.example.plugin
+```
+
+Alternatively, you can look at its source repository. If it contains
+platform-specific folders like `android/`, `ios/`, `macos/`, or `windows/`, it
+contains native code.
+
+:::
+
+If you need to add a new package with native code, you must push a new store
+release.
 
 ### How does this relate to Firebase Remote Config or Launch Darkly?
 
@@ -557,8 +662,8 @@ For more details on this, please refer to the
 
 To upgrade your plan, you can
 [subscribe via the Shorebird console](https://console.shorebird.dev/subscriptions/create).
-You would like to move from a monthly to yearly plan please reach out to us via
-[email](mailto:contact@shorebird.dev) to complete the change.
+If you would like to move from a monthly to a yearly plan, please reach out to
+us via [email](mailto:billing@shorebird.dev) to complete the change.
 
 ### When does my billing period reset?
 

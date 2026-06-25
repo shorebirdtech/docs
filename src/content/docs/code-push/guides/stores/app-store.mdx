@@ -145,16 +145,32 @@ Open the .xcarchive in Xcode and use the "Distribute App" flow:
 As of Xcode 15, you will make the following choices:
 
 1. "Custom" as the distribution method.
+
    <Image src={xcodeDistributionMethod1} alt="Xcode distribution method 1" />
+
 1. "App Store Connect" as the distribution method.
+
    <Image src={xcodeDistributionMethod2} alt="Xcode distribution method 2" />
+
 1. "Upload" as the destination.
+
    <Image src={xcodeUploadDestination} alt="Upload destination" />
+
 1. A few distribution options that are up to you. Importantly, **Manage Version
-   and Build Number must be unchecked for Shorebird to work**. Because Shorebird
-   targets patches at specific release versions, changing the version or build
-   number will prevent your app from receiving patches.
+   and Build Number must be unchecked for Shorebird to work**.
+
+   :::warning
+
+   If Xcode is allowed to manage the version and build number, it will
+   automatically increment the build number during upload (e.g. from `1.0.4+1`
+   to `1.0.4+2`). Since Shorebird's release was created targeting `1.0.4+1`,
+   this mismatch in binary metadata prevents the client updater from finding or
+   applying patches.
+
+   :::
+
    <Image src={xcodeDistributionOptions} alt="Xcode distribution options" />
+
 1. Automatically manage signing or manually manage signing. This is up to you.
    If you choose to manually manage signing, you will need to select the
    appropriate development team, provisioning profile, and signing certificate

@@ -101,17 +101,30 @@ access, which is not a change we would make lightly.
 
 ## Can I update my app without starting it twice?
 
-The short answer, is no.
+The short answer is no (under the default background update configuration).
 
-There are two things required to update an app:
+There are two steps required to apply an update:
 
-1. Shorebird needs to check for an update and download & install the new code.
-2. The app needs to restart with the new code.
+1. **Download and Install**: The Shorebird updater needs to fetch the patch from
+   the CDN and write/apply the binary diff to the local cache directory on disk.
+2. **Launch with New Code**: The app needs to restart so that the modified
+   Flutter engine loads the newly cached patch files instead of the base release
+   files.
 
-By default, Shorebird only checks for updates during launch of the app. This is
-why during development, if you already have your app running, you might need to
-restart the app twice (once to download and install the update, once to launch
-from the update code).
+Because the default Shorebird configuration performs the update check and
+download **in the background on startup**, the download completes _after_ the
+Dart VM is already running the base code. Consequently, the patch cannot be
+hot-swapped into memory dynamically on that launch.
+
+During development or QA testing, this means you must restart the app twice:
+
+- **First Launch**: App launches (unpatched), detects the patch, downloads it in
+  the background, and installs it.
+- **Second Launch**: App launches, detects the installed patch from the local
+  cache, boots from it, and displays the changes.
+
+To bypass this behavior and apply patches immediately on the first launch, you
+must manage updates manually.
 
 Checking for and installing the update can be triggered at any time using
 `package:shorebird_code_push`. By default, Shorebird only triggers an install

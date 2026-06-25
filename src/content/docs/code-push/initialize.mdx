@@ -34,7 +34,7 @@ This does three things:
    ensuring `shorebird.yaml` is bundled with your app's assets and is available
    to the Shorebird updater at runtime.
 
-You can safely commit these changes, they will have no affect on your app when
+You can safely commit these changes; they will have no effect on your app when
 not using Shorebird.
 
 Example output for an app named `shorebird_test`:
@@ -75,6 +75,20 @@ shorebird init --display-name "My App"
 
 :::
 
+:::note
+
+If your account belongs to multiple organizations, `shorebird init` will prompt
+you to choose one interactively. In non-interactive environments (e.g., CI), you
+can skip the prompt by passing `--organization-id`:
+
+```sh
+shorebird init --organization-id 42
+```
+
+Run `shorebird account orgs` to list your organization IDs.
+
+:::
+
 The generated `shorebird.yaml` should look similar to:
 
 ```yaml
@@ -109,6 +123,25 @@ flavors:
 The `app_id` is a required field in every `shorebird.yaml`. In the case of
 flavors, `app_id` will default to the first flavor and will be overwritten at
 build time to the corresponding flavor's `app_id`.
+
+:::
+
+:::tip[Disabling automatic updates]
+
+By default, Shorebird checks for and downloads patches automatically in the
+background at app launch. To disable this and control updates programmatically
+(e.g., show a prompt before updating), add `auto_update: false` to
+`shorebird.yaml`:
+
+```yaml
+app_id: 8c846e87-1461-4b09-8708-170d78331aca
+auto_update: false
+```
+
+You can then use
+[package:shorebird_code_push](https://pub.dev/packages/shorebird_code_push) to
+check for updates and trigger them at a time of your choosing. See
+[Update Strategies](/code-push/update-strategies) for examples.
 
 :::
 

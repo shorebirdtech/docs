@@ -1,0 +1,114 @@
+---
+title: Account CLI Reference
+description:
+  Learn how to authenticate and manage your Shorebird account via the command
+  line
+sidebar:
+  order: 4
+---
+
+The Shorebird CLI provides several commands to help you manage your
+authentication state, inspect your account details, and list your apps and
+organizations directly from the terminal.
+
+## Authentication Commands
+
+### Login
+
+To authenticate with Shorebird on your machine, run:
+
+```sh
+shorebird login
+```
+
+This command will prompt you to visit a URL in your browser to complete the
+OAuth login process. Once authenticated, your session credentials are saved
+securely on your machine, allowing you to use `shorebird` commands without
+needing to re-authenticate.
+
+### Logout
+
+To log out of the current Shorebird user session and remove stored credentials
+from your machine, run:
+
+```sh
+shorebird logout
+```
+
+## Account Management Commands
+
+The `shorebird account` command provides several subcommands to inspect your
+account details, apps, and organizations.
+
+### Who Am I
+
+To see the currently authenticated user's details, run:
+
+```sh
+shorebird account whoami
+```
+
+**Example output:**
+
+```
+ID:             42
+Email:          user@example.com
+Display name:   Example User
+Plan:           paid
+Overage limit:  10000
+```
+
+This command is useful for verifying which account you are logged into and
+checking your current billing plan and patch overage limit.
+
+### List Apps
+
+To list all the Shorebird apps that your current account has access to, run:
+
+```sh
+shorebird account apps
+```
+
+**Example output:**
+
+```
+01H...  Acme Mobile  1.2.3  4
+01J...  Acme Internal  -  -
+```
+
+The output displays the App ID, display name, latest release version, and latest
+patch number (with `-` indicating no release or patch has been published yet).
+
+### List Organizations
+
+To list all the organizations you belong to, run:
+
+```sh
+shorebird account orgs
+```
+
+**Example output:**
+
+```
+1  Acme Corp  team  admin
+2  user@example.com  personal  owner
+```
+
+This output displays the Organization ID, name, organization type (`personal` or
+`team`), and your membership role (`owner`, `admin`, or `developer`).
+
+---
+
+## JSON Output for Automation
+
+All `shorebird account` subcommands support the `--json` flag, making them easy
+to integrate into scripts and automation workflows.
+
+```sh
+shorebird account whoami --json
+shorebird account apps --json
+shorebird account orgs --json
+```
+
+When using `--json`, the CLI will output a structured JSON response instead of
+human-readable text.

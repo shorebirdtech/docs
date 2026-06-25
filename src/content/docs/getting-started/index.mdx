@@ -87,7 +87,19 @@ Flutter app.
         git clone -b stable https://github.com/shorebirdtech/shorebird.git
         ```
 
-        Add the `bin` folder to your `PATH`.
+        Add the `bin` folder to your `PATH`, for example:
+
+        <CodeTabs>
+          ```bash title="Bash/Zsh"
+          # Add to shell profile (e.g., ~/.zshrc or ~/.bashrc)
+          export PATH="$PATH:/path/to/cloned/shorebird/bin"
+          ```
+
+          ```powershell title="Windows PowerShell"
+          # Add to User PATH variable
+          [Environment]::SetEnvironmentVariable("PATH", "$env:PATH;C:\path\to\cloned\shorebird\bin", "User")
+          ```
+        </CodeTabs>
 
       </TabItem>
 

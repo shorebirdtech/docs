@@ -42,11 +42,14 @@ words:
   - evenodd
   - ffigen
   - fintech
+  - frontmatter
+  - graphql
   - geocodes
   - hotfixes
   - jank
   - janky
   - keyrings
+  - linearapp
   - lavamoat
   - libapp
   - libexec

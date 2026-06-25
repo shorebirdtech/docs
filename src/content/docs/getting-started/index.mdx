@@ -19,7 +19,7 @@ into your app in just a few minutes.
 ## Sign up
 
 The first thing you'll need to do is sign up for a Shorebird account. It's free
-to do and you can signup in a manner of seconds.
+to do and you can sign up in a matter of seconds.
 
 <LinkButton href="https://console.shorebird.dev" variant="primary">
   Create an Account
@@ -53,11 +53,13 @@ Installing Shorebird CLI requires `git`.
 
 :::
 
-This installs `shorebird` into `~/.shorebird/bin` and adds it to your `PATH`. It
-also installs a copy of Flutter and Dart inside
-`~/.shorebird/bin/cache/flutter`. The copy of Flutter is slightly modified to
-add Shorebird code push and is not intended to be added to your `PATH`. You can
-continue to use the versions of Flutter and Dart you already have installed.
+This installs `shorebird` into `~/.shorebird/bin` (or
+`%USERPROFILE%\.shorebird\bin` on Windows) and adds it to your `PATH`. It also
+installs a copy of Flutter and Dart inside `~/.shorebird/bin/cache/flutter` (or
+`%USERPROFILE%\.shorebird\bin\cache\flutter` on Windows). The copy of Flutter is
+slightly modified to add Shorebird code push and is not intended to be added to
+your `PATH`. You can continue to use the versions of Flutter and Dart you
+already have installed.
 
 ### Manually installing
 
@@ -71,7 +73,21 @@ installed at, run:
 git clone -b stable https://github.com/shorebirdtech/shorebird.git
 ```
 
-Add the `bin` folder from the repository you just cloned into your `PATH`.
+Add the `bin` folder from the repository you just cloned into your `PATH`. For
+example:
+
+<CodeTabs>
+```bash title="Bash/Zsh"
+# Add to shell profile (e.g., ~/.zshrc or ~/.bashrc)
+export PATH="$PATH:/path/to/cloned/shorebird/bin"
+```
+
+```powershell title="Windows PowerShell"
+# Add to User PATH variable
+[Environment]::SetEnvironmentVariable("PATH", "$env:PATH;C:\path\to\cloned\shorebird\bin", "User")
+```
+
+</CodeTabs>
 
 :::note
 
@@ -91,27 +107,43 @@ Usage: shorebird <command> [arguments]
 Global options:
 -h, --help            Print this usage information.
     --version         Print the current version.
+    --json            Output results in JSON format (implies non-interactive mode).
 -v, --[no-]verbose    Noisy logging, including all shell commands executed.
 
 Available commands:
+  account    Manage your Shorebird account.
   cache      Manage the Shorebird cache.
+  create     Create a new Flutter project with Shorebird.
   doctor     Show information about the installed tooling.
   flutter    Manage your Shorebird Flutter installation.
   init       Initialize Shorebird.
   login      Login as a new Shorebird user.
-  login:ci   Login as a CI user.
-  logout     Logout of the current Shorebird user
-  patch      Creates a shorebird patch for the provided target platforms
-  patches    Manage Shorebird patches
+  logout     Logout of the current Shorebird user.
+  patch      Creates a shorebird patch for the provided target platforms.
+  patches    Manage Shorebird patches.
   preview    Preview a specific release on a device.
-  release    Creates a shorebird release for the provided target platforms
-  releases   Manage Shorebird releases
+  release    Creates a shorebird release for the provided target platforms.
+  releases   Manage Shorebird releases.
   upgrade    Upgrade your copy of Shorebird.
 
 Run "shorebird help <command>" for more information about a command.
 ```
 
-You can use the `shorebird doctor` to ensure things are setup correctly:
+:::tip[`--json` flag for CI scripting]
+
+All Shorebird commands accept a global `--json` flag that switches output to
+structured JSON instead of human-readable text. This is useful for parsing CLI
+results in shell scripts or CI pipelines:
+
+```sh
+shorebird account apps --json
+shorebird releases list --json
+shorebird patches list --json
+```
+
+:::
+
+You can use `shorebird doctor` to ensure things are set up correctly:
 
 ```sh
 shorebird doctor
@@ -138,6 +170,16 @@ URL Reachability
 No issues detected!
 ```
 
+:::tip[Useful `doctor` flags]
+
+- **`shorebird doctor -v`** — verbose mode, also prints Android toolchain info
+  (Android Studio, SDK, ADB, Java version, Gradle) and runs a GCP network speed
+  test.
+- **`shorebird doctor -f`** — attempts to auto-fix any detected issues (e.g.,
+  adding missing `INTERNET` permission to `AndroidManifest.xml`).
+
+:::
+
 Finally, you can log in to your Shorebird account on your machine:
 
 ```sh
@@ -146,7 +188,7 @@ shorebird login
 
 ## Integrate Shorebird
 
-Your now ready to add Shorebird to your app.
+You're now ready to add Shorebird to your app.
 
 You can start by creating a new Flutter app or navigating to the directory of
 your already created Flutter app.
@@ -158,7 +200,7 @@ shorebird create my_shorebird_app
 cd my_shorebird_app
 ```
 
-Or, to enable Shorebird for an existing Flutter app run:
+Or, to enable Shorebird for an existing Flutter app, run:
 
 ```sh
 shorebird init
@@ -178,6 +220,36 @@ Shorebird can be configured to work with older versions of Flutter (back to
 more info.
 
 :::
+
+## Keeping Shorebird Up To Date
+
+To update your local Shorebird CLI to the latest version, run:
+
+```sh
+shorebird upgrade
+```
+
+This checks for new commits on the `stable` branch of Shorebird and updates your
+local installation if a newer version is available. If you are already up to
+date, it will tell you so.
+
+:::tip
+
+You can also see your current version at any time by running
+`shorebird --version`.
+
+:::
+
+## Sample Apps
+
+If you want to see Shorebird in action in a production-like application, check
+out our samples:
+
+<LinkCard
+  href="https://github.com/shorebirdtech/samples/tree/main/shorebird_fintech_wallet"
+  title="Fintech Wallet Demo"
+  description="A professional, enterprise-grade Flutter architecture designed for Logic-Level Hotfixes."
+/>
 
 ## Next Steps
 

@@ -65,7 +65,7 @@ commands.
 :::note
 
 Currently `setup-shorebird` only supports the latest stable version of
-shorebird.
+Shorebird.
 
 :::
 
@@ -111,11 +111,12 @@ jobs:
       run:
         shell: bash
 
+    # Use 'macos-latest' if you are building for iOS
     runs-on: ubuntu-latest
 
     steps:
       - name: 📚 Git Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
 
       - name: 🐦 Setup Shorebird
         uses: shorebirdtech/setup-shorebird@v1
@@ -131,7 +132,7 @@ jobs:
       - name: 🚀 Shorebird Release
         uses: shorebirdtech/shorebird-release@v1
         with:
-          platform: android # or 'ios'
+          platform: android # Use 'ios' (requires runs-on: macos-latest)
 ```
 
 :::tip
@@ -168,11 +169,12 @@ jobs:
       run:
         shell: bash
 
+    # Use 'macos-latest' if you are patching for iOS
     runs-on: ubuntu-latest
 
     steps:
       - name: 📚 Git Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
 
       - name: 🐦 Setup Shorebird
         uses: shorebirdtech/setup-shorebird@v1
@@ -190,7 +192,7 @@ jobs:
       - name: 🚀 Shorebird Patch
         uses: shorebirdtech/shorebird-patch@v1
         with:
-          platform: android # or 'ios'
+          platform: android # Use 'ios' (requires runs-on: macos-latest)
 ```
 
 :::tip

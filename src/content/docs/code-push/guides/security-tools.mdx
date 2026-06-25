@@ -26,7 +26,7 @@ For other Security-related topics:
 
 ## Obfuscation
 
-> Obfuscate (noun): _the action of making something obscure, unclear, or
+> Obfuscation (noun): _the action of making something obscure, unclear, or
 > unintelligible._
 
 Obfuscation in software is a mechanism which takes a program and renames
@@ -96,7 +96,7 @@ the saved release artifacts.
 
 As a result of this, if you run tools _after_ the build of your application and
 thus send a _different_ version of your application to users, Shorebird will be
-unable to crate a compatible patch for your users since they will be using a
+unable to create a compatible patch for your users since they will be using a
 different binary than you stored with Shorebird.
 
 Other than the "it must be during the build" restriction, we've seen few issues
@@ -109,7 +109,7 @@ least in some configurations) will make an attempt to "obfuscate" iOS binaries
 further, replacing the implementations of some functions with code which is used
 to provide obscured access to constants/strings/numbers stored within the
 binary. This may be incompatible with Shorebird's Dart modifications for iOS. If
-this is an issue for your product, we'd be happy to discuss with your
-GuardSquare support team if there are workarounds we could build together.
+this is an issue for your product, we'd be happy to discuss with the GuardSquare
+support team if there are workarounds we could build together.
 
 Reach out to us at contact@shorebird.dev.

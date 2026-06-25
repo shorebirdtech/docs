@@ -11,6 +11,22 @@ import { CodeTabs } from 'starlight-theme-nova/components';
 Once you have published a release of your app, you can push updates using one of
 the `shorebird patch` commands.
 
+:::note[Pre-Patch Checklist]
+
+Before running a patch command, review this checklist to ensure your patch
+compiles and applies cleanly:
+
+- **No Native Code Changes**: Ensure your updates do not touch native platform
+  code (e.g. Kotlin, Swift, or build configurations in `android/` or `ios/`).
+  Native updates cannot be patched.
+- **No Asset Changes**: Check that no new images, fonts, or other files have
+  been added or removed in `pubspec.yaml` (asset patching is not yet supported).
+- **Match Flutter Versions**: Ensure your local Flutter SDK version is identical
+  to the one vended by Shorebird. You can check this by running
+  `shorebird doctor`.
+
+:::
+
 <CodeTabs>
 ```bash title="Android"
 shorebird patch android
@@ -34,12 +50,24 @@ shorebird patch windows
 
 </CodeTabs>
 
+### Patching Multiple Platforms Simultaneously
+
+If your app supports multiple platforms, you can build and publish patches for
+them in a single command using the `--platforms` (or `-p`) option:
+
+```sh
+shorebird patch --platforms=android,ios
+```
+
+This will build and promote the patches for the specified platforms to their
+respective releases in one step.
+
 This will do several things:
 
 1. Builds the artifacts for the update.
 1. Downloads the corresponding release artifacts.
 1. Generates a patch using the diff between the release and the current changes.
-1. Uploads the patch artifacts to the Shorebird backend
+1. Uploads the patch artifacts to the Shorebird backend.
 1. Promotes the patch to the stable channel.
 
 Example output:
@@ -90,19 +118,41 @@ If your application supports flavors or multiple release targets, you can
 specify the flavor and target using the `--flavor` and `--target` options:
 
 ```
-shorebird patch [android|ios] --target lib/main_development.dart --flavor development
+shorebird patch android --target lib/main_development.dart --flavor development
 ```
 
 :::note
 
 `shorebird patch` wraps `flutter build` and can take any argument
-`flutter build` can. To pass arguments to the underlying `flutter build` you
+`flutter build` can. To pass arguments to the underlying `flutter build`, you
 need to put `flutter build` arguments after a `--` separator. For example:
 `shorebird patch android -- --dart-define="foo=bar"` will define the `"foo"`
 environment variable inside Dart as you might have done with `flutter build`
 directly.
 
 :::
+
+## Options
+
+| Option                 | Abbreviation | Description                                                                                                |
+| ---------------------- | ------------ | ---------------------------------------------------------------------------------------------------------- |
+| `--release-version`    |              | The release version to patch (e.g., `1.0.0+1`). Use `latest` to target the most recently updated release.  |
+| `--platforms`          | `-p`         | Comma-separated list of platforms to patch simultaneously (e.g., `android,ios`).                           |
+| `--flavor`             |              | The product flavor to use when building.                                                                   |
+| `--target`             | `-t`         | The main entrypoint file of the application.                                                               |
+| `--track`              |              | The deployment track to publish to (default: `stable`). Use `staging` to publish to a staging track first. |
+| `--dry-run`            | `-n`         | Build and validate the patch but **do not upload** it. Ideal as a CI sanity check.                         |
+| `--allow-asset-diffs`  |              | Publish even if asset differences are detected. **Not recommended.**                                       |
+| `--allow-native-diffs` |              | Publish even if native code differences are detected. **Not recommended.**                                 |
+
+### iOS-specific Options
+
+| Option                   | Description                                                                                      |
+| ------------------------ | ------------------------------------------------------------------------------------------------ |
+| `--no-codesign`          | Skip code signing for the iOS build.                                                             |
+| `--export-options-plist` | Path to a custom `ExportOptions.plist` for the iOS archive export step.                          |
+| `--export-method`        | Distribution method: `app-store`, `ad-hoc`, `development`, or `enterprise`.                      |
+| `--min-link-percentage`  | Minimum % of Dart code that must be linked (not interpreted) for the patch to publish. iOS only. |
 
 ### Patch Performance
 
@@ -113,15 +163,64 @@ Patching an application on Android has no effect on performance.
 #### iOS and macOS
 
 Patching an application on iOS and macOS typically does not affect application
-performance. However the patching mechanism on iOS and macOS is different from
+performance. However, the patching mechanism on iOS and macOS is different from
 Android. Unchanged code runs as normal (on the CPU), changed (or added) code
 will run in a Dart interpreter (slower than the CPU). Typically this change is
 undetectable, but if you are changing particularly performance-sensitive Dart
-code (e.g. code for processing images, or large data) you may see a performance
-difference after patching.
+code (e.g., code for processing images, or large datasets), you may see a
+performance difference after patching.
 
-You can always test your patches before sending them to users using by
-[staging patches](/code-push/guides/staging-patches).
+You can always test your patches before sending them to users by
+[staging patches](/code-push/guides/staging-patches). For a detailed look at how
+iOS and macOS patching works, see
+[System Architecture](/code-push/system-architecture).
 
 If you ever see unexpected performance changes when patching, please
-[contact us](mailto:contact@shorebird.dev) we would love to help!
+[contact us](mailto:contact@shorebird.dev), and we would love to help!
+
+---
+
+## Manage Patches
+
+You can manage your patches directly from the command line using the
+`shorebird patches` commands.
+
+### List Patches
+
+To list all patches associated with a specific release version:
+
+```sh
+shorebird patches list --release-version 1.0.0+1
+```
+
+This will display a list of all patches published for that release, their patch
+numbers, active status, and tracks.
+
+### View Patch Details
+
+To view detailed information for a specific patch number:
+
+```sh
+shorebird patches info --release-version 1.0.0+1 --patch-number 1
+```
+
+This command shows metadata for the specified patch, including build logs,
+checksums, and deployment track information.
+
+### Promote a Patch
+
+If you published a patch to a staging track (e.g., `staging`) and verified it
+works correctly, you can promote it directly to the `stable` track using:
+
+```sh
+shorebird patches promote --release-version 1.0.0+1 --patch-number 1
+```
+
+### Set Patch Track
+
+To assign a patch directly to a specific deployment track (e.g., promoting or
+routing to a staging beta group):
+
+```sh
+shorebird patches set-track --release-version 1.0.0+1 --patch-number 1 --track staging
+```

@@ -113,5 +113,76 @@ a patch is a set of changes to apply to a Release.
 you're trying to patch. `shorebird` will look up the exact version of Flutter
 used to build the release and use that exact version to build the patch.
 
+## CI Best Practices
+
+When integrating Shorebird into a continuous integration pipeline, we recommend
+following these best practices to ensure reliable and efficient builds:
+
+### Pin the Flutter version for releases
+
+By default, `shorebird release` builds with the latest stable version of
+Flutter. Because the stable version of Flutter is periodically updated, your CI
+builds could use a different version of Flutter than what you developed and
+tested with.
+
+To ensure consistent builds, pin the Flutter version using the
+`--flutter-version` flag:
+
+```bash
+shorebird release ios --flutter-version=3.22.2
+```
+
+:::note
+
+You do not need to pass `--flutter-version` to `shorebird patch`. Shorebird
+automatically detects the exact Flutter version used to build the original
+release and uses it to compile the patch.
+
+:::
+
+### Verify PR builds with `--dry-run`
+
+To verify that code changes do not break your release or patch builds, you can
+add a CI check that runs `shorebird release` or `shorebird patch` on every pull
+request.
+
+To prevent these validation builds from uploading artifacts or creating actual
+releases/patches in the Shorebird Console, add the `--dry-run` (or `-n`) flag to
+the command:
+
+```bash
+shorebird patch android --dry-run
+```
+
+### Build without code signing in restricted environments
+
+If your CI runners do not have access to Apple distribution certificates or
+provisioning profiles, you can still build and package Shorebird releases and
+patches for iOS by passing the `--no-codesign` flag:
+
+```bash
+shorebird release ios --no-codesign
+```
+
+:::warning
+
+Releases built with `--no-codesign` cannot be launched via `shorebird preview`
+or installed directly on devices. You must manually codesign the generated
+`.xcarchive` in Xcode or through your signing pipeline before distribution.
+
+:::
+
+### Run CLI commands non-interactively
+
+The Shorebird CLI automatically detects if it is running in a CI environment
+(such as when the `CI` environment variable is set to `true`) and runs in
+non-interactive mode. In this mode, prompts that normally require user
+confirmation are skipped or use safe default options.
+
+To guarantee that your CI builds never block on an interactive prompt, ensure
+the `SHOREBIRD_TOKEN` environment variable is set. If you need to explicitly
+bypass interactive prompts in other environments, you can pass the
+`--no-confirm` flag to `shorebird patch` or `shorebird release`.
+
 Thank you for reading this guide! If you have any questions or suggestions, feel
 free to reach out to us at our [Discord](https://discord.gg/shorebird).

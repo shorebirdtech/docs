@@ -20,7 +20,7 @@ in your logs, the app you are running was not built using `shorebird release`
 and cannot receive patches. You will need to redistribute your app using a
 binary created by `shorebird release`.
 
-If you do see Shorebird in your logs, you'll want to look for a a line that
+If you do see Shorebird in your logs, you'll want to look for a line that
 includes the patch check request being made. It looks like:
 
 ```
@@ -36,10 +36,28 @@ Sending patch check request: PatchCheckRequest {
 
 If the release version is the version you expect to see, check the
 [Shorebird Console](https://console.shorebird.dev) to ensure that this release
-exists for the given app id and that it has a patch. Please contact us on
+exists for the given app ID and that it has a patch. Please contact us on
 Discord if such a patch exists and is not being applied.
 
 Common issues:
+
+**The app is running in Debug or Profile mode.**
+
+Shorebird updates are only compiled into and active in **Release builds** of
+your application. When you run your app in Debug or Profile mode (e.g., via
+`flutter run`), the Shorebird updater is completely disabled, and standard
+Flutter JIT or AOT engines are used. Ensure you test updates using a release
+build (e.g., generated via `shorebird release` or tested via
+`shorebird preview`).
+
+**You are testing on an iOS Simulator.**
+
+Shorebird patches are not supported on iOS Simulators. Shorebird's iOS engine
+uses a custom interpreter designed specifically for physical arm64 iOS devices
+to comply with Apple's security sandbox. Because of this, Shorebird updates
+cannot run on iOS Simulators (which run on x86*64 or arm64 macOS JIT/interpreter
+architectures). You must use a physical iOS device to test iOS patches. Android
+emulators \_are* fully supported.
 
 **The patch was created for a different release version than the one running on
 your device/emulator.**
@@ -69,7 +87,7 @@ by looking in the device logs for a patch check request:
 
 ```
 Sending patch check request: PatchCheckRequest {
-  app_id: "<your app id>",
+  app_id: "<your app ID>",
   channel: "stable",
   release_version: "1.0.3+16", <-- this is the release version
   patch_number: <some patch number>,
@@ -83,9 +101,9 @@ Only patches created for this release version will be compatible with your app.
 ## `Your app contains asset changes` warning when creating a patch
 
 The `shorebird patch` command will print a warning if it detects changes to
-files in your compiled app that correspond to asset changes (e.g. added or
+files in your compiled app that correspond to asset changes (e.g., added or
 removed images, fonts, etc.). This does not always mean that your patch will not
-work, but shorebird cannot be sure that the changes are safe.
+work, but Shorebird cannot be sure that the changes are safe.
 
 Shorebird does not (yet) have the
 [ability to patch assets](https://github.com/shorebirdtech/shorebird/issues/318)
@@ -102,7 +120,7 @@ An example of this warning:
         base/assets/flutter_assets/AssetManifest.bin
         base/assets/flutter_assets/AssetManifest.json
         base/assets/flutter_assets/fonts/MaterialIcons-Regular.otf
-Continue anyways? (y/N)
+Continue anyway? (y/N)
 ```
 
 So what does this mean? In this case, it means you added a new image to your
@@ -139,8 +157,8 @@ You can bypass this warning by passing the `--allow-asset-diffs` flag to the
 The consequences of ignoring this warning depend on the changes that were made.
 In the tree-shaking example above, if you ignore the warning, your app will
 render incorrectly if you use an icon that was not included in the release
-build. Any assets introduced in a patch will fail to load and your app may crash
-if it depends on them.
+build. Any assets introduced in a patch will fail to load, and your app may
+crash if it depends on them.
 
 If you are not sure whether your change is safe, you can
 [stage your patch](/code-push/guides/staging-patches) and test locally before
@@ -151,20 +169,20 @@ deploying it to users.
 The `shorebird patch` command will print a warning if it detects changes to
 files in your compiled app that correspond to native code changes (`.dex` files
 on Android, files in the `Runner.app` directory on iOS). This does not always
-mean that your patch will not work, but because shorebird cannot be sure that
-the changes are safe, and because shorebird can't patch non-Dart code, it prints
+mean that your patch will not work, but because Shorebird cannot be sure that
+the changes are safe, and because Shorebird can't patch non-Dart code, it prints
 a warning.
 
 :::note
 
-Shorebird assumes a repeatable build -- if you build the application twice it
+Shorebird assumes a repeatable build — if you build the application twice it
 ends up byte-for-byte identical (with a few minor known exceptions, like the
 certificate signing date for iOS apps). Some Flutter Plugins or obfuscation
 solutions violate this assumption and can cause these native changes to appear.
 Shorebird may be incompatible with those plugins. You can test for this by doing
 a `shorebird release` and then `shorebird patch` with no changes and seeing if
-you still get a native changes warning. If you believe this is the case please
-reach out to us, we'd be happy to help!
+you still get a native changes warning. If you believe this is the case, please
+reach out to us; we'd be happy to help!
 
 :::
 
@@ -193,18 +211,18 @@ This can be caused by a number of things. The most common causes are:
    be sure this is the only reason you are seeing this warning.
 3. (iOS only) The release was built with a different version of Xcode than the
    patch. This can be fixed by ensuring that you are using the same version of
-   Xcode to build the release and the patch. If you've upgraded to a newer
+   Xcode to build the release and the patch. If you have upgraded to a newer
    version of Xcode since building the release, you can download older versions
    of Xcode from
    [Apple's developer downloads page](https://developer.apple.com/download/all/).
-4. (iOS only) You are building with an old version of Xcode. Specifically, we've
-   seen this warning when building with Xcode 14.1. If you are using a version
-   of Xcode that is not the latest, try upgrading to the latest version.
+4. (iOS only) You are building with an old version of Xcode. Specifically, we
+   have seen this warning when building with Xcode 14.1. If you are using a
+   version of Xcode that is not the latest, try upgrading to the latest version.
 5. The version and build number of the patch do not match that of the release.
    For example, if the release was built with version `1.0.0+1`, but the patch
    was generated with version `1.0.0+2`, you might see this warning. We have
-   implemented some safeguards to make this less likely, but it's worth
-   verifying if you're seeing this warning and you don't know why.
+   implemented some safeguards to make this less likely, but it is worth
+   verifying if you are seeing this warning and you do not know why.
 
 **What happens if I ignore this warning?**
 
@@ -270,7 +288,7 @@ Windows) and removing the `/bin/flutter` from the end of that path.
 
 ## Could not find an option named "dart define"
 
-This typically happens on Windows when using the `--` separator. Powershell
+This typically happens on Windows when using the `--` separator. PowerShell
 handles the `--` separator differently than other shells (see
 [this StackOverflow answer](https://stackoverflow.com/a/15788023) for more
 info). To work around this, you can quote the `--` separator. For example:
@@ -281,12 +299,12 @@ shorebird release android '--' --dart-define=foo=bar
 
 ## My iOS build number is auto incrementing
 
-This is likely because you are providing an export options .plist file that sets
+This is likely because you are providing an ExportOptions.plist file that sets
 `manageAppVersionAndBuildNumber` to true. This is incompatible with Shorebird
 because Shorebird requires that you maintain control over your app's version and
 build numbers in order to target patches at specific releases. You can fix this
 problem by either setting `manageAppVersionAndBuildNumber` to false or removing
-the value from your export options .plist file.
+the value from your ExportOptions.plist file.
 
 ## Invalid Podfile file
 
@@ -307,18 +325,18 @@ version.
 
 You can check the specific Gradle version that your app is using by running
 `shorebird doctor -v` inside the project folder. This command will also print
-the java version that shorebird is using.
+the Java version that Shorebird is using.
 
 Refer to the
 [official Gradle documentation](https://docs.gradle.org/current/userguide/compatibility.html)
 to check which Java version works with which Gradle release.
 
 - [Android Studio](https://developer.android.com/studio) comes with a bundled
-  JDK which should be auto detected by Shorebird and might be the easiest way of
+  JDK which should be auto-detected by Shorebird and might be the easiest way of
   solving the issue.
 - If in a GitHub Action, the [setup-java](https://github.com/actions/setup-java)
   action can help.
-- Or try Installing the required Java version for your project's Gradle release
+- Or try installing the required Java version for your project's Gradle release
   and set the path where it was installed in the `JAVA_HOME` environment
   variable.
 
@@ -330,6 +348,80 @@ at the iOS section for more information.
 ## Message saying patch might run slowly
 
 iOS uses a very different patching process than Android does. The details of
-which are described in [Architecture docs](/code-push/system-architecture). We
-also talk about this in our [Patch Performance](/code-push/performance) page as
-well.
+which are described in [System Architecture](/code-push/system-architecture/).
+We also talk about this in our [Patch Performance](/code-push/performance/)
+page.
+
+---
+
+## Resolving persistent compile or build failures
+
+If you encounter persistent compilation issues or strange env errors that
+standard builds do not trigger, the local compilation state or tool caches might
+be corrupted. You can clear all cached build states and tools to start fresh:
+
+1. **Verify environment health**:
+   ```sh
+   shorebird doctor
+   ```
+2. **Clean standard build directories**:
+   ```sh
+   flutter clean
+   ```
+3. **Clean the Shorebird tools cache**:
+   ```sh
+   shorebird cache clean
+   ```
+4. Re-run your release or patch command.
+
+---
+
+## Shorebird commands fail with network/TLS connection errors behind a proxy
+
+If your development machine or CI/CD runner is situated behind a corporate proxy
+or firewall, Shorebird CLI commands may fail to connect to Shorebird servers,
+showing timeout or TLS handshake errors.
+
+To resolve this:
+
+1. **Configure proxy environment variables**: Ensure that standard CLI proxy
+   environment variables are set up in your terminal session:
+   - **macOS/Linux**:
+     ```sh
+     export HTTP_PROXY="http://your-proxy-server:port"
+     export HTTPS_PROXY="http://your-proxy-server:port"
+     export NO_PROXY="localhost,127.0.0.1"
+     ```
+   - **Windows (PowerShell)**:
+     ```powershell
+     $env:HTTP_PROXY="http://your-proxy-server:port"
+     $env:HTTPS_PROXY="http://your-proxy-server:port"
+     $env:NO_PROXY="localhost,127.0.0.1"
+     ```
+
+2. **Whitelist Shorebird domains**: Ensure your company firewall allows outbound
+   HTTPS traffic (on port `443`) to the following domains:
+   - `api.shorebird.dev` (Management API)
+   - `download.shorebird.dev` (Engine and CLI downloads)
+   - `console.shorebird.dev` (Console interface)
+
+---
+
+## Patch download size is unexpectedly large
+
+Shorebird patches are usually small (a few hundred KB) because they only
+download the binary diff (patch artifact) of your compiled Dart code compared to
+the release version. If a patch size is unexpectedly large (several MBs):
+
+1. **Upgraded dependencies**: Adding or upgrading large third-party packages in
+   your `pubspec.yaml` can significantly change your compilation graph, causing
+   a cascading code change that results in a larger diff.
+2. **Code generators**: Extensive updates to code generation tools (e.g.,
+   `build_runner`, `freezed`, `json_serializable`) may modify large amounts of
+   boilerplate code across dozens of files, resulting in a larger binary diff.
+3. **Obfuscation configuration mismatch**: Ensure that you have not modified
+   your obfuscation settings (passing/omitting `--obfuscate`) between the
+   release build and the patch build. A mismatch in obfuscation config shuffles
+   class and method names, causing the diff calculation to result in a massive
+   file. Shorebird automatically detects release obfuscation, so you should not
+   add or remove the `--obfuscate` flag when patching.

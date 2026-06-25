@@ -6,9 +6,9 @@ sidebar:
   order: 22
 ---
 
-This guide will walk through how to setup an app in which there are 2 flavors:
-`internal` and `stable`. It will cover how to validate a patch on the internal
-flavor and then promote the patch to the stable flavor on iOS.
+This guide will walk you through how to set up an app in which there are 2
+flavors: `internal` and `stable`. It will cover how to validate a patch on the
+internal flavor and then promote the patch to the stable flavor on iOS.
 
 This guide was originally written for iOS, but the same steps can be applied to
 macOS.
@@ -112,7 +112,7 @@ will be prompted to select the app and release version interactively.
 This will download the releases and run them on your device.
 
 In addition to previewing the releases locally, you should also
-[submit the generated app bundles to the App Store](/code-push/guides/stores/app-store#upload-to-the-app-store).
+[submit the generated IPAs to the App Store](/code-push/guides/stores/app-store#upload-to-the-app-store).
 In this case, both apps can be part of the internal test flavor and only the
 stable variant should be promoted to production.
 
@@ -125,7 +125,7 @@ stable variant should be promoted to production.
 
 ## Creating a patch
 
-Now that we have our internal and stable releases on the Play Store, we can
+Now that we have our internal and stable releases on the App Store, we can
 create a patch using `shorebird patch ios`. For the sake of this example, let's
 adjust the app theme to use `deepOrange` as the seed color in `lib/main.dart`:
 

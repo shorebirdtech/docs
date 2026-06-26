@@ -56,11 +56,12 @@ If widgets are just temporary blueprints, how does Flutter remember anything?
 How does it keep track of an animation playing, or what you typed into a text
 field?
 
-Enter the **Element Tree**.
+Enter the **Element Tree** (where your `State` lives!).
 
 For every Widget you put in your app, Flutter creates a corresponding
 **Element**. You can think of the Element Tree as the brain or the skeleton of
 your app. Unlike widgets, **Elements stick around and can change over time.**
+For `StatefulWidgets`, the Element is what actually holds onto the `State` object you interact with daily.
 
 When a new Widget Tree is built, Flutter doesn't throw away the Element Tree.
 Instead, it looks at the new blueprints and compares them to the existing
@@ -72,8 +73,7 @@ Elements:
   brand new one takes its place.
 
 This is the secret to Flutter's speed! The Element Tree manages the lifecycle
-and holds onto the `State` of your `StatefulWidgets`. It's the smart middleman
-that decides when actual heavy lifting needs to be done.
+and acts as the smart middleman that decides when actual heavy lifting needs to be done.
 
 ## 3. The RenderObject Tree: The Workhorse
 

@@ -82,7 +82,7 @@ be done.
 Finally, we have the **RenderObject Tree**.
 
 While Widgets hold the blueprints and Elements manage the brains,
-**RenderObjects do the heavy lifting: figuring out exactly how big things are,
+RenderObjects do the heavy lifting: **figuring out exactly how big things are,
 where they go on the screen, and painting the actual pixels.**
 
 For every visual Element in your app, there's a RenderObject. These are heavy
@@ -131,10 +131,13 @@ It's just the Element saying, "Here I am in the tree! If you need to
 find an ancestor widget (like a `Theme` or a `Navigator`), you can use me to
 look up the tree."
 
-Tying it all together: the code you write every day interacts directly with this
-powerful Element Tree without you even realizing it!
+
 
 ## Why This Matters
+
+By splitting the work into blueprints (Widgets), brains (Elements), and brawn
+(RenderObjects), Flutter gives you a really friendly way to code without giving
+up any of that sweet native-level performance.
 
 Understanding this team of three trees makes you a much better Flutter
 developer:
@@ -150,7 +153,3 @@ developer:
   create heavy RenderObjects) can slow things down.
 - You'll know exactly what's happening under the hood, making debugging and
   optimizing a breeze.
-
-By splitting the work into blueprints (Widgets), brains (Elements), and brawn
-(RenderObjects), Flutter gives you a really friendly way to code without giving
-up any of that sweet native-level performance.

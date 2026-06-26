@@ -1,5 +1,5 @@
 ---
-title: 'Flutter Architecture: Widgets, Elements, and RenderObjects'
+title: 'Architecture Trees'
 description:
   A deep dive into the three-tree architecture that powers Flutter, explained by
   the creator.
@@ -138,10 +138,10 @@ powerful Element Tree without you even realizing it!
 Understanding this team of three trees makes you a much better Flutter
 developer:
 
-- You'll understand why `Keys` are sometimes needed (they help the Element tree
+- You'll understand why [`Keys`](https://api.flutter.dev/flutter/foundation/Key-class.html) are sometimes needed (they help the Element tree
   match up widgets correctly when you reorder lists).
 - You'll realize why creating lots of widgets is totally fine, but stacking
-  unnecessary deep widgets like `Opacity` or `Clip` (which create heavy
+  unnecessary deep widgets like [`Opacity`](https://api.flutter.dev/flutter/widgets/Opacity-class.html) or [`Clip`](https://api.flutter.dev/flutter/widgets/ClipRect-class.html) (which create heavy
   RenderObjects) can slow things down.
 - You'll know exactly what's happening under the hood, making debugging and
   optimizing a breeze.

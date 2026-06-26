@@ -13,10 +13,10 @@ your app, it's not the whole story. If you want to build really smooth,
 high-performing apps, it helps to peek under the hood and see what's actually
 happening.
 
-When the Flutter framework was designed, there was a distinct goal: **[keep
-things consistently fast and smooth at 60 (or even 120) frames per second.](https://docs.flutter.dev/perf)** To
-pull that off, Flutter avoids using a single, heavy structure (like the DOM in
-web development). Instead, it uses a team of three different "trees" working
+When the Flutter framework was designed, there was a distinct goal:
+**[keep things consistently fast and smooth at 60 (or even 120) frames per second.](https://docs.flutter.dev/perf)**
+To pull that off, Flutter avoids using a single, heavy structure (like the DOM
+in web development). Instead, it uses a team of three different "trees" working
 together: the **Widget Tree**, the **Element Tree**, and the **RenderObject
 Tree**.
 
@@ -47,8 +47,8 @@ and never change (immutable), Flutter can toss them out and rebuild millions of
 them every second without breaking a sweat.
 
 When you call `setState()`, you aren’t directly telling the screen to redraw.
-You are just telling Flutter to throw away the old stale objects and create new ones from the blueprints you created.
-ones.
+You are just telling Flutter to throw away the old stale objects and create new
+ones from the blueprints you created. ones.
 
 ## 2. The Element Tree: The State Manager
 
@@ -61,7 +61,8 @@ Enter the **Element Tree** (where your `State` lives!).
 For every Widget you put in your app, Flutter creates a corresponding
 **Element**. You can think of the Element Tree as the brain or the skeleton of
 your app. Unlike widgets, **Elements stick around and can change over time.**
-For `StatefulWidgets`, the Element is what actually holds onto the `State` object you interact with daily.
+For `StatefulWidgets`, the Element is what actually holds onto the `State`
+object you interact with daily.
 
 When a new Widget Tree is built, Flutter doesn't throw away the Element Tree.
 Instead, it looks at the new blueprints and compares them to the existing
@@ -73,12 +74,12 @@ Elements:
   brand new one takes its place.
 
 This is the secret to Flutter's speed! The Element Tree manages the lifecycle
-and acts as the smart middleman that decides when actual heavy lifting needs to be done.
+and acts as the smart middleman that decides when actual heavy lifting needs to
+be done.
 
 ## 3. The RenderObject Tree: The Workhorse
 
-Finally, we have the **RenderObject Tree**. This is where the real magic
-happens.
+Finally, we have the **RenderObject Tree**.
 
 While Widgets hold the blueprints and Elements manage the brains,
 **RenderObjects do the heavy lifting: figuring out exactly how big things are,
@@ -138,11 +139,15 @@ powerful Element Tree without you even realizing it!
 Understanding this team of three trees makes you a much better Flutter
 developer:
 
-- You'll understand why [`Keys`](https://api.flutter.dev/flutter/foundation/Key-class.html) are sometimes needed (they help the Element tree
-  match up widgets correctly when you reorder lists).
+- You'll understand why
+  [`Keys`](https://api.flutter.dev/flutter/foundation/Key-class.html) are
+  sometimes needed (they help the Element tree match up widgets correctly when
+  you reorder lists).
 - You'll realize why creating lots of widgets is totally fine, but stacking
-  unnecessary deep widgets like [`Opacity`](https://api.flutter.dev/flutter/widgets/Opacity-class.html) or [`Clip`](https://api.flutter.dev/flutter/widgets/ClipRect-class.html) (which create heavy
-  RenderObjects) can slow things down.
+  unnecessary deep widgets like
+  [`Opacity`](https://api.flutter.dev/flutter/widgets/Opacity-class.html) or
+  [`Clip`](https://api.flutter.dev/flutter/widgets/ClipRect-class.html) (which
+  create heavy RenderObjects) can slow things down.
 - You'll know exactly what's happening under the hood, making debugging and
   optimizing a breeze.
 

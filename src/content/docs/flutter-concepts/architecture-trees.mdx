@@ -81,9 +81,9 @@ be done.
 
 Finally, we have the **RenderObject Tree**.
 
-While Widgets hold the blueprints and Elements manage the brains,
-RenderObjects do the heavy lifting: **figuring out exactly how big things are,
-where they go on the screen, and painting the actual pixels.**
+While Widgets hold the blueprints and Elements manage the brains, RenderObjects
+do the heavy lifting: **figuring out exactly how big things are, where they go
+on the screen, and painting the actual pixels.**
 
 For every visual Element in your app, there's a RenderObject. These are heavy
 and expensive to create, which is exactly why the Element Tree protects them.
@@ -127,11 +127,9 @@ Here is the biggest "Aha!" moment for most Flutter beginners: **`BuildContext`
 is actually just the Element!**
 
 When Flutter asks your widget to build itself, it hands you the `BuildContext`.
-It's just the Element saying, "Here I am in the tree! If you need to
-find an ancestor widget (like a `Theme` or a `Navigator`), you can use me to
-look up the tree."
-
-
+It's just the Element saying, "Here I am in the tree! If you need to find an
+ancestor widget (like a `Theme` or a `Navigator`), you can use me to look up the
+tree."
 
 ## Why This Matters
 

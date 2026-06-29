@@ -20,7 +20,9 @@ runs:
         node-version: ${{ inputs.node_version }}
 
     - name: ⬇️ Install Dependencies
-      run: npm install && npx --no allow-scripts
+      # --legacy-peer-deps: starlight-llms-txt@0.10.0 requires astro@^6, but we're on astro@7.
+      # Remove once https://github.com/delucis/starlight-llms-txt/pull/127 is released.
+      run: npm install --legacy-peer-deps && npx --no allow-scripts
       shell: ${{ inputs.shell }}
       working-directory: ${{ inputs.working_directory }}
 

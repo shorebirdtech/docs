@@ -1,3 +1,5 @@
+import ArcadeEmbed from '~/components/ArcadeEmbed.astro';
+
 Most Shorebird functionality, like creating releases and patches, requires
 authentication. To authenticate in your CI, create an API key from the
 [Shorebird Console](https://console.shorebird.dev):
@@ -8,19 +10,10 @@ authentication. To authenticate in your CI, create an API key from the
    and select a permission level.
 4. Copy the key value — it is only shown once.
 
-<div style="position: relative; padding-bottom: calc(56.25% + 41px); height: 0px; width: 100%;">
-  <iframe
-    src="https://demo.arcade.software/TQUMnX2QwuCRzEV1e8kN?embed&embed_mobile=tab&embed_desktop=inline&show_copy_link=true"
-    title="Create Shorebird API Key"
-    frameborder="0"
-    loading="lazy"
-    webkitallowfullscreen
-    mozallowfullscreen
-    allowfullscreen
-    allow="clipboard-write"
-    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; color-scheme: light;"
-  ></iframe>
-</div>
+<ArcadeEmbed
+  src="https://demo.arcade.software/TQUMnX2QwuCRzEV1e8kN?embed&embed_mobile=tab&embed_desktop=inline&show_copy_link=true"
+  title="Create Shorebird API Key"
+/>
 
 Use this key as your `SHOREBIRD_TOKEN` in CI. The environment variable name is
 unchanged from previous versions.

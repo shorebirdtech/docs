@@ -174,7 +174,7 @@ increased complexity.
 
 ## Hot reload mechanics depend on Dart VM code injection
 
-One of the first things that Flutter was noticed for was Hot Reload. Fluter’s
+One of the first things that Flutter was noticed for was Hot Reload. Flutter’s
 hot-reload provides you with sub-second, on-device updates to your running app
 while you’re editing your code. Pulling that off is no small feat.
 
@@ -342,7 +342,7 @@ analyzer:
 We recommend running `flutter analyze` before commits and `dart fix --apply` to
 automatically resolve deprecated API usage. For deeper analysis,
 [DCM (Dart Code Metrics)](https://dcm.dev/) provides complexity metrics and
-unused code detection. Also, use shorebird for testing and deploying patches
+unused code detection. Also, use Shorebird for testing and deploying patches
 quickly to your released app.
 
 State management in 2025-2026 favors _[Riverpod 3](https://riverpod.dev/)_ for
@@ -367,7 +367,7 @@ The three-tree rendering architecture and platform embedder design enable true
 cross-platform code sharing without sacrificing native integration.
 
 The most significant evolution for production Flutter teams is
-[Shorebird's code push capability](https://docs.shorebird.dev/code-push/). By
+[Shorebird's Code Push capability](https://docs.shorebird.dev/code-push/). By
 building a custom interpreter and novel per-function linker,
 [Shorebird solves the immutability problem](https://docs.shorebird.dev/code-push/system-architecture/)
 while maintaining app store compliance, enabling bug fixes in hours rather than
@@ -380,7 +380,7 @@ while retaining the ability to respond quickly to production issues.
 Once you understand Flutter's architecture and update strategies, consider these
 resources to implement production-ready workflows:
 
-**Set up code push for your app**: Start with the
+**Set up Code Push for your app**: Start with the
 [Shorebird Quick Start Guide](https://docs.shorebird.dev/getting-started/) to
 enable over-the-air updates in your Flutter application. The guide covers
 installation, initialization, and creating your first release in under 15

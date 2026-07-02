@@ -11,7 +11,7 @@ The Shorebird CLI provides several commands to help you manage your
 authentication state, inspect your account details, and list your apps and
 organizations directly from the terminal.
 
-## Authentication Commands
+## Authentication commands
 
 ### Login
 
@@ -35,12 +35,12 @@ from your machine, run:
 shorebird logout
 ```
 
-## Account Management Commands
+## Account management commands
 
 The `shorebird account` command provides several subcommands to inspect your
 account details, apps, and organizations.
 
-### Who Am I
+### Who am I
 
 To see the currently authenticated user's details, run:
 
@@ -61,7 +61,7 @@ Overage limit:  10000
 This command is useful for verifying which account you are logged into and
 checking your current billing plan and patch overage limit.
 
-### List Apps
+### List apps
 
 To list all the Shorebird apps that your current account has access to, run:
 
@@ -79,7 +79,7 @@ shorebird account apps
 The output displays the App ID, display name, latest release version, and latest
 patch number (with `-` indicating no release or patch has been published yet).
 
-### List Organizations
+### List organizations
 
 To list all the organizations you belong to, run:
 
@@ -99,7 +99,7 @@ This output displays the Organization ID, name, organization type (`personal` or
 
 ---
 
-## JSON Output for Automation
+## JSON output for automation
 
 All `shorebird account` subcommands support the `--json` flag, making them easy
 to integrate into scripts and automation workflows.

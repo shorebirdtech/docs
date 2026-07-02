@@ -11,7 +11,7 @@ API keys let you authenticate with Shorebird from CI systems and other automated
 environments. You can create, view, and revoke API keys from the
 [Shorebird Console](https://console.shorebird.dev).
 
-## Creating an API Key
+## Creating an API key
 
 1. Open **Account → API Keys** in the console.
 2. Click **Create API Key**.
@@ -28,7 +28,7 @@ securely — it cannot be retrieved again.
   title="Create Shorebird API Key"
 />
 
-## Using an API Key
+## Using an API key
 
 Set the key as the `SHOREBIRD_TOKEN` environment variable in your CI platform.
 Shorebird CLI commands will authenticate automatically when this variable is
@@ -64,7 +64,7 @@ API keys support two permission levels:
   manage apps, organizations, members, or billing. Available on Pro and Business
   plans.
 
-## Revoking an API Key
+## Revoking an API key
 
 To revoke a key, find it in the API Keys list and click **Delete**. Revocation
 is immediate — any CI pipeline using that key will fail on its next run. This

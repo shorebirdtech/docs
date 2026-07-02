@@ -14,9 +14,9 @@ import playStoreInReview from '~/assets/play_store_in_review.png';
 This guide walks through releasing a Code Push app to the Google Play Store and
 applying a patch to that release.
 
-The app we will be releasing in this guide is
+The app used in this guide is
 [`Time Shift`](https://play.google.com/store/apps/details?id=dev.shorebird.u_shorebird_clock),
-our demo Code Push app. ([source](https://github.com/shorebirdtech/time_shift/))
+a demo Code Push app. ([source](https://github.com/shorebirdtech/time_shift/))
 
 ## Prerequisites
 
@@ -29,8 +29,8 @@ one, you can create one by following the
 ### Determine next release version
 
 Navigate to your app on the [Shorebird console](https://console.shorebird.dev/)
-to see the current set of releases. For our app, we see that the latest release
-version is `1.0.2+5`, so the version of our next release will be `1.0.3+6`.
+to see the current set of releases. For this example app, the latest release
+version is `1.0.2+5`, so the version of the next release will be `1.0.3+6`.
 
 ### Make code changes
 
@@ -47,7 +47,7 @@ To make this change, edit `lib/main.dart`:
    );
 ```
 
-Verify that this change does what we expect by running the app with
+Verify that this change works as expected by running the app with
 `shorebird run`.
 
 Once this change has been verified, commit this change and push it to GitHub:
@@ -122,7 +122,7 @@ https://support.google.com/googleplay/android-developer/answer/9859152?hl=en
 
 ### Upload to the Play Store
 
-As per the instructions above, we must upload the generated `.aab` to the Play
+As per the instructions above, the generated `.aab` must be uploaded to the Play
 Store.
 
 :::warning
@@ -204,7 +204,7 @@ Next, create a branch, as this change will represent a divergence from the
 git checkout -b v1.0.3+6-patch1
 ```
 
-For the purposes of this guide, we will change the default clock face back to
+For the purposes of this guide, the default clock face will be changed back to
 `particle` in `lib/main.dart`:
 
 ```diff
@@ -214,7 +214,7 @@ For the purposes of this guide, we will change the default clock face back to
    );
 ```
 
-Commit the change and push our new patch branch:
+Commit the change and push the new patch branch:
 
 ```sh
 git add lib/main.dart

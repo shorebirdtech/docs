@@ -19,7 +19,7 @@ Flutter CI builds. Changes required:
 3. Replacing `flutter build --release` with `shorebird release` or
    `shorebird patch`.
 
-We have detailed instructions for integrating into these providers:
+Detailed instructions are available for integrating into these providers:
 
 <LinkCard
   href="/code-push/ci/github"
@@ -32,8 +32,7 @@ We have detailed instructions for integrating into these providers:
   description="Integrate Shorebird into your Codemagic CI/CD pipelines."
 />
 
-If you do not use these providers, we've also provided generic instructions
-below:
+If you do not use these providers, generic instructions are provided below:
 
 ## Installing Shorebird
 
@@ -50,10 +49,10 @@ for more details, see [Getting Started](/).
 
 <Authentication />
 
-Now that you have a token, it is important to keep that token secure. We
-recommend using a secrets manager for the token, or secure environment
-variables, depending on your CI setup. `shorebird` commands will look for the
-token to be in a `SHOREBIRD_TOKEN` environment variable.
+Now that you have a token, it is important to keep that token secure. Using a
+secrets manager for the token, or secure environment variables, is recommended,
+depending on your CI setup. `shorebird` commands will look for the token to be
+in a `SHOREBIRD_TOKEN` environment variable.
 
 ## Replacing `flutter build --release` with `shorebird`.
 
@@ -115,8 +114,8 @@ used to build the release and use that exact version to build the patch.
 
 ## CI best practices
 
-When integrating Shorebird into a continuous integration pipeline, we recommend
-following these best practices to ensure reliable and efficient builds:
+When integrating Shorebird into a continuous integration pipeline, following
+these best practices is recommended to ensure reliable and efficient builds:
 
 ### Pin the Flutter version for releases
 
@@ -185,4 +184,4 @@ bypass interactive prompts in other environments, you can pass the
 `--no-confirm` flag to `shorebird patch` or `shorebird release`.
 
 Thank you for reading this guide. If you have any questions or suggestions, feel
-free to reach out to us at our [Discord](https://discord.gg/shorebird).
+free to reach out on [Discord](https://discord.gg/shorebird).

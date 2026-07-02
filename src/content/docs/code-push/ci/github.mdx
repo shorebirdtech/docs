@@ -57,9 +57,8 @@ jobs:
         run: shorebird --version
 ```
 
-In the above workflow, we're using the `setup-shorebird` action to configure
-Shorebird in our CI and in subsequent steps we can execute any Shorebird
-commands.
+In the above workflow, the `setup-shorebird` action is used to configure
+Shorebird in CI, and subsequent steps can execute any Shorebird commands.
 
 {/* prettier-ignore */}
 :::note
@@ -85,7 +84,7 @@ name: SHOREBIRD_TOKEN
 secret: <THE GENERATED SHOREBIRD_TOKEN>
 ```
 
-Now we can use the `SHOREBIRD_TOKEN` in our GitHub workflow to perform
+Now the `SHOREBIRD_TOKEN` can be used in the GitHub workflow to perform
 authenticated functions such as creating patches 🎉
 
 ## Create releases
@@ -212,7 +211,7 @@ The `shorebird-patch` action also outputs the patch number:
 
 :::
 
-For an example of a fully automated development workflow, see our Development
+For an example of a fully automated development workflow, see the Development
 Workflow Guide.
 
 <LinkCard

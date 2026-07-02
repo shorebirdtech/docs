@@ -62,8 +62,7 @@ long app store waits._
 
 ## Flutter engine and the shift from Skia to Impeller
 
-Another part of Flutter I’m commonly asked about is why Flutter has its own
-rendering pipeline, Impeller.
+Another common question is why Flutter has its own rendering pipeline, Impeller.
 
 The Flutter Engine is a portable C++ runtime providing the rendering pipeline,
 Dart VM integration, and platform abstraction layer. Historically, Flutter used
@@ -94,8 +93,7 @@ animation-heavy applications.
 
 ## The three-tree architecture powers efficient UI updates
 
-Another question I’m sometimes asked is how the Flutter interaction pipeline
-works.
+Another common question is how the Flutter interaction pipeline works.
 
 Flutter's framework layer maintains three parallel tree structures that work
 together for efficient rendering:
@@ -223,8 +221,8 @@ in there too, and should be used with caution.
 **Unit tests** use the [test](https://pub.dev/packages/test) package to verify
 isolated functions and classes. External dependencies should be mocked using
 packages like [Mockito](https://pub.dev/packages/mockito). These execute in
-milliseconds and catch logic errors early. I often find it particularly helpful
-to separate my app into “ui” (Flutter) code and “logic” pure Dart code, and
+milliseconds and catch logic errors early. It's often particularly helpful to
+separate an app into “ui” (Flutter) code and “logic” pure Dart code, and
 extensively test the logic with unit tests.
 
 **Widget tests** use
@@ -283,7 +281,7 @@ hotfix, or a targeted change. You can only ship a whole new app.
 
 ## Shorebird enables over-the-air Dart code updates
 
-This release pain is one of the reasons we started Shorebird.
+This release pain is one of the reasons Shorebird was started.
 [Shorebird](https://shorebird.dev/), solves the distribution problem through
 sophisticated engine modifications. The platform maintains forks of Flutter and
 Dart. When you install Shorebird, it provides custom Flutter and Dart copies
@@ -339,8 +337,8 @@ analyzer:
     strict-inference: true
 ```
 
-We recommend running `flutter analyze` before commits and `dart fix --apply` to
-automatically resolve deprecated API usage. For deeper analysis,
+Run `flutter analyze` before commits and `dart fix --apply` to automatically
+resolve deprecated API usage. For deeper analysis,
 [DCM (Dart Code Metrics)](https://dcm.dev/) provides complexity metrics and
 unused code detection. Also, use Shorebird for testing and deploying patches
 quickly to your released app.

@@ -6,13 +6,13 @@ sidebar:
   order: 2
 ---
 
-In the [Beginner Guide](/flutter-concepts/state-management/beginner), we
-explored the core philosophy of BLoC and how to leverage the Single State + Enum
-pattern to avoid screen flickering and preserve data.
+The [Beginner Guide](/flutter-concepts/state-management/beginner) explored the
+core philosophy of BLoC and how to leverage the Single State + Enum pattern to
+avoid screen flickering and preserve data.
 
-Now, let's put these professional state management practices into action by
-building a fully-featured, production-ready weather app from scratch using BLoC,
-the repository pattern, and HTTP integrations.
+Now, put these professional state management practices into action by building a
+fully-featured, production-ready weather app from scratch using BLoC, the
+repository pattern, and HTTP integrations.
 
 This walkthrough will cover:
 
@@ -339,7 +339,7 @@ layers later, your BLoC and UI layers remain unaffected.
 
 ### Step 3: define events
 
-Next, we define our events. Events should name actions that happened.
+Next, define the events. Events should name actions that happened.
 
 ```dart
 // lib/features/weather/bloc/weather_event.dart
@@ -372,7 +372,7 @@ final class WeatherRefreshRequested extends WeatherEvent {
 ### Step 4: define states using the single state pattern
 
 Instead of creating separate classes for each state (which breaks data retention
-during refreshes), we use a Single State Class with a status enum.
+during refreshes), use a Single State Class with a status enum.
 
 ```dart
 // lib/features/weather/bloc/weather_state.dart
@@ -410,9 +410,9 @@ class WeatherState extends Equatable {
 
 ### Step 5: Implement the BLoC
 
-Now we write the business logic orchestrator. We use `copyWith` to emit state
-modifications. Notice that during refreshes, we preserve the existing weather
-data.
+Now write the business logic orchestrator, using `copyWith` to emit state
+modifications. Notice that during refreshes, the existing weather data is
+preserved.
 
 ```dart
 // lib/features/weather/bloc/weather_bloc.dart
@@ -481,7 +481,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
 
 ### Step 6: Wiring It Into the UI
 
-We split this feature layout into:
+This feature layout is split into:
 
 - `WeatherPage` – Sets up the dependency injection context.
 - `WeatherView` – Owns the text controllers and renders states.

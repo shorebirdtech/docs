@@ -79,3 +79,15 @@ exceptions:
   - ExportOptions.plist
   - Skia
   - Impeller
+  - vs
+  - Remote
+  - Config
+  - Launch
+  - Azure Key Vault
+  - App Store Connect
+  - The Status Enum
+  - The Single State Class
+  - The Events
+  - Framework Search Paths
+  - GCP Cloud KMS
+  - React Native

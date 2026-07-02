@@ -50,8 +50,10 @@ jobs:
 
   style-check:
     # Lints every heading in the docs, not just lines touched by the PR.
-    # Most existing headings predate this check and haven't been migrated
-    # to sentence case yet, so this is non-blocking for now.
+    # Shorebird.Headings, Shorebird.Exclamation, and Vale.Terms run at
+    # error severity and block the build; Shorebird.SecondPerson stays at
+    # warning severity (non-blocking) until that guideline's content work
+    # is done.
     if: ${{ github.event_name == 'pull_request' }}
 
     runs-on: ubuntu-latest
@@ -70,4 +72,4 @@ jobs:
         with:
           reporter: github-pr-check
           filter_mode: nofilter
-          fail_on_error: false
+          fail_on_error: true

@@ -1,7 +1,7 @@
 extends: existence
 message: 'Avoid exclamation points in documentation.'
 link: https://developers.google.com/style/exclamation-points
-level: warning
+level: error
 scope: text
 nonword: true
 tokens:

@@ -32,7 +32,7 @@ application.
 You will need an RSA key pair. Shorebird supports RSA keys in PEM format, both
 PKCS#1 and PKCS#8.
 
-### Generate Keys
+### Generate keys
 
 If you do not already have an RSA key pair you'd like to use, you can generate a
 pair with `openssl`:
@@ -58,7 +58,7 @@ stored securely and kept secret. While the private key is not itself sufficient
 to make an update to your application (someone would also need access to your
 Shorebird credentials), it should not be checked into public source control.
 
-### Key Storage
+### Key storage
 
 Shorebird does not provide a Key Storage solution at this time. If you are using
 this feature, we highly recommend using a cloud key management service instead
@@ -78,7 +78,7 @@ greater to use this feature.
 See [Cloud KMS Examples](#cloud-kms-examples) below for integration examples
 with popular services.
 
-### Create a Signed Release
+### Create a signed release
 
 :::note
 
@@ -101,7 +101,7 @@ shorebird release android \
 This will include the public key in the release artifact produced by
 `shorebird release` and cause the released app to require signed patches.
 
-### Create a Signed Patch
+### Create a signed patch
 
 To create a signed patch, run the following command:
 
@@ -121,7 +121,7 @@ shorebird patch android --public-key-path /path/to/public.pem \
 
 This tells Shorebird to sign the patch with the key pair you provided.
 
-### Test and Verify Signed Patch
+### Test and verify signed patch
 
 You can verify that the patch is properly signed using `shorebird preview`. On
 the first launch, you should see something like the following in your app logs:
@@ -148,7 +148,7 @@ If you'd like to test the missing signature behavior, you can create a patch
 without a private key and notice that `shorebird preview` rejects it. Similarly,
 you can create a patch with a different private key to do the same.
 
-## Fallback Behavior
+## Fallback behavior
 
 Releases that contain a public key will reject all unsigned patches. If a patch
 is missing a signature or its signature is invalid, Shorebird will reject this
@@ -165,7 +165,7 @@ very large apps, if this overhead shows up on your benchmarks, you can set
 `patch_verification: install_only` in `shorebird.yaml` to verify signatures only
 when patches are installed rather than on every launch.
 
-## Cloud KMS Examples
+## Cloud KMS examples
 
 The following examples show how to integrate Shorebird patch signing with
 popular key management services using `--public-key-cmd` and `--sign-cmd`.

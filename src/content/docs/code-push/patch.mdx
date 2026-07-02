@@ -50,7 +50,7 @@ shorebird patch windows
 
 </CodeTabs>
 
-### Patching Multiple Platforms Simultaneously
+### Patching multiple platforms simultaneously
 
 If your app supports multiple platforms, you can build and publish patches for
 them in a single command using the `--platforms` (or `-p`) option:
@@ -145,7 +145,7 @@ directly.
 | `--allow-asset-diffs`  |              | Publish even if asset differences are detected. **Not recommended.**                                       |
 | `--allow-native-diffs` |              | Publish even if native code differences are detected. **Not recommended.**                                 |
 
-### iOS-specific Options
+### iOS-specific options
 
 | Option                   | Description                                                                                      |
 | ------------------------ | ------------------------------------------------------------------------------------------------ |
@@ -154,7 +154,7 @@ directly.
 | `--export-method`        | Distribution method: `app-store`, `ad-hoc`, `development`, or `enterprise`.                      |
 | `--min-link-percentage`  | Minimum % of Dart code that must be linked (not interpreted) for the patch to publish. iOS only. |
 
-### Patch Performance
+### Patch performance
 
 #### Android
 
@@ -180,12 +180,12 @@ If you ever see unexpected performance changes when patching, please
 
 ---
 
-## Manage Patches
+## Manage patches
 
 You can manage your patches directly from the command line using the
 `shorebird patches` commands.
 
-### List Patches
+### List patches
 
 To list all patches associated with a specific release version:
 
@@ -196,7 +196,7 @@ shorebird patches list --release-version 1.0.0+1
 This will display a list of all patches published for that release, their patch
 numbers, active status, and tracks.
 
-### View Patch Details
+### View patch details
 
 To view detailed information for a specific patch number:
 
@@ -207,7 +207,7 @@ shorebird patches info --release-version 1.0.0+1 --patch-number 1
 This command shows metadata for the specified patch, including build logs,
 checksums, and deployment track information.
 
-### Promote a Patch
+### Promote a patch
 
 If you published a patch to a staging track (e.g., `staging`) and verified it
 works correctly, you can promote it directly to the `stable` track using:
@@ -216,7 +216,7 @@ works correctly, you can promote it directly to the `stable` track using:
 shorebird patches promote --release-version 1.0.0+1 --patch-number 1
 ```
 
-### Set Patch Track
+### Set patch track
 
 To assign a patch directly to a specific deployment track (e.g., promoting or
 routing to a staging beta group):

@@ -1,0 +1,171 @@
+---
+title: Runtime Error Reference
+description: What the errors thrown by shorebird_code_push mean and what to do about them.
+sidebar:
+  label: Error Reference
+  order: 15
+---
+
+This page is an operational reference for the errors and exceptions most
+commonly reported at runtime by apps that use the optional
+[`shorebird_code_push`](https://pub.dev/packages/shorebird_code_push) package —
+what they mean, what causes them, and what (if anything) you should do about
+them.
+
+:::note
+The `shorebird_code_push` package is **optional**. Shorebird downloads and
+applies patches automatically without it; the package only matters if you want
+to manage updates programmatically. See
+[Update Strategies](/code-push/update-strategies) for when you'd use it.
+:::
+
+:::note
+Shorebird does **not** collect these errors for you — there is no built-in crash
+or error reporting. You'll only ever see the errors below if you've wired up
+your own reporting (for example [Sentry](/code-push/crash-reporting/sentry) or
+[Crashlytics](/code-push/crash-reporting/crashlytics)) and are inspecting what
+your app surfaces in production. This page helps you interpret what you find
+there.
+:::
+
+For full API signatures, see the package's reference documentation on
+[pub.dev](https://pub.dev/documentation/shorebird_code_push/latest/). Still
+stuck? Reach out on [Discord](https://discord.gg/shorebird) or
+[file an issue](https://github.com/shorebirdtech/shorebird/issues). We're here
+to help.
+
+## How to read these errors
+
+Most errors surface as an `UpdateException` thrown from
+`ShorebirdUpdater.update`. Its message looks like:
+
+```
+[ShorebirdUpdater] UpdateException: <message> (<reason>)
+```
+
+The `<reason>` in parentheses is the `UpdateFailureReason` enum value and is the
+most reliable way to categorize an error:
+
+| Reason           | Meaning                                             |
+| ---------------- | --------------------------------------------------- |
+| `noUpdate`       | No update was available. **Obsolete** — see below.  |
+| `downloadFailed` | The patch could not be downloaded (usually network).|
+| `installFailed`  | The patch was downloaded but could not be installed.|
+| `unknown`        | A catch-all. The `<message>` is the underlying cause.|
+
+When the reason is `unknown`, the `<message>` often comes straight from the
+underlying OS layer (for example `os error 13`), so it's the most useful part to
+read.
+
+:::tip
+Match on `exception.reason`, not on the message string. Messages are not stable
+across releases and may be localized by the OS.
+:::
+
+## Expected / benign outcomes
+
+### `No update (noUpdate)`
+
+:::note
+This error is obsolete. Upgrade `shorebird_code_push` to `2.0.6` or later to
+stop seeing it.
+:::
+
+Older versions of the package threw an `UpdateException` from `update()` when
+there was simply nothing new to install. This is not actually an error — it just
+means the app is already running the latest patch. Current versions treat "no
+update available" as a normal, silent outcome and no longer throw.
+
+If this error dominates your dashboards (it commonly accounts for the vast
+majority of reported "errors"), the fix is a package upgrade, not a code change.
+After upgrading, call `checkForUpdate` to decide whether to call `update()` at
+all:
+
+```dart
+final status = await updater.checkForUpdate();
+if (status == UpdateStatus.outdated) {
+  await updater.update();
+}
+```
+
+### `Update already in progress`
+
+Two updates were requested at the same time — commonly your own `update()` call
+racing the automatic background updater. The already-running update continues;
+your call simply didn't start a second one.
+
+This is benign. Current versions of the package treat it as a no-op rather than
+throwing, so upgrading `shorebird_code_push` will make it disappear. No action is
+required.
+
+## Network / transient errors
+
+These generally resolve themselves on a later attempt (better connectivity,
+server recovery, etc.). Retry on the next app launch or the next natural update
+opportunity; there is nothing to fix in your app.
+
+### `Patch check request failed due to network error...` (`downloadFailed`)
+
+The device could not reach Shorebird's servers to check for or download a patch.
+Almost always a client-side connectivity problem (offline, captive portal,
+firewall, flaky mobile network).
+
+### `error sending request for url (...)` (`unknown`)
+
+The HTTP request failed before a response was received (connection reset, DNS
+failure, TLS handshake failure, timeout). Same class of cause as above.
+
+### `error decoding response body` (`unknown`)
+
+A response was received but couldn't be parsed as expected. Usually caused by an
+intermediary returning something other than our API response — a captive-portal
+login page, a proxy error page, or a truncated body on a dropped connection.
+
+### `Request failed with status: 503 Service Unavailable` (`unknown`)
+
+The server was temporarily unavailable (deploy, maintenance, or transient load).
+Transient — the next attempt should succeed.
+
+### `TimeoutException: ... timed out after 60s`
+
+A network operation didn't complete within the app's timeout window. Typically
+very slow connectivity. This comes from a timeout wrapper in application code
+(not thrown by the updater itself), so if you added the timeout, tune or remove
+it as appropriate.
+
+## Device / environment errors
+
+These reflect the state of the user's device and are generally not actionable
+from your app's code.
+
+### `Permission denied (os error 13)` (`unknown`)
+
+The updater couldn't read or write its files in the app's code-cache directory.
+Causes include OS-level storage restrictions, security software, or an unusual
+device/OS configuration. Rare and specific to individual devices.
+
+### `No space left on device (os error 28)` (`unknown`)
+
+The device's storage is full, so the patch couldn't be written. Nothing to fix
+in the updater — the user needs to free up space.
+
+## Patch-state errors
+
+### `Update available but previously failed to install. Not installing.` (`installFailed`)
+
+A patch was downloaded but failed to boot on a previous launch, so the updater
+marked it as **known-bad** and refuses to install it again for this release.
+This is Shorebird's "fail open" safety mechanism working as intended: rather than
+repeatedly crash-looping on a broken patch, the app stays on the last known-good
+version.
+
+If you see this concentrated on a specific patch, that patch likely has a problem
+on those devices. Publishing a new, fixed patch resolves it — the updater will
+download and install the new patch normally.
+
+## `Expected readyToApply but unavailable`
+
+This message does not come from `shorebird_code_push`; it originates in
+application-level code push logic. If you see it, look in your own app (or a
+higher-level wrapper package) for where `readyToApply` is checked. It's listed
+here only because it commonly appears alongside the errors above.

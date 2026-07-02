@@ -1,0 +1,21 @@
+extends: existence
+message:
+  '''%s'' is first person; docs should be written in second person ("you")'
+level: warning
+scope: paragraph
+ignorecase: true
+tokens:
+  - "\\bI\\b"
+  - "\\bI'm\\b"
+  - "\\bI've\\b"
+  - "\\bI'll\\b"
+  - "\\bwe\\b"
+  - "\\bwe're\\b"
+  - "\\bwe've\\b"
+  - "\\bwe'll\\b"
+  - "\\bour\\b"
+  - "\\bours\\b"
+  - "\\bus\\b"
+  - "\\blet's\\b"
+  - "\\bmy\\b"
+  - "\\bmine\\b"

@@ -49,13 +49,6 @@ jobs:
       modified_files_only: false
 
   style-check:
-    # Lints every heading in the docs, not just lines touched by the PR.
-    # Shorebird.Headings, Shorebird.Exclamation, and Vale.Terms run at
-    # error severity and block the build; Shorebird.SecondPerson stays at
-    # warning severity (non-blocking) until that guideline's content work
-    # is done.
-    if: ${{ github.event_name == 'pull_request' }}
-
     runs-on: ubuntu-latest
 
     permissions:

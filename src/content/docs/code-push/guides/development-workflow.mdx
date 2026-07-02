@@ -14,7 +14,7 @@ import releaseWorkflow from '~/assets/release_workflow.png';
 import patchWorkflow from '~/assets/patch_workflow.png';
 
 This guide will walk you through an opinionated development workflow with
-Shorebird. We'll cover how to automate releasing and patching with Shorebird to
+Shorebird, covering how to automate releasing and patching with Shorebird to
 streamline the entire development process so that you and your team can focus on
 shipping high-quality features to customers.
 
@@ -34,7 +34,7 @@ to your customers, but it's up to you to decide how to integrate it into your
 development workflow.
 
 While there are many ways to integrate Shorebird, the following workflow is a
-common approach that we recommend:
+common recommended approach:
 
 <Image src={devWorkflow} alt="Development Workflow" />
 
@@ -50,7 +50,7 @@ The workflow consists of three main phases:
 1. **Patch**: If a critical bug is found, a patch is created and distributed to
    customers immediately via Shorebird.
 
-Let's walk through each phase in more detail.
+The following sections walk through each phase in more detail.
 
 ## Development phase
 
@@ -280,9 +280,9 @@ The patch workflow can be broken down into the following steps:
 
    :::note
 
-   Here and in the GitHub Actions workflow below, we use a track named `staging`
-   to preview the hotfix in the staging environment. The name of the track is
-   arbitrary and can be changed to any name you prefer.
+   Here and in the GitHub Actions workflow below, a track named `staging` is
+   used to preview the hotfix in the staging environment. The name of the track
+   is arbitrary and can be changed to any name you prefer.
 
    :::
 
@@ -416,9 +416,9 @@ promoted to production.
 
 ## Recap
 
-In this guide, we took a look at an opinionated development workflow with
-Shorebird which allows teams to automate releasing and patching in order to
-iterate quickly while still delivering a high-quality experience to customers.
+This guide covered an opinionated development workflow with Shorebird that
+allows teams to automate releasing and patching in order to iterate quickly
+while still delivering a high-quality experience to customers.
 
 To see this workflow in action, check out the
 [Flutter & Friends Conference App](https://github.com/felangel/flutter_and_friends).

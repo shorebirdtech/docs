@@ -47,3 +47,26 @@ jobs:
     with:
       config: .cspell.yaml
       modified_files_only: false
+
+  style-check:
+    # Only lints lines touched by the PR, since most existing headings
+    # predate this check and haven't been migrated to sentence case yet.
+    if: ${{ github.event_name == 'pull_request' }}
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      checks: write
+      pull-requests: write
+
+    steps:
+      - name: 📚 Git Checkout
+        uses: actions/checkout@v7
+
+      - name: ✍️ Vale
+        uses: errata-ai/vale-action@v2
+        with:
+          reporter: github-pr-check
+          filter_mode: added
+          fail_on_error: false

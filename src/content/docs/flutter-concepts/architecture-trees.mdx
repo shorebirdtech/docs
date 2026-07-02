@@ -56,7 +56,7 @@ If widgets are just temporary blueprints, how does Flutter remember anything?
 How does it keep track of an animation playing, or what you typed into a text
 field?
 
-Enter the **Element Tree** (where your `State` lives!).
+Enter the **Element Tree** (where your `State` lives).
 
 For every Widget you put in your app, Flutter creates a corresponding
 **Element**. You can think of the Element Tree as the brain or the skeleton of
@@ -73,7 +73,7 @@ Elements:
 - If the widget type completely changed, the old Element is tossed out, and a
   brand new one takes its place.
 
-This is the secret to Flutter's speed! The Element Tree manages the lifecycle
+This is the secret to Flutter's speed. The Element Tree manages the lifecycle
 and acts as the smart middleman that decides when actual heavy lifting needs to
 be done.
 
@@ -123,11 +123,11 @@ Widget build(BuildContext context) {
 
 You might have wondered, _"What exactly is that `context` thing?"_
 
-Here is the biggest "Aha!" moment for most Flutter beginners: **`BuildContext`
-is actually just the Element!**
+Here is the biggest "Aha" moment for most Flutter beginners: **`BuildContext` is
+actually just the Element.**
 
 When Flutter asks your widget to build itself, it hands you the `BuildContext`.
-It's just the Element saying, "Here I am in the tree! If you need to find an
+It's just the Element saying, "Here I am in the tree. If you need to find an
 ancestor widget (like a `Theme` or a `Navigator`), you can use me to look up the
 tree."
 

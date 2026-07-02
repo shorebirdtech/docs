@@ -29,7 +29,7 @@ Shorebird only offers a hosted service at this time. We do not currently offer
 [on-prem or cloud-prem](https://github.com/shorebirdtech/shorebird/issues/485)
 solutions.
 
-### Company Security Policy
+### Company security policy
 
 This document is focused on the specifics of the Shorebird system and product.
 If there are questions that relate to the overall company security policy,
@@ -43,7 +43,7 @@ Throughout this document, we will refer to the following terms:
 - Customer / you: A user of Shorebird.
 - End User: A user of a Customer's application.
 
-## Acceptable Use
+## Acceptable use
 
 Use of Shorebird is governed by our
 [Terms of Service](https://shorebird.dev/terms). We have logging and alerting in
@@ -71,7 +71,7 @@ infrastructure are similar.
 We have written more on the architecture of Shorebird in our
 [architecture documentation](/code-push/system-architecture/).
 
-### Shorebird Servers
+### Shorebird servers
 
 `shorebird` tools communicate with Shorebird's cloud on your behalf. Shorebird
 exclusively uses public cloud infrastructure and does not maintain our own
@@ -97,7 +97,7 @@ Because all access is done via HTTPS to public cloud infrastructure, typically
 no specific access rules are required to access Shorebird servers from within a
 company network.
 
-### Product Access Control
+### Product access control
 
 Shorebird accounts are managed through Google or Microsoft SSO (OAuth). We
 intentionally do not support other access methods and do not store passwords for
@@ -106,7 +106,7 @@ our users.
 Shorebird accounts provide role-based access control on a per-application basis,
 which is described in our [Organizations product documentation](/account/orgs/).
 
-### Production Access
+### Production access
 
 We use [Google Cloud IAM](https://cloud.google.com/iam) for access control and
 [Google Cloud Logging](https://cloud.google.com/logging) for logging.
@@ -118,7 +118,7 @@ pipelines, as detailed in the Change Management section.
 We have an additional (read-only) admin layer to a subset of our production
 systems for monitoring and support purposes.
 
-### Network Access
+### Network access
 
 Shorebird is a web application. We use HTTPS for all communication between our
 application and our customers. We use Google Cloud's managed SSL certificates
@@ -135,13 +135,13 @@ Only the https port should be needed for access to Shorebird.
 
 See also https://docs.shorebird.dev/faq/#can-i-use-shorebird-in-my-country.
 
-### User Access Review
+### User access review
 
 We review all user access to our systems periodically, as well as when an
 employee joins or leaves the company. All access to Shorebird systems is gated
 through Google SSO, including required two-factor authentication.
 
-### Network Security
+### Network security
 
 Both our application and our infrastructure are hosted on Google Cloud. We use
 Google Cloud's network security features to secure our infrastructure, including
@@ -151,16 +151,16 @@ endpoint.
 We have dedicated machines for access directly to our production environment,
 access to such is restricted to a small number of engineers and is logged.
 
-#### Intrusion Detection / Prevention / Monitoring
+#### Intrusion detection / prevention / monitoring
 
 We rely on Google Cloud network security for network-level intrusion detection.
 We do log all actions within our systems and do regularly review these logs as
 well as maintain alerting which is delivered to our engineering teams, both for
 our web products as well as our backend database and servers.
 
-## Change Management
+## Change management
 
-### Code Reviews
+### Code reviews
 
 All code should be reviewed by at least one other engineer before being merged.
 We have branch policies in place on all of our repositories to ensure such. This
@@ -196,7 +196,7 @@ roll back via a revert commit in our codebase and a new deployment; however, we
 also have the ability to roll back individual services in our infrastructure to
 previous versions if necessary.
 
-## Incident Response
+## Incident response
 
 We have a private playbook for incident response. We have logging and alerting
 in place to detect and respond to incidents. We have both dedicated private
@@ -208,16 +208,16 @@ always notified all customers when affected by incidents (security or otherwise)
 via their billing email address in the past and will continue to do so going
 forward.
 
-### Post-Mortems
+### Post-mortems
 
 We have a post-mortem process in place for incidents. We prepare a post-mortem
 for all incidents within 48 hours of their occurrence. We use these post-mortems
 to improve our systems and processes. We do not currently share our post-mortems
 publicly, although we are considering doing so in the future.
 
-## Data Usage & Security
+## Data usage & security
 
-### Data Privacy
+### Data privacy
 
 See our privacy policy: https://shorebird.dev/privacy
 
@@ -230,7 +230,7 @@ Shorebird does not process, transmit, or store personally identifiable
 information for our customers' end users. Additionally, we take care to store as
 little data from our customers (you) as possible.
 
-### Data Retention
+### Data retention
 
 We retain customer data for as long as you have an account with us. Customers
 are able to access and delete their data at any time. We retain aggregated,
@@ -242,7 +242,7 @@ https://docs.shorebird.dev/uninstall/
 
 See our privacy policy for more information: https://shorebird.dev/privacy
 
-### Data Security
+### Data security
 
 Shorebird uses Google Cloud's managed services for backups. This data (as well
 as all data in Google Cloud) is encrypted at rest.
@@ -253,7 +253,7 @@ We are not aware of any past data breaches of any form for Shorebird. In the
 event of a breach, we will notify all customers promptly unless otherwise
 required by local law enforcement.
 
-### Data Separation
+### Data separation
 
 Shorebird does not currently use per-tenant data storage. We use a single,
 secured, non-publicly-reachable database (AlloyDB) for all system data. We use a
@@ -301,7 +301,7 @@ for your later use or distribution.
 
 Google Cloud encrypts all data at rest by default.
 
-#### End User Data (data about Shorebird's customers' end users)
+#### End user data (data about Shorebird's customers' end users)
 
 _Shorebird does not process, transmit or store personally identifiable
 information for our customers' end users. We do not have access to end user
@@ -316,7 +316,7 @@ Shorebird's product allows you, and only you, to update the code of your
 application on end user devices. We do not collect or wish to collect any
 information from these users or devices.
 
-## Third-Party Assessments
+## Third-party assessments
 
 We have no third-party security, network, or other assessments to share at this
 time. Some of our larger customers have performed their own audits of our
@@ -328,7 +328,7 @@ servers, or build our own network infrastructure, rather we rely on Google and
 Cloudflare servers and networks to reduce our total exposure and
 upgrade/maintenance burdens.
 
-## Bug Bounty
+## Bug bounty
 
 We do not currently offer a bug bounty program. We welcome reports of security
 vulnerabilities. Please see our

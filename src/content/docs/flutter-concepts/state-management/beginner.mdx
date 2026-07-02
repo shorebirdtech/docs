@@ -27,7 +27,7 @@ fetching updates.
 This guide outlines the recommended approach for structuring BLoC using the
 **Single State pattern**.
 
-## Core Architecture
+## Core architecture
 
 **BLoC (Business Logic Component)** separates the UI layer from the business
 logic, promoting testability and predictability. The architecture follows a
@@ -45,7 +45,7 @@ unidirectional data flow:
   alt="Diagram of how BLoC interacts with widgets and APIs"
 />
 
-## Handling Multiple State Classes
+## Handling multiple state classes
 
 A common introductory pattern is defining separate classes for each state:
 
@@ -74,7 +74,7 @@ transitions to `UserLoading`. Because `UserLoading` does not contain the
 typically results in the screen clearing entirely to show a loading spinner,
 creating a jarring user experience.
 
-## Recommended Approach: The Single State Pattern
+## Recommended approach: the single state pattern
 
 To maintain context during state transitions, it is recommended to use a single
 state class combined with a status enum and a `copyWith` method. This allows the

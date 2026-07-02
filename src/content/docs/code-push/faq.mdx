@@ -12,7 +12,7 @@ have a question not answered here or elsewhere in the docs, reach out on
 [file an issue](https://github.com/shorebirdtech/shorebird/issues). We're here
 to help.
 
-## Getting Started
+## Getting started
 
 ### What is the difference between a patch and a release?
 
@@ -83,7 +83,7 @@ Yes. The `shorebird` command line tool passes through all Dart defines to the
 work as expected. Because Dart defines are compiled into your app's Dart code,
 they can be updated via patches.
 
-### How do I target different API environments (e.g., Staging vs. Production backend) for patches?
+### How do I target different API environments (e.g., staging vs. production backend) for patches?
 
 You should use Flutter flavors (or `--dart-define` config variables). Shorebird
 fully supports flavors.
@@ -144,7 +144,7 @@ to test iOS patches.
 
 _Note: Android emulators are fully supported._
 
-### Does Shorebird work in Debug or Profile mode?
+### Does Shorebird work in debug or profile mode?
 
 No. Shorebird is only compiled into and active in **Release builds** of your
 application.
@@ -197,7 +197,7 @@ Steps to upgrade:
 Any future patches created for this new release version will automatically be
 built using the upgraded Flutter version.
 
-## Store Compliance
+## Store compliance
 
 ### Does Shorebird comply with Play Store guidelines?
 
@@ -299,7 +299,7 @@ Shorebird does not currently support submitting to the app stores on your
 behalf. We may end up adding this in the future, but for now you will need to
 continue to use your existing processes to submit to the app stores.
 
-## Use Cases & Limitations
+## Use cases & limitations
 
 ### What can I use Shorebird Code Push for?
 
@@ -396,10 +396,10 @@ code and do not require a JIT Dart compiler.
 Code Push isn't needed for Flutter web. When a user opens a web app it downloads
 the latest version from the server if needed.
 
-If you have a use case for code push with Fluter web, we'd
+If you have a use case for Code Push with Flutter web, we'd
 [love to know](mailto:contact@shorebird.dev).
 
-## Technical Details
+## Technical details
 
 ### What does the Shorebird updater store on disk?
 
@@ -535,7 +535,7 @@ as long as newer patches also contain the changes from older patches, users will
 always be up to date and there is no need to worry about users "missing"
 patches.
 
-## Teams, Access, and Privacy
+## Teams, access, and privacy
 
 ### Can I use Shorebird with my team?
 
@@ -619,7 +619,7 @@ Shorebird is not itself a store. Your users will need to install your app
 initially through some method other than Shorebird, but Shorebird can then be
 used to patch (update) your app after that initial install.
 
-### How does Shorebird interact with Play Testing Tracks or Apple TestFlight?
+### How does Shorebird interact with Play testing tracks or Apple TestFlight?
 
 Each of the app stores have separate mechanisms for distributing apps to limited
 groups of users (e.g. "internal testing", "closed beta", etc.). These are all

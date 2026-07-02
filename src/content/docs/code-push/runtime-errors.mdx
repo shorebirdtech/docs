@@ -6,14 +6,14 @@ sidebar:
   order: 15
 ---
 
-This page is an operational reference for the errors and exceptions most
-commonly reported at runtime by apps that use the optional
+This page is an operational reference for the errors and exceptions seen
+at runtime by apps that use the optional
 [`shorebird_code_push`](https://pub.dev/packages/shorebird_code_push) package —
 what they mean, what causes them, and what (if anything) you should do about
 them.
 
 :::note
-The `shorebird_code_push` package is **optional**. Shorebird downloads and
+The `shorebird_code_push` package is **optional**. Shorebird can download and
 applies patches automatically without it; the package only matters if you want
 to manage updates programmatically. See
 [Update Strategies](/code-push/update-strategies) for when you'd use it.
@@ -43,19 +43,11 @@ Most errors surface as an `UpdateException` thrown from
 [ShorebirdUpdater] UpdateException: <message> (<reason>)
 ```
 
-The `<reason>` in parentheses is the `UpdateFailureReason` enum value and is the
-most reliable way to categorize an error:
-
-| Reason           | Meaning                                             |
-| ---------------- | --------------------------------------------------- |
-| `noUpdate`       | No update was available. **Obsolete** — see below.  |
-| `downloadFailed` | The patch could not be downloaded (usually network).|
-| `installFailed`  | The patch was downloaded but could not be installed.|
-| `unknown`        | A catch-all. The `<message>` is the underlying cause.|
-
-When the reason is `unknown`, the `<message>` often comes straight from the
-underlying OS layer (for example `os error 13`), so it's the most useful part to
-read.
+The `<reason>` in parentheses is one of the
+[`UpdateFailureReason`](https://pub.dev/documentation/shorebird_code_push/latest/shorebird_code_push/UpdateFailureReason.html)
+values and is the most reliable way to categorize an error. When the reason is
+`unknown`, the `<message>` often comes straight from the underlying OS layer (for
+example `os error 13`), so it's the most useful part to read.
 
 :::tip
 Match on `exception.reason`, not on the message string. Messages are not stable

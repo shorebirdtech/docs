@@ -33,7 +33,7 @@ graph TD
     style R fill:#fff3e0,stroke:#ff9800,stroke-width:2px,color:#000
 ```
 
-## 1. the widget tree: your blueprints
+## 1. The widget tree: your blueprints
 
 Widgets are what you write every day: `Container`, `Text`, `Row`, `Column`, and
 so on.
@@ -50,7 +50,7 @@ When you call `setState()`, you aren’t directly telling the screen to redraw.
 You are just telling Flutter to throw away the old stale objects and create new
 ones from the blueprints you created.
 
-## 2. the element tree: the state manager
+## 2. The element tree: the state manager
 
 If widgets are just temporary blueprints, how does Flutter remember anything?
 How does it keep track of an animation playing, or what you typed into a text
@@ -77,7 +77,7 @@ This is the secret to Flutter's speed. The Element Tree manages the lifecycle
 and acts as the smart middleman that decides when actual heavy lifting needs to
 be done.
 
-## 3. the RenderObject tree: the workhorse
+## 3. The RenderObject tree: the workhorse
 
 Finally, we have the **RenderObject Tree**.
 

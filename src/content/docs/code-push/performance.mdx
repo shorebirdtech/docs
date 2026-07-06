@@ -8,11 +8,12 @@ sidebar:
 
 Shorebird uses its own fork of Flutter.
 
-Our fork works exactly as Google's does, including passing all the same
+Shorebird's fork works exactly as Google's does, including passing all the same
 functionality and performance tests.
 
 Using Shorebird's fork should not result in any change in your app. If you ever
-see any change, please let us know so we can work with you to diagnose.
+see any change, reach out on [Discord](https://discord.gg/shorebird) so the
+Shorebird team can help diagnose.
 
 ### Patching
 
@@ -80,11 +81,11 @@ in the compiled `isEven` code. (That's a good thing.) Unfortunately that means
 that when the new code now used `isEven` in a nullable context the compiled
 contents of "isEven" change, to include null checks. Since the contents of
 isEven changed, Shorebird will conservatively assume that the behavior of all
-callers of `isEven` might have changed as well and we will not use the CPU
-versions of those either. Thus if your change (however small) might happen to
-have caused the Dart compiler to reconsider optimizations for some other
-critical section of code, tiny changes can sometimes cause large sections of
-your application to "un-link" and run in the interpreter.
+callers of `isEven` might have changed as well and won't use the CPU versions of
+those either. Thus if your change (however small) might happen to have caused
+the Dart compiler to reconsider optimizations for some other critical section of
+code, tiny changes can sometimes cause large sections of your application to
+"un-link" and run in the interpreter.
 
 ### Avoiding performance changes in iOS patches
 
@@ -98,13 +99,13 @@ Shorebird's tooling and console will warn you. The bad news is that predicting
 when a change will trigger the Dart compiler to cause non-local changes to your
 program is very difficult.
 
-When these non-local changes occur, the best recommendation we have at this time
-is to try to make a new, smaller diff, and patch again.
+When these non-local changes occur, the best recommendation at this time is to
+try to make a new, smaller diff, and patch again.
 
 For the vast majority of patches there is no performance difference at all. For
 those which do see a difference, sometimes that difference may still be worth
 the trade-off as a stop-gap between now and when a user can get an update via
 the App Store.
 
-We have several approaches to explore to remove this limitation on iOS and
-intend to continue to improve this behavior in the future.
+Several approaches exist to remove this limitation on iOS, and Shorebird intends
+to continue improving this behavior in the future.

@@ -103,17 +103,17 @@ thus send a _different_ version of your application to users, Shorebird will be
 unable to create a compatible patch for your users since they will be using a
 different binary than you stored with Shorebird.
 
-Other than the "it must be during the build" restriction, we've seen few issues
-with third party security tools and Shorebird.
+Other than the "it must be during the build" restriction, few issues have been
+seen with third party security tools and Shorebird.
 
 ### GuardSquare on iOS
 
-We have seen one issue with GuardSquare on iOS with Shorebird. GuardSquare (at
+One issue has been seen with GuardSquare on iOS with Shorebird. GuardSquare (at
 least in some configurations) will make an attempt to "obfuscate" iOS binaries
 further, replacing the implementations of some functions with code which is used
 to provide obscured access to constants/strings/numbers stored within the
 binary. This may be incompatible with Shorebird's Dart modifications for iOS. If
-this is an issue for your product, we'd be happy to discuss with the GuardSquare
-support team if there are workarounds we could build together.
+this is an issue for your product, the Shorebird team is happy to discuss with
+the GuardSquare support team if there are possible workarounds.
 
-Reach out to us at contact@shorebird.dev.
+Reach out at contact@shorebird.dev.

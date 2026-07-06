@@ -7,8 +7,8 @@ sidebar:
 
 This page covers the most common issues with Shorebird Code Push. Still stuck?
 Reach out on [Discord](https://discord.gg/shorebird) or
-[file an issue](https://github.com/shorebirdtech/shorebird/issues). We're here
-to help.
+[file an issue](https://github.com/shorebirdtech/shorebird/issues). The
+Shorebird team is happy to help.
 
 ## Patch not showing up
 
@@ -36,8 +36,8 @@ Sending patch check request: PatchCheckRequest {
 
 If the release version is the version you expect to see, check the
 [Shorebird Console](https://console.shorebird.dev) to ensure that this release
-exists for the given app ID and that it has a patch. Please contact us on
-Discord if such a patch exists and is not being applied.
+exists for the given app ID and that it has a patch. Please reach out on Discord
+if such a patch exists and is not being applied.
 
 Common issues:
 
@@ -70,7 +70,7 @@ you create a patch for version `1.0.0+1`, it will not work on version `1.0.0+2`.
 This can happen unexpectedly on iOS due to Xcode's automatic incrementing of
 build numbers. If you are seeing this issue on iOS, ensure that the build number
 of the release and the patch match. See
-[our iOS releasing guide](/code-push/guides/stores/app-store/#upload-to-the-app-store)
+[the iOS releasing guide](/code-push/guides/stores/app-store/#upload-to-the-app-store)
 for instructions on how to disable automatic build number incrementing.
 
 :::
@@ -139,8 +139,9 @@ can happen if your app uses more or fewer icons from the Dart code. Flutter will
 automatically "tree shake" your fonts, so if you don't use an icon in your Dart
 code, it will not be included in the final app. You can disable this behavior
 with `--no-tree-shake-icons` at the risk of increasing your app size. This type
-of warning will also go away once we add
-[asset patching](https://github.com/shorebirdtech/shorebird/issues/318).
+of warning will also go away once
+[asset patching](https://github.com/shorebirdtech/shorebird/issues/318) is
+added.
 
 A type of change not shown above is one which changes .dex files on Android or
 the `Runner.app` directory on iOS. These changes represent changes to the native
@@ -149,7 +150,7 @@ you should be very careful about publishing your patch, as it may cause your app
 to crash when the Dart code tries to call into native code which operates
 differently than expected.
 
-**What happens if I ignore this warning?**
+**What happens if you ignore this warning?**
 
 You can bypass this warning by passing the `--allow-asset-diffs` flag to the
 `shorebird patch` command.
@@ -182,7 +183,7 @@ solutions violate this assumption and can cause these native changes to appear.
 Shorebird may be incompatible with those plugins. You can test for this by doing
 a `shorebird release` and then `shorebird patch` with no changes and seeing if
 you still get a native changes warning. If you believe this is the case, please
-reach out to us; we'd be happy to help.
+reach out; the Shorebird team is happy to help.
 
 :::
 
@@ -224,7 +225,7 @@ This can be caused by a number of things. The most common causes are:
    implemented some safeguards to make this less likely, but it is worth
    verifying if you are seeing this warning and you do not know why.
 
-**What happens if I ignore this warning?**
+**What happens if you ignore this warning?**
 
 :::danger
 
@@ -342,15 +343,14 @@ to check which Java version works with which Gradle release.
 
 ## Missing a provisioning profile or no signing team was found
 
-We address this issue in our [releasing guide](/code-push/release). Take a look
-at the iOS section for more information.
+This issue is addressed in the [releasing guide](/code-push/release). Take a
+look at the iOS section for more information.
 
 ## Message saying patch might run slowly
 
 iOS uses a very different patching process than Android does. The details of
 which are described in [System Architecture](/code-push/system-architecture/).
-We also talk about this in our [Patch Performance](/code-push/performance/)
-page.
+This is also discussed in the [Patch Performance](/code-push/performance/) page.
 
 ---
 

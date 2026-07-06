@@ -7,23 +7,23 @@ sidebar:
 
 import { LinkCard } from 'starlight-theme-nova/components';
 
-We recommend that you test your patches with a subset of users before
-distributing to all users.
+Testing your patches with a subset of users before distributing to all users is
+recommended.
 
 Shorebird’s mechanism to release to a subset of users is “tracks”. You can
 create an unlimited number of tracks with arbitrary names. If no track is
 specified, patches are distributed to the “stable” track by default.
 
-Typically we see customers use "staging" for internal testing (on developers'
-machines) and "beta" for wider group testing (e.g. QA teams where `shorebird`
-commands are not available).
+Customers typically use "staging" for internal testing (on developers' machines)
+and "beta" for wider group testing (e.g. QA teams where `shorebird` commands are
+not available).
 
-As part of our privacy stance, we _never_ know anything about your users, so we
-have no way to tell users apart or to specify which users should receive a patch
-from within our product. However, we do provide you mechanisms for controlling
-updates via Shorebird with user information you have access to from within your
-company and your application. See the Percentage Based Rollouts guide for
-examples.
+As part of Shorebird's privacy stance, we _never_ know anything about your
+users, so there is no way to tell users apart or to specify which users should
+receive a patch from within the product. However, mechanisms are provided for
+controlling updates via Shorebird with user information you have access to from
+within your company and your application. See the Percentage Based Rollouts
+guide for examples.
 
 <LinkCard
   href="/code-push/guides/percentage-based-rollouts"
@@ -31,7 +31,7 @@ examples.
   description="Control which users receive patches using percentage-based distribution."
 />
 
-We recommend using one of the following three approaches to distribute patches
+Using one of the following three approaches is recommended to distribute patches
 to a subset of users (e.g. your QA team) for testing without affecting your
 public users in production.
 
@@ -41,8 +41,8 @@ more advanced control over the update process.
 
 ### Option 1: Control Shorebird track based on the current user’s account.
 
-If your app has a login mechanism, this is your best option. If it does not, we
-recommend option 2.
+If your app has a login mechanism, this is your best option. If it does not,
+option 2 is recommended.
 
 Once your user has logged in, you determine whether the user is a tester and
 then change your Shorebird update code to use that information when updating,
@@ -56,12 +56,12 @@ shorebirdUpdater.update(track: track);
 ### Option 2: Control Shorebird track with a hidden UI.
 
 If your app does not have a login/user-account mechanism, this is your best
-option. If it does, we recommend option 1.
+option. If it does, option 1 is recommended.
 
-Some stores discourage hidden UIs; however our customers tell us it is common
-practice. For example, some apps may enable a “QA” mode in their app after a
-certain series of clicks or special gestures, etc., similar to how Android
-enables developer mode when
+Some stores discourage hidden UIs; however, this is a common practice among
+Shorebird customers. For example, some apps may enable a “QA” mode in their app
+after a certain series of clicks or special gestures, etc., similar to how
+Android enables developer mode when
 [tapping 7 times on the Android version text in the settings app](https://developer.android.com/studio/debug/dev-options)
 From a QA mode, you could allow testers to switch to the “beta” patch track,
 even from your production app. They could similarly switch back to “stable” to
@@ -79,7 +79,7 @@ It is then possible to pick the Shorebird track based on the detected install
 mechanism, allowing you to thus distribute patches _only_ to your TestFlight
 users, etc.
 
-Because detection of install mechanisms can be unreliable, we recommend option 1
-or 2 for most teams, but include this option for completeness. Most teams who
-distribute via TestFlight, for example, also have QA-specific accounts and thus
-option 2 is strictly better.
+Because detection of install mechanisms can be unreliable, option 1 or 2 is
+recommended for most teams, but this option is included for completeness. Most
+teams who distribute via TestFlight, for example, also have QA-specific accounts
+and thus option 2 is strictly better.

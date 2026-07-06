@@ -23,7 +23,7 @@ This section assumes that you are using fastlane on CI to release your app. If
 you are running fastlane locally (on your development machine), you can skip to
 the [Using fastlane locally](#using-fastlane-locally).
 
-A working example of this setup can be found in our
+A working example of this setup can be found in the
 [fastlane_demo](https://github.com/shorebirdtech/fastlane_demo) repository.
 
 To get started, follow
@@ -31,10 +31,10 @@ To get started, follow
 to set up fastlane with certificate management, code signing, and submitting to
 the App Store/TestFlight.
 
-You will notice that our demo app's
+Notice that the demo app's
 [`Fastfile`](https://github.com/shorebirdtech/fastlane_demo/blob/main/ios/fastlane/Fastfile)
 has both `deploy` and `release_shorebird` lanes. The `deploy` lane comes from
-the guide linked to above. The `release_shorebird` lane is our custom lane that
+the guide linked to above. The `release_shorebird` lane is a custom lane that
 uses the `shorebird_release` action **in place of** `build_app` to build an ipa,
 create a Shorebird release, and submit it to the App Store/TestFlight.
 
@@ -59,8 +59,8 @@ installed Shorebird, you can do so by following the
 
 If you are not already using fastlane with your project, navigate to your app's
 `ios` directory in your project and run `fastlane init`. You will be prompted to
-answer several questions. For this guide, we will choose to manually add lanes
-to the `Fastfile`.
+answer several questions. For this guide, choose to manually add lanes to the
+`Fastfile`.
 
 ### Use the Shorebird plugin
 

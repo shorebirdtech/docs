@@ -64,15 +64,15 @@ distributed.
 
 :::note
 
-We will be setting up our workflow using the Codemagic YAML file. The Workflow
-Editor is not supported, as it does not allow us to change the build command.
+This workflow uses the Codemagic YAML file. The Workflow Editor is not
+supported, as it does not allow changing the build command.
 
 If you don't know how to use the Codemagic YAML, please refer to the
 [Codemagic YAML documentation](https://docs.codemagic.io/yaml-basic-configuration/yaml-getting-started/).
 
 :::
 
-As a preview, our finished `codemagic.yaml` file will look like this:
+As a preview, the finished `codemagic.yaml` file will look like this:
 
 ```yaml
 definitions:
@@ -146,15 +146,15 @@ workflows:
 
 You can follow the Codemagic guide
 [here](https://docs.codemagic.io/yaml-code-signing/signing-android/#google-play-store-credentials)
-to set this up. We put the `GCLOUD_SERVICE_ACCOUNT_CREDENTIALS` variable in a
-group named `play_store`.
+to set this up. This example places the `GCLOUD_SERVICE_ACCOUNT_CREDENTIALS`
+variable in a group named `play_store`.
 
 #### Set up your Android keystore in Codemagic
 
 You can follow the Codemagic guide
 [here](https://docs.codemagic.io/yaml-code-signing/signing-android/) to create a
-keystore and upload it to Codemagic. We used `android_keystore` as the name of
-the uploaded keystore.
+keystore and upload it to Codemagic. This example uses `android_keystore` as the
+name of the uploaded keystore.
 
 You will also also need to update your `android/app/build.gradle` file to use
 this keystore in the Codemagic CI environment:
@@ -179,7 +179,7 @@ signingConfigs {
 
 ### Create shared configuration
 
-At the top of our `codemagic.yaml` file, define shared environment variables and
+At the top of the `codemagic.yaml` file, define shared environment variables and
 scripts that will be used by multiple workflows. This has been annotated to
 explain what each part does.
 
@@ -303,8 +303,8 @@ distributed.
 
 :::note
 
-We will be setting up our workflow using the Codemagic YAML file. The Workflow
-Editor is not supported, as it does not allow us to change the build command.
+This workflow uses the Codemagic YAML file. The Workflow Editor is not
+supported, as it does not allow changing the build command.
 
 If you don't know how to use the Codemagic YAML, please refer to the
 [Codemagic YAML documentation](https://docs.codemagic.io/yaml-basic-configuration/yaml-getting-started/).
@@ -337,11 +337,11 @@ support this:
   of this file into Codemagic. `cat ios_distribution_private_key | pbcopy` works
   well for this.
 
-We put all of these variables into a group named `app_store`.
+This example places all of these variables into a group named `app_store`.
 
 ### Create a shared configuration
 
-At the top of our `codemagic.yaml` file, define shared environment variables and
+At the top of the `codemagic.yaml` file, define shared environment variables and
 scripts that will be used by multiple workflows. This has been annotated to
 explain what each part does.
 
@@ -406,8 +406,8 @@ definitions:
         keychain add-certificates
     - &use_profiles
       # This generates an export_options.plist file that tells Xcode
-      #   how to package our app. We explicitly set
-      #   manageAppVersionAndBuildNumber so that we can control which
+      #   how to package the app. This explicitly sets
+      #   manageAppVersionAndBuildNumber to control which
       #   version and build number are used for releasing and patching.
       name: Set up code signing settings on Xcode project
       script: |
@@ -430,11 +430,11 @@ workflows:
     # This needs to run on a Mac instance.
     instance_type: mac_mini_m1
     integrations:
-      # "Codemagic" is the name of our App Store Connect API key name.
+      # "Codemagic" is the name of the App Store Connect API key.
       app_store_connect: Codemagic
     environment:
       <<: *shared_env
-      # Tell Codemagic that we're signing our app for App Store distribution
+      # Tell Codemagic that this app is being signed for App Store distribution
       #   and to use the bundle ID we defined above.
       ios_signing:
         distribution_type: app_store
@@ -481,8 +481,8 @@ workflows:
     instance_type: mac_mini_m1
     environment:
       <<: *shared_env
-      # Tell Codemagic that we're signing our app for App Store distribution
-      #   and to use the bundle ID we defined above.
+      # Tell Codemagic that this app is being signed for App Store distribution
+      #   and to use the bundle ID defined above.
       ios_signing:
         distribution_type: app_store
         bundle_identifier: '$BUNDLE_ID'

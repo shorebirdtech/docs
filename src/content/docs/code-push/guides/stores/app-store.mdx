@@ -24,8 +24,8 @@ import appStoreConnectReviewIssues from '~/assets/app_store_connect_review_issue
 This guide walks through releasing a Code Push app to the Apple App Store and
 applying a patch to that release.
 
-The app we will be releasing in this guide is Shorebird Clock, our demo code
-push app. ([source](https://github.com/shorebirdtech/time_shift/))
+The app used in this guide is Shorebird Clock, a demo Code Push app.
+([source](https://github.com/shorebirdtech/time_shift/))
 
 ## Prerequisites
 
@@ -47,8 +47,8 @@ To follow along with this guide, you will need the following:
 
 ### Specify a development team in Xcode
 
-To build an iOS app for distribution, we need to specify a development team in
-Xcode. Open `ios/Runner.xcworkspace` in Xcode and select the `Runner` target:
+To build an iOS app for distribution, a development team needs to be specified
+in Xcode. Open `ios/Runner.xcworkspace` in Xcode and select the `Runner` target:
 
 <Image src={appStoreDevTeam} alt="Xcode development team" />
 
@@ -57,8 +57,8 @@ Xcode. Open `ios/Runner.xcworkspace` in Xcode and select the `Runner` target:
 ### Determine the release version
 
 Navigate to your app on the [Shorebird console](https://console.shorebird.dev/)
-to see the current set of releases. For our app, we see that the latest release
-version is `1.0.3+1`, so the version of our next release will be `1.0.4+1`.
+to see the current set of releases. For this example app, the latest release
+version is `1.0.3+1`, so the version of the next release will be `1.0.4+1`.
 
 ### Create a release in App Store Connect
 
@@ -187,14 +187,14 @@ After a short delay (usually a minute or two), you will see the build listed as
 
 <Image src={appStoreConnectProcessing} alt="App Store Connect Processing" />
 
-Once the app has finished processing, we can add it to our release:
+Once the app has finished processing, it can be added to the release:
 
 <Image src={appStoreConnectAddBuild} alt="App Store Connect add build" />
 
 ## Submit the app for review
 
-When we attempt to submit the app for review, App Store Connect will list the
-issues we need to resolve before we can submit the app:
+When you attempt to submit the app for review, App Store Connect will list the
+issues that need to be resolved before the app can be submitted:
 
 <Image
   src={appStoreConnectReviewIssues}
@@ -213,7 +213,7 @@ new submission to the App Store.
 
 ### Make code changes
 
-For the purposes of this guide, we will change the default clock face to
+For the purposes of this guide, the default clock face will be changed to
 `generative` in `lib/main.dart`:
 
 ```diff

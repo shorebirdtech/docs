@@ -95,9 +95,9 @@ get the current booted patch number via `package:shorebird_code_push`'s
 [readCurrentPatch](https://pub.dev/documentation/shorebird_code_push/latest/shorebird_code_push/ShorebirdUpdater/readCurrentPatch.html)
 method.
 
-Shorebird also currently makes the guarantee that we do not see or store your
+Shorebird also currently makes the guarantee that it does not see or store your
 code. Implementing "push to deploy" may not be possible without source code
-access, which is not a change we would make lightly.
+access, which is not a change Shorebird would make lightly.
 
 ## Can I update my app without starting it twice?
 
@@ -134,10 +134,10 @@ appropriate for your application (e.g. by sending a notification), see above.
 While the Dart VM has the ability to hot-restart, most apps use plugins or call
 out to other native code which would not be aware that the Dart portions have
 restarted and are likely to end up in a state that could lead to a crash in the
-native side of the application. We think it might be interesting to explore a
-"hot-restart" feature in the future, in cases where the developer can ensure
-that the native side of the app is in a safe state to be restarted or we can
-provide a set of plugins that are safe during a hot-restart.
+native side of the application. A "hot-restart" feature might be worth exploring
+in the future, in cases where the developer can ensure that the native side of
+the app is in a safe state to be restarted, or where a set of plugins that are
+safe during a hot-restart could be provided.
 
 Shorebird's default settings are such that the user should never have to think
 about an update. If they're regularly using the app, it will just be always

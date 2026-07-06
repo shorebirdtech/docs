@@ -72,17 +72,17 @@ restrictions about the mechanism through which iOS applications are allowed to
 update. Shorebird is designed to comply with those restrictions through use of a
 novel Dart interpreter.
 
-On iOS, instead of compiling to the normal machine code, we instead compile to a
+On iOS, instead of compiling to the normal machine code, Shorebird compiles to a
 modified format that can be then interpreted on device. Because interpreters are
-slower than running compiled code directly on a CPU, we also have built
-additional systems into Shorebird to minimize the use of our interpreter.
+slower than running compiled code directly on a CPU, Shorebird has also built
+additional systems to minimize the use of the interpreter.
 
 Even if you were to replace all of your app code via a patch (don't do that, it
-would be deceptive to users and against Shorebird and store policies), we would
-still expect to run the vast majority (e.g. 80%) of your patched Dart code using
-the exiting compiled and signed Dart code in your store-distributed application.
-This is because the vast majority of a typical Flutter application is actually
-Flutter Framework code rather than application code.
+would be deceptive to users and against Shorebird and store policies), the vast
+majority (e.g. 80%) of your patched Dart code would still be expected to run
+using the existing compiled and signed Dart code in your store-distributed
+application. This is because the vast majority of a typical Flutter application
+is actually Flutter Framework code rather than application code.
 
 Shorebird has made two major changes to Dart to facilitate patching well on iOS
 including:
@@ -99,7 +99,7 @@ These two changes combined make it so that you should expect almost all
 out of the "previous" binary included in the IPA, and thus run full-speed on the
 CPU.
 
-See also articles on our blog explaining
+See also articles on the Shorebird blog explaining
 [How Code Push Works](https://shorebird.dev/blog/how-we-built-code-push/).
 
 ## Lifetime of a Shorebird Update
@@ -113,8 +113,8 @@ your project.
 
 `shorebird release` builds your app using `flutter build` and then uploads the
 resulting binary to a private Google Cloud Storage bucket. The command also
-creates a "release" record in our database that associates the app_id with the
-release version.
+creates a "release" record in Shorebird's database that associates the app_id
+with the release version.
 
 `shorebird preview` can be used to download and run any of these privately
 stored release binaries on your local device.
@@ -130,18 +130,18 @@ combined release and patch binaries. This "patch diff" is then uploaded to a
 public Google Cloud Storage bucket where it will be served to devices requesting
 an update with the corresponding app_id and release version.
 
-`shorebird patch` also creates a record in our database that associates the
-patch with the app_id and release version and alerts our "patch check" servers
-that a new patch is available. Patches can optionally be "staged" when uploaded.
-They will then not appear in patch checks until the patch "channel" is set to
-"stable" by the developer in the Shorebird Console.
+`shorebird patch` also creates a record in Shorebird's database that associates
+the patch with the app_id and release version and alerts Shorebird's "patch
+check" servers that a new patch is available. Patches can optionally be "staged"
+when uploaded. They will then not appear in patch checks until the patch
+"channel" is set to "stable" by the developer in the Shorebird Console.
 
 Release binaries which were built with Shorebird contain Shorebird's updater
 library. By default, the updater library will check for patches every time the
 app is started. This is done via a background thread to not slow down launch.
-The updater code makes a single request to our "patch check" servers which are
-again Google Cloud Run instances. The "patch check" servers respond with the URL
-of the patch diff if one is available.
+The updater code makes a single request to Shorebird's "patch check" servers,
+which are also Google Cloud Run instances. The "patch check" servers respond
+with the URL of the patch diff if one is available.
 
 A typical patch check is made via https, and contains:
 
@@ -179,15 +179,15 @@ binary. The patch diff is a binary diff. The updater library also checks the
 hash of the patch diff to confirm download integrity.
 
 The hash is not meant to be a security feature, but rather a way to detect
-errors in the patch diff. A common error we see is that developers
-`shorebird release` with one source and then actually build and release a
-different binary, resulting then in invalid patches. This hash helps detect such
-errors. For added security, we also provide a way for you to
+errors in the patch diff. A common error is developers running
+`shorebird release` with one source and then actually building and releasing a
+different binary, resulting in invalid patches. This hash helps detect such
+errors. For added security, there's also a way for you to
 [sign your patches](/code-push/guides/patch-signing/) if needed as per your
 security requirements.
 
 The modified Flutter engine also reports successful or failed launch of a patch
-back to our servers the next time it makes a patch check.
+back to Shorebird's servers the next time it makes a patch check.
 
 A patch event contains:
 
@@ -217,7 +217,7 @@ Shorebird consists of 3 major parts:
 1. The `Shorebird CLI` tool that you use to build and deploy your app from the
    command line.
 1. A modified Flutter engine that is include in your app.
-1. Our public-cloud infrastructure which hosts your app's updates.
+1. Shorebird's public-cloud infrastructure which hosts your app's updates.
 
 ### The `Shorebird CLI`
 
@@ -232,7 +232,7 @@ servers.
 Code Push requires technical changes to the underlying Flutter engine. To make
 those changes required forking Flutter.
 
-We had to fork 4 Flutter and Dart repositories to make Shorebird work:
+Shorebird had to fork 4 Flutter and Dart repositories to make Code Push work:
 
 #### `flutter/buildroot` "the buildroot"
 
@@ -241,9 +241,9 @@ the build scripts that are used to build the Flutter engine for various
 platforms. It's separate from `flutter/engine` in order to share code and
 configuration with the Fuchsia build system.
 
-We forked this repository to make several small modifications:
+This repository was forked to make several small modifications:
 
-1. Expose our updater symbols from the Flutter engine up to
+1. Expose Shorebird's updater symbols from the Flutter engine up to
    `package:shorebird_code_push`
 
 1. Include `libunwind` since the
@@ -255,14 +255,14 @@ library which is linked into the Flutter engine via a static library
 (`libupdater.a`) that exposes a C API.
 
 Because the default Flutter engine linking flags hide all symbols from linked
-static libraries, and because we need to be able to expose the `shorebird\_\*`
-symbols from `libupdater.a` to the Dart code, we made one change to `buildroot`
-and then a second change to the `engine` to place the symbols on the allow-list.
+static libraries, and because the `shorebird\_\*` symbols from `libupdater.a`
+need to be exposed to the Dart code, one change was made to `buildroot` and a
+second to the `engine` to place the symbols on the allow-list.
 
 :::note
 
-You can see our buildroot changes on GitHub by comparing our trunk to the
-upstream buildroot, e.g. master:
+You can see Shorebird's buildroot changes on GitHub by comparing its trunk to
+the upstream buildroot, e.g. master:
 https://github.com/flutter/buildroot/compare/master...shorebirdtech:buildroot:shorebird/dev
 
 :::
@@ -273,14 +273,15 @@ The [`flutter/engine`](https://github.com/flutter/engine/) repo contains C++
 code that runs on the device. It is responsible for rendering the UI, handling
 input, and communicating with the host.
 
-We forked this code to add the
+This code was forked to add the
 [Shorebird Updater](https://github.com/shorebirdtech/updater), which lets the
 Flutter engine load new code from Shorebird's servers.
 
 :::note
 
-Our Flutter Engine fork is public. You can see our engine changes on GitHub by
-comparing our trunk to the upstream Flutter engine, e.g. for 3.22.0:
+Shorebird's Flutter Engine fork is public. You can see the engine changes on
+GitHub by comparing Shorebird's trunk to the upstream Flutter engine, e.g. for
+3.22.0:
 https://github.com/flutter/engine/compare/3.22.0...shorebirdtech:engine:shorebird/dev
 
 :::
@@ -291,14 +292,15 @@ The [`flutter/flutter`](https://github.com/flutter/flutter/) repo contains the
 Dart code that runs on the device as well as the `flutter` tool that is used to
 build and run Flutter apps.
 
-We forked this code to be able to deliver our modified Flutter engine to change
-the version of the engine that the `flutter` tool uses and to include the
-`shorebird.yaml` configuration as part of the asset bundle.
+This code was forked to be able to deliver Shorebird's modified Flutter engine,
+changing the version of the engine that the `flutter` tool uses, and to include
+the `shorebird.yaml` configuration as part of the asset bundle.
 
 :::note
 
-Our Flutter Framework fork is public. You can see our engine changes on GitHub
-by comparing our trunk to the upstream Flutter Framework, e.g. for stable:
+Shorebird's Flutter Framework fork is public. You can see the engine changes on
+GitHub by comparing Shorebird's trunk to the upstream Flutter Framework, e.g.
+for stable:
 https://github.com/flutter/flutter/compare/stable...shorebirdtech:flutter:shorebird/dev
 
 :::
@@ -308,33 +310,33 @@ https://github.com/flutter/flutter/compare/stable...shorebirdtech:flutter:shoreb
 The [`dart-lang/sdk`](https://github.com/dart-lang/sdk/) repo contains the Dart
 SDK, including the VM, dart2js, core libraries, and more.
 
-We forked this code in order to teach Dart how to run modified (patched) code in
-an interpreter while being able to run all unmodified code on the CPU.
+This code was forked in order to teach Dart how to run modified (patched) code
+in an interpreter while being able to run all unmodified code on the CPU.
 
 :::note
 
-Our Dart SDK fork is private currently. It will likely be public in the future
-and we will work to upstream many our changes as the team grows and the product
-matures.
+Shorebird's Dart SDK fork is private currently. It will likely be public in the
+future, and there are plans to upstream many changes as the team grows and the
+product matures.
 
 :::
 
 #### Installing a forked Flutter
 
-When you install Shorebird, it installs Flutter and Dart from our fork. These
-are currently not exposed on the user's path, rather private copies that
+When you install Shorebird, it installs Flutter and Dart from Shorebird's fork.
+These are currently not exposed on the user's path, rather private copies that
 Shorebird will use when building your app.
 
 This was necessary to avoid conflicts with other Flutter installations on the
 user's machine. Specifically, the way that Flutter downloads artifacts is based
-on the version of the engine. If we were to use the same version of the engine
-as the user's Flutter installation, then we would overwrite the user's engine
+on the version of the engine. If Shorebird were to use the same version of the
+engine as the user's Flutter installation, it would overwrite the user's engine
 artifacts.
 
-We deliver our artifacts to this fork of Flutter with two ways. First is we
-change the version of the engine in the `flutter` tool. Second is we pass
+Shorebird delivers its artifacts to this fork of Flutter in two ways: first, by
+changing the version of the engine in the `flutter` tool, and second, by passing
 `FLUTTER_STORAGE_BASE_URL` set to `download.shorebird.dev` (instead of
-`download.flutter.io`) when calling our vended copy of the `flutter` tool.
+`download.flutter.io`) when calling its vended copy of the `flutter` tool.
 
 Currently this means `shorebird` will not work in an environment where the user
 needs to use `FLUTTER_STORAGE_BASE_URL` to download Flutter artifacts from a
@@ -343,17 +345,17 @@ https://github.com/shorebirdtech/shorebird/issues/237
 
 #### Serving forked binaries
 
-We also use a custom server to handle requests from `flutter` for our modified
+A custom server is also used to handle requests from `flutter` for the modified
 engine. The source for that server is here:
 https://github.com/shorebirdtech/shorebird/tree/main/packages/artifact_proxy
 
 The artifact proxy is hosted at https://download.shorebird.dev via Google Cloud
 Run.
 
-This proxy knows how to serve the modified binaries from our Google Storage
-bucket, as well as how to forward along requests to Google's Flutter storage
-bucket for unmodified binaries for all parts of Flutter we didn't have to
-modify.
+This proxy knows how to serve the modified binaries from Shorebird's Google
+Storage bucket, as well as how to forward along requests to Google's Flutter
+storage bucket for unmodified binaries for all parts of Flutter that didn't need
+to be modified.
 
 ### Shorebird's cloud infrastructure
 
@@ -364,11 +366,11 @@ app's updates. It's a set of services that handle the following:
 - Patch binary (public) storage and serving (via global CDN)
 - Patch check requests (via Google Cloud Run)
 
-We also provide a web-based console for developers to manage their apps and view
-analytics as well as the underlying database that powers the patch checks and
-console.
+Shorebird also provides a web-based console for developers to manage their apps
+and view analytics, as well as the underlying database that powers the patch
+checks and console.
 
-The majority of our infrastructure is hosted on Google Cloud Platform although
-we will likely expand to other cloud providers over time. For a full list of
-providers see our [privacy policy](https://shorebird.dev/privacy/). All of these
-services are currently set to use US regions by default.
+The majority of Shorebird's infrastructure is hosted on Google Cloud Platform,
+although it will likely expand to other cloud providers over time. For a full
+list of providers see the [privacy policy](https://shorebird.dev/privacy/). All
+of these services are currently set to use US regions by default.

@@ -14,10 +14,10 @@ for migration options.
 
 :::
 
-Still have a question about Shorebird CI that our docs didn’t cover? You’re in
+Still have a question about Shorebird CI that the docs didn’t cover? You’re in
 the right place. This page covers the most common questions. If you have a
 question not answered here or elsewhere in the docs, reach out on Discord or
-file an issue. We’re here to help.
+file an issue. The Shorebird team is happy to help.
 
 ## Product overview
 
@@ -44,57 +44,57 @@ CodeMagic, fastlane, etc.) but rather to supplement them.
 
 ### How fast is it?
 
-Our checks typically complete in under a minute even with large repos, including
-monorepos. This is mostly due to our caching of Dart & Flutter and automatic
-parallelization of packages. We will continue to invest in this over time as we
-see more usage and understand the communities needs when it comes to Dart
-specific pipelines.
+Checks typically complete in under a minute even with large repos, including
+monorepos. This is mostly due to caching of Dart & Flutter and automatic
+parallelization of packages. Shorebird will continue to invest in this over time
+as usage grows and the community's needs around Dart-specific pipelines become
+clearer.
 
 ### What checks are supported?
 
-We are starting with a few key ones that we see our own need for and what other
-open source repo's are doing. We will continue to keep our [Checks](/ci/checks/)
-documentation up to date with what we currently have available.
+Shorebird CI starts with a few key checks based on internal needs and what other
+open source repos are doing. The [Checks](/ci/checks/) documentation will
+continue to be kept up to date with what's currently available.
 
 If you have a specific check that you are looking for please don't hesitate to
-reach out. We are always looking to implement more based on community needs.
+reach out — more checks are always being considered based on community needs.
 
 ## GitHub Integration
 
 ### What GitHub permissions does this require and why?
 
-In order to use Shorebird CI, our GitHub Application requires the following
+In order to use Shorebird CI, its GitHub Application requires the following
 permissions
 
-- **Read access to code, metadata, and pull requests** - This allows for our
-  application to checkout your codebase and run the necessary checks. All code
+- **Read access to code, metadata, and pull requests** - This allows the
+  application to check out your codebase and run the necessary checks. All code
   is securely deleted after runs.
 - **Read and write access to checks, commit statuses, and workflows** - This
-  allows for our application to report back on the status checks that are
-  running and display them in the GitHub UI.
+  allows the application to report back on the status checks that are running
+  and display them in the GitHub UI.
 
 ## Data privacy
 
 ### Where do builds happen?
 
-Builds are happening through our partnership with namespace.so. Namespace uses
+Builds happen through Shorebird's partnership with namespace.so. Namespace uses
 several custom datacenters throughout the world and you can read more about this
 in their [Documentation Site](https://namespace.so/docs) and
 [Trust Center](https://trust.namespace.so).
 
 ### What data do you retain?
 
-In order to provide a complete service we do need to retain some of your data.
+In order to provide a complete service, some of your data needs to be retained.
 
-- **Logs** - The only data we intentionally retain is your build logs, which are
+- **Logs** - The only data intentionally retained is your build logs, which are
   served from
-  [the CI section of our web console](https://console.shorebird.dev/ci/). We
-  also maintain some minimal metadata to associate a pull request/commit with a
+  [the CI section of the web console](https://console.shorebird.dev/ci/). Some
+  minimal metadata is also maintained to associate a pull request/commit with a
   build log.
-  - Our build provider [Namespace](https://namespace.so), also does retain logs
-    in accordance with their [Terms of Use](https://namespace.so/terms).
-- **Source Code** - We retain a copy of your public source code to speed up
-  repeated builds. We do not currently have an explicit retention time on this.
+  - Shorebird's build provider [Namespace](https://namespace.so) also retains
+    logs in accordance with their [Terms of Use](https://namespace.so/terms).
+- **Source Code** - A copy of your public source code is retained to speed up
+  repeated builds. There is not currently an explicit retention time on this.
   Private repositories are currently under development and will have more
   stringent requirements.
 
@@ -105,6 +105,6 @@ no additional information or data will be sent to Shorebird CI.
 
 Public log links are currently retained after an uninstall in order to not break
 links on existing PRs. If you require those to be deleted as well please reach
-out to us
+out
 [via email](mailto:contact@shorebird.dev?subject=CI%20Data%20Delete%20Request)
 from the account owners address and it will be handled manually.

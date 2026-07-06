@@ -57,7 +57,7 @@ patch row, click the "more" icon (three vertical dots) and select "Rollback":
 
 ## What happens when a patch is rolled back?
 
-Imagine we have a release with three patches:
+Imagine a release with three patches:
 
 <Image
   src={rollbackPatch3Active}
@@ -67,8 +67,8 @@ Imagine we have a release with three patches:
 When a user downloads this release from the store, Shorebird will see that patch
 3 is the latest available patch and download it.
 
-If we discover that there is a problem with patch 3, we can roll it back. The
-Console will look like this after a rollback:
+If a problem is discovered with patch 3, it can be rolled back. The Console will
+look like this after a rollback:
 
 <Image
   src={rollbackPatch3RolledBack}
@@ -122,7 +122,7 @@ cleaned up from the user's device to minimize disk usage.
 
 All code which implements these integrity measures is of course open source and
 available for review on [GitHub](https://github.com/shorebirdtech/). An overview
-of our code locations is available under
+of Shorebird's code locations is available under
 [System Architecture](/code-push/system-architecture).
 
 ## Related

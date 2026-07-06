@@ -66,3 +66,16 @@ jobs:
           reporter: github-pr-check
           filter_mode: nofilter
           fail_on_error: true
+
+      - name: ⚙️ Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.14.0'
+
+      - name: ⬇️ Install Dependencies
+        # --legacy-peer-deps: starlight-llms-txt@0.10.0 requires astro@^6, but we're on astro@7.
+        # Remove once https://github.com/delucis/starlight-llms-txt/pull/127 is released.
+        run: npm ci --legacy-peer-deps
+
+      - name: 🏷️ Component Labels
+        run: node scripts/lint-component-labels.mjs

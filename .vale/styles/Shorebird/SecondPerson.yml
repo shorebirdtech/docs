@@ -1,7 +1,7 @@
 extends: existence
 message:
   '''%s'' is first person; docs should be written in second person ("you")'
-level: warning
+level: error
 scope: paragraph
 ignorecase: true
 tokens:

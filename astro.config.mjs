@@ -70,7 +70,6 @@ export default defineConfig({
       },
       customCss: ['./src/styles/custom.css'],
       sidebar: [
-        { label: 'Welcome', link: '/' },
         {
           label: 'Getting Started',
           collapsed: true,

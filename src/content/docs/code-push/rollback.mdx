@@ -8,6 +8,7 @@ sidebar:
 
 import { LinkCard } from 'starlight-theme-nova/components';
 import { Image } from 'astro:assets';
+import ArcadeEmbed from '~/components/ArcadeEmbed.astro';
 import rollbackButton from '~/assets/rollback_button.png';
 import rollbackPatch3Active from '~/assets/rollback_patch3_active.png';
 import rollbackPatch3RolledBack from '~/assets/rollback_patch3_rolled_back.png';
@@ -38,19 +39,10 @@ Roll back requires a minimum Flutter version of 3.27.4.
 
 :::
 
-<div style="position: relative; padding-bottom: calc(56.25% + 41px); height: 0px; width: 100%;">
-  <iframe
-    src="https://demo.arcade.software/s8679FzLXoq93HxB05nj?embed&embed_mobile=tab&embed_desktop=inline&show_copy_link=true"
-    title="Roll Back a Patch for a Flutter App Release"
-    frameborder="0"
-    loading="lazy"
-    webkitallowfullscreen
-    mozallowfullscreen
-    allowfullscreen
-    allow="clipboard-write"
-    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; color-scheme: light;"
-  ></iframe>
-</div>
+<ArcadeEmbed
+  src="https://demo.arcade.software/s8679FzLXoq93HxB05nj?embed&embed_mobile=tab&embed_desktop=inline&show_copy_link=true"
+  title="Roll Back a Patch for a Flutter App Release"
+/>
 
 ## How to roll back a patch
 
@@ -101,7 +93,7 @@ remaining patch installs, the app will revert to the base release.
 
 :::
 
-## Patch Integrity and Automatic Rollback
+## Patch integrity and automatic rollback
 
 Shorebird includes safety features to prevent needing to issue the manual
 rollback of a patch.

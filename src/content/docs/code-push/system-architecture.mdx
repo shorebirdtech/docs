@@ -13,7 +13,7 @@ your Flutter app directly to your users' devices.
 This document exists to explain how Shorebird works and to provide a high-level
 overview of the components that make up the Shorebird system.
 
-## Data Flow Diagram
+## Data flow diagram
 
 ```mermaid
 flowchart TD
@@ -210,7 +210,7 @@ If a patch fails to launch after install, in addition to sending a
 number as "bad" locally and refuse to boot the app with that patch number again.
 This is to prevent a bad patch from causing a crash loop on the device.
 
-## Shorebird Components and Source Code
+## Shorebird components and source code
 
 Shorebird consists of 3 major parts:
 
@@ -227,14 +227,14 @@ commands are documented on this site. Most of the build logic is just wrapping
 the `flutter` tool and it also adds a few commands to interface with Shorebird's
 servers.
 
-### Flutter Modifications
+### Flutter modifications
 
-Code push requires technical changes to the underlying Flutter engine. To make
+Code Push requires technical changes to the underlying Flutter engine. To make
 those changes required forking Flutter.
 
 We had to fork 4 Flutter and Dart repositories to make Shorebird work:
 
-#### `flutter/buildroot` "The Buildroot"
+#### `flutter/buildroot` "the buildroot"
 
 The [`flutter/buildroot`](https://github.com/flutter/buildroot) repo contains
 the build scripts that are used to build the Flutter engine for various
@@ -267,7 +267,7 @@ https://github.com/flutter/buildroot/compare/master...shorebirdtech:buildroot:sh
 
 :::
 
-#### `flutter/engine` "The Flutter Engine"
+#### `flutter/engine` "the Flutter engine"
 
 The [`flutter/engine`](https://github.com/flutter/engine/) repo contains C++
 code that runs on the device. It is responsible for rendering the UI, handling
@@ -285,7 +285,7 @@ https://github.com/flutter/engine/compare/3.22.0...shorebirdtech:engine:shorebir
 
 :::
 
-#### `flutter/flutter` "The Flutter Framework"
+#### `flutter/flutter` "the Flutter framework"
 
 The [`flutter/flutter`](https://github.com/flutter/flutter/) repo contains the
 Dart code that runs on the device as well as the `flutter` tool that is used to
@@ -303,7 +303,7 @@ https://github.com/flutter/flutter/compare/stable...shorebirdtech:flutter:shoreb
 
 :::
 
-#### `dart-lang/sdk` "The Dart SDK"
+#### `dart-lang/sdk` "the Dart SDK"
 
 The [`dart-lang/sdk`](https://github.com/dart-lang/sdk/) repo contains the Dart
 SDK, including the VM, dart2js, core libraries, and more.
@@ -319,7 +319,7 @@ matures.
 
 :::
 
-#### Installing a Forked Flutter
+#### Installing a forked Flutter
 
 When you install Shorebird, it installs Flutter and Dart from our fork. These
 are currently not exposed on the user's path, rather private copies that
@@ -341,7 +341,7 @@ needs to use `FLUTTER_STORAGE_BASE_URL` to download Flutter artifacts from a
 private mirror (e.g. a corporate network or China).
 https://github.com/shorebirdtech/shorebird/issues/237
 
-#### Serving Forked Binaries
+#### Serving forked binaries
 
 We also use a custom server to handle requests from `flutter` for our modified
 engine. The source for that server is here:
@@ -355,7 +355,7 @@ bucket, as well as how to forward along requests to Google's Flutter storage
 bucket for unmodified binaries for all parts of Flutter we didn't have to
 modify.
 
-### Shorebird's Cloud Infrastructure
+### Shorebird's cloud infrastructure
 
 Shorebird's public-cloud based infrastructure is responsible for hosting your
 app's updates. It's a set of services that handle the following:

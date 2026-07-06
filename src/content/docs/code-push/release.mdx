@@ -419,7 +419,7 @@ shorebird release windows --flutter-version %flutter_version%
 | `--obfuscate`        |              | Obfuscate Dart code. Must be used together with `--split-debug-info`.                               |
 | `--split-debug-info` |              | Output debug symbol files to the specified directory when obfuscating.                              |
 
-### iOS-specific Options
+### iOS-specific options
 
 | Option                   | Description                                                                 |
 | ------------------------ | --------------------------------------------------------------------------- |
@@ -427,7 +427,7 @@ shorebird release windows --flutter-version %flutter_version%
 | `--export-options-plist` | Path to a custom `ExportOptions.plist` for the iOS archive export step.     |
 | `--export-method`        | Distribution method: `app-store`, `ad-hoc`, `development`, or `enterprise`. |
 
-### Releasing for Multiple Platforms Simultaneously
+### Releasing for multiple platforms simultaneously
 
 If your app supports multiple platforms, you can build and publish releases for
 them in a single command using the `--platforms` (or `-p`) option:
@@ -440,13 +440,13 @@ This will compile the binaries for the specified platforms and register them as
 a single version release in your Shorebird console. Note that to release for iOS
 or macOS, you must run this command on macOS hardware.
 
-## Manage Releases
+## Manage releases
 
 In addition to using the [Shorebird console](https://console.shorebird.dev/),
 you can manage your app's releases directly from the command line using the
 `shorebird releases` commands.
 
-### List Releases
+### List releases
 
 #### Via the Shorebird CLI
 
@@ -459,14 +459,14 @@ shorebird releases list
 This will output a list of all releases, showing their version number, target
 platform, Flutter version, and active patch number.
 
-#### Via the Console
+#### Via the console
 
 You can view all of your releases for your current app (as defined by your
 `shorebird.yaml`) on the [Shorebird console](https://console.shorebird.dev/).
 
 <Image src={listReleases} alt="Shorebird Console List Releases" />
 
-### View Release Details
+### View release details
 
 To view detailed information for a specific release version:
 
@@ -490,7 +490,7 @@ shorebird releases get-apks --release-version 1.0.0+1
 This will download the release artifacts and extract the compatible APK files to
 your machine.
 
-### Delete Releases
+### Delete releases
 
 :::danger
 
@@ -536,7 +536,7 @@ shorebird release android --artifact=apk
 That will produce _both_ .apk and .aab files. You can distribute either or both
 as needed.
 
-## What's Next
+## What's next
 
 <LinkCard
   href="/code-push/patch"

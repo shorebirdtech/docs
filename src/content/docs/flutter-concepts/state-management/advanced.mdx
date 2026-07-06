@@ -25,7 +25,7 @@ This walkthrough will cover:
 
 ---
 
-## Setting up a New Project
+## Setting up a new project
 
 To get started, create a new Flutter app by running the following command:
 
@@ -40,7 +40,7 @@ Alternatively, if you want support for over-the-air updates from day 1, you can
 shorebird create my_new_app
 ```
 
-### Setting Up: Packages
+### Setting up: packages
 
 Add the following packages to your `pubspec.yaml` file:
 
@@ -58,7 +58,7 @@ dependencies:
 
 ---
 
-## Step-by-Step Implementation
+## Step-by-step implementation
 
 This implementation includes two user actions:
 
@@ -66,7 +66,7 @@ This implementation includes two user actions:
 2. **Refresh** updates silently in the background, keeping the existing content
    visible while indicating a loading overlay.
 
-### Step 1: Model the Domain
+### Step 1: model the domain
 
 A small, UI-friendly model makes state rendering predictable. It also keeps your
 UI independent of the raw API response shape.
@@ -200,7 +200,7 @@ enum WeatherCondition {
 A key detail here is using `Equatable`. It prevents subtle UI churn because
 identical values compare equal, avoiding unnecessary rebuilds.
 
-### Step 2: Build the Weather Repository
+### Step 2: build the weather repository
 
 The repository has one job: take a city name, search coordinates, fetch the
 forecast, and return a structured `Weather` model (or throw an error).
@@ -337,7 +337,7 @@ final class _GeoResult {
 Separating this logic ensures that if you swap weather providers or add caching
 layers later, your BLoC and UI layers remain unaffected.
 
-### Step 3: Define Events
+### Step 3: define events
 
 Next, we define our events. Events should name actions that happened.
 
@@ -369,7 +369,7 @@ final class WeatherRefreshRequested extends WeatherEvent {
 }
 ```
 
-### Step 4: Define States using the Single State Pattern
+### Step 4: define states using the single state pattern
 
 Instead of creating separate classes for each state (which breaks data retention
 during refreshes), we use a Single State Class with a status enum.
@@ -600,7 +600,7 @@ class _WeatherViewState extends State<WeatherView> {
 }
 ```
 
-### Step 7: Main Entry Point and Observer Configuration
+### Step 7: main entry point and observer configuration
 
 Wire repositories and observation logic globally inside your `main.dart`.
 
@@ -657,7 +657,7 @@ class AppBlocObserver extends BlocObserver {
 
 ---
 
-## Why Enterprise Teams Choose BLoC
+## Why enterprise teams choose BLoC
 
 BLoC isn't popular because it is trendy; it sticks because it makes app behavior
 extremely predictable. When the codebase grows, and production issues happen

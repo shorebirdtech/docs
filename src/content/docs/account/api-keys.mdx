@@ -5,11 +5,13 @@ sidebar:
   order: 3
 ---
 
+import ArcadeEmbed from '~/components/ArcadeEmbed.astro';
+
 API keys let you authenticate with Shorebird from CI systems and other automated
 environments. You can create, view, and revoke API keys from the
 [Shorebird Console](https://console.shorebird.dev).
 
-## Creating an API Key
+## Creating an API key
 
 1. Open **Account → API Keys** in the console.
 2. Click **Create API Key**.
@@ -21,21 +23,12 @@ environments. You can create, view, and revoke API keys from the
 The full key value is shown exactly once after creation. Copy it and store it
 securely — it cannot be retrieved again.
 
-<div style="position: relative; padding-bottom: calc(56.25% + 41px); height: 0px; width: 100%;">
-  <iframe
-    src="https://demo.arcade.software/TQUMnX2QwuCRzEV1e8kN?embed&embed_mobile=tab&embed_desktop=inline&show_copy_link=true"
-    title="Create Shorebird API Key"
-    frameborder="0"
-    loading="lazy"
-    webkitallowfullscreen
-    mozallowfullscreen
-    allowfullscreen
-    allow="clipboard-write"
-    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; color-scheme: light;"
-  ></iframe>
-</div>
+<ArcadeEmbed
+  src="https://demo.arcade.software/TQUMnX2QwuCRzEV1e8kN?embed&embed_mobile=tab&embed_desktop=inline&show_copy_link=true"
+  title="Create Shorebird API Key"
+/>
 
-## Using an API Key
+## Using an API key
 
 Set the key as the `SHOREBIRD_TOKEN` environment variable in your CI platform.
 Shorebird CLI commands will authenticate automatically when this variable is
@@ -71,7 +64,7 @@ API keys support two permission levels:
   manage apps, organizations, members, or billing. Available on Pro and Business
   plans.
 
-## Revoking an API Key
+## Revoking an API key
 
 To revoke a key, find it in the API Keys list and click **Delete**. Revocation
 is immediate — any CI pipeline using that key will fail on its next run. This

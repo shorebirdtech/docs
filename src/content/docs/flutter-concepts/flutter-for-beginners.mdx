@@ -14,7 +14,7 @@ import flutterBeginnersUpdatedApp from '~/assets/flutter_beginners_updated_app.j
 The traditional Flutter development workflow has a significant gap: you build an
 app, ship it to the app stores, and then wait days or weeks for approval
 whenever you need to push a fix. Shorebird eliminates this friction by enabling
-over-the-air (OTA) [code push updates](https://docs.shorebird.dev/code-push/)
+over-the-air (OTA) [Code Push updates](https://docs.shorebird.dev/code-push/)
 for Flutter apps.
 
 With the `shorebird create` command, you can now scaffold production-ready
@@ -43,7 +43,7 @@ iwr -UseBasicParsing 'https://raw.githubusercontent.com/shorebirdtech/install/ma
 
 These commands download Shorebird to `~/.shorebird/bin`, including a modified
 [Flutter engine](https://github.com/shorebirdtech/flutter/tree/shorebird/dev/engine)
-that enables code push capabilities. This modified Flutter lives inside
+that enables Code Push capabilities. This modified Flutter lives inside
 Shorebird's cache and won't interfere with your existing Flutter installation.
 You continue using your normal
 [Flutter SDK](https://docs.flutter.dev/get-started/install) for development.
@@ -242,10 +242,10 @@ to `main()` or `initState()`, use hot restart (press `R`), which restarts the
 app from scratch while still being faster than a full rebuild.
 
 Hot reload only works in debug mode. Release builds compile Dart to native code
-and don't support this feature, which is precisely why Shorebird's code push
+and don't support this feature, which is precisely why Shorebird's Code Push
 capability is so valuable for production apps.
 
-## Step 4: Making your First Change
+## Step 4: making your first change
 
 At this point, you have a fully working Flutter app with OTA updates wired in.
 You can try it out by running the following command:
@@ -406,9 +406,9 @@ The combination of Shorebird's OTA infrastructure with Flutter's widget
 composition model and hot reload creates a development experience optimized for
 rapid iteration at every stage, from first prototype to production maintenance.
 For any Flutter project that will eventually ship to real users, building in
-code push capability from day one is simply the pragmatic choice.
+Code Push capability from day one is simply the pragmatic choice.
 
-## Next Steps
+## Next steps
 
 Now that you've created your first Shorebird-enabled Flutter project, here are
 some recommended next steps to deepen your understanding and optimize your

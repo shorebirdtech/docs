@@ -12,7 +12,7 @@ have a question not answered here or elsewhere in the docs, reach out on
 [file an issue](https://github.com/shorebirdtech/shorebird/issues). We're here
 to help.
 
-## Getting Started
+## Getting started
 
 ### What is the difference between a patch and a release?
 
@@ -83,7 +83,7 @@ Yes. The `shorebird` command line tool passes through all Dart defines to the
 work as expected. Because Dart defines are compiled into your app's Dart code,
 they can be updated via patches.
 
-### How do I target different API environments (e.g., Staging vs. Production backend) for patches?
+### How do I target different API environments (e.g., staging vs. production backend) for patches?
 
 You should use Flutter flavors (or `--dart-define` config variables). Shorebird
 fully supports flavors.
@@ -102,7 +102,7 @@ For more details on setting up flavors, see the
 
 ### How does Shorebird relate to Flutter?
 
-Shorebird is a fork of Flutter that adds code push. Shorebird is not a
+Shorebird is a fork of Flutter that adds Code Push. Shorebird is not a
 replacement for Flutter, but rather a replacement for the Flutter engine. You
 can continue to use the Flutter tooling you already know and love.
 
@@ -144,7 +144,7 @@ to test iOS patches.
 
 _Note: Android emulators are fully supported._
 
-### Does Shorebird work in Debug or Profile mode?
+### Does Shorebird work in debug or profile mode?
 
 No. Shorebird is only compiled into and active in **Release builds** of your
 application.
@@ -197,7 +197,7 @@ Steps to upgrade:
 Any future patches created for this new release version will automatically be
 built using the upgraded Flutter version.
 
-## Store Compliance
+## Store compliance
 
 ### Does Shorebird comply with Play Store guidelines?
 
@@ -236,8 +236,8 @@ Shorebird to violate Play Store guidelines is in violation of the Shorebird
 [Terms of Service](https://shorebird.dev/terms) and can result in termination of
 your account.
 
-Code push services are widely used in the industry (all of the large apps we're
-aware of use them) and there are multiple other code push services publicly
+Code Push services are widely used in the industry (all of the large apps we're
+aware of use them) and there are multiple other Code Push services publicly
 available (e.g. expo.dev & appcenter.ms). This is a well trodden path.
 
 Microsoft also publishes a guide on how their React Native "codepush" library
@@ -265,7 +265,7 @@ advertised purpose of the Application as submitted to the App Store,
 Shorebird uses a custom Dart interpreter to comply with the interpreter-only
 restriction for updates on iOS. So as long as your application is not engaging
 in deceptive behavior via updates (e.g. changing the purpose of the app via
-update), updating via Shorebird (or any other code push solution) is standard
+update), updating via Shorebird (or any other Code Push solution) is standard
 industry practice and compliant with
 [App Store guidelines](https://developer.apple.com/support/terms/apple-developer-program-license-agreement/#b331).
 
@@ -299,9 +299,9 @@ Shorebird does not currently support submitting to the app stores on your
 behalf. We may end up adding this in the future, but for now you will need to
 continue to use your existing processes to submit to the app stores.
 
-## Use Cases & Limitations
+## Use cases & limitations
 
-### What can I use Shorebird code push for?
+### What can I use Shorebird Code Push for?
 
 We've seen a variety of uses, including:
 
@@ -313,7 +313,7 @@ Note that most app stores prohibit shipping code that changes the behavior of
 the app in a significant way. Please see our
 [Store Compliance section](#store-compliance) for more information.
 
-### What can't we use Shorebird code push for?
+### What can't we use Shorebird Code Push for?
 
 Shorebird does not support changing native code (e.g. Java/Kotlin on Android or
 Objective-C/Swift on iOS). The tool will warn you during an attempted patch if
@@ -372,34 +372,34 @@ release.
 
 ### How does this relate to Firebase Remote Config or Launch Darkly?
 
-Code push allows adding new code / replacing code on the device. Firebase Remote
+Code Push allows adding new code / replacing code on the device. Firebase Remote
 Config and Launch Darkly are both configuration systems. They allow you to
 change the configuration of your app without having to ship a new version. They
 are not intended to replace code.
 
 ### How does this relate to Flutter Hot Reload?
 
-Flutter's Hot reload is a development-time-only feature. Code push is for
+Flutter's Hot reload is a development-time-only feature. Code Push is for
 production.
 
 Hot reload is a feature of Flutter that allows you to change code on the device
 during development. It requires building the Flutter engine with a debug-mode
 Dart VM which includes a just-in-time (JIT) Dart compiler.
 
-Code push is a feature that allows you to change code on the device in
+Code Push is a feature that allows you to change code on the device in
 production. We will use a variety of different techniques to make this possible
 depending on the platform. Current demos execute ahead-of-time compiled Dart
 code and do not require a JIT Dart compiler.
 
 ### Does Shorebird support Flutter Web?
 
-Code push isn't needed for Flutter web. When a user opens a web app it downloads
+Code Push isn't needed for Flutter web. When a user opens a web app it downloads
 the latest version from the server if needed.
 
-If you have a use case for code push with Fluter web, we'd
-[love to know](mailto:contact@shorebird.dev)!
+If you have a use case for Code Push with Flutter web, we'd
+[love to know](mailto:contact@shorebird.dev).
 
-## Technical Details
+## Technical details
 
 ### What does the Shorebird updater store on disk?
 
@@ -505,7 +505,7 @@ Someone who has your `app_id` can fetch the latest version of your app from
 Shorebird servers, but they cannot push updates to your app or access any other
 aspect of your Shorebird account.
 
-### Does code push require the internet to work?
+### Does Code Push require the internet to work?
 
 Yes. Some form of network connectivity is required to transport updates to the
 devices.
@@ -535,11 +535,11 @@ as long as newer patches also contain the changes from older patches, users will
 always be up to date and there is no need to worry about users "missing"
 patches.
 
-## Teams, Access, and Privacy
+## Teams, access, and privacy
 
 ### Can I use Shorebird with my team?
 
-Yes! The Shorebird free "Hobby" tier only supports a single developer, but all
+Yes. The Shorebird free "Hobby" tier only supports a single developer, but all
 other plans support unlimited developers.
 
 See [Organizations](/account/orgs) for more information.
@@ -550,10 +550,10 @@ No. Shorebird has no current plans to offer on-prem, self-host or cloud-prem
 offerings. We would be happy to discuss with you any and all ways in which we
 can improve our centrally hosted solution to best match your needs.
 
-### Does code push work with large applications?
+### Does Code Push work with large applications?
 
 Yes. There is no limit on the size of the application that can be patched with
-code push. As noted in
+Code Push. As noted in
 [Overview](/code-push/#what-types-of-changes-can-be-included-in-a-patch),
 Shorebird can change any Dart code in your application no matter of size.
 
@@ -619,7 +619,7 @@ Shorebird is not itself a store. Your users will need to install your app
 initially through some method other than Shorebird, but Shorebird can then be
 used to patch (update) your app after that initial install.
 
-### How does Shorebird interact with Play Testing Tracks or Apple TestFlight?
+### How does Shorebird interact with Play testing tracks or Apple TestFlight?
 
 Each of the app stores have separate mechanisms for distributing apps to limited
 groups of users (e.g. "internal testing", "closed beta", etc.). These are all
@@ -682,6 +682,6 @@ your billing period.
 
 ### Can I pay for a year in advance?
 
-Yes! We launched support for self-service yearly plans in April 2025. You can
+Yes. We launched support for self-service yearly plans in April 2025. You can
 read more about this in our
 [announcement blog post](https://shorebird.dev/blog/yearly-plans/).

@@ -1,0 +1,93 @@
+extends: capitalization
+message:
+  "'%s' should use sentence case (capitalize only the first word and proper
+  nouns)"
+link: https://developers.google.com/style/capitalization
+level: error
+scope: heading
+match: $sentence
+exceptions:
+  - Shorebird
+  - Shorebird's
+  - Flutter
+  - Flutter's
+  - Dart
+  - Android
+  - iOS
+  - macOS
+  - Windows
+  - Linux
+  - Ubuntu
+  - Xcode
+  - GitHub
+  - CocoaPods
+  - Codemagic
+  - Fastlane
+  - Sentry
+  - Crashlytics
+  - Firebase
+  - Firestore
+  - TestFlight
+  - Darkly
+  - Google
+  - Play
+  - Store
+  - HashiCorp
+  - Vault
+  - Azure
+  - AWS
+  - GCP
+  - KMS
+  - CLI
+  - CI
+  - SDK
+  - API
+  - UI
+  - URL
+  - JSON
+  - YAML
+  - TLS
+  - PEM
+  - DER
+  - RSA
+  - OTA
+  - MDM
+  - PR
+  - OS
+  - APKs
+  - VS
+  - Podfile
+  - Swift
+  - Kotlin
+  - Java
+  - Objective-C
+  - BLoC
+  - npm
+  - I
+  - I'm
+  - I've
+  - I'll
+  - Stripe
+  - Fastfile
+  - BuildContext
+  - RenderObject
+  - Apple
+  - 1Password
+  - AOT
+  - GuardSquare
+  - LTS
+  - ExportOptions.plist
+  - Skia
+  - Impeller
+  - vs
+  - Remote
+  - Config
+  - Launch
+  - Azure Key Vault
+  - App Store Connect
+  - The Status Enum
+  - The Single State Class
+  - The Events
+  - Framework Search Paths
+  - GCP Cloud KMS
+  - React Native

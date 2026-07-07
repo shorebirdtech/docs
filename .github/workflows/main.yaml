@@ -55,3 +55,35 @@ jobs:
     with:
       config: .cspell.yaml
       modified_files_only: false
+
+  style-check:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      checks: write
+      pull-requests: write
+
+    steps:
+      - name: 📚 Git Checkout
+        uses: actions/checkout@v7
+
+      - name: ✍️ Vale
+        uses: errata-ai/vale-action@v2
+        with:
+          reporter: github-pr-check
+          filter_mode: nofilter
+          fail_on_error: true
+
+      - name: ⚙️ Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.14.0'
+
+      - name: ⬇️ Install Dependencies
+        # --legacy-peer-deps: starlight-llms-txt@0.10.0 requires astro@^6, but we're on astro@7.
+        # Remove once https://github.com/delucis/starlight-llms-txt/pull/127 is released.
+        run: npm ci --legacy-peer-deps
+
+      - name: 🏷️ Component Labels
+        run: node scripts/lint-component-labels.mjs

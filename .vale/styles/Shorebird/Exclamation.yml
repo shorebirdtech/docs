@@ -4,5 +4,6 @@ link: https://developers.google.com/style/exclamation-points
 level: error
 scope: text
 nonword: true
+# Allow [!] (literal flutter doctor output) but not bare exclamation points
 tokens:
-  - '!(?!\[)'
+  - '!(?!\[)'  # Negative lookahead: [!] is allowed

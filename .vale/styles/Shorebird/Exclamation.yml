@@ -6,4 +6,4 @@ scope: text
 nonword: true
 # Allow [!] (literal flutter doctor output) but not bare exclamation points
 tokens:
-  - '!(?!\[)'  # Negative lookahead: [!] is allowed
+  - '!(?!\[)' # Negative lookahead: [!] is allowed

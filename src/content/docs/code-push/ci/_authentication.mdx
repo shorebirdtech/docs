@@ -4,16 +4,16 @@ Most Shorebird functionality, like creating releases and patches, requires
 authentication. To authenticate in your CI, create an API key from the
 [Shorebird Console](https://console.shorebird.dev):
 
+<ArcadeEmbed
+  src="https://demo.arcade.software/TQUMnX2QwuCRzEV1e8kN?embed&embed_mobile=tab&embed_desktop=inline&show_copy_link=true"
+  title="Create Shorebird API Key"
+/>
+
 1. Go to **Account → API Keys**.
 2. Click **Create API Key**.
 3. Give the key a name (e.g., "GitHub Actions — my-app"), choose an expiration,
    and select a permission level.
 4. Copy the key value — it is only shown once.
-
-<ArcadeEmbed
-  src="https://demo.arcade.software/TQUMnX2QwuCRzEV1e8kN?embed&embed_mobile=tab&embed_desktop=inline&show_copy_link=true"
-  title="Create Shorebird API Key"
-/>
 
 Use this key as your `SHOREBIRD_TOKEN` in CI. The environment variable name is
 unchanged from previous versions.

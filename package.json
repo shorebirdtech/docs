@@ -28,14 +28,14 @@
     "starlight-theme-nova": "^0.12.2",
     "tailwindcss": "^4.2.0",
     "tw-to-css": "^0.0.12",
-    "typescript": "^7.0.2"
+    "typescript": "^6.0.3"
   },
   "devDependencies": {
     "@lavamoat/allow-scripts": "^5.1.0",
     "@types/react": "^19.2.18",
     "@vvago/vale": "^3.16.0",
     "cspell": "^10.0.1",
-    "js-yaml": "^5.2.2",
+    "js-yaml": "^4.1.1",
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.8.1",

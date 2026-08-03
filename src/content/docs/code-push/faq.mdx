@@ -312,7 +312,7 @@ Note that most app stores prohibit shipping code that changes the behavior of
 the app in a significant way. Please see the
 [Store Compliance section](#store-compliance) for more information.
 
-### What can't we use Shorebird Code Push for?
+### What can't Shorebird Code Push be used for?
 
 Shorebird does not support changing native code (e.g. Java/Kotlin on Android or
 Objective-C/Swift on iOS). The tool will warn you during an attempted patch if
@@ -321,7 +321,7 @@ you have changed native code.
 Shorebird should not be used to violate app store polices. Please see the
 [Store Compliance section](#store-compliance) for more information.
 
-### Can I use Shorebird for all my Dart changes?
+### Can Shorebird be used for all Dart changes?
 
 Shorebird can be used to update any Dart code including pure Dart packages. Note
 that depending on how you distribute your apps, some store agreements expect
@@ -332,7 +332,7 @@ advertised purpose of the Application." Also note that patch sizes correlate
 with the total amount of Dart changed from the original released app. Each patch
 is a diff against the released dart code, not a diff to the previous patch.
 
-### Can I add new packages or plugins in a patch?
+### Can new packages or plugins be added in a patch?
 
 It depends on whether the package contains native code:
 

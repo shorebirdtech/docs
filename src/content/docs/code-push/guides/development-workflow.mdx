@@ -61,9 +61,9 @@ The development workflow can be broken down into the following steps:
 1. Create branch from trunk (main).
 1. Work on task.
 1. Open a pull request to merge changes into trunk.
-1. Squash and merge after CI checks & code review. We recommend squashing
-   commits to keep the commit history clean and to make it easier to cherry-pick
-   commits into release branches.
+1. Squash and merge after CI checks & code review. Squashing commits keeps the
+   commit history clean and makes it easier to cherry-pick commits into release
+   branches.
 
 Note that with the described workflow, the trunk (e.g., main) is always in a
 releasable state. This puts pressure on continuous integration (CI) checks to
@@ -87,9 +87,8 @@ basis.
 The release workflow can be broken down into the following steps:
 
 1. Create a release branch (e.g., release/v1.0.0) from trunk (main).
-1. Create a new release on GitHub (e.g., v1.0.0). This tags the commit so that
-   we can easily find the commit in the future and triggers the release
-   workflow.
+1. Create a new release on GitHub (e.g., v1.0.0). This tags the commit so it is
+   easy to find in the future and triggers the release workflow.
 1. The release workflow is triggered by the tag and generates signed artifacts.
 1. Distribute the artifacts (e.g., via the App Store, Play Store, etc.).
 
@@ -266,8 +265,8 @@ The patch workflow can be broken down into the following steps:
    git push
    ```
 1. Create a new "hotfix" release on GitHub (e.g., v1.0.0-hotfix.1). This tags
-   the commit so that we can easily find the commit in the future and triggers
-   the patch workflow.
+   the commit so it is easy to find in the future and triggers the patch
+   workflow.
 1. The patch workflow is triggered by the tag and uploads the hotfix to the
    staging environment.
 1. Preview the release in the staging environment using the

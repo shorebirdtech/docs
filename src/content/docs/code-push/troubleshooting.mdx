@@ -216,13 +216,13 @@ This can be caused by a number of things. The most common causes are:
    version of Xcode since building the release, you can download older versions
    of Xcode from
    [Apple's developer downloads page](https://developer.apple.com/download/all/).
-4. (iOS only) You are building with an old version of Xcode. Specifically, we
-   have seen this warning when building with Xcode 14.1. If you are using a
+4. (iOS only) You are building with an old version of Xcode. Specifically, this
+   warning has been seen when building with Xcode 14.1. If you are using a
    version of Xcode that is not the latest, try upgrading to the latest version.
 5. The version and build number of the patch do not match that of the release.
    For example, if the release was built with version `1.0.0+1`, but the patch
-   was generated with version `1.0.0+2`, you might see this warning. We have
-   implemented some safeguards to make this less likely, but it is worth
+   was generated with version `1.0.0+2`, you might see this warning. Shorebird
+   has implemented some safeguards to make this less likely, but it is worth
    verifying if you are seeing this warning and you do not know why.
 
 **What happens if you ignore this warning?**
@@ -258,7 +258,7 @@ git config --system core.longpaths true
 You may need to run this as an administrator, and you will need to restart your
 terminal after running this command.
 
-## Can't run my app in VS Code
+## Can't run your app in VS Code
 
 If you see error output like the following when using the Run or Debug button in
 VS Code:
@@ -298,7 +298,7 @@ info). To work around this, you can quote the `--` separator. For example:
 shorebird release android '--' --dart-define=foo=bar
 ```
 
-## My iOS build number is auto incrementing
+## Your iOS build number is auto incrementing
 
 This is likely because you are providing an ExportOptions.plist file that sets
 `manageAppVersionAndBuildNumber` to true. This is incompatible with Shorebird

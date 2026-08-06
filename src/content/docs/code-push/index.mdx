@@ -39,7 +39,7 @@ immediate/mandatory updates, you can trigger checks programmatically using
 
 :::
 
-### Is my change patchable?
+### Is your change patchable?
 
 Not all changes can be shipped via a patch. Use this flowchart to decide whether
 you need to publish a new release to the app stores or if you can push a patch:
@@ -118,7 +118,7 @@ Patches can change any Dart code in your application. This includes:
 
 This does **not** include:
 
-- Asset files (images, fonts, etc.), although we have plans to support this in
+- Asset files (images, fonts, etc.), although support for this is planned for
   the near future (see https://github.com/shorebirdtech/shorebird/issues/318).
 - Native code (e.g. Java/Kotlin on Android or Objective-C/Swift on iOS).
 - Flutter engine changes (i.e., you cannot change the Flutter version of your
@@ -173,7 +173,7 @@ Patches are created by running `shorebird patch [platform]`, where `platform` is
 :::note
 
 For more information regarding when to create a patch, refer to the
-[FAQs](/code-push/faq#when-should-i-create-a-patch-vs-a-release).
+[FAQs](/code-push/faq#when-should-you-create-a-patch-vs-a-release).
 
 :::
 

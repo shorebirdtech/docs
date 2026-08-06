@@ -72,12 +72,12 @@ before upgrading or deploying.
   If you're using 3.38 please ensure you are at least on 3.38.1 or higher.
 - November 17, 2025: Removed support for Android versions older than 3.24.0.
   While technically Shorebird could still run on those older versions, there are
-  known issues before 3.24.0 and we are now recommending all users upgrade to at
-  least 3.24.0 (August 6, 2024).
-- September 23, 2025: We found and
+  known issues before 3.24.0 and Shorebird now recommends all users upgrade to
+  at least 3.24.0 (August 6, 2024).
+- September 23, 2025: Shorebird found and
   [fixed an issue](https://github.com/shorebirdtech/shorebird/pull/3327) with a
   version mismatch between Flutter & Dart. This affects Flutter 3.35.3. If you
-  are using 3.35.3, we recommend re-releasing with Flutter 3.35.4.
+  are using 3.35.3, re-release with Flutter 3.35.4.
 - August 26, 2025: Shorebird has skipped support for 3.35.0 and 3.35.1 and has
   fast-forwarded to 3.35.2. If you're using the 3.35.x release, please ensure
   you're using at least 3.35.2.
@@ -85,13 +85,13 @@ before upgrading or deploying.
   Flutter 3.11.x to 3.29.1, when using "async" ffi calls (via NativeCallable).
   The crash was identified in spring of 2025 when package:ffigen (the package
   used to generate ffi calls) changed its default behavior to use
-  NativeCallable. We recommend all apps use Flutter 3.29.1 or later if possible
-  or carefully control their dependencies to avoid using recent versions of
-  ffigen or packages generated with ffigen.
-- June 11, 2024: We have disabled releasing and patching for iOS on Flutter
-  versions 3.19.5 - 3.22.1 due to a bug where "try/catch" clauses would not
-  always run the "catch" block after an exception was thrown. This bug only
+  NativeCallable. Shorebird recommends all apps use Flutter 3.29.1 or later if
+  possible or carefully control their dependencies to avoid using recent
+  versions of ffigen or packages generated with ffigen.
+- June 11, 2024: Shorebird has disabled releasing and patching for iOS on
+  Flutter versions 3.19.5 - 3.22.1 due to a bug where "try/catch" clauses would
+  not always run the "catch" block after an exception was thrown. This bug only
   affected iOS apps after patching.
-- April 8, 2024: We have disabled releasing new versions for iOS on Flutter
-  versions 3.10.6 - 3.19.4 due to various crashes found in previous iOS
+- April 8, 2024: Shorebird has disabled releasing new versions for iOS on
+  Flutter versions 3.10.6 - 3.19.4 due to various crashes found in previous iOS
   releases. Patching continues to be supported.

@@ -28,7 +28,7 @@ which is then shipped to your users.
 
 These terms are explained further in [Overview](/code-push).
 
-### When should I create a patch vs a release?
+### When should you create a patch vs a release?
 
 Because patching and releasing are independent operations, it is possible to
 create both a patch and a release with the same code changes.
@@ -67,14 +67,14 @@ for distribution.
 
 :::
 
-### Can I use Shorebird from my CI system?
+### Can you use Shorebird in your CI system?
 
 Yes. Create an API key in the [Shorebird Console](https://console.shorebird.dev)
 under **Account → API Keys**, then add it to your CI environment as
 `SHOREBIRD_TOKEN`. See the [CI setup guide](/code-push/ci/generic/) for detailed
 instructions.
 
-### Can I use Dart defines with Shorebird?
+### Can you use Dart defines with Shorebird?
 
 Yes. The `shorebird` command line tool passes through all Dart defines to the
 `flutter` tool. For example,
@@ -83,7 +83,7 @@ Yes. The `shorebird` command line tool passes through all Dart defines to the
 work as expected. Because Dart defines are compiled into your app's Dart code,
 they can be updated via patches.
 
-### How do I target different API environments (e.g., staging vs. production backend) for patches?
+### How do you target different API environments (e.g., staging vs. production backend) for patches?
 
 You should use Flutter flavors (or `--dart-define` config variables). Shorebird
 fully supports flavors.
@@ -171,7 +171,7 @@ Shorebird tracks Flutter stable and generally updates within a few hours of any
 stable release. This process is automated, with an extra manual verification
 step before publishing to Shorebird's servers.
 
-### Can I use Shorebird with Flutter pre-release channels (Beta, Master)?
+### Can you use Shorebird with Flutter pre-release channels (Beta, Master)?
 
 No. Shorebird only supports the **stable** channel of Flutter.
 
@@ -180,7 +180,7 @@ verified specifically against stable Flutter releases. If you try to run
 Shorebird commands while using a Beta, Dev, or Master/Main branch of Flutter,
 the Shorebird CLI will display an error.
 
-### How do I upgrade the Flutter version of my app?
+### How do you upgrade the Flutter version of your app?
 
 To upgrade your application's Flutter version, you must create a new store
 release. You cannot upgrade the Flutter version of an existing release via a
@@ -277,7 +277,7 @@ Microsoft also publishes a guide on how their react native "codepush" library
 complies with the app stores:
 https://github.com/microsoft/react-native-code-push#store-guideline-compliance
 
-### Now that I'm using Shorebird, do I still need to send my app to the stores?
+### Now that you're using Shorebird, do you still need to send your app to the stores?
 
 Yes. Continuing to release your app through the stores in addition to using
 Shorebird is recommended, even though there can now be less pressure on your app
@@ -300,7 +300,7 @@ to use your existing processes to submit to the app stores.
 
 ## Use cases & limitations
 
-### What can I use Shorebird Code Push for?
+### What can you use Shorebird Code Push for?
 
 Common uses include:
 
@@ -312,7 +312,7 @@ Note that most app stores prohibit shipping code that changes the behavior of
 the app in a significant way. Please see the
 [Store Compliance section](#store-compliance) for more information.
 
-### What can't we use Shorebird Code Push for?
+### What can't Shorebird Code Push be used for?
 
 Shorebird does not support changing native code (e.g. Java/Kotlin on Android or
 Objective-C/Swift on iOS). The tool will warn you during an attempted patch if
@@ -321,7 +321,7 @@ you have changed native code.
 Shorebird should not be used to violate app store polices. Please see the
 [Store Compliance section](#store-compliance) for more information.
 
-### Can I use Shorebird for all my Dart changes?
+### Can Shorebird be used for all Dart changes?
 
 Shorebird can be used to update any Dart code including pure Dart packages. Note
 that depending on how you distribute your apps, some store agreements expect
@@ -332,7 +332,7 @@ advertised purpose of the Application." Also note that patch sizes correlate
 with the total amount of Dart changed from the original released app. Each patch
 is a diff against the released dart code, not a diff to the previous patch.
 
-### Can I add new packages or plugins in a patch?
+### Can new packages or plugins be added in a patch?
 
 It depends on whether the package contains native code:
 
@@ -494,7 +494,7 @@ The code for this is public in the
 [updater package](https://github.com/shorebirdtech/updater/blob/main/library/src/network.rs)
 and can be reviewed at any time.
 
-### Do I need to keep my app_id secret?
+### Do you need to keep your app_id secret?
 
 No. The `app_id` is included in your app and is safe to be public. You can check
 it into version control (even publicly) and not worry about someone else
@@ -536,14 +536,14 @@ patches.
 
 ## Teams, access, and privacy
 
-### Can I use Shorebird with my team?
+### Can you use Shorebird with your team?
 
 Yes. The Shorebird free "Hobby" tier only supports a single developer, but all
 other plans support unlimited developers.
 
 See [Organizations](/account/orgs) for more information.
 
-### Can I self-host Shorebird?
+### Can you self-host Shorebird?
 
 No. Shorebird has no current plans to offer on-prem, self-host or cloud-prem
 offerings. The Shorebird team is happy to discuss ways to improve the centrally
@@ -556,19 +556,19 @@ Code Push. As noted in
 [Overview](/code-push/#what-types-of-changes-can-be-included-in-a-patch),
 Shorebird can change any Dart code in your application no matter of size.
 
-### Does Shorebird store my source code?
+### Does Shorebird store your source code?
 
 No. Shorebird servers never see or store your source code. When you run
 `shorebird release` or `shorebird patch` the `shorebird` tool only uploads the
 same compiled app binary that you send to the app stores.
 
-### Will my app still work if I cancel my Shorebird subscription?
+### Will your app still work if you cancel your Shorebird subscription?
 
 Yes. Apps built with Shorebird will continue to function normally (as if they
 had been built without Shorebird), including those that have had patches
 installed.
 
-### Can I use Shorebird in my country?
+### Can you use Shorebird in your country?
 
 Shorebird has not attempted to restrict access from any country.
 
@@ -609,7 +609,7 @@ as part of its implementation. There are plans to
 [remove this restriction](https://github.com/shorebirdtech/shorebird/issues/435)
 in the future.
 
-### Do I need to distribute my app through a store?
+### Do you need to distribute your app through a store?
 
 No. Shorebird can be used with any app distribution method, including
 side-loading or carrier provided stores.
@@ -654,23 +654,23 @@ potential options:
 ### What counts as a "patch install" for Shorebird?
 
 For more details on this, please refer to the
-[How We Bill](/account/billing/#how-we-bill) section of the
+[How Shorebird Bills](/account/billing/#how-shorebird-bills) section of the
 [Billing page](/account/billing/).
 
-### How do I upgrade or downgrade my plan?
+### How do you upgrade or downgrade your plan?
 
 To upgrade your plan, you can
 [subscribe via the Shorebird console](https://console.shorebird.dev/subscriptions/create).
 If you would like to move from a monthly to a yearly plan, please reach out via
 [email](mailto:billing@shorebird.dev) to complete the change.
 
-### When does my billing period reset?
+### When does your billing period reset?
 
 Billing periods are reset automatically every month on the day you first
 subscribed to Shorebird. For example, if you subscribed on the 15th of the
 month, your billing period will reset on the 15th of every month.
 
-### How do I cancel my subscription?
+### How do you cancel your subscription?
 
 To cancel your subscription, you can view your
 [account](https://console.shorebird.dev/account) and click "Manage Plan" ->
@@ -679,7 +679,7 @@ To cancel your subscription, you can view your
 You will continue to have all the features of a paid account until the end of
 your billing period.
 
-### Can I pay for a year in advance?
+### Can you pay for a year in advance?
 
 Yes. Self-service yearly plans launched in April 2025. You can read more about
 this in the [announcement blog post](https://shorebird.dev/blog/yearly-plans/).

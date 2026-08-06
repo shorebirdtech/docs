@@ -36,7 +36,9 @@ portability and interoperability with other languages.
 
 When you create a standalone Flutter app (`flutter create my_app`), the project
 contains a complete `android/` and `ios/` host wrapper that Flutter owns
-entirely. For add-to-app, you create a **Flutter module** instead:
+entirely. For add-to-app, you create a **Flutter module** instead. Run this
+command from the directory that will contain both the Flutter module and the
+native host project:
 
 ```bash
 flutter create --template=module my_flutter_module
@@ -55,9 +57,10 @@ my_flutter_module/
 
 The `.android/` and `.ios/` directories are generated wrappers that let you run
 the module in isolation with `flutter run`. They are prefixed with a dot to
-signal that they are managed by Flutter, so never edit them directly. When the
-module is embedded into your real native app, these wrappers are ignored. The
-native project provides the host instead.
+signal that they are managed by Flutter, so never edit them directly. These
+wrappers are also not compiled into your app binary — they exist purely as a
+local development convenience. When the module is embedded into your real native
+app, the native project provides the host instead.
 
 The Dart code inside `lib/` is identical to a regular Flutter app. The only
 structural requirement is a valid entry point:
@@ -150,7 +153,10 @@ class AppDelegate: FlutterAppDelegate {
 
 ### Multiple engines
 
-When you need to run more than one Flutter screen simultaneously, use
+Sometimes you need more than one Flutter screen running at the same time. Common
+examples are a picture-in-picture overlay sitting on top of a native screen, or
+an app that shows two independent Flutter panels side by side in a tablet layout.
+In these cases, use
 [`FlutterEngineGroup`](https://docs.flutter.dev/add-to-app/multiple-flutters)
 rather than creating additional `FlutterEngine` instances directly.
 `FlutterEngineGroup` spawns engines that share resources such as the GPU
@@ -194,6 +200,9 @@ resources are managed internally and do not affect isolation between engines.
 ### 1. Add the module as a Gradle dependency
 
 There are two ways to depend on the Flutter module from your Android project.
+Option A is recommended because it keeps the Flutter module as a source
+dependency and is more compatible with tooling that wraps the Flutter build
+pipeline.
 
 **Option A: Source dependency (monorepo)**: Both projects sit on the same
 machine. Gradle locates the module at build time:
@@ -288,10 +297,8 @@ different view. An engine can only render into one view at a time.
 ### 1. Add the module as a dependency
 
 Since Flutter 3.44, the recommended method is **Swift Package Manager (SPM)**.
-CocoaPods remains supported but is in maintenance mode.
-
-**Swift Package Manager setup**: Run the following command in the Flutter module
-directory to generate an XCFramework:
+Run the following command in the Flutter module directory to generate an
+XCFramework:
 
 ```bash
 flutter build ios-framework --xcframework --output=../MyFlutterPackage
@@ -299,18 +306,6 @@ flutter build ios-framework --xcframework --output=../MyFlutterPackage
 
 Then add the local package in Xcode: **File > Add Package Dependencies > Add
 Local**, and point to the generated `MyFlutterPackage` directory.
-
-**CocoaPods setup** (alternative):
-
-```ruby
-# Podfile (host app)
-flutter_application_path = '../my_flutter_module'
-load File.join(flutter_application_path, '.ios', 'Flutter', 'podhelper.rb')
-
-target 'MyApp' do
-  install_all_flutter_pods(flutter_application_path)
-end
-```
 
 ### 2. Display Flutter content
 
@@ -357,7 +352,8 @@ flutterVC.didMove(toParent: self)
 
 Platform channels are how Dart and native code send messages to each other. The
 most common type is `MethodChannel`, which uses an asynchronous request/response
-model.
+model. For a complete reference, see the
+[platform channels documentation](https://docs.flutter.dev/platform-integration/platform-channels).
 
 ```mermaid
 sequenceDiagram
@@ -370,6 +366,10 @@ sequenceDiagram
     Native-->>MethodChannel: result(42)
     MethodChannel-->>Dart: Future resolves to 42
 ```
+
+The examples below read the device's battery level. This is a good illustration
+because battery information is only available through a native OS API, so there
+is no way to get it from Dart without crossing the platform boundary.
 
 ### Dart side
 
@@ -454,11 +454,11 @@ most latency is incurred.
 
 ### First-frame jank
 
-Even with a pre-warmed engine, the first Flutter frame must compile all
-necessary shaders. Enabling [Impeller](https://docs.flutter.dev/perf/impeller)
-eliminates shader compilation jank. Impeller is the default renderer on iOS and
-on Android (API 29+) as of Flutter 3.27. It compiles a fixed set of pre-built
-Metal/Vulkan shaders at engine start and never compiles at runtime.
+[Impeller](https://docs.flutter.dev/perf/impeller) is the default renderer on
+iOS and on Android (API 29+) as of Flutter 3.27. It pre-compiles a fixed set of
+Metal/Vulkan shaders at engine start so shader compilation jank does not happen
+at runtime, which means most apps get smooth first frames without any extra
+configuration.
 
 ### Memory overhead
 

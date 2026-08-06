@@ -34,8 +34,8 @@ portability and interoperability with other languages.
 
 ## Flutter module vs Flutter app
 
-When you create a standalone Flutter app (`shorebird create my_app`), the project
-contains a complete `android/` and `ios/` host wrapper that Flutter owns
+When you create a standalone Flutter app (`shorebird create my_app`), the
+project contains a complete `android/` and `ios/` host wrapper that Flutter owns
 entirely. For add-to-app, you create a **Flutter module** instead. Run this
 command from the directory that will contain both the Flutter module and the
 native host project:
@@ -155,8 +155,8 @@ class AppDelegate: FlutterAppDelegate {
 
 Sometimes you need more than one Flutter screen running at the same time. Common
 examples are a picture-in-picture overlay sitting on top of a native screen, or
-an app that shows two independent Flutter panels side by side in a tablet layout.
-In these cases, use
+an app that shows two independent Flutter panels side by side in a tablet
+layout. In these cases, use
 [`FlutterEngineGroup`](https://docs.flutter.dev/add-to-app/multiple-flutters)
 rather than creating additional `FlutterEngine` instances directly.
 `FlutterEngineGroup` spawns engines that share resources such as the GPU
@@ -219,7 +219,6 @@ dependencies {
     implementation project(':flutter')
 }
 ```
-
 
 ### 2. Choose a display mechanism
 

@@ -199,13 +199,8 @@ resources are managed internally and do not affect isolation between engines.
 
 ### 1. Add the module as a Gradle dependency
 
-There are two ways to depend on the Flutter module from your Android project.
-Option A is recommended because it keeps the Flutter module as a source
-dependency and is more compatible with tooling that wraps the Flutter build
-pipeline.
-
-**Option A: Source dependency (monorepo)**: Both projects sit on the same
-machine. Gradle locates the module at build time:
+Add the Flutter module to your Android project as a source dependency. Both
+projects must sit on the same machine. Gradle locates the module at build time:
 
 ```groovy
 // settings.gradle (host app)
@@ -225,16 +220,6 @@ dependencies {
 }
 ```
 
-**Option B: AAR dependency (pre-built artifact)**: Build the module into an
-Android Archive and distribute it as a binary:
-
-```bash
-# Run inside the Flutter module directory.
-flutter build aar
-```
-
-This produces `.aar` files for each build type (debug, profile, release). Add
-the output repository and dependencies to your host app's `build.gradle`.
 
 ### 2. Choose a display mechanism
 

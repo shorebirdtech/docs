@@ -97,6 +97,14 @@ applying the latest patch available on the specified track.
 Once you've validated a patch on a staging track, you can promote it to `stable`
 without rebuilding. This pushes the patch to all production users.
 
+:::note
+
+The Shorebird console and the `shorebird patches promote` command only promote a
+patch to `stable`. To move a patch to a different custom track, use
+`shorebird patches set-track` from the CLI.
+
+:::
+
 ### Via the Shorebird console
 
 Navigate to the release details page, click the **⋮** context menu next to the
@@ -112,13 +120,13 @@ shorebird patches promote \
   --patch-number 1
 ```
 
-Or assign a patch to any track by name:
+To move a patch to any other track by name, use `set-track`:
 
 ```bash
 shorebird patches set-track \
   --release-version 1.0.0+1 \
   --patch-number 1 \
-  --track stable
+  --track beta
 ```
 
 ## Subscribing a device to a track
@@ -220,3 +228,16 @@ request patches from the new track on its next update check.
 If no patch is available on the requested track for the current release version,
 the device continues to run the base release (or the last successfully applied
 patch). It does **not** fall back to the `stable` track automatically.
+
+### Can you promote a patch to a track other than stable?
+
+Not from the Shorebird console or `shorebird patches promote`. Those only target
+`stable`. However, you can use `shorebird patches set-track` from the CLI to
+assign a patch to any named track:
+
+```bash
+shorebird patches set-track \
+  --release-version 1.0.0+1 \
+  --patch-number 1 \
+  --track beta
+```

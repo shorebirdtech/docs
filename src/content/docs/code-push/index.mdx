@@ -177,6 +177,16 @@ For more information regarding when to create a patch, refer to the
 
 :::
 
+#### Track
+
+A track is a named deployment channel that controls which devices receive a
+patch. Every app has a built-in `stable` track (the default). Additional tracks
+such as `staging` or `beta` are created on demand by naming them when publishing
+a patch, and allow you to validate patches with a subset of devices before
+promoting them to all users.
+
+For a full explanation, see [Tracks](/code-push/tracks).
+
 #### Artifact
 
 An artifact is the output of a build or patch operation. For example:

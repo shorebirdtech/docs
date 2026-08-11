@@ -135,16 +135,16 @@ directly.
 
 ## Options
 
-| Option                 | Abbreviation | Description                                                                                                |
-| ---------------------- | ------------ | ---------------------------------------------------------------------------------------------------------- |
-| `--release-version`    |              | The release version to patch (e.g., `1.0.0+1`). Use `latest` to target the most recently updated release.  |
-| `--platforms`          | `-p`         | Comma-separated list of platforms to patch simultaneously (e.g., `android,ios`).                           |
-| `--flavor`             |              | The product flavor to use when building.                                                                   |
-| `--target`             | `-t`         | The main entrypoint file of the application.                                                               |
-| `--track`              |              | The deployment track to publish to (default: `stable`). Use `staging` to publish to a staging track first. |
-| `--dry-run`            | `-n`         | Build and validate the patch but **do not upload** it. Ideal as a CI sanity check.                         |
-| `--allow-asset-diffs`  |              | Publish even if asset differences are detected. **Not recommended.**                                       |
-| `--allow-native-diffs` |              | Publish even if native code differences are detected. **Not recommended.**                                 |
+| Option                 | Abbreviation | Description                                                                                                                                          |
+| ---------------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--release-version`    |              | The release version to patch (e.g., `1.0.0+1`). Use `latest` to target the most recently updated release.                                            |
+| `--platforms`          | `-p`         | Comma-separated list of platforms to patch simultaneously (e.g., `android,ios`).                                                                     |
+| `--flavor`             |              | The product flavor to use when building.                                                                                                             |
+| `--target`             | `-t`         | The main entrypoint file of the application.                                                                                                         |
+| `--track`              |              | The deployment track to publish to (default: `stable`). Use `staging` to publish to a staging track first. See [Tracks](/code-push/tracks) for more. |
+| `--dry-run`            | `-n`         | Build and validate the patch but **do not upload** it. Ideal as a CI sanity check.                                                                   |
+| `--allow-asset-diffs`  |              | Publish even if asset differences are detected. **Not recommended.**                                                                                 |
+| `--allow-native-diffs` |              | Publish even if native code differences are detected. **Not recommended.**                                                                           |
 
 ### iOS-specific options
 

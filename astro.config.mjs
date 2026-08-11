@@ -79,7 +79,8 @@ export default defineConfig({
           label: 'CI',
           collapsed: true,
           badge: {
-            text: 'beta',
+            text: 'deprecated',
+            variant: 'caution',
           },
           items: [{ autogenerate: { directory: 'ci' } }],
         },

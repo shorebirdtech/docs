@@ -5,15 +5,16 @@ description:
 sidebar:
   order: 15
 ---
+import { Image } from 'astro:assets';
+import { LinkCard } from 'starlight-theme-nova/components';
 
-
-# Flutter Over-the-Air Updates: A Complete Technical Guide to Code Push
+# Flutter over-the-air updates: A complete technical guide to Code Push
 
 A critical bug ships to production. Users report crashes in your payment flow. Your team has a fix committed and tested within the hour. Then you file for App Store review and wait. Twenty-four to forty-eight hours on a good day, longer if it lands on a weekend. By the time the fix reaches your users, the damage to retention and app store ratings is already done.
 
 React Native teams sidestep this problem by swapping a JavaScript bundle. Flutter teams have historically had no equivalent option. This guide explains why that's true, how Shorebird's Code Push solves it at the runtime level, and how to get the full implementation running in your production pipeline.
 
-## Why Flutter Can't Do What React Native Does
+## Why Flutter can't do what React Native does
 
 Flutter compiles Dart code to native ARM machine code at build time using [ahead-of-time (AOT) compilation](https://flutter.dev/docs/resources/faq#how-does-flutter-run-my-code-on-android). The output is a compiled snapshot baked directly into the app binary. At runtime, there's no interpreter between your Dart logic and the hardware.
 
@@ -25,11 +26,11 @@ This isn't a missing feature waiting to be added. It's a direct consequence of A
 
 Solving this requires modifying the Dart runtime to support some form of dynamic code execution, which is what Shorebird does. They [modified both the Dart VM and the Flutter engine](https://shorebird.dev/blog/how-we-built-code-push/) to make genuine diff-based OTA code updates possible on Android and iOS.
 
-## How Shorebird Code Push Actually Works
+## How Shorebird Code Push works
 
 When you build a release with Shorebird, the resulting binary contains two components: the standard AOT-compiled Dart snapshot and a modified Dart interpreter that Shorebird built and maintains. On startup, the Shorebird runtime checks Shorebird's servers for a patch scoped to that specific release version. If no patch exists, the AOT snapshot runs exactly as it would in a standard Flutter build. If a patch is available, the runtime executes the updated Dart code through the interpreter instead, while the AOT snapshot remains in place as the fallback.
 
-[![](https://mermaid.ink/img/pako:eNplUslOwzAQ_ZXRnNOqKU7S-oBUkiIhQUFQLjQ9uMmksUjsyHXKUvrvuAmbhA_WjPUWv9EcMNM5Icei0i9ZKYyFZZIqcGe2mjUNXItWZeUaBoNzuDg8lNrQRpoc7ltlZU0c4pKyZyi0gTths_LYky9OhI_uBWZ7ISuxqegD4lWiX1SlRQ7JySuRRQGF0TXEyWLdU-POK1nNXylrLcFjkwtLOcTuo7CXomdeKUumMeTu9V_LhYZ_rvMfrdntchDrupGVE3xQotmV2n7xk873skvt0imptqCVG4Clne1Fv5DzHpkq9HBrZI7cmpY8rMnU4tTi4QRM0ZZUU4rclRuxc1Wqjo7TCPWkdf1NM7rdlsgLUe1c13ZxEym2RvxCSOVkYu2GjnzaKSA_4Cvys3AYBSzyJ37AWBCGHr4h95k_HE_GUTAdh5HPpiw8evjeWY6GUThhoR-N2DhgfjBiHlIurTY3_SJ0-3D8BN-CqCw?type=png)](https://mermaid.live/edit#pako:eNplUslOwzAQ_ZXRnNOqKU7S-oBUkiIhQUFQLjQ9uMmksUjsyHXKUvrvuAmbhA_WjPUWv9EcMNM5Icei0i9ZKYyFZZIqcGe2mjUNXItWZeUaBoNzuDg8lNrQRpoc7ltlZU0c4pKyZyi0gTths_LYky9OhI_uBWZ7ISuxqegD4lWiX1SlRQ7JySuRRQGF0TXEyWLdU-POK1nNXylrLcFjkwtLOcTuo7CXomdeKUumMeTu9V_LhYZ_rvMfrdntchDrupGVE3xQotmV2n7xk873skvt0imptqCVG4Clne1Fv5DzHpkq9HBrZI7cmpY8rMnU4tTi4QRM0ZZUU4rclRuxc1Wqjo7TCPWkdf1NM7rdlsgLUe1c13ZxEym2RvxCSOVkYu2GjnzaKSA_4Cvys3AYBSzyJ37AWBCGHr4h95k_HE_GUTAdh5HPpiw8evjeWY6GUThhoR-N2DhgfjBiHlIurTY3_SJ0-3D8BN-CqCw)
+![Launching an app](/assets/app-launch-flow-diagram.png)
 
 The [system architecture documentation](https://docs.shorebird.dev/code-push/system-architecture/) describes this in detail, but the operational model comes down to two concepts you need to keep distinct: [releases](https://docs.shorebird.dev/code-push/release/) and [patches](https://docs.shorebird.dev/code-push/patch/).
 
@@ -52,7 +53,7 @@ This model has a hard boundary. Here's what you can and can not do with patches 
 
 If you need a new camera permission, you need a new release. Anything outside pure Dart goes back through the store.
 
-## Setting Up Shorebird: From Init to First Patch
+## Setting up Shorebird: From init to first patch
 
 The setup from an existing Flutter project to your first deployed patch takes about 15 minutes.
 
@@ -105,7 +106,7 @@ shorebird patch ios
 Shorebird diffs the new Dart snapshot against the registered release, uploads the delta, and makes it available immediately via its CDN. Users running that release version download the patch in the background on their next update check.
 
 Here's what that flow looks like:
-[![](https://mermaid.ink/img/pako:eNpVkk1P4zAQhv_KyOdQmq6TlBxWykcLlXZZROGyCQc3njQWiR05zlKo-t9x3QKLTx77mdd-Z2ZPKsWRxKRu1UvVMG3gIS8l2JUUQ6M0boTmoLFFNiAwybUS_FKo4QkuLn5CWqSjaDm8CNPA-pO_H6URHcKi2yDnyJ9OkqnLyYr1uOmEgSRJQWlY3SVgFCR9D2tjFc5w5uC8eBxQD7CSg2FtC7VW3Tcsd9hin45bWKpRchAS8qORzDo7nKCFg5bFUuy-7uCXqqzk61lo6Zjr_1z3zFTNN88n8tqRN0Uu6hoe-1Yxa_Fo4asAWX57hm8cvDrbuMcKxT-EOyf95yEBJeEWd_ZHDVbPNod4ZKsFJ7HRI3qkQ92xY0j2R72SmAY7LElstxvbkpKU8mBzeib_KtV9pGk1bhsS16wdbDT2nBnMBdtq1n2eapQcdWZrZkjsR06DxHuyI_GPcBIFNPLnfkBpEIYeebUI9Sez-SwKrmZh5NMrGh488uYenU6icE5DP5rSWUD9YEo9glzYNv0-jZebssM7GtjB7g?type=png)](https://mermaid.live/edit#pako:eNpVkk1P4zAQhv_KyOdQmq6TlBxWykcLlXZZROGyCQc3njQWiR05zlKo-t9x3QKLTx77mdd-Z2ZPKsWRxKRu1UvVMG3gIS8l2JUUQ6M0boTmoLFFNiAwybUS_FKo4QkuLn5CWqSjaDm8CNPA-pO_H6URHcKi2yDnyJ9OkqnLyYr1uOmEgSRJQWlY3SVgFCR9D2tjFc5w5uC8eBxQD7CSg2FtC7VW3Tcsd9hin45bWKpRchAS8qORzDo7nKCFg5bFUuy-7uCXqqzk61lo6Zjr_1z3zFTNN88n8tqRN0Uu6hoe-1Yxa_Fo4asAWX57hm8cvDrbuMcKxT-EOyf95yEBJeEWd_ZHDVbPNod4ZKsFJ7HRI3qkQ92xY0j2R72SmAY7LElstxvbkpKU8mBzeib_KtV9pGk1bhsS16wdbDT2nBnMBdtq1n2eapQcdWZrZkjsR06DxHuyI_GPcBIFNPLnfkBpEIYeebUI9Sez-SwKrmZh5NMrGh488uYenU6icE5DP5rSWUD9YEo9glzYNv0-jZebssM7GtjB7g)
+![Lifecycle of patch releases](/assets/release-patch-lifecycle-diagram.png)
 
 [PushPress](https://shorebird.dev/success-stories/push-press) Senior Mobile Developer Allan Wright described the change in their release cycle: "Our speed to release updates has skyrocketed. It used to take four days to two weeks depending on urgency. Now it's way faster. The reliability of shipping fixes is night and day."
 
@@ -155,7 +156,7 @@ auto_update: false
 
 Doing this is not required to use check for and download updated manually, but Shorebird will automatically download and apply updates if your shorebird.yaml file does not contain `auto_update: false`.
 
-## Advanced Patterns: Staged Rollouts, Rollbacks, Custom Tracks, and Patch Signing
+## Advanced patterns: Staged rollouts, rollbacks, custom tracks, and patch signing
 
 High-velocity teams don't ship patches directly to 100% of users. [WAGUS founder Michael Gallego](https://shorebird.dev/success-stories/wagus) described their patching cadence: "We patch fast. One release had 60 patches. Most of them are small quality-of-life updates requested by users. With Shorebird, we could ship them the same day." Shipping that volume safely requires using a pattern from those discussed below.
 
@@ -199,7 +200,7 @@ Transport security like TLS protects how patches are delivered. Patch signing pr
 
 For teams in fintech, healthcare, or any regulated industry where code changes require an audit trail, patch signing is the recommended baseline configuration, not an optional extra.
 
-## App Store and Play Store Compliance
+## App Store and Play Store compliance
 
 Shorebird's approach is compliant with both stores.
 
@@ -213,7 +214,7 @@ The practical rule: use OTA patches for bug fixes, performance improvements, and
 
 If your team operates in a regulated industry, document each patch with a short description of what changed. The Shorebird console stores version history and audit logs for every patch across every release. Pair that record with your existing change management process and you have the audit trail most compliance frameworks require.
 
-## Your Next Step: Push a Patch in the Next 30 Minutes
+## Your next step: Push a patch in the next 30 minutes
 
 The full path from a clean Flutter project to your first OTA patch:
 
@@ -227,4 +228,15 @@ Shorebird's free tier supports the complete CodePush workflow, including the Sho
 
 Add code push to your Flutter app in under 30 minutes. [Get started with Shorebird](https://docs.shorebird.dev/getting-started/)
 
+##Related
+<LinkCard
+  href="/code-push/system-architecture"
+  title="System Architecture"
+  description="Overview of Shorebird's components and source code."
+/>
+<LinkCard
+  href="/code-push/troubleshooting"
+  title="Troubleshooting"
+  description="How to resolve common issues."
+/>
 

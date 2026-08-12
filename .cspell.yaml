@@ -22,6 +22,7 @@ words:
   - aars
   - altool
   - angelov
+  - appname
   - apks
   - appcenter
   - astro
@@ -49,6 +50,7 @@ words:
   - hotfixes
   - jank
   - janky
+  - lateinit
   - keyrings
   - linearapp
   - lavamoat
@@ -77,6 +79,7 @@ words:
   - paweł
   - pixelmator
   - podfile
+  - podhelper
   - prefs
   - pubin
   - pubout
@@ -92,6 +95,7 @@ words:
   - softwareupdate
   - subclassing
   - subosito
+  - subview
   - tabler
   - temurin
   - tweens
@@ -99,6 +103,7 @@ words:
   - vsync
   - vvago
   - wagus
+  - yourcompany
   - webkitallowfullscreen
   - widgetbook
   - xcarchive

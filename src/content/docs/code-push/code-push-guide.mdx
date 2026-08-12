@@ -133,7 +133,7 @@ The only new file tracked in version control is `shorebird.yaml`.
 ### Step 3: Create a release.
 
 In your current build scripts (typically in your CI configuration), all you need
-to do is update your 'Flutter build' commands to:
+to do is update your `flutter build` commands to:
 
 ```bash
 shorebird release android
@@ -233,7 +233,7 @@ this through `TerminateRestart` from the
 your own restart mechanism. Reserve forced restarts for genuine incidents. Most
 patches don't qualify, and your users will notice an unexpected restart.
 
-You’ll also need to set auto_update to false in your shorebird.yaml file:
+You'll also need to set `auto_update` to `false` in your `shorebird.yaml` file:
 
 ```yaml
 auto_update: false
@@ -385,7 +385,7 @@ on each step.
 Add Code Push to your Flutter app in under 30 minutes.
 [Get started with Shorebird](https://docs.shorebird.dev/getting-started/)
 
-##Related
+## Related
 
 <LinkCard
   href="/code-push/system-architecture"

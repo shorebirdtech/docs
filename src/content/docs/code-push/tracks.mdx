@@ -231,9 +231,8 @@ patch). It does **not** fall back to the `stable` track automatically.
 
 ### Can you promote a patch to a track other than stable?
 
-Not from the Shorebird console or `shorebird patches promote`. Those only target
-`stable`. However, you can use `shorebird patches set-track` from the CLI to
-assign a patch to any named track:
+Using `shorebird patches set-track` from the CLI, you can assign a patch to any
+track:
 
 ```bash
 shorebird patches set-track \
@@ -241,3 +240,6 @@ shorebird patches set-track \
   --patch-number 1 \
   --track beta
 ```
+
+The Shorebird console and `shorebird patches promote` only target `stable`. Use
+`set-track` from the CLI when you need to move a patch to a different track.

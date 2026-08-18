@@ -10,8 +10,8 @@ import { LinkCard } from 'starlight-theme-nova/components';
 import { Image } from 'astro:assets';
 import ArcadeEmbed from '~/components/ArcadeEmbed.astro';
 import rollbackButton from '~/assets/rollback_button.png';
-import rollbackPatch3Active from '~/assets/rollback_patch3_active.png';
-import rollbackPatch3RolledBack from '~/assets/rollback_patch3_rolled_back.png';
+import rollbackPatch2Active from '~/assets/rollback_patch2_active.png';
+import rollbackPatch2RolledBack from '~/assets/rollback_patch2_rolled_back.png';
 
 If you discover that a live patch has a bug, Shorebird supports patch roll back.
 When a patch is rolled back, it is remotely uninstalled from end users' devices
@@ -40,8 +40,8 @@ Roll back requires a minimum Flutter version of 3.27.4.
 :::
 
 <ArcadeEmbed
-  src="https://demo.arcade.software/s8679FzLXoq93HxB05nj?embed&embed_mobile=tab&embed_desktop=inline&show_copy_link=true"
-  title="Roll Back a Patch for a Flutter App Release"
+  src="https://app.arcade.software/share/GlHfzbxcicw61ux4NCHx"
+  title="Roll Back a Patch"
 />
 
 ## How to roll back a patch
@@ -57,26 +57,26 @@ patch row, click the "more" icon (three vertical dots) and select "Rollback":
 
 ## What happens when a patch is rolled back?
 
-Imagine a release with three patches:
+Imagine a release with two patches:
 
 <Image
-  src={rollbackPatch3Active}
-  alt="The Shorebird Console showing three patches, with patch 3 as the active patch"
+  src={rollbackPatch2Active}
+  alt="The Shorebird Console showing two patches, with patch 2 as the active patch"
 />
 
 When a user downloads this release from the store, Shorebird will see that patch
-3 is the latest available patch and download it.
+2 is the latest available patch and download it.
 
-If a problem is discovered with patch 3, it can be rolled back. The Console will
+If a problem is discovered with patch 2, it can be rolled back. The Console will
 look like this after a rollback:
 
 <Image
-  src={rollbackPatch3RolledBack}
-  alt="The Shorebird Console showing three patches, with patch 3 rolled back and patch 2 as the active patch"
+  src={rollbackPatch2RolledBack}
+  alt="The Shorebird Console showing two patches, with patch 2 rolled back and patch 1 as the active patch"
 />
 
-Users who download the app from the store will now get patch 2 instead of
-patch 3. Users who already had patch 3 installed will be downgraded to patch 2.
+Users who download the app from the store will now get patch 1 instead of
+patch 2. Users who already had patch 2 installed will be downgraded to patch 1.
 
 ### Under the hood
 

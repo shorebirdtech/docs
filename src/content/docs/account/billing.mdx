@@ -6,6 +6,7 @@ sidebar:
 ---
 
 import { Image } from 'astro:assets';
+import ArcadeEmbed from '~/components/ArcadeEmbed.astro';
 import viewBillingPortal from '~/assets/view_billing_portal.png';
 import accountMonthlySpendingLimit from '~/assets/account_monthly_spending_limit.png';
 import setSpendingLimitDialog from '~/assets/set_spending_limit_dialog.png';
@@ -30,6 +31,11 @@ same, but you can change them to be different.
 
 If you'd like invoices sent to a different email address than the one you use to
 log in, you can change this in Stripe:
+
+<ArcadeEmbed
+  src="https://app.arcade.software/share/7dMbiP2AbiyF2HzWgjd2"
+  title="Edit Billing Email"
+/>
 
 1. Navigate to your "Account" panel within Shorebird.
 2. Click on the drop-down menu on the right side.

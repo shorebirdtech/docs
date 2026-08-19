@@ -36,6 +36,7 @@ words:
   - cocoapods
   - codemagic
   - codepush
+  - corsa
   - cloudkms
   - codesign
   - codesigning
@@ -98,6 +99,7 @@ words:
   - tabler
   - temurin
   - tweens
+  - twoslash
   - uiscene
   - vsync
   - vvago

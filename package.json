@@ -2,6 +2,7 @@
   "name": "shorebird-docs",
   "type": "module",
   "version": "0.0.1",
+  "//": "typescript pinned to 6.x: TypeScript 7.0 (Go-based 'Project Corsa') removed ts.sys, breaking twoslash (a dep of starlight-theme-nova). js-yaml pinned to 4.x: astro@7.2.x requires js-yaml ^4.3.0; v5 is ESM-only with no default export and breaks astro's internal CJS interop. Re-evaluate both when upstream compatibility is added.",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -17,7 +18,7 @@
     "@astrojs/starlight": "^0.41.7",
     "@lavamoat/preinstall-always-fail": "^3.0.0",
     "@tailwindcss/vite": "^4.3.3",
-    "astro": "^7.2.0",
+    "astro": "^7.2.2",
     "astro-mermaid": "^2.1.0",
     "astro-opengraph-images": "^1.18.0",
     "mermaid": "^11.16.1",
@@ -40,7 +41,7 @@
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "react": "^19.2.8",
-    "starlight-links-validator": "^0.25.2"
+    "starlight-links-validator": "^0.25.3"
   },
   "lavamoat": {
     "allowScripts": {

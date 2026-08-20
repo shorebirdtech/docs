@@ -7,6 +7,7 @@ sidebar:
 ---
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
+import ArcadeEmbed from '~/components/ArcadeEmbed.astro';
 import { LinkCard } from 'starlight-theme-nova/components';
 import { Image } from 'astro:assets';
 import releaseDeleteDialog from '~/assets/release_delete_dialog.png';
@@ -17,6 +18,11 @@ In order to start pushing updates, you will need to create a release.
 Creating a release builds and submits your app to Shorebird. Shorebird saves the
 compiled Dart code from your application in order to make updates smaller in
 size.
+
+<ArcadeEmbed
+  src="https://app.arcade.software/share/h8ywz1NWeFq3dC2iRQBU"
+  title="Create a Release"
+/>
 
 <Tabs>
 
@@ -448,6 +454,11 @@ you can manage your app's releases directly from the command line using the
 
 ### List releases
 
+<ArcadeEmbed
+  src="https://app.arcade.software/share/CtBj7r9AA5Xm0p0tIJYX"
+  title="Viewing releases from CLI and console"
+/>
+
 #### Via the Shorebird CLI
 
 To list all releases associated with your app:
@@ -491,6 +502,11 @@ This will download the release artifacts and extract the compatible APK files to
 your machine.
 
 ### Delete releases
+
+<ArcadeEmbed
+  src="https://app.arcade.software/share/1eUps58NpU5sFkTxljGu"
+  title="Delete a Release"
+/>
 
 :::danger
 

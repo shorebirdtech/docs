@@ -1,0 +1,156 @@
+---
+title: Releasing for Android
+description:
+  A step-by-step guide to configuring application IDs, creating keystores,
+  configuring Gradle signing, building AABs, and publishing to Google Play.
+sidebar:
+  label: Android (Google Play)
+  order: 2
+---
+
+{/* cspell:words appbundle keytool genkey keyalg keysize proguard */}
+
+Releasing an Android Flutter application requires generating a signed **Android
+App Bundle (AAB)**, configuring your package identifiers, and managing signing
+keys securely.
+
+## Step 1: Configure application ID and permissions
+
+Open `android/app/build.gradle` (or `android/app/build.gradle.kts`) and verify
+the `applicationId`, `minSdkVersion`, and `targetSdkVersion`:
+
+```groovy
+defaultConfig {
+    applicationId "com.example.myapp"
+    minSdkVersion flutter.minSdkVersion
+    targetSdkVersion flutter.targetSdkVersion
+    versionCode flutterVersionCode.toInteger()
+    versionName flutterVersionName
+}
+```
+
+Ensure all runtime permissions requested in
+`android/app/src/main/AndroidManifest.xml` comply with
+[Google Play Developer Policy](https://play.google.com/about/developer-content-policy/).
+
+## Step 2: Create an upload keystore
+
+Google Play uses digital certificates to verify the author of an application.
+Create a private signing key using the `keytool` utility:
+
+```bash
+keytool -genkey -v -keystore ~/upload-keystore.jks \
+  -keyalg RSA -keysize 2048 -validity 10000 \
+  -alias upload
+```
+
+Keep this keystore file secure and backed up. If you lose your keystore and do
+not use
+[Google Play App Signing](https://support.google.com/googleplay/android-developer/answer/9842756),
+you cannot update your application.
+
+## Step 3: Configure signing in Gradle
+
+Create a file named `android/key.properties` to reference the keystore:
+
+```properties
+storePassword=your-store-password
+keyPassword=your-key-password
+keyAlias=upload
+storeFile=/Users/username/upload-keystore.jks
+```
+
+:::caution
+
+Add `key.properties` and all `*.jks` / `*.keystore` files to your `.gitignore`
+to prevent leaking private signing credentials into source control.
+
+:::
+
+Reference the `key.properties` file in `android/app/build.gradle`:
+
+```groovy
+import java.util.Properties
+import java.io.FileInputStream
+
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+android {
+    ...
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+```
+
+For advanced shrinking and obfuscation rules on native dependencies, refer to
+the
+[Android ProGuard and R8 Guide](https://developer.android.com/build/shrink-code).
+
+## Step 4: Build the Android app bundle
+
+Google Play requires the
+[Android App Bundle (AAB)](https://developer.android.com/guide/app-bundle)
+format for all new applications. The AAB contains all compiled code and
+resources, but delegates final APK generation to Google Play, which delivers
+tailored APKs optimized for each device's screen density and CPU architecture:
+
+```bash
+flutter build appbundle --release
+```
+
+The resulting bundle is saved to:
+`build/app/outputs/bundle/release/app-release.aab`.
+
+If you need a standalone APK for manual QA testing or distribution outside the
+Play Store, generate architecture-specific APKs:
+
+```bash
+flutter build apk --split-per-abi --release
+```
+
+## Step 5: Google Play Console distribution tracks
+
+Upload your `.aab` file to the
+[Google Play Console](https://play.google.com/console/about/) through one of its
+release tracks:
+
+1. **Internal testing**: Instant distribution to up to 100 designated testers
+   without full store review delays.
+2. **Closed testing (Alpha/Beta)**: Testing with larger defined groups or
+   organizations.
+3. **Open testing**: Public pre-release track with store visibility.
+4. **Production**: General availability for all users. Supports **staged
+   rollouts** (e.g., releasing to 10%, 20%, then 100% of users over several days
+   to monitor crash rates).
+
+## Building with Shorebird Code Push
+
+If you are using Shorebird to enable over-the-air updates for your Android
+application, create your base release using the Shorebird CLI:
+
+```bash
+shorebird release android
+```
+
+This builds the signed `.aab` bundle and registers the release artifact with the
+Shorebird cloud. Upload the generated `.aab` to Google Play Console as normal.
+When you need to deploy Dart bug fixes later, use `shorebird patch android`.

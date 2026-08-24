@@ -1,0 +1,128 @@
+---
+title: Releasing for iOS
+description:
+  A step-by-step guide to configuring Xcode signing, Privacy Manifests, building
+  IPAs, and submitting to Apple App Store Connect.
+sidebar:
+  label: iOS (App Store)
+  order: 3
+---
+
+{/* cspell:words xcprivacy */}
+
+import { TabItem, Tabs } from '@astrojs/starlight/components';
+
+Releasing an iOS Flutter application requires provisioning profiles, Apple
+Developer certificates, privacy manifests, and App Store Connect configuration.
+
+## Step 1: Configure bundle identifier and signing in Xcode
+
+Open the `ios` directory in Xcode:
+
+```bash
+open ios/Runner.xcworkspace
+```
+
+1. Select the `Runner` project in the sidebar.
+2. Under the **Signing & Capabilities** tab, select your **Team** registered
+   with the [Apple Developer Program](https://developer.apple.com/programs/).
+3. Set a unique **Bundle Identifier** (e.g., `com.example.myapp`).
+4. Choose **Automatically manage signing** (recommended for standard release
+   flows) or configure custom provisioning profiles.
+
+## Step 2: Privacy manifests and permission descriptions
+
+Apple requires explicit usage descriptions in `ios/Runner/Info.plist` for any
+hardware or sensitive APIs accessed by your app or third-party packages (see
+[Apple Info.plist Keys](https://developer.apple.com/documentation/bundleresources/information_property_list)):
+
+```xml
+<key>NSCameraUsageDescription</key>
+<string>This app requires access to the camera to scan documents.</string>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>This app requires access to your photo library to select a profile picture.</string>
+```
+
+Starting in iOS 17 and macOS 14, Apple also mandates
+[Privacy Manifests](https://developer.apple.com/documentation/bundleresources/privacy_manifest_files)
+(`PrivacyInfo.xcprivacy`) declaring required reason APIs used by your
+application or its dependencies.
+
+## Step 3: Build the iOS archive (IPA)
+
+Generate the release archive using the Flutter CLI:
+
+```bash
+flutter build ipa --release
+```
+
+This command creates a `.xcarchive` under `build/ios/archive/` and exports an
+IPA package under `build/ios/ipa/`.
+
+You can also pass custom export options using `--export-options-plist`:
+
+```bash
+flutter build ipa --export-options-plist=ios/ExportOptions.plist
+```
+
+If you are building on a CI machine where signing is handled in a later pipeline
+stage (such as via Fastlane), build an unsigned archive with `--no-codesign`:
+
+```bash
+flutter build ipa --release --no-codesign
+```
+
+## Step 4: Upload to App Store Connect
+
+Upload the `.ipa` package to App Store Connect using any of the following
+methods:
+
+<Tabs>
+  <TabItem label="Xcode organizer">
+    1. Open Xcode and select **Window > Organizer** (`Cmd + Option + Shift + O`).
+    2. Select the latest build under the **Archives** tab.
+    3. Click **Distribute App** and follow the prompts to validate and upload to
+       App Store Connect.
+  </TabItem>
+  <TabItem label="Transporter app">
+    1. Download the [Transporter app](https://apps.apple.com/app/transporter/id1450874784)
+       from the macOS App Store.
+    2. Drag and drop the exported `.ipa` file from `build/ios/ipa/` into
+       Transporter.
+    3. Click **Deliver** to upload.
+  </TabItem>
+  <TabItem label="Command line (xcrun)">
+    Upload using Apple's command-line notarization and delivery tools:
+    ```bash
+    xcrun altool --upload-app --type ios \
+      -f build/ios/ipa/*.ipa \
+      --apiKey YOUR_API_KEY \
+      --apiIssuer YOUR_ISSUER_ID
+    ```
+  </TabItem>
+</Tabs>
+
+## Step 5: TestFlight and store submission
+
+1. **TestFlight Internal Testing**: Available immediately after processing for
+   members of your [App Store Connect](https://appstoreconnect.apple.com/) team.
+2. **TestFlight External Testing**: Distribute builds to up to 10,000 external
+   testers using [TestFlight](https://developer.apple.com/testflight/) (requires
+   a brief initial Beta App Review from Apple).
+3. **App Store submission**: Fill out App Store listing metadata, screenshots,
+   age ratings, and privacy nutrition labels, then submit for
+   [App Review](https://developer.apple.com/app-store/review/guidelines/). Apple
+   offers **Phased Release for Automatic Updates** (rolling out over 7 days).
+
+## Building with Shorebird Code Push
+
+If you are using Shorebird to enable over-the-air updates for your iOS
+application, create your base release using the Shorebird CLI:
+
+```bash
+shorebird release ios
+```
+
+This builds the release archive and registers the release artifact with
+Shorebird. Upload the resulting `.ipa` to App Store Connect as normal. When you
+need to deploy Dart bug fixes later, use `shorebird patch ios`.

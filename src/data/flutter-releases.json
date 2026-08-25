@@ -1,0 +1,145 @@
+{
+  "latestStable": {
+    "version": "3.47.1",
+    "dartVersion": "3.13.1",
+    "releaseDate": "2026-08-19"
+  },
+  "lines": [
+    {
+      "line": "3.47",
+      "latestPatch": "3.47.1",
+      "dartVersion": "3.13.1",
+      "releaseDate": "2026-08-12",
+      "latestPatchDate": "2026-08-19",
+      "patchCount": 2
+    },
+    {
+      "line": "3.44",
+      "latestPatch": "3.44.9",
+      "dartVersion": "3.12.2",
+      "releaseDate": "2026-05-18",
+      "latestPatchDate": "2026-08-06",
+      "patchCount": 10
+    },
+    {
+      "line": "3.41",
+      "latestPatch": "3.41.9",
+      "dartVersion": "3.11.5",
+      "releaseDate": "2026-02-11",
+      "latestPatchDate": "2026-04-30",
+      "patchCount": 10
+    },
+    {
+      "line": "3.38",
+      "latestPatch": "3.38.10",
+      "dartVersion": "3.10.9",
+      "releaseDate": "2025-11-12",
+      "latestPatchDate": "2026-02-11",
+      "patchCount": 11
+    },
+    {
+      "line": "3.35",
+      "latestPatch": "3.35.7",
+      "dartVersion": "3.9.2",
+      "releaseDate": "2025-08-14",
+      "latestPatchDate": "2025-10-23",
+      "patchCount": 8
+    },
+    {
+      "line": "3.32",
+      "latestPatch": "3.32.8",
+      "dartVersion": "3.8.1",
+      "releaseDate": "2025-05-20",
+      "latestPatchDate": "2025-07-25",
+      "patchCount": 9
+    },
+    {
+      "line": "3.29",
+      "latestPatch": "3.29.3",
+      "dartVersion": "3.7.2",
+      "releaseDate": "2025-02-12",
+      "latestPatchDate": "2025-04-14",
+      "patchCount": 4
+    },
+    {
+      "line": "3.27",
+      "latestPatch": "3.27.4",
+      "dartVersion": "3.6.2",
+      "releaseDate": "2024-12-11",
+      "latestPatchDate": "2025-02-05",
+      "patchCount": 5
+    },
+    {
+      "line": "3.24",
+      "latestPatch": "3.24.5",
+      "dartVersion": "3.5.4",
+      "releaseDate": "2024-08-06",
+      "latestPatchDate": "2024-11-14",
+      "patchCount": 6
+    },
+    {
+      "line": "3.22",
+      "latestPatch": "3.22.3",
+      "dartVersion": "3.4.4",
+      "releaseDate": "2024-05-13",
+      "latestPatchDate": "2024-07-18",
+      "patchCount": 4
+    },
+    {
+      "line": "3.19",
+      "latestPatch": "3.19.6",
+      "dartVersion": "3.3.4",
+      "releaseDate": "2024-02-15",
+      "latestPatchDate": "2024-04-17",
+      "patchCount": 7
+    },
+    {
+      "line": "3.16",
+      "latestPatch": "3.16.9",
+      "dartVersion": "3.2.6",
+      "releaseDate": "2023-11-15",
+      "latestPatchDate": "2024-01-25",
+      "patchCount": 10
+    },
+    {
+      "line": "3.13",
+      "latestPatch": "3.13.9",
+      "dartVersion": "3.1.5",
+      "releaseDate": "2023-08-16",
+      "latestPatchDate": "2023-10-25",
+      "patchCount": 10
+    },
+    {
+      "line": "3.10",
+      "latestPatch": "3.10.6",
+      "dartVersion": "3.0.6",
+      "releaseDate": "2023-05-10",
+      "latestPatchDate": "2023-07-12",
+      "patchCount": 7
+    },
+    {
+      "line": "3.7",
+      "latestPatch": "3.7.12",
+      "dartVersion": "2.19.6",
+      "releaseDate": "2023-01-24",
+      "latestPatchDate": "2023-04-20",
+      "patchCount": 13
+    },
+    {
+      "line": "3.3",
+      "latestPatch": "3.3.10",
+      "dartVersion": "2.18.6",
+      "releaseDate": "2022-08-30",
+      "latestPatchDate": "2022-12-15",
+      "patchCount": 11
+    },
+    {
+      "line": "3.0",
+      "latestPatch": "3.0.5",
+      "dartVersion": "2.17.6",
+      "releaseDate": "2022-05-11",
+      "latestPatchDate": "2022-07-13",
+      "patchCount": 6
+    }
+  ]
+}

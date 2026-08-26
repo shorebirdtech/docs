@@ -30,6 +30,16 @@ open ios/Runner.xcworkspace
 4. Choose **Automatically manage signing** (recommended for standard release
    flows) or configure custom provisioning profiles.
 
+:::caution[Disable automatic build number management]
+
+When distributing via Xcode Organizer, uncheck **Manage Version and Build
+Number** in the distribution dialog. If Xcode automatically increments the build
+number during upload, it will no longer match the build number used to create
+the release, which prevents Shorebird patches from being applied to that
+release.
+
+:::
+
 ## Step 2: Privacy manifests and permission descriptions
 
 Apple requires explicit usage descriptions in `ios/Runner/Info.plist` for any

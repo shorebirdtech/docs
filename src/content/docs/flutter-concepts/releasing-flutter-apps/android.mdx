@@ -93,17 +93,10 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }
 ```
-
-For advanced shrinking and obfuscation rules on native dependencies, refer to
-the
-[Android ProGuard and R8 Guide](https://developer.android.com/build/shrink-code).
 
 ## Step 4: Build the Android app bundle
 

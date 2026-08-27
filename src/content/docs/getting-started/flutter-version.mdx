@@ -1,19 +1,64 @@
 ---
-title: Flutter Version Management
-description: How to manage your Shorebird Flutter version
+title: Flutter Versions
+description:
+  The current stable release of Flutter, the newest patch of every recent
+  release, and which versions Shorebird supports.
 sidebar:
   order: 2
 ---
+
+import LatestFlutter from '~/components/LatestFlutter.astro';
+import FlutterReleaseTable from '~/components/FlutterReleaseTable.astro';
+import { latestStable, currentLine, previousLine } from '~/data/releases';
+
+<LatestFlutter />
+
+## Which Flutter version should you use?
+
+Shorebird recommends the latest stable release, **{latestStable.version}**.
+
+Whatever release you are on, run its latest patch. Patches exist because
+something was broken, and there is rarely a downside to taking the newest one.
+
+Large enterprises often stay exactly one release behind, which today means
+**{previousLine.latestPatch}**. Wherever you land, keep it less than 12 months
+old.
+
+## Recent Flutter releases
+
+Flutter opens a new release roughly every quarter — {previousLine.line}, then
+{currentLine.line} — and issues hotfix patches against it as bugs are found.
+Only the newest release gets hotfixes, so a fix that lands in {currentLine.line}
+is generally not backported.
+
+Each row below is the newest patch of a release, the Dart SDK version it
+bundles, and the headline changes it brought. Use the version in the first
+column; it links to Flutter's full release notes.
+
+<FlutterReleaseTable />
+
+For releases older than these, see Flutter's
+[release archive](https://docs.flutter.dev/release/archive). For what a specific
+patch fixed, see the
+[hotfix changelog](https://github.com/flutter/flutter/blob/stable/CHANGELOG.md).
+
+## Shorebird and Flutter versions
 
 Shorebird works with a wide range of Flutter versions and uses a private cache
 of Flutter installs which it will automatically manage for you to match your
 desired Flutter version.
 
 When Shorebird CLI is installed, it pulls down the latest stable version of
-Shorebird's Flutter. This section covers how to list and change the Flutter
-version used by Shorebird CLI.
+Shorebird's Flutter, currently %flutter_version%. This section covers how to
+list and change the Flutter version used by Shorebird CLI.
 
-## Supported Flutter versions
+## Flutter update process
+
+Shorebird updates its fork of Flutter to stay current with the stable release.
+Quarterly minor releases are updated within 5 business days of release. Patches
+are updated within 1 business day.
+
+### Supported Flutter versions
 
 | Platform | Minimum Flutter Version | Minimum Shorebird Version |
 | -------- | ----------------------- | ------------------------- |
@@ -27,7 +72,7 @@ Shorebird recommends using the latest stable version of Flutter whenever
 possible. Changes to Shorebird are not currently backported to previous releases
 of Flutter.
 
-## List Flutter versions
+### List Flutter versions
 
 To list all Flutter versions Shorebird has published, use the
 `shorebird flutter versions list` command.
@@ -41,7 +86,7 @@ Another way to see the current Flutter version is by running
 
 :::
 
-## Use a different Flutter version
+### Use a different Flutter version
 
 By default, Shorebird will use the latest stable version of Flutter. If you need
 to create a release with a different version of Flutter, you can use the
@@ -61,7 +106,7 @@ always be built with the version of Flutter used by the release.
 
 :::
 
-## Flutter version notes
+### Flutter version notes
 
 To help you avoid hidden pitfalls, Shorebird maintains version notes on Flutter
 releases that have known issues affecting releasing apps or patching. Check here

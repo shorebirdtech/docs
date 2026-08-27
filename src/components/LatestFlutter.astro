@@ -1,0 +1,46 @@
+---
+// The answer most people arrive on this page looking for, stated as one plain
+// sentence so a search engine or an assistant can lift it directly, and styled
+// to carry the weight that sentence deserves.
+import { latestStable, latestStableDate } from '~/data/releases';
+---
+
+<div class="latest-flutter">
+  <p class="label">Latest stable Flutter</p>
+  <p class="statement">
+    The latest stable version of Flutter is <strong>{latestStable.version}</strong
+    >, released on {latestStableDate}. It ships with Dart {
+      latestStable.dartVersion
+    }.
+  </p>
+</div>
+
+<style>
+  .latest-flutter {
+    margin-block: 1.5rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--sl-color-hairline-light);
+    border-left: 4px solid var(--sl-color-accent);
+    border-radius: 0.5rem;
+    background-color: var(--sl-color-bg-sidebar);
+  }
+
+  .latest-flutter .label {
+    margin: 0;
+    font-size: var(--sl-text-xs);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--sl-color-gray-3);
+  }
+
+  .latest-flutter .statement {
+    margin: 0.35rem 0 0;
+    font-size: var(--sl-text-lg);
+    line-height: 1.5;
+  }
+
+  .latest-flutter strong {
+    color: var(--sl-color-white);
+  }
+</style>

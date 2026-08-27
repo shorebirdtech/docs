@@ -130,9 +130,8 @@ You can [patch bugs](https://docs.shorebird.dev/code-push/patch/) and ship
 changes directly to your users' devices without going through the store review
 process. It works by updating your Dart code while keeping your native shell
 unchanged, which keeps you compliant with
-[App Store](https://docs.shorebird.dev/code-push/guides/stores/app-store/) and
-[Play Store](https://docs.shorebird.dev/code-push/guides/stores/play-store/)
-guidelines.
+[App Store](/flutter-concepts/releasing-flutter-apps/ios/) and
+[Play Store](/flutter-concepts/releasing-flutter-apps/android/) guidelines.
 
 **Codemagic** is a CI/CD platform built specifically for mobile apps. Generic CI
 systems like GitHub Actions work, but they weren't designed for the specific
@@ -291,10 +290,8 @@ Whether you're using GitHub Actions,
 Code Push into your existing workflows.
 
 **Prepare for Production Release**: Before launching to the app stores, review
-the platform-specific guidelines for
-[iOS](https://docs.shorebird.dev/code-push/guides/stores/app-store/) and
-[Android](https://docs.shorebird.dev/code-push/guides/stores/play-store/).
-Implement
+the platform-specific guidelines in
+[Releasing a Flutter App](/flutter-concepts/releasing-flutter-apps/). Implement
 [patch signing](https://docs.shorebird.dev/code-push/guides/patch-signing/) for
 additional security and set up
 [percentage-based rollouts](https://docs.shorebird.dev/code-push/guides/percentage-based-rollouts/)

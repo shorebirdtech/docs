@@ -1,0 +1,52 @@
+name: flutter-releases
+
+# Fails when src/data/flutter-releases.json has fallen behind Flutter's release
+# feeds - a new stable, or a new patch on a line the table lists. The fix is to
+# run `npm run update-flutter-releases` and commit the result.
+
+on:
+  schedule:
+    - cron: '0 7 * * *' # 7am UTC, an hour after the ci build refreshes the site
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    env:
+      DATA_FILE: src/data/flutter-releases.json
+
+    steps:
+      - name: 📚 Git Checkout
+        uses: actions/checkout@v7
+
+      - name: ⚙️ Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24.14.0'
+
+      - name: 🐦 Check Flutter Release Data
+        run: |
+          COMMITTED=$(node -p "require('./$DATA_FILE').latestStable.version")
+          node scripts/update-flutter-releases.mjs
+          LATEST=$(node -p "require('./$DATA_FILE').latestStable.version")
+
+          if git diff --quiet -- "$DATA_FILE"; then
+            echo "Up to date. Latest stable Flutter is $LATEST."
+            exit 0
+          fi
+
+          if [ "$COMMITTED" != "$LATEST" ]; then
+            echo "::error::Flutter $LATEST is out, but the docs still list $COMMITTED as the latest stable."
+          else
+            echo "::error::Flutter shipped new patches since $DATA_FILE was last generated."
+          fi
+
+          echo "Run 'npm run update-flutter-releases' and commit the result."
+          echo "New release lines also need an entry in src/data/release-highlights.ts."
+          echo
+          git --no-pager diff -- "$DATA_FILE"
+          exit 1

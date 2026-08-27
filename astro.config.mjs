@@ -141,10 +141,18 @@ export default defineConfig({
     '/code-push/continuous-integration/codemagic': '/code-push/ci/codemagic/',
     '/code-push/continuous-integration/fastlane/': '/code-push/ci/fastlane/',
     '/code-push/continuous-integration/generic/': '/code-push/ci/generic/',
+    '/code-push/guides/stores/app-store/':
+      '/flutter-concepts/releasing-flutter-apps/ios/',
+    '/code-push/guides/stores/app-store':
+      '/flutter-concepts/releasing-flutter-apps/ios/',
+    '/code-push/guides/stores/play-store/':
+      '/flutter-concepts/releasing-flutter-apps/android/',
+    '/code-push/guides/stores/play-store':
+      '/flutter-concepts/releasing-flutter-apps/android/',
     '/code-push/guides/submitting/app-store/':
-      '/code-push/guides/stores/app-store/',
+      '/flutter-concepts/releasing-flutter-apps/ios/',
     '/code-push/guides/submitting/play-store/':
-      '/code-push/guides/stores/play-store/',
+      '/flutter-concepts/releasing-flutter-apps/android/',
     '/code_push/initialize': '/code-push/initialize/',
     '/code_push/patch': '/code-push/patch/',
     '/code_push/preview': '/code-push/preview/',
@@ -181,11 +189,14 @@ export default defineConfig({
     '/guides/patch-signing': '/code-push/guides/patch-signing/',
     '/guides/percentage-based-rollouts':
       '/code-push/guides/percentage-based-rollouts/',
-    '/guides/release/android': '/code-push/guides/stores/play-store/',
-    '/guides/release/ios': '/code-push/guides/stores/app-store/',
+    '/guides/release/android':
+      '/flutter-concepts/releasing-flutter-apps/android/',
+    '/guides/release/ios': '/flutter-concepts/releasing-flutter-apps/ios/',
     '/guides/staging-patches': '/code-push/guides/staging-patches/',
-    '/guides/submitting/app-store': '/code-push/guides/stores/app-store/',
-    '/guides/submitting/play-store': '/code-push/guides/stores/play-store/',
+    '/guides/submitting/app-store':
+      '/flutter-concepts/releasing-flutter-apps/ios/',
+    '/guides/submitting/play-store':
+      '/flutter-concepts/releasing-flutter-apps/android/',
     '/guides/testing-patches': '/code-push/guides/testing-patches/',
     '/orgs': '/account/orgs/',
     '/overview': '/code-push/',

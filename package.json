@@ -11,6 +11,7 @@
     "astro": "astro",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "update-flutter-releases": "node scripts/update-flutter-releases.mjs",
     "lint:content": "cspell --config .cspell.yaml \"**\"; vale --config=.vale.ini src/content/docs; node scripts/lint-component-labels.mjs"
   },
   "dependencies": {

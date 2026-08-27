@@ -1,0 +1,177 @@
+---
+// Renders the newest patch of each recent Flutter release, with what that
+// release added. Versions and dates come from src/data/flutter-releases.json
+// (regenerate with `npm run update-flutter-releases`); the highlights are
+// hand-written in src/data/release-highlights.ts.
+import {
+  releaseLines,
+  formatAge,
+  formatMonth,
+  monthsSince,
+} from '~/data/releases';
+import { releaseHighlights, releaseNotesUrl } from '~/data/release-highlights';
+
+// Flutter ships roughly four releases a year, so ten rows covers about the
+// last two and a half years. Older releases are a link to Flutter's archive
+// rather than a row here.
+const LINES_SHOWN = 10;
+
+// Rows visible before the reader asks for more. Every row is still in the
+// HTML - the extras are collapsed by the script below, not omitted - so search
+// engines and assistants read the whole table.
+const INITIAL_ROWS = 5;
+
+// Shorebird recommends against shipping on a release older than this.
+const RECOMMENDED_MAX_AGE_MONTHS = 12;
+
+const rows = releaseLines.slice(0, LINES_SHOWN).map((line, index) => {
+  const age = monthsSince(line.releaseDate);
+  const aged = age >= RECOMMENDED_MAX_AGE_MONTHS;
+
+  return {
+    ...line,
+    released: formatMonth(line.releaseDate),
+    age: formatAge(age),
+    highlight: releaseHighlights[line.line],
+    notesUrl: releaseNotesUrl(line.line),
+    extra: index >= INITIAL_ROWS,
+    // Older releases stay fully legible - people come here to look a version
+    // up, not only to be told to move off it. The verdict carries the color.
+    recommendation:
+      index === 0
+        ? { label: 'Latest stable', tone: 'latest' }
+        : aged
+          ? { label: 'Upgrade', tone: 'upgrade' }
+          : { label: 'Yes', tone: 'yes' },
+  };
+});
+
+const hiddenCount = rows.filter((row) => row.extra).length;
+---
+
+<div class="flutter-releases-wrapper">
+  <table class="flutter-releases">
+    <thead>
+      <tr>
+        <th>Flutter</th>
+        <th>First released</th>
+        <th>Highlights</th>
+        <th>Recommended</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((row) => (
+          <tr class={row.extra ? 'extra' : undefined}>
+            <td>
+              <a href={row.notesUrl}>{row.latestPatch}</a>
+              <span class="sub">Dart {row.dartVersion}</span>
+            </td>
+            <td>
+              {row.released}
+              {row.age && <span class="sub">{row.age}</span>}
+            </td>
+            <td>{row.highlight ?? '—'}</td>
+            <td class={`verdict ${row.recommendation.tone}`}>
+              {row.recommendation.label}
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+
+  {
+    hiddenCount > 0 && (
+      <button class="show-more" type="button" aria-expanded="true" hidden>
+        Show {hiddenCount} older releases
+      </button>
+    )
+  }
+</div>
+
+<script>
+  // Progressive enhancement: the table ships fully expanded so it still reads
+  // correctly with no JavaScript, and only collapses once this runs.
+  const wrapper = document.querySelector('.flutter-releases-wrapper');
+  const table = wrapper?.querySelector('.flutter-releases');
+  const button = wrapper?.querySelector<HTMLButtonElement>('.show-more');
+
+  if (table && button) {
+    const hiddenCount = table.querySelectorAll('tr.extra').length;
+
+    const setCollapsed = (collapsed: boolean) => {
+      table.classList.toggle('collapsed', collapsed);
+      button.setAttribute('aria-expanded', String(!collapsed));
+      button.textContent = collapsed
+        ? `Show ${hiddenCount} older releases`
+        : 'Show fewer releases';
+    };
+
+    setCollapsed(true);
+    button.hidden = false;
+    button.addEventListener('click', () =>
+      setCollapsed(!table.classList.contains('collapsed')),
+    );
+  }
+</script>
+
+<style>
+  .flutter-releases {
+    width: 100%;
+  }
+
+  /* Wide enough to keep "Dart 3.13.1" on one line under the version, and
+     "December 2024" on one line in the date column. Without these the
+     highlights column takes every spare pixel and both wrap awkwardly. */
+  .flutter-releases td:first-child {
+    min-width: 7rem;
+    font-weight: 600;
+  }
+
+  .flutter-releases td:nth-child(2) {
+    min-width: 8rem;
+  }
+
+  .flutter-releases .sub {
+    display: block;
+    font-size: var(--sl-text-xs);
+    font-weight: 400;
+    color: var(--sl-color-gray-3);
+  }
+
+  .flutter-releases .verdict {
+    font-weight: 600;
+  }
+
+  .flutter-releases .verdict.latest {
+    color: var(--sl-color-green-high);
+  }
+
+  .flutter-releases .verdict.upgrade {
+    color: var(--sl-color-orange-high);
+  }
+
+  .flutter-releases .verdict.yes {
+    font-weight: inherit;
+    color: var(--sl-color-gray-3);
+  }
+
+  .flutter-releases.collapsed tr.extra {
+    display: none;
+  }
+
+  .show-more {
+    margin-top: 0.25rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-text-accent);
+  }
+
+  .show-more:hover {
+    text-decoration: underline;
+  }
+</style>

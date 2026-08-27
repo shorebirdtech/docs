@@ -40,12 +40,14 @@ words:
   - cloudkms
   - codesign
   - codesigning
+  - cupertino
   - elif
   - evenodd
   - ffigen
   - fintech
   - frontmatter
   - gallego
+  - gles
   - graphql
   - geocodes
   - hotfixes
@@ -94,8 +96,11 @@ words:
   - shellenv
   - shorebirdtech
   - softwareupdate
+  - squircle
+  - squircles
   - subclassing
   - subosito
+  - superellipse
   - subview
   - tabler
   - temurin

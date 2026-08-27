@@ -6,6 +6,7 @@ sidebar:
 ---
 
 import { Image } from 'astro:assets';
+import ArcadeEmbed from '~/components/ArcadeEmbed.astro';
 import createOrg from '~/assets/create_org.png';
 import accessOrgSettings from '~/assets/access_org_settings.png';
 import addMemberToOrg from '~/assets/add_member_to_org.png';
@@ -29,8 +30,8 @@ contact@shorebird.dev for help.
 
 ## Creating an organization
 
-To create an organization, visit the Shorebird console and click the account
-dropdown in the top left corner. From there, click the "+" button next to
+To create an organization, visit the Shorebird console and click on your email
+address in the bottom left corner. From there, click the "+" button next to
 "Organizations".
 
 <Image
@@ -66,8 +67,9 @@ To create a new app within an organization, select the organization when running
 ### Transfer an app
 
 To transfer an existing app to an organization, visit the app's settings and
-click the "Transfer app" button. You can then select the organization you want
-to transfer the app to from the dropdown.
+click the "Transfer" button besides "Transfer Ownership" section. You can then
+select the organization you want to transfer the app to from the dropdown. You
+can only transfer to an organization you are part of.
 
 <Image
   src={transferAppToDifferentOrg}
@@ -78,8 +80,13 @@ to transfer the app to from the dropdown.
 
 ### Add a member
 
+<ArcadeEmbed
+  src="https://app.arcade.software/share/Cl6LTDv4A3TKhJJOdJse"
+  title="Adding Members to the Organization"
+/>
+
 To add one or more members to your organization, visit the organization's
-settings and click the "Add member" button.
+settings, go to "Members" section and click the "Invite Member" button.
 
 <Image
   src={addMemberToOrg}
@@ -87,7 +94,7 @@ settings and click the "Add member" button.
 />
 
 You can also edit a member's role or remove them from the organization from the
-same organization settings page.
+same members page.
 
 <Image
   src={completedAddMemberToOrg}
@@ -162,12 +169,11 @@ collaborators, just at a per-app level.
 To add a collaborator, from your app's page:
 
 1. Select the "Collaborators" tab.
-2. Click "Add people".
+2. Click "Invite Collaborator".
 3. Enter the email address of the person you would like to add as a
-   collaborator.
-   1. Note that the email address must be associated with an existing Shorebird
-      account.
-4. Click "Add Collaborator".
+   collaborator. Note that the email address must be associated with an existing
+   Shorebird account.
+4. Click "Send Invitation".
 
 Existing collaborators can be removed by clicking the trash icon next to their
 email address.

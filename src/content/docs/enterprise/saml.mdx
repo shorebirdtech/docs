@@ -1,0 +1,177 @@
+---
+title: SAML Single Sign-On
+description:
+  Set up SAML 2.0 single sign-on for your Shorebird organization with Okta or
+  another identity provider
+sidebar:
+  order: 2
+---
+
+import { Steps } from '@astrojs/starlight/components';
+
+Shorebird supports SAML 2.0 single sign-on (SSO) for teams on the
+[Enterprise plan](/enterprise/). Members sign in to the Shorebird Console
+through your identity provider (IdP) instead of a personal Google or Microsoft
+account.
+
+SAML is not self-serve yet. The Shorebird team creates the connection for you:
+gather the values described below, send them to
+[contact@shorebird.dev](mailto:contact@shorebird.dev), and Shorebird will
+activate SSO for your email domain and confirm when it is live.
+
+## How sign-in works
+
+A SAML connection is keyed to an email domain, such as `acme.com`:
+
+<Steps>
+
+1. A member opens the [Shorebird Console](https://console.shorebird.dev) and
+   clicks **Continue with SSO**.
+
+2. They enter their work email address. The domain selects your connection, and
+   they are redirected to your IdP.
+
+3. After authenticating, the IdP posts a signed assertion back to Shorebird,
+   which signs the member in.
+
+</Steps>
+
+A few consequences of this design are worth knowing before you start:
+
+- **Sign-in must start at Shorebird.** IdP-initiated sign-in, such as clicking
+  the app tile in the Okta dashboard, is not supported.
+- **One connection per email domain.** The email address in the assertion must
+  be at the connection's domain, or sign-in is rejected. If your team uses
+  several domains, send the values for each one and Shorebird will create a
+  connection per domain.
+- **SSO covers authentication only.** Assigning the app to a user in your IdP
+  does not add them to your Shorebird organization. Membership and roles are
+  still managed in organization settings, as described in
+  [Organizations](/account/orgs/).
+
+## What to send Shorebird
+
+Shorebird needs all four of these values. None of them is optional: the
+connection cannot be created without the signing certificate, because it is what
+Shorebird uses to verify that an assertion really came from your IdP.
+
+| Value                   | Where to find it in Okta                                  | Example                                                                 |
+| ----------------------- | --------------------------------------------------------- | ----------------------------------------------------------------------- |
+| Email domain            | The domain your team's email addresses use                | `acme.com`                                                              |
+| IdP Entity ID           | "Identity Provider Issuer" in the SAML setup instructions | `http://www.okta.com/exk1a2b3c4EXAMPLE`                                 |
+| IdP SSO URL             | "Identity Provider Single Sign-On URL"                    | `https://acme.okta.com/app/acme_shorebird_1/exk1a2b3c4EXAMPLE/sso/saml` |
+| IdP signing certificate | The "X.509 Certificate", as PEM text                      | `-----BEGIN CERTIFICATE-----` ...                                       |
+
+Send the certificate as PEM text, including the `-----BEGIN CERTIFICATE-----`
+and `-----END CERTIFICATE-----` lines. Okta offers it as a download on the app's
+**Sign On** tab.
+
+The simplest option is to skip collecting the three IdP values by hand and send
+the **Identity Provider metadata** URL from that same tab, along with your email
+domain. That XML document already contains the entity ID, the SSO URL, and the
+signing certificate.
+
+Also mention any members who already have a Shorebird account created with
+Google or Microsoft using an address at that domain. Those accounts need to be
+migrated to the new connection, and without the migration their first SSO
+sign-in fails.
+
+## Settings to use in your identity provider
+
+Configure the application in your IdP with these values:
+
+| Setting                        | Value                                           |
+| ------------------------------ | ----------------------------------------------- |
+| Single sign-on URL (ACS URL)   | `https://auth.shorebird.dev/auth/saml/callback` |
+| Audience URI (SP Entity ID)    | `https://auth.shorebird.dev`                    |
+| Name ID format                 | `EmailAddress`                                  |
+| Application username           | `Email`                                         |
+| Default RelayState             | Leave empty                                     |
+| Response                       | Signed (RSA-SHA256)                             |
+| Assertion signature            | Signed (RSA-SHA256)                             |
+| Signed authentication requests | Not used, and must not be required              |
+
+Shorebird requires both the response and the assertion to be signed, which is
+Okta's default. Shorebird does not sign its authentication requests, so the
+application must not require signed requests.
+
+### The email attribute is required
+
+Shorebird reads the member's address from an attribute statement named `email`.
+The attribute `mail` and the OID `urn:oid:0.9.2342.19200300.100.1.3` are also
+accepted. Sign-in fails without one of them, even when the Name ID is the email
+address, so configure the attribute statement explicitly:
+
+| Name    | Name format | Value        |
+| ------- | ----------- | ------------ |
+| `email` | Unspecified | `user.email` |
+
+## Setting up in Okta
+
+<Steps>
+
+1. In the Okta Admin Console, go to **Applications → Applications → Create App
+   Integration**, choose **SAML 2.0**, and click **Next**. Okta documents this
+   flow in
+   [Create SAML app integrations](https://help.okta.com/en-us/content/topics/apps/apps_app_integration_wizard_saml.htm).
+
+2. Name the app (for example, "Shorebird") and click **Next**.
+
+3. On the **Configure SAML** screen, fill in the single sign-on URL, audience
+   URI, Name ID format, and application username from
+   [Settings to use in your identity provider](#settings-to-use-in-your-identity-provider).
+
+4. Under **Attribute Statements**, add the `email` attribute described above.
+
+5. Click **Next**, answer the feedback questions, and click **Finish**.
+
+6. On the app's **Sign On** tab, open **View SAML setup instructions** to see
+   the issuer, SSO URL, and certificate, or copy the **Identity Provider
+   metadata** link.
+
+7. [Assign the app](https://help.okta.com/en-us/content/topics/provisioning/lcm/lcm-assign-app-user.htm)
+   to the users and groups who should have access to Shorebird.
+
+8. Email the values from [What to send Shorebird](#what-to-send-shorebird) to
+   [contact@shorebird.dev](mailto:contact@shorebird.dev).
+
+</Steps>
+
+For background on how the pieces fit together, see Okta's
+[SAML overview](https://developer.okta.com/docs/concepts/saml/) and
+[About single sign-on](https://help.okta.com/en-us/content/topics/apps/apps-about-sso.htm).
+
+Other SAML 2.0 providers, such as Microsoft Entra ID, Google Workspace,
+OneLogin, and JumpCloud, work the same way. The field names differ, but the
+values Shorebird needs are the same.
+
+## After activation
+
+Once Shorebird enables the connection, sign in with a single account first to
+confirm the setup, then roll the app out to the rest of the team.
+
+Service provider metadata for an active connection is served at
+`https://auth.shorebird.dev/auth/saml/metadata/<your-domain>`. Importing that
+document into your IdP is a quick way to confirm that the ACS URL and entity ID
+match on both sides.
+
+When your IdP's signing certificate rotates, email the new certificate to
+[contact@shorebird.dev](mailto:contact@shorebird.dev) before the old one
+expires. A stored certificate that no longer matches the IdP will break sign-in
+for everyone on the domain.
+
+## Troubleshooting
+
+| Message                                   | Likely cause                                                                                                                                                                                            |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| "No SSO configured for this domain"       | The connection has not been created or enabled yet, or the address entered is at a different domain than the one that was registered.                                                                   |
+| "SSO login failed"                        | The assertion was rejected. The most common causes are a missing `email` attribute, a certificate that no longer matches the IdP, or an asserted email address at a domain other than the connection's. |
+| Sign-in succeeds, but no apps are visible | Authentication worked, but the account is not a member of the organization yet. Invite the member from organization settings.                                                                           |
+
+Assertions are accepted for up to one hour after they are issued, with a minute
+of tolerance for clock differences, and each one can be used only once. If
+sign-in fails only for some members, check that the IdP host's clock is
+accurate.
+
+Anything else, or a provider not covered here, is worth an email to
+[contact@shorebird.dev](mailto:contact@shorebird.dev).

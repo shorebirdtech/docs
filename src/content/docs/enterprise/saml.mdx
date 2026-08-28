@@ -51,25 +51,31 @@ A few consequences of this design are worth knowing before you start:
 
 ## What to send Shorebird
 
-Shorebird needs all four of these values. None of them is optional: the
-connection cannot be created without the signing certificate, because it is what
-Shorebird uses to verify that an assertion really came from your IdP.
+Two things:
+
+- **Your IdP metadata URL.** In Okta, this is the **Identity Provider metadata**
+  link on the application's **Sign On** tab. The document behind that link
+  already holds the entity ID, the SSO URL, and the signing certificate, and
+  Shorebird reads all three from it directly.
+- **Your email domain**, such as `acme.com`. This is what routes a member's
+  sign-in to your IdP, and it is the one value the metadata does not contain.
+
+### If your IdP publishes no metadata URL
+
+Some providers, Google Workspace among them, offer metadata only as a download.
+Send the XML file itself, or pull these three values out of it and send those
+instead:
 
 | Value                   | Where to find it in Okta                                  | Example                                                                 |
 | ----------------------- | --------------------------------------------------------- | ----------------------------------------------------------------------- |
-| Email domain            | The domain your team's email addresses use                | `acme.com`                                                              |
 | IdP Entity ID           | "Identity Provider Issuer" in the SAML setup instructions | `http://www.okta.com/exk1a2b3c4EXAMPLE`                                 |
 | IdP SSO URL             | "Identity Provider Single Sign-On URL"                    | `https://acme.okta.com/app/acme_shorebird_1/exk1a2b3c4EXAMPLE/sso/saml` |
 | IdP signing certificate | The "X.509 Certificate", as PEM text                      | `-----BEGIN CERTIFICATE-----` ...                                       |
 
-Send the certificate as PEM text, including the `-----BEGIN CERTIFICATE-----`
-and `-----END CERTIFICATE-----` lines. Okta offers it as a download on the app's
-**Sign On** tab.
-
-The simplest option is to skip collecting the three IdP values by hand and send
-the **Identity Provider metadata** URL from that same tab, along with your email
-domain. That XML document already contains the entity ID, the SSO URL, and the
-signing certificate.
+None of the three is optional. The certificate in particular is what Shorebird
+uses to verify that an assertion really came from your IdP, so send it as PEM
+text, including the `-----BEGIN CERTIFICATE-----` and
+`-----END CERTIFICATE-----` lines.
 
 Also mention any members who already have a Shorebird account created with
 Google or Microsoft using an address at that domain. Those accounts need to be
@@ -132,7 +138,8 @@ address, so configure the attribute statement explicitly:
 7. [Assign the app](https://help.okta.com/en-us/content/topics/provisioning/lcm/lcm-assign-app-user.htm)
    to the users and groups who should have access to Shorebird.
 
-8. Email the values from [What to send Shorebird](#what-to-send-shorebird) to
+8. Email the metadata URL and your email domain, as described in
+   [What to send Shorebird](#what-to-send-shorebird), to
    [contact@shorebird.dev](mailto:contact@shorebird.dev).
 
 </Steps>
@@ -155,10 +162,10 @@ Service provider metadata for an active connection is served at
 document into your IdP is a quick way to confirm that the ACS URL and entity ID
 match on both sides.
 
-When your IdP's signing certificate rotates, email the new certificate to
+When your IdP's signing certificate rotates, email
 [contact@shorebird.dev](mailto:contact@shorebird.dev) before the old one
-expires. A stored certificate that no longer matches the IdP will break sign-in
-for everyone on the domain.
+expires, and Shorebird will re-read your metadata. A stored certificate that no
+longer matches the IdP will break sign-in for everyone on the domain.
 
 ## Troubleshooting
 

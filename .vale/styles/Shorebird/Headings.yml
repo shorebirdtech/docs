@@ -23,6 +23,7 @@ exceptions:
   - CocoaPods
   - Codemagic
   - Okta
+  - IdP
   - Fastlane
   - Sentry
   - Crashlytics

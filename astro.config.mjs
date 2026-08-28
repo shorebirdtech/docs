@@ -97,6 +97,11 @@ export default defineConfig({
           items: [{ autogenerate: { directory: 'account' } }],
         },
         {
+          label: 'Enterprise',
+          collapsed: true,
+          items: [{ autogenerate: { directory: 'enterprise' } }],
+        },
+        {
           label: 'System',
           collapsed: true,
           items: [{ autogenerate: { directory: 'system' } }],

@@ -22,6 +22,7 @@ exceptions:
   - GitHub
   - CocoaPods
   - Codemagic
+  - Okta
   - Fastlane
   - Sentry
   - Crashlytics

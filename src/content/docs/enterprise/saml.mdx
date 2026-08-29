@@ -95,15 +95,14 @@ Configure the application in your IdP with these values:
 | Name ID format                 | `EmailAddress`                                  |
 | Application username           | `Email`                                         |
 | Default RelayState             | Leave empty                                     |
-| Response                       | Signed (RSA-SHA256)                             |
-| Assertion signature            | Signed (RSA-SHA256)                             |
+| Assertion encryption           | Off                                             |
 | Signed authentication requests | Not used, and must not be required              |
 
-Shorebird accepts a signature on the response, on the assertion, or on both, and
-requires at least one. Okta signs both by default; Entra ID and Google Workspace
-sign only the assertion by default, and that is fine as it is. Shorebird does
-not sign its authentication requests, so the application must not require signed
-requests.
+Signing needs no special configuration: every provider's default is accepted,
+whether it signs the response, the assertion, or both. Two settings do matter.
+Shorebird does not decrypt assertions, so assertion encryption must stay off.
+And Shorebird does not sign its authentication requests, so the application must
+not require signed requests.
 
 ### Where Shorebird reads the email address
 

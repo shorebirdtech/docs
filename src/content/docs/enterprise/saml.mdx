@@ -44,6 +44,10 @@ A few consequences of this design are worth knowing before you start:
   be at the connection's domain, or sign-in is rejected. If your team uses
   several domains, send the values for each one and Shorebird will create a
   connection per domain.
+- **Existing accounts carry over.** A member who already signs in with a Google
+  or Microsoft account at your domain keeps that account: their first SSO
+  sign-in moves it onto the connection, and from then on only SSO works for it.
+  Nothing needs to be migrated ahead of time.
 - **SSO covers authentication only.** Assigning the app to a user in your IdP
   does not add them to your Shorebird organization. Membership and roles are
   still managed in organization settings, as described in
@@ -56,7 +60,9 @@ Two things:
 - **Your IdP metadata URL.** In Okta, this is the **Identity Provider metadata**
   link on the application's **Sign On** tab. The document behind that link
   already holds the entity ID, the SSO URL, and the signing certificate, and
-  Shorebird reads all three from it directly.
+  Shorebird reads all three from it directly. Shorebird also keeps the URL, so a
+  later certificate rotation can be picked up by re-reading it rather than by
+  asking you for the values again.
 - **Your email domain**, such as `acme.com`. This is what routes a member's
   sign-in to your IdP, and it is the one value the metadata does not contain.
 
@@ -75,12 +81,8 @@ instead:
 None of the three is optional. The certificate in particular is what Shorebird
 uses to verify that an assertion really came from your IdP, so send it as PEM
 text, including the `-----BEGIN CERTIFICATE-----` and
-`-----END CERTIFICATE-----` lines.
-
-Also mention any members who already have a Shorebird account created with
-Google or Microsoft using an address at that domain. Those accounts need to be
-migrated to the new connection, and without the migration their first SSO
-sign-in fails.
+`-----END CERTIFICATE-----` lines. If your IdP lists more than one signing
+certificate, send them all.
 
 ## Settings to use in your identity provider
 
@@ -97,20 +99,35 @@ Configure the application in your IdP with these values:
 | Assertion signature            | Signed (RSA-SHA256)                             |
 | Signed authentication requests | Not used, and must not be required              |
 
-Shorebird requires both the response and the assertion to be signed, which is
-Okta's default. Shorebird does not sign its authentication requests, so the
-application must not require signed requests.
+Shorebird accepts a signature on the response, on the assertion, or on both, and
+requires at least one. Okta signs both by default; Entra ID and Google Workspace
+sign only the assertion by default, and that is fine as it is. Shorebird does
+not sign its authentication requests, so the application must not require signed
+requests.
 
-### The email attribute is required
+### Where Shorebird reads the email address
 
-Shorebird reads the member's address from an attribute statement named `email`.
-The attribute `mail` and the OID `urn:oid:0.9.2342.19200300.100.1.3` are also
-accepted. Sign-in fails without one of them, even when the Name ID is the email
-address, so configure the attribute statement explicitly:
+Shorebird identifies the member by email address, taken from the first of these
+that the assertion carries:
+
+1. An attribute statement named `email`. The attribute `mail` and the OID
+   `urn:oid:0.9.2342.19200300.100.1.3` are also accepted.
+2. Entra ID's default
+   `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress` claim.
+3. The Name ID, when its format is `EmailAddress` or `Unspecified` and its value
+   is an email address.
+
+Okta's and Entra's defaults satisfy this without an extra attribute: Okta sends
+the username as an `Unspecified` Name ID, and Entra sends its email claim. Even
+so, an explicit attribute is the least ambiguous configuration and the one to
+add if sign-in reports a missing email:
 
 | Name    | Name format | Value        |
 | ------- | ----------- | ------------ |
 | `email` | Unspecified | `user.email` |
+
+A `Persistent` or `Transient` Name ID is never read as an email address, so an
+IdP configured that way needs one of the attributes above.
 
 ## Setting up in Okta
 
@@ -150,7 +167,8 @@ For background on how the pieces fit together, see Okta's
 
 Other SAML 2.0 providers, such as Microsoft Entra ID, Google Workspace,
 OneLogin, and JumpCloud, work the same way. The field names differ, but the
-values Shorebird needs are the same.
+values Shorebird needs are the same, and the default claims Entra ID and Google
+Workspace send are enough.
 
 ## After activation
 
@@ -162,18 +180,28 @@ Service provider metadata for an active connection is served at
 document into your IdP is a quick way to confirm that the ACS URL and entity ID
 match on both sides.
 
-When your IdP's signing certificate rotates, email
+### Rotating the signing certificate
+
+Shorebird stores every signing certificate your metadata lists and accepts an
+assertion signed by any of them. Okta and Entra ID publish the incoming
+certificate in their metadata ahead of the cutover, so a rotation they announce
+that way needs nothing from you, provided the new certificate was listed when
+Shorebird last read your metadata.
+
+If you generate a new certificate after that, email
 [contact@shorebird.dev](mailto:contact@shorebird.dev) before the old one
-expires, and Shorebird will re-read your metadata. A stored certificate that no
-longer matches the IdP will break sign-in for everyone on the domain.
+expires. With your metadata URL on file, Shorebird re-reads it; with no URL,
+send the new certificate as PEM text. A certificate Shorebird has never seen
+breaks sign-in for everyone on the domain the moment your IdP starts signing
+with it.
 
 ## Troubleshooting
 
-| Message                                   | Likely cause                                                                                                                                                                                            |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| "No SSO configured for this domain"       | The connection has not been created or enabled yet, or the address entered is at a different domain than the one that was registered.                                                                   |
-| "SSO login failed"                        | The assertion was rejected. The most common causes are a missing `email` attribute, a certificate that no longer matches the IdP, or an asserted email address at a domain other than the connection's. |
-| Sign-in succeeds, but no apps are visible | Authentication worked, but the account is not a member of the organization yet. Invite the member from organization settings.                                                                           |
+| Message                                   | Likely cause                                                                                                                                                                                                                  |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| "No SSO configured for this domain"       | The connection has not been created or enabled yet, or the address entered is at a different domain than the one that was registered.                                                                                         |
+| "SSO login failed"                        | The assertion was rejected. The most common causes are a signing certificate Shorebird has not seen, an asserted email address at a domain other than the connection's, or no email address anywhere Shorebird reads it from. |
+| Sign-in succeeds, but no apps are visible | Authentication worked, but the account is not a member of the organization yet. Invite the member from organization settings.                                                                                                 |
 
 Assertions are accepted for up to one hour after they are issued, with a minute
 of tolerance for clock differences, and each one can be used only once. If

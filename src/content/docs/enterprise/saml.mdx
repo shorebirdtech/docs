@@ -15,7 +15,7 @@ through your identity provider (IdP) instead of a personal Google or Microsoft
 account.
 
 SAML is not self-serve yet. The Shorebird team creates the connection for you:
-gather the values described below, send them to
+send what is described below to
 [contact@shorebird.dev](mailto:contact@shorebird.dev), and Shorebird will
 activate SSO for your email domain and confirm when it is live.
 
@@ -42,7 +42,7 @@ A few consequences of this design are worth knowing before you start:
   the app tile in the Okta dashboard, is not supported.
 - **One connection per email domain.** The email address in the assertion must
   be at the connection's domain, or sign-in is rejected. If your team uses
-  several domains, send the values for each one and Shorebird will create a
+  several domains, send a metadata URL for each one and Shorebird will create a
   connection per domain.
 - **SSO covers authentication only.** Assigning the app to a user in your IdP
   does not add them to your Shorebird organization. Membership and roles are
@@ -66,7 +66,7 @@ Some providers, Google Workspace among them, offer metadata only as a download.
 Send the XML file itself, or pull these three values out of it and send those
 instead:
 
-| Value                   | Where to find it in Okta                                  | Example                                                                 |
+| Value                   | Where to find it (Okta example)                           | Example                                                                 |
 | ----------------------- | --------------------------------------------------------- | ----------------------------------------------------------------------- |
 | IdP Entity ID           | "Identity Provider Issuer" in the SAML setup instructions | `http://www.okta.com/exk1a2b3c4EXAMPLE`                                 |
 | IdP SSO URL             | "Identity Provider Single Sign-On URL"                    | `https://acme.okta.com/app/acme_shorebird_1/exk1a2b3c4EXAMPLE/sso/saml` |
@@ -126,9 +126,9 @@ email address, so an IdP configured that way must also send the attribute:
 
 5. Click **Next**, answer the feedback questions, and click **Finish**.
 
-6. On the app's **Sign On** tab, open **View SAML setup instructions** to see
-   the issuer, SSO URL, and certificate, or copy the **Identity Provider
-   metadata** link.
+6. On the app's **Sign On** tab, copy the **Identity Provider metadata** link.
+   **View SAML setup instructions**, on the same tab, shows the issuer, SSO URL,
+   and certificate individually if you ever need them.
 
 7. [Assign the app](https://help.okta.com/en-us/content/topics/provisioning/lcm/lcm-assign-app-user.htm)
    to the users and groups who should have access to Shorebird.
@@ -145,7 +145,7 @@ For background on how the pieces fit together, see Okta's
 
 Other SAML 2.0 providers, such as Microsoft Entra ID, Google Workspace,
 OneLogin, and JumpCloud, work the same way. The field names differ, but the
-values Shorebird needs are the same.
+metadata document and the settings Shorebird needs are the same.
 
 ## After activation
 
@@ -163,9 +163,11 @@ Shorebird does not re-read your metadata on its own. Every certificate it listed
 when Shorebird last read it is accepted, so a rotation your IdP announced there
 in advance needs nothing from you; a certificate generated since does. Email
 [contact@shorebird.dev](mailto:contact@shorebird.dev) before the old one
-expires, and Shorebird will re-read your metadata URL, or the new certificate as
-PEM text if there is no URL. A certificate Shorebird has never seen breaks
-sign-in for everyone on the domain the moment your IdP starts signing with it.
+expires, and Shorebird will re-read your metadata URL. If your connection was
+created from values sent by hand, send the new certificate as PEM text instead,
+and the old one too if it is still in use. A certificate Shorebird has never
+seen breaks sign-in for everyone on the domain the moment your IdP starts
+signing with it.
 
 ## Troubleshooting
 

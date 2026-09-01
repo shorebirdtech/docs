@@ -3,31 +3,11 @@ title: Upload Coverage
 description: The details of the Upload Coverage check in Shorebird CI
 ---
 
-:::caution[Shorebird CI has been shut down]
+:::caution[Shorebird CI has been deprecated]
 
-Shorebird CI was shut down on **August 8, 2026**. See the
+Shorebird CI was deprecated on **August 8, 2026**. See the
 [Shorebird CI README](https://github.com/shorebirdtech/shorebird/blob/main/packages/shorebird_ci/README.md)
 for migration options.
 
 :::
 
-Shorebird CI's "Upload Coverage" check will upload your coverage report to
-[Codecov](https://about.codecov.io) in order to see a comprehensive history of
-your coverage for your code base.
-
-## Requirements
-
-This check only runs if a Codecov Config file is found in the repository. For
-more information on this please consult the
-[Codecov YAML documentation](https://docs.codecov.com/docs/codecov-yaml) for
-details.
-
-## Available statuses
-
-### Pass
-
-This check passes if the check returns `Process Upload complete`.
-
-### Fail
-
-This check fails if the check returns an error during the upload process.

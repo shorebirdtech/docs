@@ -3,31 +3,11 @@ title: Format
 description: The details of the Format check in Shorebird CI
 ---
 
-:::caution[Shorebird CI has been shut down]
+:::caution[Shorebird CI has been deprecated]
 
-Shorebird CI was shut down on **August 8, 2026**. See the
+Shorebird CI was deprecated on **August 8, 2026**. See the
 [Shorebird CI README](https://github.com/shorebirdtech/shorebird/blob/main/packages/shorebird_ci/README.md)
 for migration options.
 
 :::
 
-Shorebird CI's "Format" check uses
-[`dart format`](https://dart.dev/tools/dart-format) to look for consistent
-formatting across all of your Dart files.
-
-## Requirements
-
-None. As long as your repository has Dart code detected this check will run.
-
-If you have an `analysis_options.yaml` file with customizations, they are
-recognized during this check.
-
-## Available statuses
-
-### Pass
-
-This check passes if the check returns `0 changed`.
-
-### Fail
-
-This check fails if the check finds changes in files.

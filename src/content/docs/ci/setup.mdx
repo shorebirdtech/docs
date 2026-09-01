@@ -7,77 +7,12 @@ sidebar:
   order: 2
 ---
 
-:::caution[Shorebird CI has been shut down]
+:::caution[Shorebird CI has been deprecated]
 
-Shorebird CI was shut down on **August 8, 2026**. See the
+Shorebird CI was deprecated on **August 8, 2026**. See the
 [Shorebird CI README](https://github.com/shorebirdtech/shorebird/blob/main/packages/shorebird_ci/README.md)
 for migration options.
 
 :::
 
-import { Image } from 'astro:assets';
-import ciConsoleNavigation from '~/assets/ci_console_navigation.png';
-import ciLoginWithGitHub from '~/assets/ci_login_with_github_screen.png';
-import ciSetupGitHubOrg from '~/assets/ci_setup_github_org.png';
-import ciGitHubInstall from '~/assets/ci_gh_install.png';
-import ciEnable from '~/assets/ci_enable.png';
-import ciEnabled from '~/assets/ci_enabled.png';
-import ciChecksPassing from '~/assets/ci_checks_passing.png';
 
-:::note
-
-Shorebird CI requires a "Pro" subscription in order to run checks on private
-repositories. Upgrade to the "Pro" CI plan from the
-[Web Console](https://console.shorebird.dev/ci).
-
-:::
-
-Configuring Shorebird CI takes less than a minute and requires zero code
-changes.
-
-1. From the [Web Console](https://console.shorebird.dev), select **CI** from the
-   navigation panel.
-   <Image
-     src={ciConsoleNavigation}
-     alt="Screenshot of the Shorebird Web Console showing the CI item in the navigation panel."
-   />
-2. Sign in with your GitHub account.
-   <Image
-     src={ciLoginWithGitHub}
-     alt="Screenshot of the Shorebird Web Console prompting the user to log in with their GitHub account."
-   />
-3. Install the Shorebird CI GitHub app on the desired GitHub
-   organizations/repositories.
-   <Image
-     src={ciSetupGitHubOrg}
-     alt="Screenshot of the Shorebird Web Console asking to install the Shorebird CI GitHub Application."
-   />
-4. Confirm the installation for the desired organizations/repositories.
-   <Image
-     src={ciGitHubInstall}
-     alt="Screenshot of the Shorebird CI GitHub Application install configuration."
-   />
-5. Refresh the [Web Console](https://console.shorebird.dev/ci) and enable the
-   Shorebird CI service for the desired GitHub organizations.
-   <Image
-     src={ciEnable}
-     alt="Screenshot of the Shorebird Web Console enabling the Shorebird CI service for a specific organization."
-   />
-   <Image
-     src={ciEnabled}
-     alt="Screenshot of the Shorebird Web Console showing the Shorebird CI service enabled for a specific organization."
-   />
-
-## Running Shorebird CI
-
-When you open a pull request or push a new commit to an existing pull request,
-Shorebird CI will automatically run for you. It will detect if there are any
-Dart or Flutter packages and automatically start running the available checks.
-
-<Image
-  src={ciChecksPassing}
-  alt="Screenshot of the Shorebird CI GitHub App checks passing during a pull request"
-/>
-
-To see more details from these checks, you can
-[view the logs for the run](/ci/view-logs/).

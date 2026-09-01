@@ -3,30 +3,11 @@ title: Check Spelling
 description: The details of the Check Spelling check in Shorebird CI
 ---
 
-:::caution[Shorebird CI has been shut down]
+:::caution[Shorebird CI has been deprecated]
 
-Shorebird CI was shut down on **August 8, 2026**. See the
+Shorebird CI was deprecated on **August 8, 2026**. See the
 [Shorebird CI README](https://github.com/shorebirdtech/shorebird/blob/main/packages/shorebird_ci/README.md)
 for migration options.
 
 :::
 
-Shorebird CI's "Check Spelling" check uses [CSpell](https://cspell.org) to look
-for misspelled words in your code base.
-
-## Requirements
-
-This check only runs if a CSpell Config file is found in the repository. For
-more information on this please consult the
-[Getting Started in CSpell Docs](https://cspell.org/docs/getting-started#1-create-a-configuration-file)
-for details.
-
-## Available statuses
-
-### Pass
-
-This check passes if the check returns `Issues found: 0 in 0 files`.
-
-### Fail
-
-This check fails if the check finds any misspellings in any files.

@@ -6,55 +6,11 @@ sidebar:
   order: 1
 ---
 
-:::caution[Shorebird CI has been shut down]
+:::caution[Shorebird CI has been deprecated]
 
-Shorebird CI was shut down on **August 8, 2026**. See the
+Shorebird CI was deprecated on **August 8, 2026**. See the
 [Shorebird CI README](https://github.com/shorebirdtech/shorebird/blob/main/packages/shorebird_ci/README.md)
 for migration options.
 
 :::
 
-## What is Shorebird CI?
-
-Zero-config, production-grade continuous integration for Flutter & Dart.
-
-Shorebird CI automatically runs best practice Flutter & Dart checks on every
-pull request. The Shorebird team built it for themselves and uses it in all of
-Shorebird's repos, and now you can too.
-
-- ✨ Set up takes less than a minute
-- 🚀 Fast Checks
-- ✅ Production Ready
-- 💙 Built for Flutter & Dart
-
-<div style="display:flex;justify-content:center">
-  <iframe
-    style="aspect-ratio:16/9;width:100%;margin-inline:auto;margin-bottom:1em"
-    src="https://www.youtube.com/embed/ZMMV418Dt80?si=yIiBjNynHxrL_DpR"
-    title="YouTube video player"
-    frameborder="0"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-    referrerpolicy="strict-origin-when-cross-origin"
-    allowfullscreen
-  ></iframe>
-</div>
-
-## Requirements for use
-
-Shorebird CI will work on any repository that contains at least one Flutter or
-Dart project, including monorepos.
-
-## How does Shorebird CI work?
-
-When you install the
-[Shorebird CI GitHub app](https://github.com/apps/shorebird-ci) on a GitHub
-organization or repository, Shorebird CI is able to automatically run when a
-relevant GitHub event occurs (e.g., a push or pull request). Shorebird CI
-statically analyzes the repository to determine what checks need to be run and,
-within seconds, the relevant jobs are queued and executed in parallel.
-
-For most repositories, this will be a single package, and the job display name
-will be the name of the package (derived from the `pubspec.yaml`). You can click
-the job to view a summary, detailed logs, and overall results. Click
-`"View more details on Shorebird CI"` to see the full logs in the
-[Shorebird Console](https://console.shorebird.dev/ci).

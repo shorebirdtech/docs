@@ -1,5 +1,5 @@
 ---
-title: API Keys
+title: API Reference
 description: Interact programmatically with the Code Push API
 sidebar:
   order: 3
@@ -37,8 +37,7 @@ There are two kinds of tokens, and which one you use depends on context:
 
 - **API keys** (`sb_api_*`): long-lived,
   [generated from the Shorebird console](https://docs.shorebird.dev/account/api-keys/).
-  Use these for CI pipelines, scripts, and any non-interactive automation. They
-  don't expire and aren't refreshed automatically, so treat them like any other
+  Use these for CI pipelines, scripts, and any non-interactive automation. Default expiration is 1 year, with options for 30 days and 90 days. Treat these like any other
   long-lived secret.
 - **OAuth JWTs**: short-lived (15 minutes), issued by the interactive login flow
   and refreshed automatically by the CLI. Use these for interactive/local

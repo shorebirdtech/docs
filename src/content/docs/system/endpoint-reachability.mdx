@@ -19,6 +19,8 @@ network. You can also share the results when
 
 ## What each endpoint is used for
 
+<!-- vale off -->
+
 | Endpoint                         | Used by                                           |
 | -------------------------------- | ------------------------------------------------- |
 | `https://console.shorebird.dev`  | Shorebird web console                             |
@@ -27,6 +29,8 @@ network. You can also share the results when
 | `https://download.shorebird.dev` | Downloading Flutter artifacts for builds          |
 | `https://storage.googleapis.com` | Uploading / downloading release & patch artifacts |
 | `https://cdn.shorebird.cloud`    | In-app patch delivery CDN                         |
+
+<!-- vale on -->
 
 All traffic travels over HTTPS (port 443) and is encrypted using TLS/SSL. If any
 endpoint is marked as **Unreachable**, that indicates a network-level block

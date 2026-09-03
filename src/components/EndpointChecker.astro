@@ -3,207 +3,235 @@
 // Interactive component to check reachability of all Shorebird endpoints
 ---
 
-<div id="endpoint-checker" class="endpoint-checker">
-  <div class="checker-header">
-    <p class="checker-description">
-      Use this tool to verify that all Shorebird endpoints are reachable from
-      your current network or device. This is useful for diagnosing connectivity
-      issues, particularly in restricted network environments or certain
-      countries.
+<div id="endpoint-checker" class="ec-root">
+  <!-- Header -->
+  <div class="ec-header">
+    <p class="ec-description">
+      Verify that all Shorebird endpoints are reachable from your current
+      network or device. Useful for diagnosing connectivity issues in
+      restricted network environments.
     </p>
-    <button id="check-all-btn" class="check-all-btn" aria-label="Check all endpoints">
-      <span class="btn-icon">▶</span>
-      <span class="btn-text">Check All Endpoints</span>
+    <button id="ec-check-btn" class="ec-btn" aria-label="Check all endpoints">
+      <svg class="ec-btn-icon" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <polygon points="2,1 11,6 2,11" fill="currentColor"/>
+      </svg>
+      <span id="ec-btn-label">Check All Endpoints</span>
     </button>
   </div>
 
-  <div class="endpoints-list" role="list" aria-label="Shorebird endpoints">
-    <!-- Endpoints are rendered by the script below -->
-  </div>
+  <!-- Endpoint rows (populated by JS) -->
+  <div class="ec-list" role="list" aria-label="Shorebird endpoints" id="ec-list"></div>
 
-  <div class="summary-bar" id="summary-bar" aria-live="polite" hidden>
-    <span id="summary-text"></span>
+  <!-- Summary bar -->
+  <div class="ec-summary" id="ec-summary" hidden aria-live="polite">
+    <span class="ec-summary-icon" id="ec-summary-icon" aria-hidden="true"></span>
+    <span id="ec-summary-text"></span>
   </div>
 </div>
 
-<style>
-  .endpoint-checker {
+<!-- Global styles so they apply to JS-created DOM nodes -->
+<style is:global>
+  /* ── Root ─────────────────────────────────────────────────────────── */
+  #endpoint-checker.ec-root {
     border: 1px solid var(--sl-color-gray-5);
     border-radius: 0.75rem;
     overflow: hidden;
     margin: 1.5rem 0;
-    background: var(--sl-color-black);
+    font-family: var(--sl-font, sans-serif);
   }
 
-  .checker-header {
-    padding: 1.25rem 1.5rem;
-    border-bottom: 1px solid var(--sl-color-gray-5);
+  /* ── Header ──────────────────────────────────────────────────────── */
+  #endpoint-checker .ec-header {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
     gap: 1rem;
+    padding: 1.1rem 1.5rem;
+    background: var(--sl-color-bg-sidebar);
+    border-bottom: 1px solid var(--sl-color-gray-5);
   }
 
-  .checker-description {
+  #endpoint-checker .ec-description {
     margin: 0;
-    color: var(--sl-color-gray-2);
-    font-size: 0.9rem;
+    flex: 1 1 18rem;
+    font-size: 0.875rem;
     line-height: 1.6;
+    color: var(--sl-color-gray-2);
   }
 
-  .check-all-btn {
+  /* ── Button ──────────────────────────────────────────────────────── */
+  #endpoint-checker .ec-btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    background: var(--sl-color-accent);
-    color: var(--sl-color-white);
+    gap: 0.45rem;
+    flex-shrink: 0;
+    padding: 0.5rem 1.1rem;
     border: none;
     border-radius: 0.5rem;
-    padding: 0.6rem 1.25rem;
-    font-size: 0.9rem;
+    background: var(--sl-color-accent);
+    color: #fff;
+    font-size: 0.875rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-    align-self: flex-start;
+    transition: background 0.18s, box-shadow 0.18s, transform 0.1s;
   }
 
-  .check-all-btn:hover {
+  #endpoint-checker .ec-btn:hover:not(:disabled) {
     background: var(--sl-color-accent-high);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--sl-color-accent) 28%, transparent);
   }
 
-  .check-all-btn:active {
+  #endpoint-checker .ec-btn:active:not(:disabled) {
     transform: scale(0.97);
   }
 
-  .check-all-btn:disabled {
-    opacity: 0.6;
+  #endpoint-checker .ec-btn:disabled {
+    opacity: 0.55;
     cursor: not-allowed;
   }
 
-  .btn-icon {
-    font-size: 0.75rem;
+  #endpoint-checker .ec-btn-icon {
+    display: block;
+    flex-shrink: 0;
   }
 
-  .endpoints-list {
+  /* ── Endpoint list ───────────────────────────────────────────────── */
+  #endpoint-checker .ec-list {
     display: flex;
     flex-direction: column;
+    background: var(--sl-color-bg);
   }
 
-  .endpoint-row {
-    display: grid;
-    grid-template-columns: 1fr auto;
+  /* ── Row ─────────────────────────────────────────────────────────── */
+  #endpoint-checker .ec-row {
+    display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 1rem;
-    padding: 0.9rem 1.5rem;
-    border-bottom: 1px solid var(--sl-color-gray-6);
-    transition: background 0.15s;
+    padding: 0.8rem 1.5rem;
+    border-bottom: 1px solid var(--sl-color-gray-6, var(--sl-color-gray-5));
+    transition: background 0.12s;
   }
 
-  .endpoint-row:last-child {
+  #endpoint-checker .ec-row:last-child {
     border-bottom: none;
   }
 
-  .endpoint-row:hover {
-    background: var(--sl-color-gray-7, rgba(255,255,255,0.03));
+  #endpoint-checker .ec-row:hover {
+    background: var(--sl-color-bg-sidebar);
   }
 
-  .endpoint-info {
+  #endpoint-checker .ec-row-info {
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
+    gap: 0.15rem;
     min-width: 0;
   }
 
-  .endpoint-url {
-    font-family: var(--sl-font-mono, monospace);
+  #endpoint-checker .ec-url {
+    font-family: var(--sl-font-mono, 'ui-monospace', monospace);
     font-size: 0.82rem;
+    font-weight: 500;
     color: var(--sl-color-white);
     word-break: break-all;
   }
 
-  .endpoint-desc {
-    font-size: 0.78rem;
+  #endpoint-checker .ec-desc {
+    font-size: 0.775rem;
     color: var(--sl-color-gray-3);
   }
 
-  .endpoint-status {
-    display: flex;
+  /* ── Badge ───────────────────────────────────────────────────────── */
+  #endpoint-checker .ec-badge {
+    display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    font-size: 0.8rem;
+    gap: 0.35rem;
+    flex-shrink: 0;
+    padding: 0.25rem 0.65rem;
+    border-radius: 99px;
+    font-size: 0.75rem;
     font-weight: 600;
     white-space: nowrap;
-    min-width: 90px;
-    justify-content: flex-end;
+    border: 1px solid transparent;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
   }
 
-  .status-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    transition: background 0.3s;
-  }
-
-  .status-idle .status-dot {
-    background: var(--sl-color-gray-4);
-  }
-
-  .status-idle .status-label {
+  #endpoint-checker .ec-badge[data-status="idle"] {
+    background: color-mix(in srgb, var(--sl-color-gray-4) 14%, transparent);
     color: var(--sl-color-gray-3);
+    border-color: color-mix(in srgb, var(--sl-color-gray-4) 28%, transparent);
   }
 
-  .status-checking .status-dot {
-    background: #f59e0b;
-    animation: pulse 1s infinite;
+  #endpoint-checker .ec-badge[data-status="checking"] {
+    background: color-mix(in srgb, #f59e0b 14%, transparent);
+    color: #d97706;
+    border-color: color-mix(in srgb, #f59e0b 35%, transparent);
   }
 
-  .status-checking .status-label {
-    color: #f59e0b;
+  :root[data-theme='dark'] #endpoint-checker .ec-badge[data-status="checking"] {
+    color: #fbbf24;
   }
 
-  .status-reachable .status-dot {
-    background: #22c55e;
+  #endpoint-checker .ec-badge[data-status="reachable"] {
+    background: color-mix(in srgb, #22c55e 14%, transparent);
+    color: #16a34a;
+    border-color: color-mix(in srgb, #22c55e 35%, transparent);
   }
 
-  .status-reachable .status-label {
-    color: #22c55e;
+  :root[data-theme='dark'] #endpoint-checker .ec-badge[data-status="reachable"] {
+    color: #4ade80;
   }
 
-  .status-unreachable .status-dot {
-    background: #ef4444;
+  #endpoint-checker .ec-badge[data-status="unreachable"] {
+    background: color-mix(in srgb, #ef4444 14%, transparent);
+    color: #dc2626;
+    border-color: color-mix(in srgb, #ef4444 35%, transparent);
   }
 
-  .status-unreachable .status-label {
-    color: #ef4444;
+  :root[data-theme='dark'] #endpoint-checker .ec-badge[data-status="unreachable"] {
+    color: #f87171;
   }
 
-  .status-error .status-dot {
-    background: #f97316;
+  /* ── Dot (inside badge) ──────────────────────────────────────────── */
+  #endpoint-checker .ec-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
   }
 
-  .status-error .status-label {
-    color: #f97316;
+  #endpoint-checker .ec-badge[data-status="checking"] .ec-dot {
+    animation: ec-pulse 0.85s ease-in-out infinite;
   }
 
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
+  @keyframes ec-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.25; transform: scale(0.65); }
   }
 
-  .summary-bar {
-    padding: 0.75rem 1.5rem;
+  /* ── Summary bar ─────────────────────────────────────────────────── */
+  #endpoint-checker .ec-summary {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.8rem 1.5rem;
     border-top: 1px solid var(--sl-color-gray-5);
     font-size: 0.85rem;
     font-weight: 600;
-    color: var(--sl-color-gray-2);
+    background: var(--sl-color-bg-sidebar);
   }
 
-  .summary-all-ok {
-    color: #22c55e;
-  }
+  #endpoint-checker .ec-summary[data-result="ok"]   { color: #16a34a; }
+  #endpoint-checker .ec-summary[data-result="fail"] { color: #dc2626; }
 
-  .summary-some-fail {
-    color: #ef4444;
+  :root[data-theme='dark'] #endpoint-checker .ec-summary[data-result="ok"]   { color: #4ade80; }
+  :root[data-theme='dark'] #endpoint-checker .ec-summary[data-result="fail"] { color: #f87171; }
+
+  #endpoint-checker .ec-summary-icon {
+    font-size: 0.95rem;
+    line-height: 1;
   }
 </style>
 
@@ -211,173 +239,130 @@
   interface Endpoint {
     url: string;
     description: string;
-    /**
-     * Some endpoints return non-200 for a plain GET but are still "reachable".
-     * We treat any response (even 4xx/5xx) as "reachable" — only network-level
-     * failures (CORS / no-response) indicate true unreachability.
-     *
-     * Set `probeOnly` to indicate that we just care about a network-level
-     * response, not any specific HTTP status.
-     */
-    probeOnly?: boolean;
   }
 
   const ENDPOINTS: Endpoint[] = [
-    {
-      url: 'https://console.shorebird.dev',
-      description: 'Shorebird web console',
-    },
-    {
-      url: 'https://api.shorebird.dev',
-      description: 'CLI tools & in-app updater API',
-      probeOnly: true,
-    },
-    {
-      url: 'https://auth.shorebird.dev',
-      description: 'Authentication service',
-      probeOnly: true,
-    },
-    {
-      url: 'https://download.shorebird.dev',
-      description: 'Flutter artifact downloads',
-      probeOnly: true,
-    },
-    {
-      url: 'https://storage.googleapis.com',
-      description: 'Release & patch artifact storage',
-      probeOnly: true,
-    },
-    {
-      url: 'https://cdn.shorebird.cloud',
-      description: 'Patch delivery CDN (in-app updater)',
-      probeOnly: true,
-    },
+    { url: 'https://console.shorebird.dev',  description: 'Web console' },
+    { url: 'https://api.shorebird.dev',      description: 'CLI tools & in-app updater API' },
+    { url: 'https://auth.shorebird.dev',     description: 'Authentication service' },
+    { url: 'https://download.shorebird.dev', description: 'Flutter artifact downloads' },
+    { url: 'https://storage.googleapis.com', description: 'Release & patch artifact storage' },
+    { url: 'https://cdn.shorebird.cloud',    description: 'Patch delivery CDN' },
   ];
 
-  type Status = 'idle' | 'checking' | 'reachable' | 'unreachable' | 'error';
+  type Status = 'idle' | 'checking' | 'reachable' | 'unreachable';
 
-  interface EndpointState {
-    status: Status;
-    label: string;
-  }
+  const STATUS_LABELS: Record<Status, string> = {
+    idle: 'Not checked',
+    checking: 'Checking…',
+    reachable: 'Reachable',
+    unreachable: 'Unreachable',
+  };
 
-  function statusLabel(s: Status): string {
-    switch (s) {
-      case 'idle':        return 'Not checked';
-      case 'checking':    return 'Checking…';
-      case 'reachable':   return 'Reachable';
-      case 'unreachable': return 'Unreachable';
-      case 'error':       return 'Error';
-    }
-  }
-
-  function renderRow(ep: Endpoint): HTMLElement {
+  function buildRow(ep: Endpoint): HTMLElement {
     const row = document.createElement('div');
-    row.className = 'endpoint-row';
+    row.className = 'ec-row';
     row.setAttribute('role', 'listitem');
-    row.dataset.url = ep.url;
 
-    row.innerHTML = `
-      <div class="endpoint-info">
-        <span class="endpoint-url">${ep.url}</span>
-        <span class="endpoint-desc">${ep.description}</span>
-      </div>
-      <div class="endpoint-status status-idle" data-status-container>
-        <span class="status-dot"></span>
-        <span class="status-label">${statusLabel('idle')}</span>
-      </div>
-    `;
+    const info = document.createElement('div');
+    info.className = 'ec-row-info';
+
+    const urlEl = document.createElement('span');
+    urlEl.className = 'ec-url';
+    urlEl.textContent = ep.url;
+
+    const descEl = document.createElement('span');
+    descEl.className = 'ec-desc';
+    descEl.textContent = ep.description;
+
+    info.append(urlEl, descEl);
+
+    const badge = document.createElement('span');
+    badge.className = 'ec-badge';
+    badge.dataset.status = 'idle';
+
+    const dot = document.createElement('span');
+    dot.className = 'ec-dot';
+
+    const label = document.createElement('span');
+    label.className = 'ec-badge-label';
+    label.textContent = STATUS_LABELS.idle;
+
+    badge.append(dot, label);
+    row.append(info, badge);
     return row;
   }
 
-  function setRowStatus(row: HTMLElement, status: Status) {
-    const container = row.querySelector('[data-status-container]') as HTMLElement;
-    if (!container) return;
-    container.className = `endpoint-status status-${status}`;
-    const label = container.querySelector('.status-label') as HTMLElement;
-    if (label) label.textContent = statusLabel(status);
+  function setBadge(row: HTMLElement, status: Status) {
+    const badge = row.querySelector('.ec-badge') as HTMLElement | null;
+    if (!badge) return;
+    badge.dataset.status = status;
+    const lbl = badge.querySelector('.ec-badge-label') as HTMLElement | null;
+    if (lbl) lbl.textContent = STATUS_LABELS[status];
   }
 
-  async function checkEndpoint(ep: Endpoint, row: HTMLElement): Promise<boolean> {
-    setRowStatus(row, 'checking');
+  async function probe(ep: Endpoint, row: HTMLElement): Promise<boolean> {
+    setBadge(row, 'checking');
     try {
-      // Use no-cors so we can at least detect if the server responds at all.
-      // With no-cors, a successful fetch (opaque response) means reachable.
-      // A network error means unreachable.
       await fetch(ep.url, {
         method: 'HEAD',
         mode: 'no-cors',
         cache: 'no-store',
-        // Short timeout via AbortController
         signal: AbortSignal.timeout(10_000),
       });
-      // If we get here (opaque OR normal response), the server is reachable.
-      setRowStatus(row, 'reachable');
+      setBadge(row, 'reachable');
       return true;
-    } catch (err: unknown) {
-      // AbortError = timeout, TypeError = network failure (DNS/CORS block at network level)
-      if (err instanceof DOMException && err.name === 'AbortError') {
-        setRowStatus(row, 'unreachable');
-      } else {
-        setRowStatus(row, 'unreachable');
-      }
+    } catch {
+      setBadge(row, 'unreachable');
       return false;
     }
   }
 
-  function updateSummary(results: boolean[]) {
-    const bar = document.getElementById('summary-bar') as HTMLElement;
-    const text = document.getElementById('summary-text') as HTMLElement;
-    if (!bar || !text) return;
+  function showSummary(results: boolean[]) {
+    const bar  = document.getElementById('ec-summary') as HTMLElement | null;
+    const icon = document.getElementById('ec-summary-icon') as HTMLElement | null;
+    const text = document.getElementById('ec-summary-text') as HTMLElement | null;
+    if (!bar || !icon || !text) return;
 
     const total = results.length;
     const ok = results.filter(Boolean).length;
+    const allOk = ok === total;
 
     bar.hidden = false;
-    if (ok === total) {
-      text.textContent = `✓ All ${total} endpoints are reachable from your network.`;
-      text.className = 'summary-all-ok';
-    } else {
-      text.textContent = `✗ ${total - ok} of ${total} endpoints could not be reached. You may experience issues with Shorebird on this network.`;
-      text.className = 'summary-some-fail';
-    }
+    bar.dataset.result = allOk ? 'ok' : 'fail';
+    icon.textContent = allOk ? '✓' : '✗';
+    text.textContent = allOk
+      ? `All ${total} endpoints are reachable from your network.`
+      : `${total - ok} of ${total} endpoint${total - ok !== 1 ? 's' : ''} could not be reached — you may experience issues on this network.`;
   }
 
   function init() {
-    const list = document.querySelector('.endpoints-list') as HTMLElement;
-    const btn = document.getElementById('check-all-btn') as HTMLButtonElement;
-    if (!list || !btn) return;
+    const list  = document.getElementById('ec-list') as HTMLElement | null;
+    const btn   = document.getElementById('ec-check-btn') as HTMLButtonElement | null;
+    const lblEl = document.getElementById('ec-btn-label') as HTMLElement | null;
+    if (!list || !btn || !lblEl) return;
 
-    // Render rows
-    const rows: HTMLElement[] = [];
-    for (const ep of ENDPOINTS) {
-      const row = renderRow(ep);
+    const rows: HTMLElement[] = ENDPOINTS.map(ep => {
+      const row = buildRow(ep);
       list.appendChild(row);
-      rows.push(row);
-    }
+      return row;
+    });
 
     btn.addEventListener('click', async () => {
       btn.disabled = true;
-      const btnText = btn.querySelector('.btn-text') as HTMLElement;
-      if (btnText) btnText.textContent = 'Checking…';
+      lblEl.textContent = 'Checking…';
 
-      // Reset summary
-      const bar = document.getElementById('summary-bar') as HTMLElement;
+      const bar = document.getElementById('ec-summary') as HTMLElement | null;
       if (bar) bar.hidden = true;
 
-      // Check all endpoints in parallel
-      const results = await Promise.all(
-        ENDPOINTS.map((ep, i) => checkEndpoint(ep, rows[i]!))
-      );
+      const results = await Promise.all(ENDPOINTS.map((ep, i) => probe(ep, rows[i]!)));
 
-      updateSummary(results);
-
+      showSummary(results);
       btn.disabled = false;
-      if (btnText) btnText.textContent = 'Re-check All';
+      lblEl.textContent = 'Re-check All';
     });
   }
 
-  // Run after DOM is ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {

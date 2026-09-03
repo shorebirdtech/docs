@@ -1,0 +1,54 @@
+---
+title: Endpoint Reachability
+description: Check whether all Shorebird endpoints are reachable from your device or network.
+sidebar:
+  order: 3
+---
+
+import EndpointChecker from '../../../components/EndpointChecker.astro';
+
+Some networks — including certain corporate firewalls, ISPs, or country-level
+filters — may block access to one or more Shorebird endpoints. Use the tool
+below to check whether every endpoint is reachable from your current device and
+network. You can also share the results when [filing a support request](https://discord.gg/shorebird).
+
+<EndpointChecker />
+
+## What each endpoint is used for
+
+| Endpoint | Used by |
+|---|---|
+| `https://console.shorebird.dev` | Shorebird web console |
+| `https://api.shorebird.dev` | `shorebird` CLI tools & the in-app updater |
+| `https://auth.shorebird.dev` | Authentication (login / token exchange) |
+| `https://download.shorebird.dev` | Downloading Flutter artifacts for builds |
+| `https://storage.googleapis.com` | Uploading / downloading release & patch artifacts |
+| `https://cdn.shorebird.cloud` | In-app patch delivery CDN |
+
+All traffic travels over HTTPS (port 443) and is encrypted using TLS/SSL. If
+any endpoint is marked as **Unreachable**, that indicates a network-level block
+between your device and Shorebird's servers — not a Shorebird outage.
+
+:::note
+The checker works by making browser-level network requests. It detects whether
+your device can _reach_ each server, but cannot distinguish between a complete
+block and a very slow connection. If a request times out (after 10 seconds) it
+will also be reported as unreachable.
+:::
+
+## What to do if an endpoint is unreachable
+
+1. **Try a different network.** Switch from Wi-Fi to mobile data (or vice
+   versa) to determine whether the block is network-specific.
+2. **Check your firewall rules.** If you are on a corporate or school network,
+   ask your IT administrator to allow the endpoints listed above on port 443.
+3. **Check Shorebird's status.** Visit [status.shorebird.dev](https://status.shorebird.dev)
+   to see if there is a known outage.
+4. **Ask for help.** Reach out on [Discord](https://discord.gg/shorebird) with
+   your results and someone from the team will help you.
+
+:::tip
+If you are in a region that requires `FLUTTER_STORAGE_BASE_URL`, see the
+[FAQ](/code-push/faq/#can-you-use-shorebird-in-your-country) for more
+information on current limitations and planned improvements.
+:::

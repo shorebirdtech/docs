@@ -1,0 +1,386 @@
+---
+// EndpointChecker.astro
+// Interactive component to check reachability of all Shorebird endpoints
+---
+
+<div id="endpoint-checker" class="endpoint-checker">
+  <div class="checker-header">
+    <p class="checker-description">
+      Use this tool to verify that all Shorebird endpoints are reachable from
+      your current network or device. This is useful for diagnosing connectivity
+      issues, particularly in restricted network environments or certain
+      countries.
+    </p>
+    <button id="check-all-btn" class="check-all-btn" aria-label="Check all endpoints">
+      <span class="btn-icon">▶</span>
+      <span class="btn-text">Check All Endpoints</span>
+    </button>
+  </div>
+
+  <div class="endpoints-list" role="list" aria-label="Shorebird endpoints">
+    <!-- Endpoints are rendered by the script below -->
+  </div>
+
+  <div class="summary-bar" id="summary-bar" aria-live="polite" hidden>
+    <span id="summary-text"></span>
+  </div>
+</div>
+
+<style>
+  .endpoint-checker {
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    margin: 1.5rem 0;
+    background: var(--sl-color-black);
+  }
+
+  .checker-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--sl-color-gray-5);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .checker-description {
+    margin: 0;
+    color: var(--sl-color-gray-2);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .check-all-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--sl-color-accent);
+    color: var(--sl-color-white);
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.6rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    align-self: flex-start;
+  }
+
+  .check-all-btn:hover {
+    background: var(--sl-color-accent-high);
+  }
+
+  .check-all-btn:active {
+    transform: scale(0.97);
+  }
+
+  .check-all-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .btn-icon {
+    font-size: 0.75rem;
+  }
+
+  .endpoints-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .endpoint-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.9rem 1.5rem;
+    border-bottom: 1px solid var(--sl-color-gray-6);
+    transition: background 0.15s;
+  }
+
+  .endpoint-row:last-child {
+    border-bottom: none;
+  }
+
+  .endpoint-row:hover {
+    background: var(--sl-color-gray-7, rgba(255,255,255,0.03));
+  }
+
+  .endpoint-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+  }
+
+  .endpoint-url {
+    font-family: var(--sl-font-mono, monospace);
+    font-size: 0.82rem;
+    color: var(--sl-color-white);
+    word-break: break-all;
+  }
+
+  .endpoint-desc {
+    font-size: 0.78rem;
+    color: var(--sl-color-gray-3);
+  }
+
+  .endpoint-status {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+    min-width: 90px;
+    justify-content: flex-end;
+  }
+
+  .status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: background 0.3s;
+  }
+
+  .status-idle .status-dot {
+    background: var(--sl-color-gray-4);
+  }
+
+  .status-idle .status-label {
+    color: var(--sl-color-gray-3);
+  }
+
+  .status-checking .status-dot {
+    background: #f59e0b;
+    animation: pulse 1s infinite;
+  }
+
+  .status-checking .status-label {
+    color: #f59e0b;
+  }
+
+  .status-reachable .status-dot {
+    background: #22c55e;
+  }
+
+  .status-reachable .status-label {
+    color: #22c55e;
+  }
+
+  .status-unreachable .status-dot {
+    background: #ef4444;
+  }
+
+  .status-unreachable .status-label {
+    color: #ef4444;
+  }
+
+  .status-error .status-dot {
+    background: #f97316;
+  }
+
+  .status-error .status-label {
+    color: #f97316;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .summary-bar {
+    padding: 0.75rem 1.5rem;
+    border-top: 1px solid var(--sl-color-gray-5);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--sl-color-gray-2);
+  }
+
+  .summary-all-ok {
+    color: #22c55e;
+  }
+
+  .summary-some-fail {
+    color: #ef4444;
+  }
+</style>
+
+<script>
+  interface Endpoint {
+    url: string;
+    description: string;
+    /**
+     * Some endpoints return non-200 for a plain GET but are still "reachable".
+     * We treat any response (even 4xx/5xx) as "reachable" — only network-level
+     * failures (CORS / no-response) indicate true unreachability.
+     *
+     * Set `probeOnly` to indicate that we just care about a network-level
+     * response, not any specific HTTP status.
+     */
+    probeOnly?: boolean;
+  }
+
+  const ENDPOINTS: Endpoint[] = [
+    {
+      url: 'https://console.shorebird.dev',
+      description: 'Shorebird web console',
+    },
+    {
+      url: 'https://api.shorebird.dev',
+      description: 'CLI tools & in-app updater API',
+      probeOnly: true,
+    },
+    {
+      url: 'https://auth.shorebird.dev',
+      description: 'Authentication service',
+      probeOnly: true,
+    },
+    {
+      url: 'https://download.shorebird.dev',
+      description: 'Flutter artifact downloads',
+      probeOnly: true,
+    },
+    {
+      url: 'https://storage.googleapis.com',
+      description: 'Release & patch artifact storage',
+      probeOnly: true,
+    },
+    {
+      url: 'https://cdn.shorebird.cloud',
+      description: 'Patch delivery CDN (in-app updater)',
+      probeOnly: true,
+    },
+  ];
+
+  type Status = 'idle' | 'checking' | 'reachable' | 'unreachable' | 'error';
+
+  interface EndpointState {
+    status: Status;
+    label: string;
+  }
+
+  function statusLabel(s: Status): string {
+    switch (s) {
+      case 'idle':        return 'Not checked';
+      case 'checking':    return 'Checking…';
+      case 'reachable':   return 'Reachable';
+      case 'unreachable': return 'Unreachable';
+      case 'error':       return 'Error';
+    }
+  }
+
+  function renderRow(ep: Endpoint): HTMLElement {
+    const row = document.createElement('div');
+    row.className = 'endpoint-row';
+    row.setAttribute('role', 'listitem');
+    row.dataset.url = ep.url;
+
+    row.innerHTML = `
+      <div class="endpoint-info">
+        <span class="endpoint-url">${ep.url}</span>
+        <span class="endpoint-desc">${ep.description}</span>
+      </div>
+      <div class="endpoint-status status-idle" data-status-container>
+        <span class="status-dot"></span>
+        <span class="status-label">${statusLabel('idle')}</span>
+      </div>
+    `;
+    return row;
+  }
+
+  function setRowStatus(row: HTMLElement, status: Status) {
+    const container = row.querySelector('[data-status-container]') as HTMLElement;
+    if (!container) return;
+    container.className = `endpoint-status status-${status}`;
+    const label = container.querySelector('.status-label') as HTMLElement;
+    if (label) label.textContent = statusLabel(status);
+  }
+
+  async function checkEndpoint(ep: Endpoint, row: HTMLElement): Promise<boolean> {
+    setRowStatus(row, 'checking');
+    try {
+      // Use no-cors so we can at least detect if the server responds at all.
+      // With no-cors, a successful fetch (opaque response) means reachable.
+      // A network error means unreachable.
+      await fetch(ep.url, {
+        method: 'HEAD',
+        mode: 'no-cors',
+        cache: 'no-store',
+        // Short timeout via AbortController
+        signal: AbortSignal.timeout(10_000),
+      });
+      // If we get here (opaque OR normal response), the server is reachable.
+      setRowStatus(row, 'reachable');
+      return true;
+    } catch (err: unknown) {
+      // AbortError = timeout, TypeError = network failure (DNS/CORS block at network level)
+      if (err instanceof DOMException && err.name === 'AbortError') {
+        setRowStatus(row, 'unreachable');
+      } else {
+        setRowStatus(row, 'unreachable');
+      }
+      return false;
+    }
+  }
+
+  function updateSummary(results: boolean[]) {
+    const bar = document.getElementById('summary-bar') as HTMLElement;
+    const text = document.getElementById('summary-text') as HTMLElement;
+    if (!bar || !text) return;
+
+    const total = results.length;
+    const ok = results.filter(Boolean).length;
+
+    bar.hidden = false;
+    if (ok === total) {
+      text.textContent = `✓ All ${total} endpoints are reachable from your network.`;
+      text.className = 'summary-all-ok';
+    } else {
+      text.textContent = `✗ ${total - ok} of ${total} endpoints could not be reached. You may experience issues with Shorebird on this network.`;
+      text.className = 'summary-some-fail';
+    }
+  }
+
+  function init() {
+    const list = document.querySelector('.endpoints-list') as HTMLElement;
+    const btn = document.getElementById('check-all-btn') as HTMLButtonElement;
+    if (!list || !btn) return;
+
+    // Render rows
+    const rows: HTMLElement[] = [];
+    for (const ep of ENDPOINTS) {
+      const row = renderRow(ep);
+      list.appendChild(row);
+      rows.push(row);
+    }
+
+    btn.addEventListener('click', async () => {
+      btn.disabled = true;
+      const btnText = btn.querySelector('.btn-text') as HTMLElement;
+      if (btnText) btnText.textContent = 'Checking…';
+
+      // Reset summary
+      const bar = document.getElementById('summary-bar') as HTMLElement;
+      if (bar) bar.hidden = true;
+
+      // Check all endpoints in parallel
+      const results = await Promise.all(
+        ENDPOINTS.map((ep, i) => checkEndpoint(ep, rows[i]!))
+      );
+
+      updateSummary(results);
+
+      btn.disabled = false;
+      if (btnText) btnText.textContent = 'Re-check All';
+    });
+  }
+
+  // Run after DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+</script>

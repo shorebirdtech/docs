@@ -19,18 +19,14 @@ network. You can also share the results when
 
 ## What each endpoint is used for
 
-<!-- vale off -->
-
-| Endpoint                         | Used by                                           |
-| -------------------------------- | ------------------------------------------------- |
-| `https://console.shorebird.dev`  | Shorebird web console                             |
-| `https://api.shorebird.dev`      | Shorebird CLI tools & the in-app updater          |
-| `https://auth.shorebird.dev`     | Authentication (login / token exchange)           |
-| `https://download.shorebird.dev` | Downloading Flutter artifacts for builds          |
-| `https://storage.googleapis.com` | Uploading / downloading release & patch artifacts |
-| `https://cdn.shorebird.cloud`    | In-app patch delivery CDN                         |
-
-<!-- vale on -->
+| Endpoint                                                         | Used by                                           |
+| ---------------------------------------------------------------- | ------------------------------------------------- |
+| [https://console.shorebird.dev](https://console.shorebird.dev)   | Shorebird web console                             |
+| [https://api.shorebird.dev](https://api.shorebird.dev)           | Shorebird CLI tools & the in-app updater          |
+| [https://auth.shorebird.dev](https://auth.shorebird.dev)         | Authentication (login / token exchange)           |
+| [https://download.shorebird.dev](https://download.shorebird.dev) | Downloading Flutter artifacts for builds          |
+| [https://storage.googleapis.com](https://storage.googleapis.com) | Uploading / downloading release & patch artifacts |
+| [https://cdn.shorebird.cloud](https://cdn.shorebird.cloud)       | In-app patch delivery CDN                         |
 
 All traffic travels over HTTPS (port 443) and is encrypted using TLS/SSL. If any
 endpoint is marked as **Unreachable**, that indicates a network-level block

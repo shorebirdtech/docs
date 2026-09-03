@@ -1,0 +1,85 @@
+---
+title: API Reference
+description: Interact programmatically with the Code Push API
+sidebar:
+  order: 3
+---
+
+# API specification
+
+Interact programmatically with your Shorebird account. You can manage apps,
+releases, and over-the-air patches with the Shorebird Code Push API. It offers
+everything the `Shorebird` CLI does under the hood.
+
+The full, always-up-to-date reference is published as an OpenAPI 3 document:
+
+[**https://api.shorebird.dev/openapi.json**](https://api.shorebird.dev/openapi.json)
+
+Load that URL into any OpenAPI-compatible viewer to browse every endpoint,
+parameter, and schema interactively.
+
+## Base URL
+
+```
+https://api.shorebird.dev/api/v1
+```
+
+## Authentication
+
+Every request (other than the patch-check endpoint, see below) needs a bearer
+token:
+
+```
+Authorization: Bearer <token>
+```
+
+There are two kinds of tokens, and which one you use depends on context:
+
+- **API keys** (`sb_api_*`): long-lived,
+  [generated from the Shorebird console](https://docs.shorebird.dev/account/api-keys/).
+  Use these for CI pipelines, scripts, and any non-interactive automation.
+  Default expiration is 1 year, with options for 30 days and 90 days. Treat
+  these like any other long-lived secret.
+- **OAuth JWTs**: short-lived (15 minutes), issued by the interactive login flow
+  and refreshed automatically by the CLI. Use these for interactive/local
+  tooling. Given the fast expiration these should not be hardcoded anywhere.
+
+## Resource model
+
+The core objects and how they relate:
+
+- **Organization** → has **Users** as members, with a **Role** (owner, admin,
+  appManager, developer, viewer) each.
+- **App** → belongs to an organization, has **Collaborators** and **Channels**
+  (e.g. stable, beta).
+- **Release** → belongs to an app, has a platform (`android`, `ios`, `linux`,
+  `macos`, `windows`) and status (`draft`, `active`), and one or more **Release
+  Artifacts** (the platform/arch-specific binaries).
+- **Patch** → an OTA update tied to a release, with its own **Patch Artifacts**;
+  patches get promoted to a channel to go live for devices.
+
+## Endpoint groups
+
+The spec organizes endpoints under these tags. See the linked reference for full
+parameter and response detail on each:
+
+- **Users**: the authenticated user's account
+- **Apps**: create/list/delete apps, fetch app icons
+- **Collaborators**: manage who has access to an app
+- **Channels**: release channels for distributing patches
+- **Releases**: create and manage releases and their artifacts
+- **Patches**: create patches, register artifacts, promote to a channel, and
+  check for available patches from a device
+- **Metrics**: version distribution, device growth, patch
+  adoption/installs/downloads, active-hours and activity-heatmap analytics
+- **Organizations**: list memberships, org apps, and org users
+- **Diagnostics**: GCP upload/download speed-test URLs
+
+## Common patterns
+
+- **Errors** — non-2xx responses return a standard `ErrorResponse` shape with a
+  `code`, a human-readable `message`, and optional `details`. Check the spec for
+  the schema.
+- **Unauthenticated endpoint** — `POST /patches/check` is the one exception to
+  the auth rule above: it's what a device calls to check for an available patch,
+  and it doesn't require a bearer token.

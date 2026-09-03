@@ -398,7 +398,7 @@
     icon.textContent = allOk ? '✓' : '✗';
     text.textContent = allOk
       ? `All ${total} endpoints are reachable from your network.`
-      : `${total - ok} of ${total} endpoint${total - ok !== 1 ? 's' : ''} could not be reached — you may experience issues on this network.`;
+      : `${total - ok} of ${total} endpoint${total - ok !== 1 ? 's' : ''} could not be reached. You may experience issues on this network.`;
   }
 
   function init() {

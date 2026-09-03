@@ -29,11 +29,12 @@ All traffic travels over HTTPS (port 443) and is encrypted using TLS/SSL. If
 any endpoint is marked as **Unreachable**, that indicates a network-level block
 between your device and Shorebird's servers, not a Shorebird outage.
 
-:::note
-The checker works by making browser-level network requests. It detects whether
-your device can _reach_ each server, but cannot distinguish between a complete
-block and a very slow connection. If a request times out (after 10 seconds) it
-will also be reported as unreachable.
+::: note
+The checker tests network-level reachability, not HTTP correctness. Any
+HTTP response from a server (including 4xx or 5xx status codes) confirms
+the endpoint is reachable from your network. Only a complete failure to
+connect (such as a DNS error, firewall block, or timeout) will be reported
+as unreachable.
 :::
 
 ## What to do if an endpoint is unreachable

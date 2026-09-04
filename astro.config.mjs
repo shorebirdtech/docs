@@ -121,7 +121,16 @@ export default defineConfig({
           errorOnFallbackPages: false,
           errorOnInconsistentLocale: true,
         }),
-        starlightLlmsTxt(),
+        starlightLlmsTxt({
+          optionalLinks: [
+            {
+              label: "OpenAPI specification",
+              url: "https://api.shorebird.dev/openapi.json",
+              description:
+                "Full OpenAPI 3.1 spec for the Shorebird Code Push API — endpoints, auth, and schemas",
+            },
+          ],
+        }),
       ],
     }),
     opengraphImages({

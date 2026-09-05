@@ -8,6 +8,7 @@ sidebar:
 ---
 
 import { CodeTabs, LinkCard } from 'starlight-theme-nova/components';
+import ArcadeEmbed from '~/components/ArcadeEmbed.astro';
 
 **Tracks** are named deployment channels that control which devices receive a
 patch. Every Shorebird app has a built-in `stable` track, which is the default
@@ -50,6 +51,11 @@ for your team.
 :::
 
 ## Publishing a patch to a track
+
+<ArcadeEmbed
+  src="https://app.arcade.software/share/n22dgnzUR0qwvjNciQ2i"
+  title="Pushing a patch to staging track"
+/>
 
 Pass the `--track` flag to any `shorebird patch` command. If you omit the flag,
 the patch is published to `stable` by default.

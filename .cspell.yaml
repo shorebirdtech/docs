@@ -53,6 +53,8 @@ words:
   - graphql
   - geocodes
   - hotfixes
+  - idfa
+  - idfv
   - jank
   - janky
   - lateinit

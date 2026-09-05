@@ -76,3 +76,9 @@ h6 {
 .sidebar-content details details summary:hover .large {
   color: var(--sl-color-white) !important;
 }
+
+/* Starlight sizes the logo to fill the nav height. The console renders the
+   same wordmark at 1.375rem. */
+.site-title img {
+  height: 1.5rem;
+}

@@ -488,8 +488,8 @@ Requests sent from the app to Shorebird servers include:
 - patch_number (generated as part of `shorebird patch android`)
 - arch (e.g. `aarch64`, needed to send down the right patch)
 - platform (e.g. `android`, needed to send down the right patch)
-- client_id (anonymous, aggregated, per-app identifier used to provide active
-  user metrics)
+- client_id (the anonymous install identifier, used to count active users, see
+  [What is the anonymous install identifier?](#what-is-the-anonymous-install-identifier))
 
 The code for this is public in the
 [updater package](https://github.com/shorebirdtech/updater/blob/main/library/src/network.rs)
@@ -562,6 +562,106 @@ Shorebird can change any Dart code in your application no matter of size.
 No. Shorebird servers never see or store your source code. When you run
 `shorebird release` or `shorebird patch` the `shorebird` tool only uploads the
 same compiled app binary that you send to the app stores.
+
+### What is the anonymous install identifier?
+
+It is a random ID that Shorebird creates and stores inside your app, to allow
+Shorebird to count how many copies of your app are active in a given month. That
+count is the number Shorebird bills you on and reports back to you.
+
+Shorebird is designed to never know anything about _your_ users. It sends back
+only what it needs in order to deliver patches and to bill for them, and this
+identifier is the piece that makes the monthly count possible.
+
+You will see other names for the same value. Shorebird's
+[privacy policy](https://shorebird.dev/privacy/) calls it an anonymous device
+identifier, and in Shorebird's source code the field is named `client_id`.
+Shorebird has referred to it in the past, in issues and support threads, as the
+device ID or the install ID. These are all the same thing, and this page uses
+"anonymous install identifier" throughout, because that is the most accurate
+description of what it is.
+
+Shorebird creates the value the first time your app runs, as a random v4 UUID,
+and stores it in `state.json` inside your app's own storage (see
+[What does the Shorebird updater store on disk?](#what-does-the-shorebird-updater-store-on-disk)).
+It is sent each time your app checks for a new patch.
+
+It does not identify a device, and it does not identify a person. It identifies
+a single install of your app. Shorebird does not read the IDFA, IDFV, Android
+advertising ID, or any other identifier that has meaning outside of Shorebird.
+Because Shorebird creates the value itself:
+
+- It is per-install, not per-device. Two Shorebird apps on the same phone get
+  two unrelated identifiers, and Shorebird has no mechanism to link them.
+- It survives release and patch updates, and goes away when the user uninstalls
+  your app or clears its app data. The next launch generates a new one.
+- It carries no information about the user. It is not derived from anything on
+  the device, and Shorebird never correlates it with any other data, in keeping
+  with Shorebird's [privacy policy](https://shorebird.dev/privacy/).
+
+Shorebird therefore cannot tell one of your users from another, identify a
+person, or link an install back to an account in your app.
+
+What Shorebird can do with it is count. It can tell how many unique installs of
+your app were active in a given month, which is the number your bill is based on
+and the number behind the monthly active users shown in the
+[Shorebird console](https://console.shorebird.dev).
+
+### What does Shorebird do with the anonymous install identifier?
+
+Shorebird counts with it, and nothing else. It goes into counts of how many
+unique installs of your app were active, daily as well as monthly. Those counts
+are what Shorebird shows you in the
+[Shorebird console](https://console.shorebird.dev) and what your bill is based
+on, and they are all that comes back out.
+
+Shorebird collects nothing the identifier could be correlated against. Your app
+sends no location, no device fingerprint, and no advertising identifier — the
+[full list of what is sent](#what-information-is-sent-to-shorebird-servers) is a
+short set of fields identifying the app, its build, and the architecture it is
+running on. Shorebird records nothing else about the request alongside it.
+
+As with any service on the internet, the infrastructure Shorebird runs on
+produces its own operational logs, and those can include network details such as
+the IP address a request arrived from. Shorebird does not collect these
+deliberately, keeps them only for a limited period for traffic management and
+abuse prevention, and never joins them to the anonymous install identifier or to
+anything else. They are covered by Shorebird's
+[privacy policy](https://shorebird.dev/privacy/).
+
+The numbers you see are computed as aggregates. Active user counts are produced
+as HyperLogLog sketches, a statistical structure that estimates how many
+distinct installs were seen without the sketch itself containing any of the
+identifiers that produced the count. That aggregate is what reaches your console
+and your invoice.
+
+What Shorebird can say about the identifier in every case:
+
+- It is never shown to you or to anyone else. No Shorebird API returns it, and
+  there is no way to set, query, or look up an individual identifier. What
+  Shorebird surfaces, in the console and on your invoice, is aggregate counts.
+- It is never correlated with anything else. It is not joined against your
+  account data, against other apps, or against any third-party data set.
+- It is never sold, and never shared for advertising.
+
+How long Shorebird retains what it collects is described in Shorebird's
+[privacy policy](https://shorebird.dev/privacy/), which is the authoritative
+statement. If you need these commitments as a signed agreement rather than a
+policy, Shorebird offers a
+[Data Processing Agreement](https://shorebird.dev/dpa/). And if you need more
+specific detail for a security review or a procurement questionnaire, reach out
+to Shorebird's [privacy team](mailto:privacy@shorebird.dev) and Shorebird will
+answer directly.
+
+The code that creates the identifier and the code that sends it are both public
+and can be reviewed at any time:
+
+- `generate_client_id` in
+  [`updater_state.rs`](https://github.com/shorebirdtech/updater/blob/main/library/src/cache/updater_state.rs),
+  which generates and stores the value
+- `PatchCheckRequest` in
+  [`network.rs`](https://github.com/shorebirdtech/updater/blob/main/library/src/network.rs),
+  which is the full payload sent to Shorebird servers
 
 ### Will your app still work if you cancel your Shorebird subscription?
 

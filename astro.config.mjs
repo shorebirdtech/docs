@@ -31,7 +31,6 @@ export default defineConfig({
     starlight({
       expressiveCode: false,
       title: 'Shorebird',
-      tagline: 'Flutter Code Push',
       logo: {
         light: './src/assets/shorebird-light.svg',
         dark: './src/assets/shorebird-dark.svg',

@@ -14,6 +14,7 @@ import starlightLlmsTxt from 'starlight-llms-txt';
 import { remarkReplaceVersions } from './src/plugins/replace-versions.ts';
 import mermaid from 'astro-mermaid';
 import remarkGfm from 'remark-gfm';
+import { unified } from '@astrojs/markdown-remark';
 
 const site = 'https://docs.shorebird.dev/';
 
@@ -21,7 +22,7 @@ const site = 'https://docs.shorebird.dev/';
 export default defineConfig({
   site,
   markdown: {
-    remarkPlugins: [remarkReplaceVersions, remarkGfm],
+    processor: unified({ remarkPlugins: [remarkReplaceVersions, remarkGfm] }),
   },
   vite: {
     plugins: [tailwindcss()],
@@ -31,7 +32,6 @@ export default defineConfig({
     starlight({
       expressiveCode: false,
       title: 'Shorebird',
-      tagline: 'Flutter Code Push',
       logo: {
         light: './src/assets/shorebird-light.svg',
         dark: './src/assets/shorebird-dark.svg',

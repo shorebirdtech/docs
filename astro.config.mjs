@@ -14,6 +14,7 @@ import starlightLlmsTxt from 'starlight-llms-txt';
 import { remarkReplaceVersions } from './src/plugins/replace-versions.ts';
 import mermaid from 'astro-mermaid';
 import remarkGfm from 'remark-gfm';
+import { unified } from '@astrojs/markdown-remark';
 
 const site = 'https://docs.shorebird.dev/';
 
@@ -21,7 +22,7 @@ const site = 'https://docs.shorebird.dev/';
 export default defineConfig({
   site,
   markdown: {
-    remarkPlugins: [remarkReplaceVersions, remarkGfm],
+    processor: unified().use(remarkReplaceVersions).use(remarkGfm),
   },
   vite: {
     plugins: [tailwindcss()],

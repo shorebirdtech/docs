@@ -22,7 +22,7 @@ const site = 'https://docs.shorebird.dev/';
 export default defineConfig({
   site,
   markdown: {
-    processor: unified().use(remarkReplaceVersions).use(remarkGfm),
+    processor: unified({ remarkPlugins: [remarkReplaceVersions, remarkGfm] }),
   },
   vite: {
     plugins: [tailwindcss()],

@@ -307,8 +307,7 @@ No. Shorebird does not submit your app to the App Store or Play Store.
    process (Fastlane, Transporter, the Play Console, etc.).
 
 Once users install the app from the store, Shorebird can push patches to them
-over the air. Shorebird does not currently support submitting to the app stores
-on your behalf. This may be added in the future.
+over the air.
 
 ## Use cases & limitations
 
@@ -316,12 +315,11 @@ on your behalf. This may be added in the future.
 
 Common uses include:
 
-- Emergency fixes to production apps.
+- Shipping emergency fixes to production apps, decoupling your deployment
+  cadence from store review cycles.
 - Shipping bug fixes to users on older versions of your app.
-- Shipping constantly (e.g. daily, every commit to `main`, etc).
-- **Enterprise teams** using it to decouple their deployment cadence from store
-  review cycles — shipping Dart-level improvements continuously while still
-  doing periodic full releases for native or asset changes.
+- Shipping Dart-level improvements continuously (e.g. daily, every commit to
+  `main`, etc).
 
 Note that most app stores prohibit shipping code that changes the behavior of
 the app in a significant way. Please see the
@@ -330,15 +328,21 @@ the app in a significant way. Please see the
 ### What can't Shorebird Code Push be used for?
 
 Shorebird does not support changing native code (e.g. Java/Kotlin on Android or
-Objective-C/Swift on iOS). Before creating a patch, Shorebird automatically
-checks for native code and asset differences against the stored release, and
-will warn you (or block the upload by default) if it detects them. You can
-bypass these checks with `--allow-native-diffs` or `--allow-asset-diffs`, but
-this is strongly discouraged for routine use — those flags exist for advanced
-edge cases only.
+Objective-C/Swift on iOS). The tool will warn you during an attempted patch if
+you have changed native code.
 
 Shorebird should not be used to violate app store polices. Please see the
 [Store Compliance section](#store-compliance) for more information.
+
+### How does Shorebird check for native code or asset changes?
+
+Before creating a patch, Shorebird automatically checks for native code and
+asset differences against the stored release, and warns you (or blocks the
+upload by default) if it detects them.
+
+You can bypass these checks with `--allow-native-diffs` or
+`--allow-asset-diffs`, but this is strongly discouraged for routine use — those
+flags exist for advanced edge cases only.
 
 ### Is there a limit to how many patches I can ship per release?
 
@@ -366,6 +370,8 @@ patch shortly after.
 
 Yes. Engineering teams at companies of all sizes ship with Shorebird. See
 [Shorebird Success Stories](https://shorebird.dev/success-stories) for examples.
+
+Enterprise teams rely on features such as:
 
 - **Security & compliance:** Patches are served over HTTPS, Shorebird never
   stores your source code, and optional

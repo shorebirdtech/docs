@@ -295,9 +295,20 @@ This is for two reasons:
 
 ### Does Shorebird submit to the stores for me?
 
-Shorebird does not currently support submitting to the app stores on your
-behalf. This may be added in the future, but for now you will need to continue
-to use your existing processes to submit to the app stores.
+No. Shorebird does not submit your app to the App Store or Play Store.
+
+**The release workflow is two separate steps:**
+
+1. **`shorebird release [platform]`** — builds your app and uploads the compiled
+   Dart artifacts to Shorebird's servers. This creates the baseline snapshot
+   that future patches will be diffed against.
+2. **Upload to the store yourself** — take the `.aab` (Android) or `.ipa` (iOS)
+   output and submit it to Google Play or App Store Connect through your normal
+   process (Fastlane, Transporter, the Play Console, etc.).
+
+Once users install the app from the store, Shorebird can push patches to them
+over the air. Shorebird does not currently support submitting to the app stores
+on your behalf. This may be added in the future.
 
 ## Use cases & limitations
 
@@ -308,6 +319,9 @@ Common uses include:
 - Emergency fixes to production apps.
 - Shipping bug fixes to users on older versions of your app.
 - Shipping constantly (e.g. daily, every commit to `main`, etc).
+- **Enterprise teams** using it to decouple their deployment cadence from store
+  review cycles — shipping Dart-level improvements continuously while still
+  doing periodic full releases for native or asset changes.
 
 Note that most app stores prohibit shipping code that changes the behavior of
 the app in a significant way. Please see the
@@ -316,11 +330,58 @@ the app in a significant way. Please see the
 ### What can't Shorebird Code Push be used for?
 
 Shorebird does not support changing native code (e.g. Java/Kotlin on Android or
-Objective-C/Swift on iOS). The tool will warn you during an attempted patch if
-you have changed native code.
+Objective-C/Swift on iOS). Before creating a patch, Shorebird automatically
+checks for native code and asset differences against the stored release, and
+will warn you (or block the upload by default) if it detects them. You can
+bypass these checks with `--allow-native-diffs` or `--allow-asset-diffs`, but
+this is strongly discouraged for routine use — those flags exist for advanced
+edge cases only.
 
 Shorebird should not be used to violate app store polices. Please see the
 [Store Compliance section](#store-compliance) for more information.
+
+### Is there a limit to how many patches I can ship per release?
+
+No. There is no technical limit on the number of patches you can publish against
+a single release. You can ship patches daily, per-commit, or as frequently as
+your workflow demands.
+
+Each patch receives an auto-incrementing patch number. Only one patch is
+"active" at a time — when you publish a new patch it automatically becomes the
+current one, and users receive it on their next app launch (no action required
+on your part or theirs).
+
+:::tip
+
+Even though you can patch indefinitely, consider publishing a new **store
+release** periodically (e.g. monthly or each time you ship native/asset
+changes). New users install your app from the store — Shorebird can only update
+them _after_ their first launch. A periodic release ensures new users always get
+a recent baseline on first install, rather than receiving a large accumulated
+patch shortly after.
+
+:::
+
+### Is Shorebird suitable for enterprise or production apps?
+
+Yes. Engineering teams at companies of all sizes ship with Shorebird. See
+[Shorebird Success Stories](https://shorebird.dev/success-stories) for examples.
+
+- **Security & compliance:** Patches are served over HTTPS, Shorebird never
+  stores your source code, and optional
+  [Patch Signing](/code-push/guides/patch-signing) lets you cryptographically
+  verify every patch on-device before it is applied.
+- **Team access controls:** All paid plans support unlimited team members, with
+  role-based permissions. The [Enterprise plan](/enterprise/) adds SAML SSO,
+  invoice billing, and custom procurement support.
+- **Reliability:** If the Shorebird update check fails for any reason (network
+  outage, server error), your app continues to run on the last installed version
+  with no disruption to the user.
+- **Scale:** There is no limit on application size. Shorebird has been used with
+  large, complex apps with millions of active users.
+
+For teams with stricter security, compliance, or procurement requirements, see
+the [Enterprise plan](/enterprise/) for what's included.
 
 ### Can Shorebird be used for all Dart changes?
 

@@ -15,14 +15,32 @@ import listReleases from '~/assets/list_releases.png';
 
 In order to start pushing updates, you will need to create a release.
 
-Creating a release builds and submits your app to Shorebird. Shorebird saves the
-compiled Dart code from your application in order to make updates smaller in
-size.
-
 <ArcadeEmbed
   src="https://app.arcade.software/share/h8ywz1NWeFq3dC2iRQBU"
   title="Create a Release"
 />
+
+:::caution[`shorebird release` does not submit to the App Store or Play Store]
+
+Running `shorebird release` builds your app and uploads the compiled Dart
+artifacts to **Shorebird's servers**. It does **not** publish your app to the
+App Store or Google Play. After running this command, you must still manually
+upload the generated artifact (`.aab` for Android, `.ipa` for iOS) to the
+respective store as a separate step.
+
+**The workflow is:**
+
+1. `shorebird release [platform]` — builds and registers the release with
+   Shorebird.
+2. Upload the output artifact to the Play Store / App Store yourself.
+3. Once users install from the store, you can push patches to them via
+   `shorebird patch`.
+
+:::
+
+Creating a Shorebird release builds your app and saves the compiled Dart code to
+Shorebird's servers. This baseline snapshot is what future patches are diffed
+against, keeping patch sizes small.
 
 <Tabs>
 

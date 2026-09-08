@@ -25,6 +25,18 @@ compiles and applies cleanly:
   to the one vended by Shorebird. You can check this by running
   `shorebird doctor`.
 
+**What Shorebird checks automatically:** Before creating a patch, Shorebird
+compares your local build against the stored release artifacts and warns you (or
+blocks the upload by default) if it detects native code or asset differences.
+You can bypass these checks with `--allow-native-diffs` or
+`--allow-asset-diffs`, but this is **not recommended** — those flags exist for
+advanced edge cases, not routine use.
+
+**What remains your responsibility:** Shorebird cannot evaluate whether your
+Dart code changes comply with App Store or Play Store behavioral policies (e.g.,
+changing the primary purpose of the app). That determination is yours. See
+[Store Compliance](/code-push/faq#store-compliance) for guidance.
+
 :::
 
 <CodeTabs>
@@ -99,6 +111,21 @@ Would you like to continue? (y/N) Yes
 
 ✅ Published Patch!
 ```
+
+:::note[No patch limit]
+
+There is **no technical limit** on the number of patches you can publish against
+a single release. You can ship patches as often as you need — daily, per-commit,
+or whenever you have a fix ready. Each new patch gets an auto-incrementing patch
+number, and users always receive the latest one automatically.
+
+That said, consider publishing a new **store release** periodically (e.g.
+monthly, or whenever you have native or asset changes). New users install from
+the store — Shorebird can only update them _after_ their first launch. Keeping
+the store release reasonably up to date ensures new users get a recent baseline
+on install, rather than relying entirely on a patch to catch them up.
+
+:::
 
 By default, this uses the release version from the compiled artifact. If you
 want to target the latest release version, you can use

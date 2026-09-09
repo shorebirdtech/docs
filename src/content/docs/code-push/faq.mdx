@@ -510,6 +510,13 @@ tracked in
 can reproduce a rough measurement on your own app by comparing the output of
 `flutter build apk --release` against `shorebird build apk --release`.
 
+### How do you build a smaller APK for a single Android architecture?
+
+Use `--target-platform` on `shorebird release android` to declare which
+architectures to build. A Gradle NDK ABI filter that drops an ABI still listed
+in `--target-platform` is skipped, not treated as an error. See
+[Build a smaller APK for one architecture](/code-push/release/#build-a-smaller-apk-for-one-architecture).
+
 ### When do updates happen?
 
 By default, the Shorebird updater checks for updates on app startup. It runs on

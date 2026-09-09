@@ -6,6 +6,8 @@ sidebar:
   order: 4
 ---
 
+{/* cspell:words armeabi abiFilters v7a */}
+
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 import ArcadeEmbed from '~/components/ArcadeEmbed.astro';
 import { LinkCard } from 'starlight-theme-nova/components';
@@ -88,6 +90,36 @@ command:
 ```
 shorebird release android --artifact apk
 ```
+
+### Build a smaller APK for one architecture
+
+By default, `shorebird release android` compiles for three Android ABIs:
+`android-arm` (32-bit ARM / `armeabi-v7a`), `android-arm64` (`arm64-v8a`), and
+`android-x64` (`x86_64`). That produces a larger APK than a Flutter build that
+only packages `arm64-v8a`.
+
+To build for a single architecture, pass `--target-platform` **before** any `--`
+separator:
+
+```sh
+shorebird release android --artifact apk --target-platform android-arm64
+```
+
+Allowed values are `android-arm`, `android-arm64`, and `android-x64`. Pass the
+flag more than once, or as a comma-separated list, to include extra ABIs.
+
+Gradle NDK ABI filters (for example `ndk.abiFilters`) are not a substitute for
+`--target-platform`. If Gradle omits an ABI that is still in
+`--target-platform`, Shorebird skips that architecture instead of failing, and
+the release ships with only the ABIs that actually built. Use
+`--target-platform` to declare the architectures you want — a mismatched Gradle
+filter will not error.
+
+`--target-platform` is a Shorebird flag. Do not put it after `--` — that
+forwards it to `flutter build` and is not applied the same way.
+
+`shorebird patch android` against a single-arch release does not need the flag.
+The patch command skips architectures that were not part of the release.
 
 :::note
 
@@ -422,6 +454,7 @@ shorebird release windows --flutter-version %flutter_version%
 | `--build-name`       |              | Override the version name (e.g., `1.2.3`).                                                          |
 | `--build-number`     |              | Override the version code / build number (e.g., `42`).                                              |
 | `--artifact`         |              | Android artifact type: `aab` (default) or `apk`.                                                    |
+| `--target-platform`  |              | Android ABIs to compile: `android-arm`, `android-arm64`, `android-x64`. Defaults to all three.      |
 | `--dry-run`          | `-n`         | Build and validate the release but **do not upload** it. Ideal for CI validation.                   |
 | `--obfuscate`        |              | Obfuscate Dart code. Must be used together with `--split-debug-info`.                               |
 | `--split-debug-info` |              | Output debug symbol files to the specified directory when obfuscating.                              |
@@ -499,8 +532,17 @@ using:
 shorebird releases get-apks --release-version 1.0.0+1
 ```
 
-This will download the release artifacts and extract the compatible APK files to
-your machine.
+This downloads the release AAB and builds APK files locally. By default that
+produces a **universal** APK (every ABI in the AAB). Pass `--no-universal` to
+extract one APK per ABI instead:
+
+```sh
+shorebird releases get-apks --release-version 1.0.0+1 --no-universal
+```
+
+If you want a small APK at build time rather than splitting a fat AAB
+afterwards, use `--target-platform` as described in
+[Build a smaller APK for one architecture](#build-a-smaller-apk-for-one-architecture).
 
 ### Delete releases
 

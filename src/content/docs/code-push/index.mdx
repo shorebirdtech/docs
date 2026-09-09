@@ -167,16 +167,10 @@ A release can have zero or more [patches](#patch) applied to it.
 Releases are created by running `shorebird release [platform]`, where `platform`
 is `android`, `ios`, `windows`, `linux` or `macos`.
 
-:::caution[`shorebird release` does not publish to the App Store or Play Store]
-
-Running `shorebird release` builds your app and uploads the compiled Dart
-artifacts to **Shorebird's servers** so that future patches can be diffed
-against them. It does **not** submit your app to the App Store or Google Play.
-You must still upload the generated `.aab` (Android) or `.ipa` (iOS) to the
-stores yourself as a separate step. See [Create a Release](/code-push/release)
-for the full workflow.
-
-:::
+`shorebird release` is a drop-in replacement for `flutter build`. It builds your
+app and uploads the compiled Dart artifacts to Shorebird's servers. After
+running this command, you still need to upload the generated artifact (`.aab`
+for Android, `.ipa` for iOS) to the respective store.
 
 #### Patch
 
@@ -194,12 +188,9 @@ Patches are created by running `shorebird patch [platform]`, where `platform` is
 
 :::note
 
-There is **no technical limit** on the number of patches you can publish against
-a single release. You can ship patches as frequently as needed — daily,
-per-commit, or otherwise. Users always receive the latest patch automatically.
-
-For more information regarding when to create a patch, refer to the
-[FAQs](/code-push/faq#when-should-you-create-a-patch-vs-a-release).
+There is no limit on the number of patches you can publish. See
+[Is there a limit to how many patches you can ship?](/code-push/faq#is-there-a-limit-to-how-many-patches-i-can-ship-per-release)
+for more details.
 
 :::
 

@@ -16,7 +16,13 @@ The full, always-up-to-date reference is published as an OpenAPI 3 document:
 [**https://api.shorebird.dev/openapi.json**](https://api.shorebird.dev/openapi.json)
 
 Load that URL into any OpenAPI-compatible viewer to browse every endpoint,
-parameter, and schema interactively.
+parameter, and schema interactively. If you are pointing a tool at Shorebird and
+only have the hostname, `https://api.shorebird.dev/.well-known/api-catalog`
+lists the spec, these docs, and our status page.
+
+The API does not yet carry a compatibility guarantee. It is the same API the
+Shorebird CLI and console use, and it changes when they do. You are welcome to
+build on it; expect to follow it.
 
 ## Base URL
 
@@ -27,7 +33,7 @@ https://api.shorebird.dev/api/v1
 ## Authentication
 
 Every request (other than the patch-check endpoint, see below) needs a bearer
-token:
+token. No other headers are required:
 
 ```
 Authorization: Bearer <token>

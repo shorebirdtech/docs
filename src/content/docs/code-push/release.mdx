@@ -111,8 +111,8 @@ Gradle NDK ABI filters (for example `ndk.abiFilters`) are not a substitute for
 `--target-platform`. If Gradle omits an ABI that is still in
 `--target-platform`, Shorebird skips that architecture instead of failing, and
 the release ships with only the ABIs that actually built. Use
-`--target-platform` to declare the architectures you want — a mismatched
-Gradle filter will not error.
+`--target-platform` to declare the architectures you want — a mismatched Gradle
+filter will not error.
 
 `--target-platform` is a Shorebird flag. Do not put it after `--` — that
 forwards it to `flutter build` and is not applied the same way.

@@ -17,14 +17,15 @@ import listReleases from '~/assets/list_releases.png';
 
 In order to start pushing updates, you will need to create a release.
 
-Creating a release builds and submits your app to Shorebird. Shorebird saves the
-compiled Dart code from your application in order to make updates smaller in
-size.
-
 <ArcadeEmbed
   src="https://app.arcade.software/share/h8ywz1NWeFq3dC2iRQBU"
   title="Create a Release"
 />
+
+`shorebird release` is a drop-in replacement for `flutter build`. It builds your
+app and uploads the compiled Dart artifacts to Shorebird's servers as a baseline
+for future patches. After running this command, you still need to upload the
+generated artifact (`.aab` for Android, `.ipa` for iOS) to the respective store.
 
 <Tabs>
 

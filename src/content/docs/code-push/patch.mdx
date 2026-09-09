@@ -25,6 +25,14 @@ compiles and applies cleanly:
   to the one vended by Shorebird. You can check this by running
   `shorebird doctor`.
 
+**What Shorebird checks automatically:** Before creating a patch, Shorebird
+compares your local build against the stored release artifacts and warns you (or
+blocks the upload by default) if it detects native code or asset differences.
+You can bypass these checks with `--allow-native-diffs` or
+`--allow-asset-diffs`. If you find yourself needing these flags, it is likely a
+Shorebird bug or you may be running an old version of `shorebird` — please
+[reach out](mailto:contact@shorebird.dev) for help.
+
 :::
 
 <CodeTabs>
@@ -99,6 +107,14 @@ Would you like to continue? (y/N) Yes
 
 ✅ Published Patch!
 ```
+
+:::note
+
+There is no limit on the number of patches you can publish. See
+[Is there a limit to how many patches you can ship?](/code-push/faq#is-there-a-limit-to-how-many-patches-i-can-ship-per-release)
+for more details.
+
+:::
 
 By default, this uses the release version from the compiled artifact. If you
 want to target the latest release version, you can use

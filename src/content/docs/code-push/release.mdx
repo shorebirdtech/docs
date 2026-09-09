@@ -107,11 +107,12 @@ shorebird release android --artifact apk --target-platform android-arm64
 Allowed values are `android-arm`, `android-arm64`, and `android-x64`. Pass the
 flag more than once, or as a comma-separated list, to include extra ABIs.
 
-Gradle NDK ABI filters (for example `ndk.abiFilters`) are not enough on their
-own. Shorebird still looks for every architecture in `--target-platform` (all
-three by default). If Gradle drops an ABI Shorebird was asked to upload, the
-release fails. Keep those filters in sync with `--target-platform`, or drop the
-Gradle filters and use the flag only.
+Gradle NDK ABI filters (for example `ndk.abiFilters`) are not a substitute for
+`--target-platform`. If Gradle omits an ABI that is still in
+`--target-platform`, Shorebird skips that architecture instead of failing, and
+the release ships with only the ABIs that actually built. Use
+`--target-platform` to declare the architectures you want — a mismatched
+Gradle filter will not error.
 
 `--target-platform` is a Shorebird flag. Do not put it after `--` — that
 forwards it to `flutter build` and is not applied the same way.

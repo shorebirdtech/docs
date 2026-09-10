@@ -41,6 +41,7 @@
     "unified": "^11.0.5"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260910.1",
     "@lavamoat/allow-scripts": "^5.1.0",
     "@types/hast": "^3.0.5",
     "@types/react": "^19.2.18",

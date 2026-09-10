@@ -17,13 +17,19 @@
   "dependencies": {
     "@astrojs/check": "^0.9.10",
     "@astrojs/markdown-remark": "^7.3.0",
+    "@astrojs/mdx": "^7.0.5",
     "@astrojs/starlight": "^0.42.0",
     "@lavamoat/preinstall-always-fail": "^3.0.0",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.3.1",
     "astro-mermaid": "^2.1.0",
     "astro-opengraph-images": "^1.20.1",
+    "hast-util-select": "^6.0.4",
     "mermaid": "^11.17.2",
+    "rehype-parse": "^9.0.1",
+    "rehype-remark": "^10.0.1",
+    "remark-gfm": "^4.0.1",
+    "remark-stringify": "^11.0.0",
     "sharp": "^0.35.3",
     "starlight-auto-sidebar": "^0.4.1",
     "starlight-image-zoom": "^0.16.0",
@@ -31,10 +37,12 @@
     "starlight-theme-nova": "^0.12.3",
     "tailwindcss": "^4.2.0",
     "tw-to-css": "^0.0.12",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "unified": "^11.0.5"
   },
   "devDependencies": {
     "@lavamoat/allow-scripts": "^5.1.0",
+    "@types/hast": "^3.0.5",
     "@types/react": "^19.2.18",
     "@vvago/vale": "^3.17.1",
     "cspell": "^10.2.1",

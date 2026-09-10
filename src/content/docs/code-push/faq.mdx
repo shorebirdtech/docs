@@ -295,9 +295,19 @@ This is for two reasons:
 
 ### Does Shorebird submit to the stores for me?
 
-Shorebird does not currently support submitting to the app stores on your
-behalf. This may be added in the future, but for now you will need to continue
-to use your existing processes to submit to the app stores.
+No. Shorebird does not submit your app to the App Store or Play Store.
+
+**The release workflow is two separate steps:**
+
+1. **`shorebird release [platform]`** — builds your app and uploads the compiled
+   Dart artifacts to Shorebird's servers. This creates the baseline snapshot
+   that future patches will be diffed against.
+2. **Upload to the store yourself** — take the `.aab` (Android) or `.ipa` (iOS)
+   output and submit it to Google Play or App Store Connect through your normal
+   process (Fastlane, Transporter, the Play Console, etc.).
+
+Once users install the app from the store, Shorebird can push patches to them
+over the air.
 
 ## Use cases & limitations
 
@@ -305,9 +315,11 @@ to use your existing processes to submit to the app stores.
 
 Common uses include:
 
-- Emergency fixes to production apps.
+- Shipping emergency fixes to production apps, decoupling your deployment
+  cadence from store review cycles.
 - Shipping bug fixes to users on older versions of your app.
-- Shipping constantly (e.g. daily, every commit to `main`, etc).
+- Shipping Dart-level improvements continuously (e.g. daily, every commit to
+  `main`, etc).
 
 Note that most app stores prohibit shipping code that changes the behavior of
 the app in a significant way. Please see the
@@ -321,6 +333,45 @@ you have changed native code.
 
 Shorebird should not be used to violate app store polices. Please see the
 [Store Compliance section](#store-compliance) for more information.
+
+### How does Shorebird check for native code or asset changes?
+
+Before creating a patch, Shorebird automatically checks for native code and
+asset differences against the stored release, and warns you (or blocks the
+upload by default) if it detects them.
+
+You can bypass these checks with `--allow-native-diffs` or
+`--allow-asset-diffs`, but this is strongly discouraged for routine use — those
+flags exist for advanced edge cases only.
+
+### Is there a limit to how many patches I can ship per release?
+
+No. There is no technical limit on the number of patches you can publish against
+a single release. You can ship patches daily, per-commit, or as frequently as
+your workflow demands.
+
+Each patch receives an auto-incrementing patch number. Only one patch is
+"active" at a time — when you publish a new patch it automatically becomes the
+current one, and users receive it on their next app launch (no action required
+on your part or theirs).
+
+:::tip
+
+Even though you can patch indefinitely, consider publishing a new **store
+release** periodically (e.g. monthly or each time you ship native/asset
+changes). New users install your app from the store — Shorebird can only update
+them _after_ their first launch. A periodic release ensures new users always get
+a recent baseline on first install, rather than receiving a large accumulated
+patch shortly after.
+
+:::
+
+### Is Shorebird suitable for enterprise or production apps?
+
+Yes. Engineering teams at companies of all sizes ship with Shorebird. See
+[Shorebird Success Stories](https://shorebird.dev/success-stories) for examples.
+See the [Enterprise plan](/enterprise/) for security, compliance, and
+procurement features.
 
 ### Can Shorebird be used for all Dart changes?
 
@@ -458,6 +509,13 @@ tracked in
 [shorebird#3715](https://github.com/shorebirdtech/shorebird/issues/3715). You
 can reproduce a rough measurement on your own app by comparing the output of
 `flutter build apk --release` against `shorebird build apk --release`.
+
+### How do you build a smaller APK for a single Android architecture?
+
+Use `--target-platform` on `shorebird release android` to declare which
+architectures to build. A Gradle NDK ABI filter that drops an ABI still listed
+in `--target-platform` is skipped, not treated as an error. See
+[Build a smaller APK for one architecture](/code-push/release/#build-a-smaller-apk-for-one-architecture).
 
 ### When do updates happen?
 

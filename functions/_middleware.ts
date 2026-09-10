@@ -44,7 +44,7 @@ function parseAccept(header: string): AcceptEntry[] {
       if (!type) return null;
       let q = 1;
       for (const param of params) {
-        const [key, value] = param.trim().split('=');
+        const [key, value] = param.split('=').map((s) => s.trim());
         if (key === 'q' && value) q = Number.parseFloat(value) || 0;
       }
       const specificity = type === '*/*' ? 0 : type.endsWith('/*') ? 1 : 2;
@@ -54,8 +54,13 @@ function parseAccept(header: string): AcceptEntry[] {
 }
 
 // Highest (q * 10 + specificity) among entries matching `target`, or -1 if
-// nothing in the header would accept it.
+// nothing in the header would accept it. An exact-type entry with q=0 is a
+// hard exclusion (RFC 9110 §12.5.1) that a less-specific wildcard can't
+// override, so it's checked before falling back to wildcard matches.
 function scoreFor(entries: AcceptEntry[], target: string): number {
+  const exact = entries.find((e) => e.type === target);
+  if (exact && exact.q === 0) return -1;
+
   const group = `${target.split('/')[0]}/*`;
   let best = -1;
   for (const entry of entries) {
@@ -65,6 +70,19 @@ function scoreFor(entries: AcceptEntry[], target: string): number {
       best = Math.max(best, entry.q * 10 + entry.specificity);
   }
   return best;
+}
+
+// Adds Accept to a response's Vary header without dropping other Vary
+// dimensions the underlying asset/edge layer may have already set (e.g.
+// Accept-Encoding), and without duplicating Accept if it's already there.
+function addVaryAccept(headers: Headers): void {
+  const existing = headers.get('Vary');
+  const tokens = existing
+    ? existing.split(',').map((t) => t.trim().toLowerCase())
+    : [];
+  if (!tokens.includes('accept')) {
+    headers.set('Vary', existing ? `${existing}, Accept` : 'Accept');
+  }
 }
 
 type Preference = 'markdown' | 'html' | 'either' | 'none';
@@ -109,16 +127,21 @@ export const onRequest: PagesFunction<Env> = async (context) => {
 
   if (preference === 'markdown') {
     const markdownUrl = new URL(markdownSiblingPath(url.pathname), url);
+    // Preserve the original method (GET or HEAD) rather than always issuing
+    // a GET, so a HEAD probe doesn't pull down a full body it didn't ask for.
     const markdownResponse = await context.env.ASSETS.fetch(
-      markdownUrl.toString(),
+      new Request(markdownUrl, { method: request.method }),
     );
     if (markdownResponse.ok) {
       const headers = new Headers(markdownResponse.headers);
-      headers.set('Vary', 'Accept');
-      return new Response(markdownResponse.body, {
-        status: markdownResponse.status,
-        headers,
-      });
+      addVaryAccept(headers);
+      return new Response(
+        request.method === 'HEAD' ? null : markdownResponse.body,
+        {
+          status: markdownResponse.status,
+          headers,
+        },
+      );
     }
     // No Markdown sibling for this path (e.g. a non-docs route) — fall
     // through and serve HTML instead of a hard 406.
@@ -126,6 +149,6 @@ export const onRequest: PagesFunction<Env> = async (context) => {
 
   const response = await context.next();
   const headers = new Headers(response.headers);
-  headers.append('Vary', 'Accept');
+  addVaryAccept(headers);
   return new Response(response.body, { status: response.status, headers });
 };

@@ -1,6 +1,6 @@
 <!-- vale off -->
 
-# Authentication guide for agents and automated tooling
+# Shorebird auth.md — Authentication guide for agents and automated tooling
 
 This document describes how AI agents, scripts, and CI/CD pipelines authenticate
 with Shorebird services.

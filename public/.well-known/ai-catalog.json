@@ -1,13 +1,14 @@
 {
   "specVersion": "0.1.0",
   "host": {
+    "identifier": "did:web:shorebird.dev",
     "domain": "shorebird.dev",
     "displayName": "Shorebird",
     "description": "Code push and over-the-air update platform for Flutter applications across all supported platforms."
   },
   "entries": [
     {
-      "id": "urn:air:shorebird.dev:openapi:codepush-v1",
+      "identifier": "urn:air:shorebird.dev:openapi:codepush-v1",
       "displayName": "Shorebird Code Push API (OpenAPI 3.1)",
       "type": "application/json",
       "url": "https://api.shorebird.dev/openapi.json",
@@ -19,7 +20,7 @@
       ]
     },
     {
-      "id": "urn:air:shorebird.dev:docs:llms-txt",
+      "identifier": "urn:air:shorebird.dev:docs:llms-txt",
       "displayName": "Shorebird LLMs Documentation Index",
       "type": "text/plain",
       "url": "https://docs.shorebird.dev/llms.txt",
@@ -30,7 +31,7 @@
       ]
     },
     {
-      "id": "urn:air:shorebird.dev:docs:llms-full",
+      "identifier": "urn:air:shorebird.dev:docs:llms-full",
       "displayName": "Shorebird Complete Documentation (Full)",
       "type": "text/plain",
       "url": "https://docs.shorebird.dev/llms-full.txt",
@@ -41,7 +42,7 @@
       ]
     },
     {
-      "id": "urn:air:shorebird.dev:status:endpoint-reachability",
+      "identifier": "urn:air:shorebird.dev:status:endpoint-reachability",
       "displayName": "Shorebird Service Endpoint Reachability",
       "type": "text/html",
       "url": "https://docs.shorebird.dev/system/endpoint-reachability/",

@@ -19,8 +19,7 @@ For automated agents, background workers, and CI/CD systems, use an `sb_api_*`
 API key.
 
 - **How to obtain**: Generate an API key in the
-  [Shorebird console](https://console.shorebird.dev/account/api-keys) (Account >
-  API Keys).
+  [Shorebird console](https://console.shorebird.dev) (Account > API Keys).
 - **Format**: `sb_api_<unique_token_characters>`
 - **Lifespan**: No expiry by default; an expiry in days can be set when the key
   is created.
@@ -47,9 +46,9 @@ creating an `sb_api_*` API key, as described under
 the credential issuance step; once issued, it's the only artifact an agent needs
 to authenticate.
 
-Registration page: `https://console.shorebird.dev/account/api-keys` — this is an
-authenticated web console, not a callable API. A human (or an agent driving a
-browser) must sign in there to issue a key; there is no anonymous,
+Registration page: `https://console.shorebird.dev` (Account > API Keys) — this
+is an authenticated web console, not a callable API. A human (or an agent
+driving a browser) must sign in there to issue a key; there is no anonymous,
 unauthenticated, or programmatic registration path.
 
 ## Protected resources

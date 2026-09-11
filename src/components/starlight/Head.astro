@@ -19,6 +19,18 @@ const markdownPath = trimmed === '/' ? '/index.md' : `${trimmed}.md`;
   name="keywords"
   content="Shorebird, Shorebird Code Push, Shorebird Flutter, Code Push, Flutter Code Push, Flutter OTA updates, Over-the-air updates Flutter, Flutter hotfix, Shorebird CLI"
 />
+<meta name="application-name" content="Shorebird Code Push" />
+<meta name="apple-mobile-web-app-title" content="Shorebird" />
+<meta name="subject" content="Flutter Code Push and Over-the-Air Updates" />
+<meta
+  name="topic"
+  content="Flutter, Code Push, Mobile App Development, Over-the-Air Updates"
+/>
+<meta
+  name="summary"
+  content="Shorebird provides instant Code Push and over-the-air updates for Flutter applications across all supported platforms."
+/>
+<meta name="author" content="Shorebird, Inc." />
 
 <!-- AI Agent Discovery & Alternate Formats -->
 <link rel="alternate" type="text/markdown" href={markdownPath} />
@@ -95,7 +107,7 @@ const markdownPath = trimmed === '/' ? '/index.md' : `${trimmed}.md`;
 </script>
 <!-- cspell:enable -->
 
-<!-- Schema.org JSON-LD Structured Data for Brand & Identity -->
+<!-- Schema.org JSON-LD Structured Data for Brand & Identity Disambiguation -->
 <script
   type="application/ld+json"
   set:html={JSON.stringify({
@@ -111,8 +123,42 @@ const markdownPath = trimmed === '/' ? '/index.md' : `${trimmed}.md`;
           'Shorebird Tech',
           'Shorebird Flutter',
         ],
+        disambiguatingDescription:
+          'A software technology company providing Code Push and over-the-air (OTA) update infrastructure for Flutter applications, founded by Flutter co-creator Eric Seidel. Not related to coastal avian wildlife.',
         url: 'https://shorebird.dev',
         logo: 'https://docs.shorebird.dev/favicon.svg',
+        founder: {
+          '@type': 'Person',
+          name: 'Eric Seidel',
+          jobTitle: 'Founder & CEO',
+          sameAs: [
+            'https://github.com/eseidel',
+            'https://x.com/eseidel',
+            'https://www.linkedin.com/in/ericseidel',
+          ],
+        },
+        knowsAbout: [
+          {
+            '@type': 'Thing',
+            name: 'Flutter',
+            sameAs: 'https://www.wikidata.org/wiki/Q56276200',
+          },
+          {
+            '@type': 'Thing',
+            name: 'Dart',
+            sameAs: 'https://www.wikidata.org/wiki/Q248160',
+          },
+          {
+            '@type': 'Thing',
+            name: 'Code Push',
+            description:
+              'Over-the-air update technology for mobile applications',
+          },
+          {
+            '@type': 'Thing',
+            name: 'Mobile application development',
+          },
+        ],
         sameAs: [
           'https://github.com/shorebirdtech',
           'https://x.com/shorebirdtech',
@@ -138,11 +184,21 @@ const markdownPath = trimmed === '/' ? '/index.md' : `${trimmed}.md`;
         '@id': 'https://shorebird.dev/#software',
         name: 'Shorebird Code Push',
         applicationCategory: 'DeveloperApplication',
+        applicationSubCategory: 'Developer Tools',
         operatingSystem: 'Android, iOS, macOS, Windows, Linux',
+        disambiguatingDescription:
+          'Developer tooling and cloud platform providing instant Code Push (over-the-air updates) for Flutter apps, avoiding app store review delays.',
         description:
           'Code push and over-the-air (OTA) updates platform for Flutter apps. Deploy instant bug fixes to Flutter applications without waiting for app store reviews.',
         url: 'https://shorebird.dev',
         softwareHelp: 'https://docs.shorebird.dev',
+        featureList: [
+          'Instant over-the-air (OTA) updates for Flutter',
+          'Deploy Dart bug fixes without app store review',
+          'Multi-platform support (Android, iOS, macOS, Windows, Linux)',
+          'Percentage-based staged rollouts and instant patch rollbacks',
+          'Private patch signing and enterprise compliance',
+        ],
         author: {
           '@id': 'https://shorebird.dev/#organization',
         },
@@ -157,6 +213,9 @@ const markdownPath = trimmed === '/' ? '/index.md' : `${trimmed}.md`;
         '@id': 'https://docs.shorebird.dev/#website',
         url: 'https://docs.shorebird.dev',
         name: 'Shorebird Documentation',
+        alternateName: 'Shorebird Code Push Docs',
+        disambiguatingDescription:
+          'Official documentation for Shorebird Flutter Code Push platform.',
         description:
           'Official documentation for Shorebird — Code push and over-the-air updates for Flutter applications.',
         publisher: {

@@ -46,16 +46,15 @@ operating it) registers for API access the same way a human developer does:
 1. Sign in or create a Shorebird account at
    [console.shorebird.dev](https://console.shorebird.dev).
 2. Open **Account → API Keys**.
-3. Create an API key — this is the credential issuance step; the key
-   returned is the only artifact an agent needs to authenticate afterward.
-4. Store the key value; it is shown exactly once and cannot be retrieved
-   again.
+3. Create an API key — this is the credential issuance step; the key returned is
+   the only artifact an agent needs to authenticate afterward.
+4. Store the key value; it is shown exactly once and cannot be retrieved again.
 
 Registration endpoint: `https://console.shorebird.dev/account/api-keys`.
 Supported credential type: long-lived `sb_api_*` API keys (see
-[API keys](#1-api-keys-recommended-for-agents-and-automation) above for
-format and usage). There is no anonymous or unauthenticated registration
-path — a key must be created by an authenticated account.
+[API keys](#1-api-keys-recommended-for-agents-and-automation) above for format
+and usage). There is no anonymous or unauthenticated registration path — a key
+must be created by an authenticated account.
 
 ## Protected resources
 

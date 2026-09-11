@@ -72,6 +72,39 @@ function scoreFor(entries: AcceptEntry[], target: string): number {
   return best;
 }
 
+// Link response headers for agent discovery (RFC 8288)
+const AGENT_LINK_HEADERS = [
+  '</.well-known/api-catalog>; rel="api-catalog"',
+  '</.well-known/ai-catalog.json>; rel="service-desc"',
+  '</account/api/>; rel="service-doc"',
+  '<https://api.shorebird.dev/openapi.json>; rel="service-desc"; type="application/json"',
+  '</llms.txt>; rel="alternate"; type="text/plain"',
+].join(', ');
+
+const MARKDOWN_404_BODY = `# 404 Not Found
+
+The requested page does not exist on Shorebird Documentation.
+
+## Where to look next:
+- [Docs Home](https://docs.shorebird.dev/)
+- [Getting Started Guide](https://docs.shorebird.dev/getting-started/)
+- [Code Push Overview](https://docs.shorebird.dev/code-push/)
+- [API Reference](https://docs.shorebird.dev/account/api/)
+- [Endpoint Reachability](https://docs.shorebird.dev/system/endpoint-reachability/)
+- [LLMs Overview (llms.txt)](https://docs.shorebird.dev/llms.txt)
+- [Full Documentation (llms-full.txt)](https://docs.shorebird.dev/llms-full.txt)
+- [Sitemap](https://docs.shorebird.dev/sitemap-index.xml)
+`;
+
+function addAgentLinkHeaders(headers: Headers): void {
+  const existing = headers.get('Link');
+  if (!existing) {
+    headers.set('Link', AGENT_LINK_HEADERS);
+  } else if (!existing.includes('api-catalog')) {
+    headers.set('Link', `${existing}, ${AGENT_LINK_HEADERS}`);
+  }
+}
+
 // Adds Accept to a response's Vary header without dropping other Vary
 // dimensions the underlying asset/edge layer may have already set (e.g.
 // Accept-Encoding), and without duplicating Accept if it's already there.
@@ -135,6 +168,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     if (markdownResponse.ok) {
       const headers = new Headers(markdownResponse.headers);
       addVaryAccept(headers);
+      addAgentLinkHeaders(headers);
       return new Response(
         request.method === 'HEAD' ? null : markdownResponse.body,
         {
@@ -143,12 +177,36 @@ export const onRequest: PagesFunction<Env> = async (context) => {
         },
       );
     }
-    // No Markdown sibling for this path (e.g. a non-docs route) — fall
-    // through and serve HTML instead of a hard 406.
+
+    // No Markdown sibling directly for this path. Fetch the default response
+    // to check whether this is a real 404 or a non-content route.
+    const fallbackResponse = await context.next();
+    if (fallbackResponse.status === 404) {
+      const notFoundHeaders = new Headers();
+      notFoundHeaders.set('Content-Type', 'text/markdown; charset=utf-8');
+      addVaryAccept(notFoundHeaders);
+      addAgentLinkHeaders(notFoundHeaders);
+      return new Response(
+        request.method === 'HEAD' ? null : MARKDOWN_404_BODY,
+        {
+          status: 404,
+          headers: notFoundHeaders,
+        },
+      );
+    }
+
+    const headers = new Headers(fallbackResponse.headers);
+    addVaryAccept(headers);
+    addAgentLinkHeaders(headers);
+    return new Response(fallbackResponse.body, {
+      status: fallbackResponse.status,
+      headers,
+    });
   }
 
   const response = await context.next();
   const headers = new Headers(response.headers);
   addVaryAccept(headers);
+  addAgentLinkHeaders(headers);
   return new Response(response.body, { status: response.status, headers });
 };

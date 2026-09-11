@@ -1,4 +1,4 @@
-# Agents fetch the .md alongside each page. GitHub Pages could not set these.
+# Agents fetch the .md alongside each page.
 /*.md
   Content-Type: text/markdown; charset=utf-8
   Access-Control-Allow-Origin: *
@@ -7,4 +7,24 @@
   Access-Control-Allow-Origin: *
 
 /llms-full.txt
+  Access-Control-Allow-Origin: *
+
+/.well-known/api-catalog
+  Content-Type: application/linkset+json; charset=utf-8
+  Access-Control-Allow-Origin: *
+
+/.well-known/ai-catalog.json
+  Content-Type: application/json; charset=utf-8
+  Access-Control-Allow-Origin: *
+
+/.well-known/oauth-protected-resource
+  Content-Type: application/json; charset=utf-8
+  Access-Control-Allow-Origin: *
+
+/.well-known/agent-skills/index.json
+  Content-Type: application/json; charset=utf-8
+  Access-Control-Allow-Origin: *
+
+/.well-known/agent-instructions.txt
+  Content-Type: text/plain; charset=utf-8
   Access-Control-Allow-Origin: *

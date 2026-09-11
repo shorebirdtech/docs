@@ -122,12 +122,52 @@ export default defineConfig({
           errorOnInconsistentLocale: true,
         }),
         starlightLlmsTxt({
+          description:
+            'Shorebird is a cloud service and developer toolchain providing Code Push (over-the-air updates) for Flutter applications across all platforms supported by Flutter. Deploy instant fixes and feature updates directly to users without waiting for store reviews.',
+          details: `When to use Shorebird:
+- Flutter applications across all platforms supported by Flutter (Android, iOS, macOS, Windows, Linux) that require instant over-the-air updates for Dart code.
+- Deploying critical bug fixes, UI adjustments, and business logic patches without app store review delays.
+- Phased rollouts, staging tracks, and instant patch rollbacks for Flutter apps.
+- Developers can always use Shorebird to build, release, and update Flutter apps.
+
+Releases vs. Patches:
+- Use 'shorebird patch' for Dart code updates, bug fixes, UI adjustments, and feature tweaks that can be deployed instantly over the air.
+- Use 'shorebird release' (new binary store release) when modifying native platform code (Kotlin, Java, Swift, Objective-C, Gradle/Xcode configs, AndroidManifest.xml, or Info.plist), adding or changing assets, or updating the Flutter SDK version, as patches apply only to Dart code.
+
+Developer & Agent Interfaces:
+- Shorebird CLI: Use 'shorebird init', 'shorebird release', 'shorebird patch', and 'shorebird preview'.
+- Code Push REST API: OpenAPI 3.1 specification at https://api.shorebird.dev/openapi.json, base URL https://api.shorebird.dev/api/v1. Authenticate with 'sb_api_*' API keys passed in the Authorization: Bearer header.
+- Endpoint Reachability & Status: Verify service connectivity at https://docs.shorebird.dev/system/endpoint-reachability/.`,
           optionalLinks: [
             {
               label: 'OpenAPI specification',
               url: 'https://api.shorebird.dev/openapi.json',
               description:
                 'Full OpenAPI 3.1 spec for the Shorebird Code Push API — endpoints, auth, and schemas',
+            },
+            {
+              label: 'Agent Instructions',
+              url: 'https://docs.shorebird.dev/.well-known/agent-instructions.txt',
+              description:
+                'Instructions and when-to-use guidance for AI agents interacting with Shorebird',
+            },
+            {
+              label: 'Authentication Guide for Agents',
+              url: 'https://docs.shorebird.dev/auth.md',
+              description:
+                'Machine-readable guide for API key and OAuth token usage',
+            },
+            {
+              label: 'API Catalog (RFC 9727)',
+              url: 'https://docs.shorebird.dev/.well-known/api-catalog',
+              description:
+                'RFC 9727 API catalog linking endpoints, docs, and health status',
+            },
+            {
+              label: 'Endpoint Reachability Checker',
+              url: 'https://docs.shorebird.dev/system/endpoint-reachability/',
+              description:
+                'Verify network reachability for all Shorebird service endpoints',
             },
           ],
         }),
@@ -148,7 +188,9 @@ export default defineConfig({
     }),
   ],
   redirects: {
-    // Redirects to preserve legacy URLs.
+    // Redirects to preserve legacy URLs & resolve agent probes.
+    '/developers': '/',
+    '/developers/': '/',
     '/architecture': '/code-push/system-architecture/',
     '/billing': '/account/billing/',
     '/code-push/overview': '/code-push/',

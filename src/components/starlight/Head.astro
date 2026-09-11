@@ -8,6 +8,82 @@ const ogImageUrl = getImagePath({ url: Astro.url, site: Astro.site });
 <Default><slot /></Default>
 <meta property="og:image" content={ogImageUrl} />
 <meta property="twitter:image" content={ogImageUrl} />
+<meta
+  name="keywords"
+  content="Shorebird, Shorebird Code Push, Shorebird Flutter, Code Push, Flutter Code Push, Flutter OTA updates, Over-the-air updates Flutter, Flutter hotfix, Shorebird CLI"
+/>
+
+<!-- Schema.org JSON-LD Structured Data for Brand & Identity -->
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Organization',
+        '@id': 'https://shorebird.dev/#organization',
+        name: 'Shorebird',
+        legalName: 'Shorebird, Inc.',
+        alternateName: [
+          'Shorebird Code Push',
+          'Shorebird Tech',
+          'Shorebird Flutter',
+        ],
+        url: 'https://shorebird.dev',
+        logo: 'https://docs.shorebird.dev/favicon.svg',
+        sameAs: [
+          'https://github.com/shorebirdtech',
+          'https://x.com/shorebirdtech',
+          'https://twitter.com/shorebirdtech',
+          'https://discord.gg/shorebird',
+          'https://www.linkedin.com/company/shorebirdtech',
+        ],
+        contactPoint: {
+          '@type': 'ContactPoint',
+          email: 'contact@shorebird.dev',
+          contactType: 'customer support',
+          availableLanguage: ['English'],
+        },
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'Chicago',
+          addressRegion: 'IL',
+          addressCountry: 'US',
+        },
+      },
+      {
+        '@type': 'SoftwareApplication',
+        '@id': 'https://shorebird.dev/#software',
+        name: 'Shorebird Code Push',
+        applicationCategory: 'DeveloperApplication',
+        operatingSystem: 'Android, iOS, macOS, Windows, Linux',
+        description:
+          'Code push and over-the-air (OTA) updates platform for Flutter apps. Deploy instant bug fixes to Flutter applications without waiting for app store reviews.',
+        url: 'https://shorebird.dev',
+        softwareHelp: 'https://docs.shorebird.dev',
+        author: {
+          '@id': 'https://shorebird.dev/#organization',
+        },
+        offers: {
+          '@type': 'Offer',
+          price: '0',
+          priceCurrency: 'USD',
+        },
+      },
+      {
+        '@type': 'WebSite',
+        '@id': 'https://docs.shorebird.dev/#website',
+        url: 'https://docs.shorebird.dev',
+        name: 'Shorebird Documentation',
+        description:
+          'Official documentation for Shorebird — Code push and over-the-air updates for Flutter applications.',
+        publisher: {
+          '@id': 'https://shorebird.dev/#organization',
+        },
+      },
+    ],
+  })}
+/>
 
 <!-- Plausible analytics -->
 <script

@@ -1,13 +1,11 @@
 ---
 import Default from '@astrojs/starlight/components/Head.astro';
 import { getImagePath } from 'astro-opengraph-images';
+import { markdownSiblingPath } from '~/utils/markdown-path';
 
 const ogImageUrl = getImagePath({ url: Astro.url, site: Astro.site });
 
-const pathname = Astro.url.pathname;
-const trimmed =
-  pathname.endsWith('/') && pathname !== '/' ? pathname.slice(0, -1) : pathname;
-const markdownPath = trimmed === '/' ? '/index.md' : `${trimmed}.md`;
+const markdownPath = markdownSiblingPath(Astro.url.pathname);
 ---
 
 <Default><slot /></Default>

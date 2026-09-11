@@ -78,6 +78,9 @@ const AGENT_LINK_HEADERS = [
   '</.well-known/ai-catalog.json>; rel="service-desc"',
   '</.well-known/agent-skills/index.json>; rel="agent-skills"',
   '</.well-known/agent-instructions.txt>; rel="agent-instructions"',
+  '</.well-known/oauth-authorization-server>; rel="oauth-authorization-server"',
+  '</.well-known/oauth-protected-resource>; rel="oauth-protected-resource"',
+  '</.well-known/openid-configuration>; rel="openid-configuration"',
   '</account/api/>; rel="service-doc"',
   '<https://api.shorebird.dev/openapi.json>; rel="service-desc"; type="application/json"',
   '</llms.txt>; rel="alternate"; type="text/plain"',
@@ -97,6 +100,26 @@ The requested page does not exist on Shorebird Documentation.
 - [Full Documentation (llms-full.txt)](https://docs.shorebird.dev/llms-full.txt)
 - [Sitemap](https://docs.shorebird.dev/sitemap-index.xml)
 `;
+
+const JSON_404_BODY = JSON.stringify(
+  {
+    error: {
+      code: 'not_found',
+      message: 'The requested documentation resource does not exist.',
+      status: 404,
+      resolution_hints: [
+        'Consult the documentation homepage at https://docs.shorebird.dev/',
+        'Review curated LLM documentation at https://docs.shorebird.dev/llms.txt',
+        'Explore full documentation at https://docs.shorebird.dev/llms-full.txt',
+        'Inspect the REST OpenAPI 3.1 specification at https://api.shorebird.dev/openapi.json',
+        'Verify endpoint connectivity at https://docs.shorebird.dev/system/endpoint-reachability/',
+        'Browse the sitemap at https://docs.shorebird.dev/sitemap-index.xml',
+      ],
+    },
+  },
+  null,
+  2,
+);
 
 function addAgentLinkHeaders(headers: Headers, pathname?: string): void {
   const parts: string[] = [];
@@ -128,20 +151,22 @@ function addVaryAccept(headers: Headers): void {
   }
 }
 
-type Preference = 'markdown' | 'html' | 'either' | 'none';
+type Preference = 'markdown' | 'json' | 'html' | 'either' | 'none';
 
 function negotiate(acceptHeader: string | null): Preference {
   if (!acceptHeader) return 'either';
   const entries = parseAccept(acceptHeader);
   const markdown = scoreFor(entries, 'text/markdown');
   const html = scoreFor(entries, 'text/html');
+  const json = scoreFor(entries, 'application/json');
 
-  if (markdown < 0 && html < 0) {
+  if (markdown < 0 && html < 0 && json < 0) {
     const rejectsEverything = entries.some(
       (e) => e.type === '*/*' && e.q === 0,
     );
     return rejectsEverything ? 'none' : 'either';
   }
+  if (json > markdown && json > html) return 'json';
   if (markdown > html) return 'markdown';
   if (html > markdown) return 'html';
   return 'either';
@@ -203,6 +228,28 @@ export const onRequest: PagesFunction<Env> = async (context) => {
           headers: notFoundHeaders,
         },
       );
+    }
+
+    const headers = new Headers(fallbackResponse.headers);
+    addVaryAccept(headers);
+    addAgentLinkHeaders(headers, url.pathname);
+    return new Response(fallbackResponse.body, {
+      status: fallbackResponse.status,
+      headers,
+    });
+  }
+
+  if (preference === 'json') {
+    const fallbackResponse = await context.next();
+    if (fallbackResponse.status === 404) {
+      const notFoundHeaders = new Headers();
+      notFoundHeaders.set('Content-Type', 'application/json; charset=utf-8');
+      addVaryAccept(notFoundHeaders);
+      addAgentLinkHeaders(notFoundHeaders, url.pathname);
+      return new Response(request.method === 'HEAD' ? null : JSON_404_BODY, {
+        status: 404,
+        headers: notFoundHeaders,
+      });
     }
 
     const headers = new Headers(fallbackResponse.headers);

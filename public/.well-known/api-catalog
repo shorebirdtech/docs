@@ -23,6 +23,24 @@
           "href": "https://docs.shorebird.dev/system/endpoint-reachability/",
           "type": "text/html"
         }
+      ],
+      "oauth-authorization-server": [
+        {
+          "href": "https://docs.shorebird.dev/.well-known/oauth-authorization-server",
+          "type": "application/json"
+        }
+      ],
+      "oauth-protected-resource": [
+        {
+          "href": "https://docs.shorebird.dev/.well-known/oauth-protected-resource",
+          "type": "application/json"
+        }
+      ],
+      "openid-configuration": [
+        {
+          "href": "https://docs.shorebird.dev/.well-known/openid-configuration",
+          "type": "application/json"
+        }
       ]
     }
   ]

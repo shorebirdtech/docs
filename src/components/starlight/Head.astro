@@ -53,6 +53,22 @@ const markdownPath = trimmed === '/' ? '/index.md' : `${trimmed}.md`;
   type="application/json"
   href="/.well-known/agent-skills/index.json"
 />
+<link rel="agent" type="application/json" href="/.well-known/agent.json" />
+<link
+  rel="oauth-authorization-server"
+  type="application/json"
+  href="/.well-known/oauth-authorization-server"
+/>
+<link
+  rel="oauth-protected-resource"
+  type="application/json"
+  href="/.well-known/oauth-protected-resource"
+/>
+<link
+  rel="openid-configuration"
+  type="application/json"
+  href="/.well-known/openid-configuration"
+/>
 
 <!-- WebMCP / In-Browser Model Context Provider -->
 <!-- cspell:disable -->

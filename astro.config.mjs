@@ -187,6 +187,12 @@ Developer & Agent Interfaces:
               description:
                 'RFC 9728 resource server metadata describing token requirements',
             },
+            {
+              label: 'Agent Card (A2A Protocol)',
+              url: 'https://docs.shorebird.dev/.well-known/agent.json',
+              description:
+                'Machine-readable agent capability card for agent-to-agent discovery',
+            },
           ],
         }),
       ],

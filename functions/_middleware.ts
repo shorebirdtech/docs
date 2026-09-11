@@ -78,6 +78,7 @@ const AGENT_LINK_HEADERS = [
   '</.well-known/ai-catalog.json>; rel="service-desc"',
   '</.well-known/agent-skills/index.json>; rel="agent-skills"',
   '</.well-known/agent-instructions.txt>; rel="agent-instructions"',
+  '</.well-known/agent.json>; rel="agent"',
   '</.well-known/oauth-authorization-server>; rel="oauth-authorization-server"',
   '</.well-known/oauth-protected-resource>; rel="oauth-protected-resource"',
   '</.well-known/openid-configuration>; rel="openid-configuration"',

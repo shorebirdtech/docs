@@ -6,9 +6,7 @@ const ogImageUrl = getImagePath({ url: Astro.url, site: Astro.site });
 
 const pathname = Astro.url.pathname;
 const trimmed =
-  pathname.endsWith('/') && pathname !== '/'
-    ? pathname.slice(0, -1)
-    : pathname;
+  pathname.endsWith('/') && pathname !== '/' ? pathname.slice(0, -1) : pathname;
 const markdownPath = trimmed === '/' ? '/index.md' : `${trimmed}.md`;
 ---
 
@@ -34,7 +32,12 @@ const markdownPath = trimmed === '/' ? '/index.md' : `${trimmed}.md`;
 
 <!-- AI Agent Discovery & Alternate Formats -->
 <link rel="alternate" type="text/markdown" href={markdownPath} />
-<link rel="alternate" type="text/plain" href="/llms.txt" title="LLMs Overview" />
+<link
+  rel="alternate"
+  type="text/plain"
+  href="/llms.txt"
+  title="LLMs Overview"
+/>
 <link
   rel="service-desc"
   type="application/json"
@@ -235,4 +238,42 @@ const markdownPath = trimmed === '/' ? '/index.md' : `${trimmed}.md`;
 
 <!-- Unify Website Tag -->
 <!-- cspell:disable-next-line -->
-<script is:inline>!function(){var e=["identify","page","startAutoPage","stopAutoPage","startAutoIdentify","stopAutoIdentify"];function t(o){return Object.assign([],e.reduce(function(r,n){return r[n]=function(){return o.push([n,[].slice.call(arguments)]),o},r},{}))}window.unify||(window.unify=t(window.unify)),window.unifyBrowser||(window.unifyBrowser=t(window.unifyBrowser));var n=document.createElement("script");n.async=!0,n.setAttribute("src","https://tag.unifyintent.com/v1/QoBw2RtKMRTC8SgiRGVoqm/script.js"),n.setAttribute("data-api-key","wk_aZd1Wuvn_66qeweFDZsr2swVJShPAMpqiwuEv4VHm"),n.setAttribute("id","unifytag"),(document.body||document.head).appendChild(n)}();</script>
+<script is:inline>
+  !(function () {
+    var e = [
+      'identify',
+      'page',
+      'startAutoPage',
+      'stopAutoPage',
+      'startAutoIdentify',
+      'stopAutoIdentify',
+    ];
+    function t(o) {
+      return Object.assign(
+        [],
+        e.reduce(function (r, n) {
+          return (
+            (r[n] = function () {
+              return (o.push([n, [].slice.call(arguments)]), o);
+            }),
+            r
+          );
+        }, {}),
+      );
+    }
+    (window.unify || (window.unify = t(window.unify)),
+      window.unifyBrowser || (window.unifyBrowser = t(window.unifyBrowser)));
+    var n = document.createElement('script');
+    ((n.async = !0),
+      n.setAttribute(
+        'src',
+        'https://tag.unifyintent.com/v1/QoBw2RtKMRTC8SgiRGVoqm/script.js',
+      ),
+      n.setAttribute(
+        'data-api-key',
+        'wk_aZd1Wuvn_66qeweFDZsr2swVJShPAMpqiwuEv4VHm',
+      ),
+      n.setAttribute('id', 'unifytag'),
+      (document.body || document.head).appendChild(n));
+  })();
+</script>

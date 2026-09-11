@@ -169,6 +169,12 @@ Developer & Agent Interfaces:
               description:
                 'Verify network reachability for all Shorebird service endpoints',
             },
+            {
+              label: 'Agent Skills Manifest',
+              url: 'https://docs.shorebird.dev/.well-known/agent-skills/index.json',
+              description:
+                'Machine-readable workflow definitions for AI agents',
+            },
           ],
         }),
       ],

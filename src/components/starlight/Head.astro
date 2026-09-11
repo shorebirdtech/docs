@@ -3,6 +3,13 @@ import Default from '@astrojs/starlight/components/Head.astro';
 import { getImagePath } from 'astro-opengraph-images';
 
 const ogImageUrl = getImagePath({ url: Astro.url, site: Astro.site });
+
+const pathname = Astro.url.pathname;
+const trimmed =
+  pathname.endsWith('/') && pathname !== '/'
+    ? pathname.slice(0, -1)
+    : pathname;
+const markdownPath = trimmed === '/' ? '/index.md' : `${trimmed}.md`;
 ---
 
 <Default><slot /></Default>
@@ -12,6 +19,81 @@ const ogImageUrl = getImagePath({ url: Astro.url, site: Astro.site });
   name="keywords"
   content="Shorebird, Shorebird Code Push, Shorebird Flutter, Code Push, Flutter Code Push, Flutter OTA updates, Over-the-air updates Flutter, Flutter hotfix, Shorebird CLI"
 />
+
+<!-- AI Agent Discovery & Alternate Formats -->
+<link rel="alternate" type="text/markdown" href={markdownPath} />
+<link rel="alternate" type="text/plain" href="/llms.txt" title="LLMs Overview" />
+<link
+  rel="service-desc"
+  type="application/json"
+  href="/.well-known/ai-catalog.json"
+/>
+<link
+  rel="api-catalog"
+  type="application/linkset+json"
+  href="/.well-known/api-catalog"
+/>
+<link
+  rel="agent-skills"
+  type="application/json"
+  href="/.well-known/agent-skills/index.json"
+/>
+
+<!-- WebMCP / In-Browser Model Context Provider -->
+<!-- cspell:disable -->
+<script is:inline>
+  (function () {
+    if (
+      typeof window !== 'undefined' &&
+      'modelContext' in navigator &&
+      typeof navigator.modelContext?.provideContext === 'function'
+    ) {
+      try {
+        navigator.modelContext.provideContext({
+          name: 'Shorebird Documentation',
+          description:
+            'Official documentation and tooling for Shorebird Flutter Code Push.',
+          tools: [
+            {
+              name: 'get_install_command',
+              description:
+                'Returns the official Shorebird CLI installation command for macOS/Linux or Windows.',
+              parameters: {
+                type: 'object',
+                properties: {
+                  os: {
+                    type: 'string',
+                    enum: ['unix', 'windows'],
+                    description: 'Target operating system',
+                  },
+                },
+                required: ['os'],
+              },
+              execute: function (args) {
+                if (args && args.os === 'windows') {
+                  return 'powershell -executionpolicy bypass -command "irm https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1 | iex"';
+                }
+                return 'curl --proto "=https" --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | sh';
+              },
+            },
+            {
+              name: 'get_llms_txt_url',
+              description:
+                'Returns the URL of the curated Shorebird documentation for LLMs.',
+              parameters: { type: 'object', properties: {} },
+              execute: function () {
+                return 'https://docs.shorebird.dev/llms.txt';
+              },
+            },
+          ],
+        });
+      } catch (e) {
+        // Silently ignore if modelContext provider fails
+      }
+    }
+  })();
+</script>
+<!-- cspell:enable -->
 
 <!-- Schema.org JSON-LD Structured Data for Brand & Identity -->
 <script

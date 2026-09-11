@@ -10,7 +10,7 @@
     {
       "name": "code-push-release",
       "type": "cli-workflow",
-      "description": "Create and publish initial Flutter app releases for Android and iOS using Shorebird.",
+      "description": "Create and publish initial Flutter app releases for supported platforms using Shorebird.",
       "url": "https://docs.shorebird.dev/code-push/release.md"
     },
     {

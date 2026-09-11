@@ -76,6 +76,8 @@ function scoreFor(entries: AcceptEntry[], target: string): number {
 const AGENT_LINK_HEADERS = [
   '</.well-known/api-catalog>; rel="api-catalog"',
   '</.well-known/ai-catalog.json>; rel="service-desc"',
+  '</.well-known/agent-skills/index.json>; rel="agent-skills"',
+  '</.well-known/agent-instructions.txt>; rel="agent-instructions"',
   '</account/api/>; rel="service-doc"',
   '<https://api.shorebird.dev/openapi.json>; rel="service-desc"; type="application/json"',
   '</llms.txt>; rel="alternate"; type="text/plain"',
@@ -96,12 +98,20 @@ The requested page does not exist on Shorebird Documentation.
 - [Sitemap](https://docs.shorebird.dev/sitemap-index.xml)
 `;
 
-function addAgentLinkHeaders(headers: Headers): void {
+function addAgentLinkHeaders(headers: Headers, pathname?: string): void {
+  const parts: string[] = [];
+  if (pathname) {
+    const mdPath = markdownSiblingPath(pathname);
+    parts.push(`<${mdPath}>; rel="alternate"; type="text/markdown"`);
+  }
+  parts.push(AGENT_LINK_HEADERS);
+  const linkValue = parts.join(', ');
+
   const existing = headers.get('Link');
   if (!existing) {
-    headers.set('Link', AGENT_LINK_HEADERS);
+    headers.set('Link', linkValue);
   } else if (!existing.includes('api-catalog')) {
-    headers.set('Link', `${existing}, ${AGENT_LINK_HEADERS}`);
+    headers.set('Link', `${existing}, ${linkValue}`);
   }
 }
 
@@ -168,7 +178,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     if (markdownResponse.ok) {
       const headers = new Headers(markdownResponse.headers);
       addVaryAccept(headers);
-      addAgentLinkHeaders(headers);
+      addAgentLinkHeaders(headers, url.pathname);
       return new Response(
         request.method === 'HEAD' ? null : markdownResponse.body,
         {
@@ -185,7 +195,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
       const notFoundHeaders = new Headers();
       notFoundHeaders.set('Content-Type', 'text/markdown; charset=utf-8');
       addVaryAccept(notFoundHeaders);
-      addAgentLinkHeaders(notFoundHeaders);
+      addAgentLinkHeaders(notFoundHeaders, url.pathname);
       return new Response(
         request.method === 'HEAD' ? null : MARKDOWN_404_BODY,
         {
@@ -197,7 +207,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
 
     const headers = new Headers(fallbackResponse.headers);
     addVaryAccept(headers);
-    addAgentLinkHeaders(headers);
+    addAgentLinkHeaders(headers, url.pathname);
     return new Response(fallbackResponse.body, {
       status: fallbackResponse.status,
       headers,
@@ -207,6 +217,6 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   const response = await context.next();
   const headers = new Headers(response.headers);
   addVaryAccept(headers);
-  addAgentLinkHeaders(headers);
+  addAgentLinkHeaders(headers, url.pathname);
   return new Response(response.body, { status: response.status, headers });
 };

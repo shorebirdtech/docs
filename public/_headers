@@ -1,10 +1,76 @@
-# Agents fetch the .md alongside each page. GitHub Pages could not set these.
+# Agents fetch the .md alongside each page.
 /*.md
   Content-Type: text/markdown; charset=utf-8
   Access-Control-Allow-Origin: *
 
 /llms.txt
+  Content-Type: text/plain; charset=utf-8
   Access-Control-Allow-Origin: *
 
 /llms-full.txt
+  Content-Type: text/plain; charset=utf-8
+  Access-Control-Allow-Origin: *
+
+/llms-small.txt
+  Content-Type: text/plain; charset=utf-8
+  Access-Control-Allow-Origin: *
+
+/sitemap*.xml
+  Content-Type: application/xml; charset=utf-8
+  Access-Control-Allow-Origin: *
+
+/sitemap-index.xml
+  Content-Type: application/xml; charset=utf-8
+  Access-Control-Allow-Origin: *
+
+/.well-known/api-catalog
+  Content-Type: application/linkset+json; charset=utf-8
+  Access-Control-Allow-Origin: *
+
+/.well-known/api-catalog.json
+  Content-Type: application/linkset+json; charset=utf-8
+  Access-Control-Allow-Origin: *
+
+/.well-known/ai-catalog.json
+  Content-Type: application/json; charset=utf-8
+  Access-Control-Allow-Origin: *
+
+/.well-known/oauth-protected-resource
+  Content-Type: application/json; charset=utf-8
+  Access-Control-Allow-Origin: *
+
+/.well-known/oauth-authorization-server
+  Content-Type: application/json; charset=utf-8
+  Access-Control-Allow-Origin: *
+
+/.well-known/openid-configuration
+  Content-Type: application/json; charset=utf-8
+  Access-Control-Allow-Origin: *
+
+/.well-known/agent-skills/index.json
+  Content-Type: application/json; charset=utf-8
+  Access-Control-Allow-Origin: *
+
+/.well-known/agent-instructions.txt
+  Content-Type: text/plain; charset=utf-8
+  Access-Control-Allow-Origin: *
+
+/.well-known/security.txt
+  Content-Type: text/plain; charset=utf-8
+  Access-Control-Allow-Origin: *
+
+/.well-known/agent.json
+  Content-Type: application/json; charset=utf-8
+  Access-Control-Allow-Origin: *
+
+/.well-known/traffic-advice
+  Content-Type: application/trafficadvice+json; charset=utf-8
+  Access-Control-Allow-Origin: *
+
+/opensearch.xml
+  Content-Type: application/opensearchdescription+xml; charset=utf-8
+  Access-Control-Allow-Origin: *
+
+/humans.txt
+  Content-Type: text/plain; charset=utf-8
   Access-Control-Allow-Origin: *

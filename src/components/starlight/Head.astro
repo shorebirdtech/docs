@@ -1,13 +1,254 @@
 ---
 import Default from '@astrojs/starlight/components/Head.astro';
 import { getImagePath } from 'astro-opengraph-images';
+import { markdownSiblingPath } from '~/utils/markdown-path';
 
 const ogImageUrl = getImagePath({ url: Astro.url, site: Astro.site });
+
+const markdownPath = markdownSiblingPath(Astro.url.pathname);
 ---
 
 <Default><slot /></Default>
 <meta property="og:image" content={ogImageUrl} />
 <meta property="twitter:image" content={ogImageUrl} />
+<meta
+  name="keywords"
+  content="Shorebird, Shorebird Code Push, Shorebird Flutter, Code Push, Flutter Code Push, Flutter OTA updates, Over-the-air updates Flutter, Flutter hotfix, Shorebird CLI"
+/>
+<meta name="application-name" content="Shorebird Code Push" />
+<meta name="apple-mobile-web-app-title" content="Shorebird" />
+<meta name="subject" content="Flutter Code Push and Over-the-Air Updates" />
+<meta
+  name="topic"
+  content="Flutter, Code Push, Mobile App Development, Over-the-Air Updates"
+/>
+<meta
+  name="summary"
+  content="Shorebird provides instant Code Push and over-the-air updates for Flutter applications across all supported platforms."
+/>
+<meta name="author" content="Shorebird, Inc." />
+
+<!-- AI Agent Discovery & Alternate Formats -->
+<link rel="alternate" type="text/markdown" href={markdownPath} />
+<link
+  rel="alternate"
+  type="text/plain"
+  href="/llms.txt"
+  title="LLMs Overview"
+/>
+<link
+  rel="service-desc"
+  type="application/json"
+  href="/.well-known/ai-catalog.json"
+/>
+<link
+  rel="api-catalog"
+  type="application/linkset+json"
+  href="/.well-known/api-catalog"
+/>
+<link
+  rel="agent-skills"
+  type="application/json"
+  href="/.well-known/agent-skills/index.json"
+/>
+<link rel="agent" type="application/json" href="/.well-known/agent.json" />
+<link
+  rel="oauth-authorization-server"
+  type="application/json"
+  href="/.well-known/oauth-authorization-server"
+/>
+<link
+  rel="oauth-protected-resource"
+  type="application/json"
+  href="/.well-known/oauth-protected-resource"
+/>
+<link
+  rel="openid-configuration"
+  type="application/json"
+  href="/.well-known/openid-configuration"
+/>
+<link
+  rel="search"
+  type="application/opensearchdescription+xml"
+  title="Shorebird Docs"
+  href="/opensearch.xml"
+/>
+<link rel="author" type="text/plain" href="/humans.txt" />
+
+<!-- WebMCP / In-Browser Model Context Provider -->
+<!-- cspell:disable -->
+<script is:inline>
+  (function () {
+    if (
+      typeof window !== 'undefined' &&
+      'modelContext' in navigator &&
+      typeof navigator.modelContext?.provideContext === 'function'
+    ) {
+      try {
+        navigator.modelContext.provideContext({
+          name: 'Shorebird Documentation',
+          description:
+            'Official documentation and tooling for Shorebird Flutter Code Push.',
+          tools: [
+            {
+              name: 'get_install_command',
+              description:
+                'Returns the official Shorebird CLI installation command for macOS/Linux or Windows.',
+              parameters: {
+                type: 'object',
+                properties: {
+                  os: {
+                    type: 'string',
+                    enum: ['unix', 'windows'],
+                    description: 'Target operating system',
+                  },
+                },
+                required: ['os'],
+              },
+              execute: function (args) {
+                if (args && args.os === 'windows') {
+                  return 'powershell -executionpolicy bypass -command "irm https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1 | iex"';
+                }
+                return 'curl --proto "=https" --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | sh';
+              },
+            },
+            {
+              name: 'get_llms_txt_url',
+              description:
+                'Returns the URL of the curated Shorebird documentation for LLMs.',
+              parameters: { type: 'object', properties: {} },
+              execute: function () {
+                return 'https://docs.shorebird.dev/llms.txt';
+              },
+            },
+          ],
+        });
+      } catch (e) {
+        // Silently ignore if modelContext provider fails
+      }
+    }
+  })();
+</script>
+<!-- cspell:enable -->
+
+<!-- Schema.org JSON-LD Structured Data for Brand & Identity Disambiguation -->
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Organization',
+        '@id': 'https://shorebird.dev/#organization',
+        name: 'Shorebird',
+        legalName: 'Shorebird, Inc.',
+        alternateName: [
+          'Shorebird Code Push',
+          'Shorebird Tech',
+          'Shorebird Flutter',
+        ],
+        disambiguatingDescription:
+          'A software technology company providing Code Push and over-the-air (OTA) update infrastructure for Flutter applications, founded by Flutter co-creator Eric Seidel. Not related to coastal avian wildlife.',
+        url: 'https://shorebird.dev',
+        logo: 'https://docs.shorebird.dev/favicon.svg',
+        founder: {
+          '@type': 'Person',
+          name: 'Eric Seidel',
+          jobTitle: 'Founder & CEO',
+          sameAs: [
+            'https://github.com/eseidel',
+            'https://x.com/eseidel',
+            'https://www.linkedin.com/in/ericseidel',
+          ],
+        },
+        knowsAbout: [
+          {
+            '@type': 'Thing',
+            name: 'Flutter',
+            sameAs: 'https://www.wikidata.org/wiki/Q56276200',
+          },
+          {
+            '@type': 'Thing',
+            name: 'Dart',
+            sameAs: 'https://www.wikidata.org/wiki/Q248160',
+          },
+          {
+            '@type': 'Thing',
+            name: 'Code Push',
+            description:
+              'Over-the-air update technology for mobile applications',
+          },
+          {
+            '@type': 'Thing',
+            name: 'Mobile application development',
+          },
+        ],
+        sameAs: [
+          'https://github.com/shorebirdtech',
+          'https://x.com/shorebirdtech',
+          'https://twitter.com/shorebirdtech',
+          'https://discord.gg/shorebird',
+          'https://www.linkedin.com/company/shorebirdtech',
+        ],
+        contactPoint: {
+          '@type': 'ContactPoint',
+          email: 'contact@shorebird.dev',
+          contactType: 'customer support',
+          availableLanguage: ['English'],
+        },
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'Chicago',
+          addressRegion: 'IL',
+          addressCountry: 'US',
+        },
+      },
+      {
+        '@type': 'SoftwareApplication',
+        '@id': 'https://shorebird.dev/#software',
+        name: 'Shorebird Code Push',
+        applicationCategory: 'DeveloperApplication',
+        applicationSubCategory: 'Developer Tools',
+        operatingSystem: 'Android, iOS, macOS, Windows, Linux',
+        disambiguatingDescription:
+          'Developer tooling and cloud platform providing instant Code Push (over-the-air updates) for Flutter apps, avoiding app store review delays.',
+        description:
+          'Code push and over-the-air (OTA) updates platform for Flutter apps. Deploy instant bug fixes to Flutter applications without waiting for app store reviews.',
+        url: 'https://shorebird.dev',
+        softwareHelp: 'https://docs.shorebird.dev',
+        featureList: [
+          'Instant over-the-air (OTA) updates for Flutter',
+          'Deploy Dart bug fixes without app store review',
+          'Multi-platform support (Android, iOS, macOS, Windows, Linux)',
+          'Percentage-based staged rollouts and instant patch rollbacks',
+          'Private patch signing and enterprise compliance',
+        ],
+        author: {
+          '@id': 'https://shorebird.dev/#organization',
+        },
+        offers: {
+          '@type': 'Offer',
+          price: '0',
+          priceCurrency: 'USD',
+        },
+      },
+      {
+        '@type': 'WebSite',
+        '@id': 'https://docs.shorebird.dev/#website',
+        url: 'https://docs.shorebird.dev',
+        name: 'Shorebird Documentation',
+        alternateName: 'Shorebird Code Push Docs',
+        disambiguatingDescription:
+          'Official documentation for Shorebird Flutter Code Push platform.',
+        description:
+          'Official documentation for Shorebird — Code push and over-the-air updates for Flutter applications.',
+        publisher: {
+          '@id': 'https://shorebird.dev/#organization',
+        },
+      },
+    ],
+  })}
+/>
 
 <!-- Plausible analytics -->
 <script
@@ -17,5 +258,44 @@ const ogImageUrl = getImagePath({ url: Astro.url, site: Astro.site });
   src="https://plausible.io/js/script.tagged-events.js"></script>
 
 <!-- Unify Website Tag -->
-<!-- cspell:disable-next-line -->
-<script is:inline>!function(){var e=["identify","page","startAutoPage","stopAutoPage","startAutoIdentify","stopAutoIdentify"];function t(o){return Object.assign([],e.reduce(function(r,n){return r[n]=function(){return o.push([n,[].slice.call(arguments)]),o},r},{}))}window.unify||(window.unify=t(window.unify)),window.unifyBrowser||(window.unifyBrowser=t(window.unifyBrowser));var n=document.createElement("script");n.async=!0,n.setAttribute("src","https://tag.unifyintent.com/v1/QoBw2RtKMRTC8SgiRGVoqm/script.js"),n.setAttribute("data-api-key","wk_aZd1Wuvn_66qeweFDZsr2swVJShPAMpqiwuEv4VHm"),n.setAttribute("id","unifytag"),(document.body||document.head).appendChild(n)}();</script>
+<!-- cspell:disable -->
+<script is:inline>
+  !(function () {
+    var e = [
+      'identify',
+      'page',
+      'startAutoPage',
+      'stopAutoPage',
+      'startAutoIdentify',
+      'stopAutoIdentify',
+    ];
+    function t(o) {
+      return Object.assign(
+        [],
+        e.reduce(function (r, n) {
+          return (
+            (r[n] = function () {
+              return (o.push([n, [].slice.call(arguments)]), o);
+            }),
+            r
+          );
+        }, {}),
+      );
+    }
+    (window.unify || (window.unify = t(window.unify)),
+      window.unifyBrowser || (window.unifyBrowser = t(window.unifyBrowser)));
+    var n = document.createElement('script');
+    ((n.async = !0),
+      n.setAttribute(
+        'src',
+        'https://tag.unifyintent.com/v1/QoBw2RtKMRTC8SgiRGVoqm/script.js',
+      ),
+      n.setAttribute(
+        'data-api-key',
+        'wk_aZd1Wuvn_66qeweFDZsr2swVJShPAMpqiwuEv4VHm',
+      ),
+      n.setAttribute('id', 'unifytag'),
+      (document.body || document.head).appendChild(n));
+  })();
+</script>
+<!-- cspell:enable -->

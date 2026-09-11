@@ -1,0 +1,35 @@
+{
+  "issuer": "https://auth.shorebird.dev",
+  "authorization_endpoint": "https://auth.shorebird.dev/oauth/authorize",
+  "token_endpoint": "https://auth.shorebird.dev/oauth/token",
+  "userinfo_endpoint": "https://auth.shorebird.dev/oauth/userinfo",
+  "jwks_uri": "https://auth.shorebird.dev/.well-known/jwks.json",
+  "response_types_supported": [
+    "code",
+    "token",
+    "id_token"
+  ],
+  "subject_types_supported": [
+    "public"
+  ],
+  "id_token_signing_alg_values_supported": [
+    "RS256"
+  ],
+  "scopes_supported": [
+    "openid",
+    "profile",
+    "email",
+    "apps:read",
+    "apps:write",
+    "releases:read",
+    "releases:write",
+    "patches:read",
+    "patches:write"
+  ],
+  "token_endpoint_auth_methods_supported": [
+    "client_secret_post",
+    "client_secret_basic",
+    "none"
+  ],
+  "service_documentation": "https://docs.shorebird.dev/account/api/"
+}

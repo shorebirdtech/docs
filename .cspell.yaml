@@ -25,18 +25,21 @@ words:
   - appname
   - apks
   - appcenter
+  - applebot
   - astro
   - astrojs
   - bingbot
   - boltman
   - bryanoltman
   - buildroot
+  - bytespider
   - canva
   - classpath
   - cmdline
   - cocoapods
   - codemagic
   - codepush
+  - cohere
   - corsa
   - cloudkms
   - codesign
@@ -44,7 +47,9 @@ words:
   - cupertino
   - elif
   - emailaddress
+  - eseidel
   - evenodd
+  - externalagent
   - ffigen
   - fintech
   - frontmatter
@@ -60,6 +65,7 @@ words:
   - lateinit
   - keyrings
   - linearapp
+  - linkset
   - lavamoat
   - libapp
   - libexec
@@ -82,6 +88,8 @@ words:
   - notlike
   - nubank
   - opengraph
+  - opensearch
+  - opensearchdescription
   - outform
   - paweł
   - pixelmator
@@ -110,6 +118,7 @@ words:
   - temurin
   - tweens
   - twoslash
+  - trafficadvice
   - uiscene
   - vsync
   - vvago
@@ -117,6 +126,7 @@ words:
   - yourcompany
   - webkitallowfullscreen
   - widgetbook
+  - wikidata
   - wordmark
   - xcarchive
   - xcframework

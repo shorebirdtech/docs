@@ -22,7 +22,8 @@ API key.
   [Shorebird console](https://console.shorebird.dev/account/api-keys) (Account >
   API Keys).
 - **Format**: `sb_api_<unique_token_characters>`
-- **Lifespan**: Configurable for 30 days, 90 days, or 1 year.
+- **Lifespan**: No expiry by default; an expiry in days can be set when the key
+  is created.
 - **Usage**: Pass the key in the HTTP `Authorization` header on all API
   requests:
   ```http
@@ -41,12 +42,6 @@ Interactive CLI sessions use short-lived JWTs (15 minutes) exchanged through
 
 - **API base URL**: `https://api.shorebird.dev/api/v1`
 - **OpenAPI specification**: `https://api.shorebird.dev/openapi.json`
-- **Authorization server metadata**:
-  `https://docs.shorebird.dev/.well-known/oauth-authorization-server`
-- **Resource metadata**:
-  `https://docs.shorebird.dev/.well-known/oauth-protected-resource`
-- **OpenID Connect configuration**:
-  `https://docs.shorebird.dev/.well-known/openid-configuration`
 - **API catalog**: `https://docs.shorebird.dev/.well-known/api-catalog`
 - **Agent card**: `https://docs.shorebird.dev/.well-known/agent.json`
 - **Reachability verification**: Verify endpoint status at

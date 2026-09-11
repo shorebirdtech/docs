@@ -158,17 +158,15 @@ function addVaryAccept(headers: Headers): void {
 type Preference = 'markdown' | 'json' | 'html' | 'either' | 'none';
 
 function negotiate(acceptHeader: string | null): Preference {
-  if (!acceptHeader) return 'either';
+  if (!acceptHeader || !acceptHeader.trim()) return 'either';
   const entries = parseAccept(acceptHeader);
+  if (entries.length === 0) return 'either';
   const markdown = scoreFor(entries, 'text/markdown');
   const html = scoreFor(entries, 'text/html');
   const json = scoreFor(entries, 'application/json');
 
   if (markdown < 0 && html < 0 && json < 0) {
-    const rejectsEverything = entries.some(
-      (e) => e.type === '*/*' && e.q === 0,
-    );
-    return rejectsEverything ? 'none' : 'either';
+    return 'none';
   }
   if (json > markdown && json > html) return 'json';
   if (markdown > html) return 'markdown';
@@ -191,10 +189,19 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   const preference = negotiate(request.headers.get('Accept'));
 
   if (preference === 'none') {
-    return new Response('Not Acceptable', {
-      status: 406,
-      headers: { Vary: 'Accept' },
-    });
+    const headers = new Headers();
+    headers.set('Content-Type', 'text/plain; charset=utf-8');
+    addVaryAccept(headers);
+    addAgentLinkHeaders(headers, url.pathname);
+    return new Response(
+      request.method === 'HEAD'
+        ? null
+        : 'Not Acceptable\n\nAvailable: text/html, text/markdown\n',
+      {
+        status: 406,
+        headers,
+      },
+    );
   }
 
   if (preference === 'markdown') {

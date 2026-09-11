@@ -85,6 +85,9 @@ const AGENT_LINK_HEADERS = [
   '</account/api/>; rel="service-doc"',
   '<https://api.shorebird.dev/openapi.json>; rel="service-desc"; type="application/json"',
   '</llms.txt>; rel="alternate"; type="text/plain"',
+  '</opensearch.xml>; rel="search"; type="application/opensearchdescription+xml"',
+  '</humans.txt>; rel="author"; type="text/plain"',
+  '</.well-known/security.txt>; rel="security-policy"; type="text/plain"',
 ].join(', ');
 
 const MARKDOWN_404_BODY = `# 404 Not Found

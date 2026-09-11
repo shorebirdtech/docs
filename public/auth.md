@@ -41,8 +41,14 @@ Interactive CLI sessions use short-lived JWTs (15 minutes) exchanged through
 
 - **API base URL**: `https://api.shorebird.dev/api/v1`
 - **OpenAPI specification**: `https://api.shorebird.dev/openapi.json`
+- **Authorization server metadata**:
+  `https://docs.shorebird.dev/.well-known/oauth-authorization-server`
 - **Resource metadata**:
   `https://docs.shorebird.dev/.well-known/oauth-protected-resource`
+- **OpenID Connect configuration**:
+  `https://docs.shorebird.dev/.well-known/openid-configuration`
+- **API catalog**: `https://docs.shorebird.dev/.well-known/api-catalog`
+- **Agent card**: `https://docs.shorebird.dev/.well-known/agent.json`
 - **Reachability verification**: Verify endpoint status at
   `https://docs.shorebird.dev/system/endpoint-reachability/`
 

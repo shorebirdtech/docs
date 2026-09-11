@@ -176,18 +176,6 @@ Developer & Agent Interfaces:
                 'Machine-readable workflow definitions for AI agents',
             },
             {
-              label: 'OAuth 2.0 Authorization Server Metadata (RFC 8414)',
-              url: 'https://docs.shorebird.dev/.well-known/oauth-authorization-server',
-              description:
-                'RFC 8414 discovery metadata for programmatic agent authentication',
-            },
-            {
-              label: 'OAuth 2.0 Protected Resource Metadata (RFC 9728)',
-              url: 'https://docs.shorebird.dev/.well-known/oauth-protected-resource',
-              description:
-                'RFC 9728 resource server metadata describing token requirements',
-            },
-            {
               label: 'Agent Card (A2A Protocol)',
               url: 'https://docs.shorebird.dev/.well-known/agent.json',
               description:

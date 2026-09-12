@@ -352,6 +352,83 @@ iOS uses a very different patching process than Android does. The details of
 which are described in [System Architecture](/code-push/system-architecture/).
 This is also discussed in the [Patch Performance](/code-push/performance/) page.
 
+If you are asked for a `patch-debug.zip`, see
+[Sending a patch-debug.zip to Shorebird](#sending-a-patch-debugzip-to-shorebird)
+below.
+
+---
+
+## Sending a patch-debug.zip to Shorebird
+
+When Shorebird links an iOS or macOS patch against its release, it writes a
+diagnostic bundle to `build/patch-debug.zip` in your project. If you report a
+patch that runs slowly, or a patch that reports a low percentage of shared Dart
+code, this is the single most useful thing you can send us.
+
+### When it is produced
+
+`patch-debug.zip` is written by `shorebird patch ios` and
+`shorebird patch macos` as part of the linking step. Android patches do not use
+the linker and do not produce one.
+
+The file is written on every such patch, but Shorebird only mentions it in the
+patch summary when the link percentage falls below 90%:
+
+```
+🔍 Debug Info: build/patch-debug.zip
+```
+
+So if you did not see that line, the file is still there — look for it anyway.
+
+### Where to find it
+
+| Where you built | Path                                                              |
+| --------------- | ----------------------------------------------------------------- |
+| Locally         | `build/patch-debug.zip`, relative to your project root            |
+| Codemagic       | Also copied to `$CM_EXPORT_DIR`, so it appears in build artifacts |
+| Other CI        | `build/patch-debug.zip` — upload it as a build artifact           |
+
+On CI, `build/` is usually discarded when the job ends, so add a step that
+archives `build/patch-debug.zip` before the runner is torn down.
+
+### What is inside
+
+The archive contains a `snapshots/` directory holding the compiled Dart
+snapshots from both sides of the link, plus the link metadata Shorebird uses to
+compute the shared-code percentage:
+
+| File                     | What it is                                         |
+| ------------------------ | -------------------------------------------------- |
+| `App`                    | The AOT snapshot from the release you are patching |
+| `out.aot`                | The patch's initial compiler output                |
+| `out.ct.aot`             | Intermediate linking stage                         |
+| `out.preDdOptimized.aot` | Intermediate linking stage                         |
+| `out.ddOnly.aot`         | Intermediate linking stage                         |
+| `out.optimized.aot`      | The final linked patch snapshot                    |
+
+Together these let us reproduce the link offline and see exactly which code did
+not get shared between your release and your patch, without needing access to
+your project.
+
+:::caution
+
+`patch-debug.zip` contains compiled Dart code from your app — the same code that
+ships inside your release binary. It contains no Shorebird credentials and no
+source files, but treat it with the same care you would treat your app binary,
+and send it over a private channel rather than posting it publicly.
+
+:::
+
+### How to send it
+
+Share it with us on [Discord](https://discord.gg/shorebird) or by email at
+[contact@shorebird.dev](mailto:contact@shorebird.dev), along with:
+
+- your release version and the platform you patched,
+- the link percentage Shorebird reported, if you saw one,
+- the output of `shorebird --version`, and
+- the Flutter version used for the release.
+
 ---
 
 ## Resolving persistent compile or build failures

@@ -23,14 +23,11 @@ Flutter CI builds. Changes required:
 
 Shorebird installs its own copy of Flutter in `~/.shorebird`. It does not
 install native platform toolchains. `shorebird release` and `shorebird patch`
-run `flutter build`, which needs the same toolchain it needs outside Shorebird:
-
-| Target      | Required on the builder                                                               |
-| ----------- | ------------------------------------------------------------------------------------- |
-| Android     | A JDK and the Android SDK, with `ANDROID_HOME` (or `ANDROID_SDK_ROOT`) pointing at it |
-| iOS / macOS | Xcode, the Xcode command line tools, and CocoaPods                                    |
-| Windows     | Visual Studio with the "Desktop development with C++" workload                        |
-| Linux       | `clang`, `cmake`, `ninja-build`, `pkg-config`, and `libgtk-3-dev`                     |
+run `flutter build`, so a builder needs the same toolchain Flutter requires for
+your target platforms: a JDK and the Android SDK for Android, Xcode and
+CocoaPods for Apple platforms. See Flutter's
+[install requirements](https://docs.flutter.dev/get-started/install) for the
+full list.
 
 `shorebird doctor --verbose` lists the Android Studio, Android SDK, ADB,
 `JAVA_HOME`, Java version, and Gradle it detects on the builder.

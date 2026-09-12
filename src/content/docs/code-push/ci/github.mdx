@@ -6,7 +6,7 @@ sidebar:
   order: 8
 ---
 
-{/* cspell:words shorebirdtech */}
+{/* cspell:words shorebirdtech appbundle */}
 
 import Authentication from './_authentication.mdx';
 import { LinkCard } from 'starlight-theme-nova/components';
@@ -86,6 +86,125 @@ secret: <THE GENERATED SHOREBIRD_TOKEN>
 
 Now the `SHOREBIRD_TOKEN` can be used in the GitHub workflow to perform
 authenticated functions such as creating patches 🎉
+
+## Android code signing
+
+Shorebird does not sign your app. `shorebird release android` and
+`shorebird patch android` run Gradle, and Gradle signs with whatever release
+signing configuration your project already has. A fresh GitHub runner has no
+keystore, so unless you put one there, Gradle falls back to the debug signing
+key and the resulting build is rejected by the Play Console or fails to install
+over an existing copy of your app with `INSTALL_PARSE_FAILED_NO_CERTIFICATES`.
+
+`shorebird patch android` needs this too. Patching rebuilds your app so it can
+be compared against the released version, so the runner needs the same signing
+configuration the release was built with.
+
+### Store the keystore as a secret
+
+A keystore is a binary file, so base64-encode it before putting it in a GitHub
+secret:
+
+```bash title="macOS"
+base64 -i upload-keystore.jks | pbcopy
+```
+
+```bash title="Linux"
+base64 -w 0 upload-keystore.jks
+```
+
+Add the result as a repository secret named `ANDROID_KEYSTORE_BASE64`, then add
+three more secrets for the credentials: `ANDROID_KEYSTORE_PASSWORD`,
+`ANDROID_KEY_PASSWORD`, and `ANDROID_KEY_ALIAS`.
+
+:::danger
+
+Never commit `upload-keystore.jks` or `android/key.properties` to your
+repository. Both belong in `.gitignore`. Losing the upload key means you can no
+longer update your app on the Play Store without contacting Google, so keep a
+backup somewhere safe.
+
+:::
+
+### Recreate the keystore on the runner
+
+Add a step that decodes the keystore and writes `android/key.properties` before
+any Shorebird step runs:
+
+```yaml
+- name: 🔐 Set up Android signing
+  env:
+    KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+    KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+    KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+    KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+  run: |
+    echo "$KEYSTORE_BASE64" | base64 --decode > android/app/upload-keystore.jks
+    cat <<PROPS > android/key.properties
+    storePassword=$KEYSTORE_PASSWORD
+    keyPassword=$KEY_PASSWORD
+    keyAlias=$KEY_ALIAS
+    storeFile=upload-keystore.jks
+    PROPS
+```
+
+:::note
+
+`storeFile` is resolved relative to `android/app`, which is why the path above
+is just the file name.
+
+Pass the secrets through `env:` rather than interpolating them directly into the
+`run:` script. Interpolated values are expanded into the shell command itself,
+which makes them easier to leak into logs or into a crafted branch name.
+
+:::
+
+This assumes your `android/app/build.gradle` (or `build.gradle.kts`) already
+reads `key.properties` for its release signing config. If you have not set that
+up yet, see
+[Releasing Flutter apps: Android](/flutter-concepts/releasing-flutter-apps/android#step-3-configure-signing-in-gradle),
+which covers creating the keystore and wiring it into Gradle. If you can build a
+signed release locally with `flutter build appbundle`, your project is already
+set up correctly and only the runner needs these steps.
+
+### Putting it together
+
+```yaml
+steps:
+  - name: 📚 Git Checkout
+    uses: actions/checkout@v7
+
+  - name: 🐦 Setup Shorebird
+    uses: shorebirdtech/setup-shorebird@v1
+    with:
+      cache: true
+
+  - name: Set up Java
+    uses: actions/setup-java@v4
+    with:
+      distribution: 'temurin'
+      java-version: '17'
+
+  - name: 🔐 Set up Android signing
+    env:
+      KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+      KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+      KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+      KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+    run: |
+      echo "$KEYSTORE_BASE64" | base64 --decode > android/app/upload-keystore.jks
+      cat <<PROPS > android/key.properties
+      storePassword=$KEYSTORE_PASSWORD
+      keyPassword=$KEY_PASSWORD
+      keyAlias=$KEY_ALIAS
+      storeFile=upload-keystore.jks
+      PROPS
+
+  - name: 🚀 Shorebird Release
+    uses: shorebirdtech/shorebird-release@v1
+    with:
+      platform: android
+```
 
 ## Create releases
 

@@ -29,20 +29,12 @@ toolchain it would need outside of Shorebird.
 
 A builder that has never run a Flutter build before will therefore need:
 
-| Target      | Required on the builder                                                                                      |
-| ----------- | ------------------------------------------------------------------------------------------------------------ |
-| Android     | A JDK (17 is a good default) and the Android SDK, with `ANDROID_HOME` (or `ANDROID_SDK_ROOT`) pointing at it |
-| iOS / macOS | Xcode, the Xcode command line tools, and CocoaPods                                                           |
-| Windows     | Visual Studio with the "Desktop development with C++" workload                                               |
-| Linux       | `clang`, `cmake`, `ninja-build`, `pkg-config`, and `libgtk-3-dev`                                            |
-
-:::caution
-
-Installing Shorebird does not install an Android SDK. If your builder is missing
-one, `shorebird release android` fails with `No Android SDK found` — the error
-comes from the underlying `flutter build`, not from Shorebird.
-
-:::
+| Target      | Required on the builder                                                               |
+| ----------- | ------------------------------------------------------------------------------------- |
+| Android     | A JDK and the Android SDK, with `ANDROID_HOME` (or `ANDROID_SDK_ROOT`) pointing at it |
+| iOS / macOS | Xcode, the Xcode command line tools, and CocoaPods                                    |
+| Windows     | Visual Studio with the "Desktop development with C++" workload                        |
+| Linux       | `clang`, `cmake`, `ninja-build`, `pkg-config`, and `libgtk-3-dev`                     |
 
 To check what a builder actually has, run:
 

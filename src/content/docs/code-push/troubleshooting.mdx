@@ -352,28 +352,26 @@ iOS uses a very different patching process than Android does. The details of
 which are described in [System Architecture](/code-push/system-architecture/).
 This is also discussed in the [Patch Performance](/code-push/performance/) page.
 
-If you are asked for a `patch-debug.zip`, see
+See
 [Sending a patch-debug.zip to Shorebird](#sending-a-patch-debugzip-to-shorebird)
-below.
+if you are asked for one.
 
 ---
 
 ## Sending a patch-debug.zip to Shorebird
 
-When Shorebird
-[links](/code-push/system-architecture#how-shorebird-code-push-works) an iOS
-patch against its release, it writes a diagnostic bundle to
-`build/patch-debug.zip` in your project. If you report a patch that runs slowly,
-or one that shares a low percentage of Dart code with its release, this is the
-single most useful thing you can send us.
+`shorebird patch ios` writes `build/patch-debug.zip` when it
+[links](/code-push/system-architecture#how-shorebird-code-push-works) the patch
+against its release. Send it with any report of a slow patch or a low
+shared-code percentage.
 
 ### When it is produced
 
-`patch-debug.zip` is written by `shorebird patch ios` as part of the linking
-step. Android patches do not use the linker and do not produce one.
+Every `shorebird patch ios` run writes one. Android patches do not use the
+linker and do not produce one.
 
-Shorebird only mentions it in the patch summary when the link percentage falls
-below 90%:
+Shorebird names it in the patch summary only when the link percentage is below
+90%:
 
 ```
 🔍 Debug Info: build/patch-debug.zip
@@ -390,9 +388,8 @@ providers, archive it before the runner is torn down.
 ### What is inside
 
 The compiled Dart snapshots from both sides of the link, plus the link metadata
-Shorebird uses to compute the shared-code percentage. Together these let us
-reproduce the link offline and see exactly which code did not get shared between
-your release and your patch, without needing access to your project.
+Shorebird uses to compute the shared-code percentage. These let us reproduce the
+link and see which code was not shared, without access to your project.
 
 :::note
 
@@ -405,12 +402,11 @@ Shorebird credentials.
 
 ### How to send it
 
-We need three things: your app ID, the release version, and the file.
+Send your app ID, the release version, and the file.
 
-Attaching it to a
-[GitHub issue](https://github.com/shorebirdtech/shorebird/issues) is usually
-easiest. Many apps are not private, so uploading it publicly is fine. If yours
-is, send it privately instead: [Discord](https://discord.gg/shorebird),
+A [GitHub issue](https://github.com/shorebirdtech/shorebird/issues) is usually
+easiest, and a public upload is fine for most apps. For a private app, use
+[Discord](https://discord.gg/shorebird),
 [contact@shorebird.dev](mailto:contact@shorebird.dev), or your shared Slack
 channel if you are an enterprise customer.
 

@@ -106,6 +106,32 @@ always be built with the version of Flutter used by the release.
 
 :::
 
+### Match the Flutter version you already use
+
+If you manage Flutter with [fvm](https://fvm.app), or you just want Shorebird to
+follow the `flutter` on your `PATH`, `--flutter-version` accepts two aliases so
+you don't have to repeat the version number:
+
+```sh
+# Use the version fvm resolves for this project (from its .fvmrc).
+shorebird release android --flutter-version=fvm
+
+# Use the version reported by the `flutter` on your PATH.
+shorebird release android --flutter-version=system
+```
+
+Shorebird asks that Flutter which version it is, then builds with Shorebird's
+fork of Flutter at the same version. It does not build with your fvm or system
+Flutter install, so the usual rules still apply: the version has to be one
+Shorebird supports, and patches are built with the version used by the release.
+
+:::note
+
+`--flutter-version=fvm` requires `fvm` on your `PATH`, and runs
+`fvm flutter --version` from your project directory to resolve the version.
+
+:::
+
 ### Flutter version notes
 
 To help you avoid hidden pitfalls, Shorebird maintains version notes on Flutter

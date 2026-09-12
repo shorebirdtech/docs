@@ -89,42 +89,14 @@ authenticated functions such as creating patches 🎉
 
 ## Android code signing
 
-`shorebird release android` and `shorebird patch android` run Gradle, which
-signs with your project's release signing configuration. A GitHub runner has no
-keystore by default, so Gradle falls back to the debug key. The Play Console
-rejects those builds, and they fail to install over an existing copy of your app
-with `INSTALL_PARSE_FAILED_NO_CERTIFICATES`.
+`shorebird release android` and `shorebird patch android` run `flutter build`,
+so signing works exactly as it does for any Flutter app. See
+[Releasing Flutter apps: Android](/flutter-concepts/releasing-flutter-apps/android#step-3-configure-signing-in-gradle)
+for creating a keystore and wiring it into Gradle.
 
-`shorebird patch android` rebuilds your app to compare it against the release,
-so it needs the same signing configuration as the release.
-
-### Store the keystore as a secret
-
-A keystore is a binary file. Base64-encode it first:
-
-```bash title="macOS"
-base64 -i upload-keystore.jks | pbcopy
-```
-
-```bash title="Linux"
-base64 -w 0 upload-keystore.jks
-```
-
-Add the result as a repository secret named `ANDROID_KEYSTORE_BASE64`, plus
-`ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_PASSWORD`, and `ANDROID_KEY_ALIAS`.
-
-:::danger
-
-Never commit `upload-keystore.jks` or `android/key.properties`. Both belong in
-`.gitignore`. Losing the upload key means you cannot update your app on the Play
-Store without contacting Google, so keep a backup.
-
-:::
-
-### Recreate the keystore on the runner
-
-Decode the keystore and write `android/key.properties` before any Shorebird step
-runs:
+The CI-specific part is getting the keystore onto the runner. Store it as a
+base64-encoded repository secret, then decode it and write
+`android/key.properties` before the Shorebird step runs:
 
 ```yaml
 - name: 🔐 Set up Android signing
@@ -143,61 +115,16 @@ runs:
     PROPS
 ```
 
-:::note
+Without this, Gradle falls back to the debug key. The Play Console rejects those
+builds, and they fail to install over an existing copy of your app with
+`INSTALL_PARSE_FAILED_NO_CERTIFICATES`.
 
-`storeFile` resolves relative to `android/app`, so the path above is just the
-file name.
+:::danger
 
-Pass the secrets through `env:` rather than interpolating them into the `run:`
-script. Interpolated values are expanded into the shell command itself, where
-they are easier to leak into logs.
+Never commit `upload-keystore.jks` or `android/key.properties`. Both belong in
+`.gitignore`.
 
 :::
-
-This assumes `android/app/build.gradle` (or `build.gradle.kts`) already reads
-`key.properties` for its release signing config. See
-[Releasing Flutter apps: Android](/flutter-concepts/releasing-flutter-apps/android#step-3-configure-signing-in-gradle)
-to set that up. If `flutter build appbundle` produces a signed release locally,
-only the runner needs these steps.
-
-### Putting it together
-
-```yaml
-steps:
-  - name: 📚 Git Checkout
-    uses: actions/checkout@v7
-
-  - name: 🐦 Setup Shorebird
-    uses: shorebirdtech/setup-shorebird@v1
-    with:
-      cache: true
-
-  - name: Set up Java
-    uses: actions/setup-java@v4
-    with:
-      distribution: 'temurin'
-      java-version: '17'
-
-  - name: 🔐 Set up Android signing
-    env:
-      KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-      KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-      KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-      KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-    run: |
-      echo "$KEYSTORE_BASE64" | base64 --decode > android/app/upload-keystore.jks
-      cat <<PROPS > android/key.properties
-      storePassword=$KEYSTORE_PASSWORD
-      keyPassword=$KEY_PASSWORD
-      keyAlias=$KEY_ALIAS
-      storeFile=upload-keystore.jks
-      PROPS
-
-  - name: 🚀 Shorebird Release
-    uses: shorebirdtech/shorebird-release@v1
-    with:
-      platform: android
-```
 
 ## Create releases
 

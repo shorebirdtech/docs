@@ -87,6 +87,23 @@ secret: <THE GENERATED SHOREBIRD_TOKEN>
 Now the `SHOREBIRD_TOKEN` can be used in the GitHub workflow to perform
 authenticated functions such as creating patches 🎉
 
+## Android code signing
+
+`shorebird release android` and `shorebird patch android` run `flutter build`,
+so signing works exactly as it does for any Flutter app. Follow
+[Flutter's Android signing instructions](https://docs.flutter.dev/deployment/android#sign-the-app),
+or the
+[Shorebird version of them](/flutter-concepts/releasing-flutter-apps/android#step-3-configure-signing-in-gradle).
+
+The only difference on CI is that the keystore is not already on the machine.
+Store it as a base64-encoded repository secret, decode it to a path outside your
+checkout, and point `key.properties` at that path before the Shorebird step
+runs.
+
+Without it, Gradle falls back to the debug key. The Play Console rejects those
+builds, and they fail to install over an existing copy of your app with
+`INSTALL_PARSE_FAILED_NO_CERTIFICATES`.
+
 ## Create releases
 
 The simplest way to create a release is using the official Shorebird GitHub

@@ -13,6 +13,7 @@ import ArcadeEmbed from '~/components/ArcadeEmbed.astro';
 import rollbackButton from '~/assets/rollback_button.png';
 import rollbackPatch2Active from '~/assets/rollback_patch2_active.png';
 import rollbackPatch2RolledBack from '~/assets/rollback_patch2_rolled_back.png';
+import rollForwardButton from '~/assets/roll_forward_button.png';
 
 If you discover that a live patch has a bug, Shorebird supports patch roll back.
 When a patch is rolled back, it is remotely uninstalled from end users' devices
@@ -138,8 +139,14 @@ have confirmed the patch is safe after all.
 
 In the [Shorebird Console](https://console.shorebird.dev/), navigate to the
 release containing the rolled back patch. On the right side of the patch row,
-click the "more" icon (three vertical dots) and select "Roll Forward", then
-confirm.
+click the "more" icon (three vertical dots) and select "Roll Forward":
+
+<Image
+  src={rollForwardButton}
+  alt='The Shorebird Console showing a "Roll Forward" option in the menu of a rolled back patch'
+/>
+
+Confirm the dialog to roll the patch forward.
 
 The **Roll Forward** action only appears on a patch that is currently rolled
 back. On a patch that is not rolled back, the same menu offers "Rollback"

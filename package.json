@@ -2,7 +2,7 @@
   "name": "shorebird-docs",
   "type": "module",
   "version": "0.0.1",
-  "//": "typescript pinned to 6.x: TypeScript 7.0 (Go-based 'Project Corsa') removed ts.sys, breaking twoslash (a dep of starlight-theme-nova). js-yaml pinned to 4.x: astro@7.2.x requires js-yaml ^4.3.0; v5 is ESM-only with no default export and breaks astro's internal CJS interop. Re-evaluate both when upstream compatibility is added.",
+  "//": "typescript pinned to 6.x: TypeScript 7.0 (Go-based 'Project Corsa') removed the JS API (ts.sys), breaking twoslash (a dep of starlight-theme-nova) and @astrojs/check. js-yaml pinned to 4.x: v5 is ESM-only with no default export, which breaks astro's prerender (static-paths.js imports its default export). mermaid pinned to 11.x: astro-mermaid@2 supports mermaid 10/11 only, and mermaid 12 switches the default layout to ELK, re-laying out existing diagrams. Dependabot ignores major updates for all three; re-evaluate when upstream compatibility is added.",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -25,7 +25,7 @@
     "astro-mermaid": "^2.1.0",
     "astro-opengraph-images": "^1.20.1",
     "hast-util-select": "^6.0.4",
-    "mermaid": "^12.0.0",
+    "mermaid": "^11.17.2",
     "rehype-parse": "^9.0.1",
     "rehype-remark": "^10.0.1",
     "remark-gfm": "^4.0.1",
@@ -37,7 +37,7 @@
     "starlight-theme-nova": "^0.12.3",
     "tailwindcss": "^4.2.0",
     "tw-to-css": "^0.0.12",
-    "typescript": "^7.0.2",
+    "typescript": "^6.0.3",
     "unified": "^11.0.5"
   },
   "devDependencies": {
@@ -47,7 +47,7 @@
     "@types/react": "^19.3.0",
     "@vvago/vale": "^3.21.0",
     "cspell": "^10.3.0",
-    "js-yaml": "^5.4.1",
+    "js-yaml": "^4.1.0",
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^1.0.0",
     "prettier-plugin-tailwindcss": "^0.8.1",
@@ -61,7 +61,7 @@
       "astro>sharp": false,
       "sharp": false,
       "astro>vite>esbuild": false,
-      "@vvago/vale#3.17.1": true
+      "@vvago/vale#3.21.0": true
     }
   }
 }

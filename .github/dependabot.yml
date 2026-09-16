@@ -17,6 +17,14 @@ updates:
     directory: '/'
     schedule:
       interval: 'weekly'
+    ignore:
+      # See the "//" note in package.json for why these are held back.
+      - dependency-name: 'typescript'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'mermaid'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'js-yaml'
+        update-types: ['version-update:semver-major']
     groups:
       npm-deps:
         patterns:

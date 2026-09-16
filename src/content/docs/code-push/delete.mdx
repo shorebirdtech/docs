@@ -24,12 +24,12 @@ is gone.
 
 ## What each deletion removes
 
-| You delete | What is permanently removed                                                       |
-| ---------- | --------------------------------------------------------------------------------- |
-| A patch    | Patches cannot be deleted on their own. They are removed with their release.      |
-| A release  | The release, its artifacts, and every patch published to it (per platform).       |
-| An app     | The app and every release, patch, and artifact belonging to it.                   |
-| An account | Your personal organization and all of its apps, releases, patches, and artifacts. |
+| You delete | What is permanently removed                                                                                                                                |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A patch    | Patches cannot be deleted on their own. They are removed with their release.                                                                               |
+| A release  | Deleting all platforms removes the release and every patch published to it. Deleting one platform removes only that platform's release and patch binaries. |
+| An app     | The app and every release, patch, and artifact belonging to it.                                                                                            |
+| An account | Your personal organization and all of its apps, releases, patches, and artifacts.                                                                          |
 
 ## Delete a patch
 
@@ -50,9 +50,16 @@ rollback can be undone.
 
 ## Delete a release
 
-Deleting a release permanently deletes the release, its artifacts, and every
-patch published to it for the platforms you select. Devices will no longer
-receive patches for that release version.
+The delete dialog asks which platforms to delete, and the answer changes what
+happens:
+
+- **All** deletes the release itself, along with its artifacts and every patch
+  published to it. Devices will no longer receive patches for that release
+  version.
+- **A single platform** deletes that platform's release and patch binaries. The
+  release itself remains, and the other platforms are untouched.
+
+Either way, the binaries are gone for good and cannot be restored.
 
 See [Delete releases](/code-push/release#delete-releases) for the steps and for
 the platform selection dialog.

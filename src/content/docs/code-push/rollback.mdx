@@ -44,6 +44,37 @@ Roll back requires a minimum Flutter version of 3.27.4.
   title="Roll Back a Patch"
 />
 
+## Active and superseded patches
+
+When a device checks in, Shorebird serves the highest-numbered patch on that
+device's track that has not been rolled back. The Console shows that patch as
+active.
+
+Patches have no individual on/off switch. Publishing patch 3 outranks patch 2
+without any action on patch 2:
+
+- One patch is served per track at a time.
+- Lower-numbered patches are superseded. Deactivating them changes nothing about
+  what devices receive.
+- Rolling back the active patch moves devices to the next-highest patch on the
+  track that has not been rolled back, or to the base release.
+
+To return users to patch 1 while patch 3 is live, roll back patch 3 and patch 2.
+Leave patch 1 alone.
+
+:::note
+
+Rolling back a superseded patch has no immediate effect, since devices are not
+served it. It removes that patch from the set devices can fall back to later.
+
+:::
+
+### Why the Console may still show old patches installing
+
+Patch install events are reported the next time an app launches, which can be
+hours or days later. A patch that is no longer served can keep showing new
+install events during that window.
+
 ## How to roll back a patch
 
 In the [Shorebird Console](https://console.shorebird.dev/), navigate to the

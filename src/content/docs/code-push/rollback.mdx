@@ -1,6 +1,7 @@
 ---
 title: Roll back a Patch
-description: Learn how to roll back a patch in Shorebird.
+description:
+  Learn how to roll back a patch in Shorebird, and how to roll it forward again.
 sidebar:
   label: Rollback
   order: 7
@@ -17,6 +18,10 @@ If you discover that a live patch has a bug, Shorebird supports patch roll back.
 When a patch is rolled back, it is remotely uninstalled from end users' devices
 and replaced by either the previous patch or the base release if no previous
 patch is available.
+
+A rollback is not permanent. If you roll a patch back and then decide you want
+it after all, you can [roll it forward](#roll-a-patch-forward) to make it the
+active patch again.
 
 :::danger[Emergency Quick-Rollback]
 
@@ -92,6 +97,51 @@ that patch will count against your monthly patch installs. If you have no
 remaining patch installs, the app will revert to the base release.
 
 :::
+
+## Roll a patch forward
+
+Rolling a patch forward is the opposite of rolling it back: it takes a patch you
+previously rolled back and makes it the active patch again. Use it when you roll
+back a patch and then determine it was not the cause of the problem, or when you
+have confirmed the patch is safe after all.
+
+In the [Shorebird Console](https://console.shorebird.dev/), navigate to the
+release containing the rolled back patch. On the right side of the patch row,
+click the "more" icon (three vertical dots) and select "Roll Forward", then
+confirm.
+
+The **Roll Forward** action only appears on a patch that is currently rolled
+back. A patch that has never been rolled back shows "Rollback" instead.
+
+### What happens when a patch is rolled forward?
+
+The patch stops being reported as rolled back, so it becomes the active patch
+for its track again. Devices pick it up on their next patch check and install it
+the next time the app starts, exactly as they would a newly published patch.
+
+:::note
+
+Devices that were downgraded by the rollback have to download the patch again,
+and that counts against your monthly patch installs, just as the original
+rollback did.
+
+:::
+
+### When rolling forward is unavailable
+
+Roll Forward is available wherever rollback is. Releases built with a Flutter
+version that does not support rollback offer **Deactivate** instead of
+**Rollback**, and a deactivated patch has no Roll Forward action.
+
+Deactivating differs from rolling back in what it does to devices: it stops
+serving the patch to new devices, but devices that already installed it keep
+running it. Deactivation is still reversible, just through a different control.
+It moves the patch to a `deactivated` track, so you undo it by moving the patch
+back to `stable` with **Change Track** in the same menu, or from the CLI:
+
+```sh
+shorebird patches set-track --release-version 1.0.0+1 --patch-number 1 --track stable
+```
 
 ## Patch integrity and automatic rollback
 

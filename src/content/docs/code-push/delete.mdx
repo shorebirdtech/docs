@@ -1,8 +1,8 @@
 ---
 title: Delete Apps, Releases, and Patches
 description:
-  Deleting an app, release, or patch in Shorebird is permanent and cannot be
-  undone.
+  What deleting an app, release, or patch in Shorebird removes, and the options
+  to consider first.
 sidebar:
   label: Delete
   order: 8
@@ -10,42 +10,39 @@ sidebar:
 
 import { LinkCard } from 'starlight-theme-nova/components';
 
-:::danger[Deletion is permanent]
+:::note[Deleting is permanent]
 
-Deleting an app, a release, or a patch **permanently** removes it and all of its
-data. It is **not restorable**. There is no trash, no archive, and no undo, and
-Shorebird support cannot bring it back for you.
+Once an app, release, or patch is deleted, it can't be restored, including by
+Shorebird support. If you're only trying to stop a patch or hand off an app, see
+[Before you delete](#before-you-delete) for options that can be undone.
 
 :::
 
-The Shorebird console shows a confirmation dialog before any of these deletions.
-That dialog is the last chance to change your mind: once you confirm, the data
-is gone.
+The Shorebird console shows a confirmation dialog before any of these deletions,
+so you can review what's about to be removed before anything happens.
 
 ## What each deletion removes
 
-| You delete | What is permanently removed                                                                                                                                |
+| You delete | What is removed                                                                                                                                            |
 | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| A patch    | Patches cannot be deleted on their own. They are removed with their release.                                                                               |
+| A patch    | Patches can't be deleted on their own. They are removed with their release.                                                                                |
 | A release  | Deleting all platforms removes the release and every patch published to it. Deleting one platform removes only that platform's release and patch binaries. |
 | An app     | The app and every release, patch, and artifact belonging to it.                                                                                            |
 | An account | Your personal organization and all of its apps, releases, patches, and artifacts.                                                                          |
 
 ## Delete a patch
 
-There is no way to delete an individual patch. Patches are deleted only when the
-release they belong to (or the app that owns that release) is deleted, and that
-deletion is permanent.
+Individual patches can't be deleted. A patch is removed along with the release
+it belongs to, or the app that owns that release.
 
-If you want to stop serving a patch, **roll it back instead of deleting the
-release**. A rollback remotely uninstalls the patch from end users' devices and
-falls back to the previous patch or the base release. Unlike a delete, a
-rollback can be undone.
+If you want to stop serving a patch, you can roll it back. A rollback remotely
+uninstalls the patch from end users' devices and falls back to the previous
+patch or the base release. You can undo a rollback later if you need to.
 
 <LinkCard
   title="Roll back a Patch"
   href="/code-push/rollback"
-  description="Remotely uninstall a bad patch without destroying anything."
+  description="Remotely uninstall a patch. You can undo a rollback later."
 />
 
 ## Delete a release
@@ -59,7 +56,7 @@ happens:
 - **A single platform** deletes that platform's release and patch binaries. The
   release itself remains, and the other platforms are untouched.
 
-Either way, the binaries are gone for good and cannot be restored.
+In both cases, the deleted binaries can't be restored.
 
 See [Delete releases](/code-push/release#delete-releases) for the steps and for
 the platform selection dialog.
@@ -72,18 +69,17 @@ the platform selection dialog.
 3. In the **Danger Zone**, select **Delete**.
 4. Confirm in the dialog that appears.
 
-Deleting an app permanently deletes every release, patch, and artifact
-associated with it. Copies of the app that are already installed on end users'
-devices keep working normally, but they will never receive another patch.
+Deleting an app also deletes every release, patch, and artifact associated with
+it. Copies of the app that are already installed on end users' devices keep
+working normally, but they won't receive new patches.
 
-If you only want to hand an app to someone else, use **Transfer Ownership** in
-the same Danger Zone rather than deleting it.
+If you want to hand an app to someone else, use **Transfer Ownership** in the
+same Danger Zone instead.
 
 ## Delete an account
 
-Account deletion is also permanent. It removes your personal organization and
-everything in it. If you own any team organizations, you must transfer or delete
-those first.
+Deleting your account removes your personal organization and everything in it.
+If you own any team organizations, transfer or delete those first.
 
 <LinkCard
   title="Delete Account"
@@ -93,15 +89,15 @@ those first.
 
 ## Before you delete
 
-Because none of this can be undone, consider whether one of these does what you
-actually want:
+Depending on what you're trying to do, one of these might be a better fit:
 
-- **A bad patch is live.** [Roll it back](/code-push/rollback). It is
-  reversible.
+- **A bad patch is live.** [Roll it back](/code-push/rollback). You can undo the
+  rollback later.
 - **You want to test a patch first.** Publish to a
-  [staging track](/code-push/guides/staging-patches) instead.
+  [staging track](/code-push/guides/staging-patches).
 - **You are handing off an app.** Transfer ownership of the app or the
-  [organization](/account/orgs) instead of deleting it.
+  [organization](/account/orgs).
 
-If you are unsure, [reach out](mailto:contact@shorebird.dev) _before_ you
-delete. Support cannot help afterwards.
+If you're not sure which option is right,
+[reach out](mailto:contact@shorebird.dev) and the Shorebird team can help you
+decide.

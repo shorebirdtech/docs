@@ -244,18 +244,14 @@ shorebird patches set-track --release-version 1.0.0+1 --patch-number 1 --track s
 
 ### Delete a patch
 
-Individual patches cannot be deleted. A patch is removed only when the release
-it belongs to, or the app that owns that release, is deleted.
+Individual patches can't be deleted. A patch is removed along with the release
+it belongs to, or the app that owns that release. Those deletions are permanent,
+and the console asks you to confirm before anything is removed.
 
-:::danger[Deleted patches are not restorable]
+:::tip
 
-Deleting a release or an app permanently deletes every patch associated with it.
-Shorebird cannot restore deleted patches for you, and there is no undo. The
-console shows a confirmation dialog before the deletion goes through.
-
-To stop serving a patch without destroying anything, use
-[rollback](/code-push/rollback) instead. It remotely uninstalls the patch from
-end users' devices and can itself be undone.
+To stop serving a patch, use [rollback](/code-push/rollback). It remotely
+uninstalls the patch from end users' devices, and you can undo it later.
 
 :::
 

@@ -551,16 +551,14 @@ afterwards, use `--target-platform` as described in
   title="Delete a Release"
 />
 
-:::danger[Deleting a release is permanent]
+:::caution[Deleting a release is permanent]
 
-Deleting a release permanently removes the release, its artifacts, and every
-patch associated with it. It is **not restorable**. Shorebird cannot recover a
-deleted release for you, and there is no undo. The console shows a confirmation
-dialog before the deletion goes through.
+Deleting a release removes the release, its artifacts, and every patch
+associated with it, and it can't be restored afterwards. The console asks you to
+confirm before anything is removed.
 
-If you only want to stop serving a bad patch,
-[roll it back](/code-push/rollback) instead of deleting the release. A rollback
-is reversible.
+If you only want to stop serving a bad patch, you can
+[roll it back](/code-push/rollback) instead. You can undo a rollback later.
 
 :::
 
@@ -582,9 +580,9 @@ for that release.
   alt="Release Delete Platform Confirm Dialog in Shorebird Console"
 />
 
-Confirming this dialog deletes the release and its patches immediately and
-permanently. See [Delete Apps, Releases, and Patches](/code-push/delete) for
-what is removed and for alternatives to deleting.
+The deletion takes effect as soon as you confirm. See
+[Delete Apps, Releases, and Patches](/code-push/delete) for what is removed and
+for alternatives to deleting.
 
 ## Side-loading and MDM
 

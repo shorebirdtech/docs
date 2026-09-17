@@ -439,6 +439,11 @@ the `--flutter-version` flag.
 shorebird release windows --flutter-version %flutter_version%
 ```
 
+To package this build for the Microsoft Store, set `build_windows: false` in the
+`msix_config` section of `pubspec.yaml` so `package:msix` does not rebuild with
+stock Flutter. See
+[Releasing for Windows](/flutter-concepts/releasing-flutter-apps/windows/).
+
 </TabItem>
 
 </Tabs>
@@ -619,4 +624,9 @@ as needed.
   href="/flutter-concepts/releasing-flutter-apps/ios"
   title="Releasing for iOS"
   description="Learn how to configure Xcode signing and submit your release to the Apple App Store."
+/>
+<LinkCard
+  href="/flutter-concepts/releasing-flutter-apps/windows"
+  title="Releasing for Windows"
+  description="Package a Shorebird Windows release as an MSIX without rebuilding on stock Flutter."
 />

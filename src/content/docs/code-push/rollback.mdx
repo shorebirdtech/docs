@@ -1,7 +1,6 @@
 ---
 title: Roll back a Patch
-description:
-  Learn how to roll back a patch in Shorebird, and how to roll it forward again.
+description: Learn how to roll back and roll forward patches in Shorebird.
 sidebar:
   label: Rollback
   order: 7
@@ -41,7 +40,7 @@ these options:
 
 :::note
 
-Roll back requires a minimum Flutter version of 3.27.4.
+Roll back requires a minimum Flutter version of 3.22.3.
 
 :::
 
@@ -161,16 +160,15 @@ the next time the app restarts, exactly as they would a newly published patch.
 :::note
 
 Devices that were downgraded by the rollback have to download the patch again,
-and that counts against your monthly patch installs, just as the original
-rollback did.
+and that counts against your monthly patch installs.
 
 :::
 
 ### When rolling forward is unavailable
 
-Roll Forward is available wherever rollback is. Releases built with a Flutter
-version that does not support rollback offer **Deactivate** instead of
-**Rollback**, and a deactivated patch has no Roll Forward action.
+Roll Forward is available wherever rollback is. Releases built with Flutter
+3.22.2 or earlier do not support rollback, so they offer **Deactivate** instead
+of **Rollback**, and a deactivated patch has no Roll Forward action.
 
 Deactivating differs from rolling back in what it does to devices: it stops
 serving the patch to new devices, but devices that already installed it keep

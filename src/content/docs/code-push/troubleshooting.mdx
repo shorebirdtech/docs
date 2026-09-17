@@ -98,6 +98,14 @@ Sending patch check request: PatchCheckRequest {
 
 Only patches created for this release version will be compatible with your app.
 
+**You swiped the app away on Android but the patch did not apply.**
+
+If the app runs a foreground service or other long-running background work,
+swiping it from the recent-apps list does not kill the process. Shorebird loads
+the patch on the next process start. Force-stop the app, or stop the service
+first, then relaunch. See
+[How do you use Shorebird with a long-running Android background process?](/code-push/faq/#how-do-you-use-shorebird-with-a-long-running-android-background-process).
+
 ## `Your app contains asset changes` warning when creating a patch
 
 The `shorebird patch` command will print a warning if it detects changes to

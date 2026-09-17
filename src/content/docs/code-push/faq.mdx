@@ -545,6 +545,29 @@ push notification.
 See [Update Strategies](/code-push/update-strategies) for more information about
 how to configure this behavior.
 
+### How do you use Shorebird with a long-running Android background process?
+
+Shorebird applies a downloaded patch the next time the process starts, not when
+an Activity is recreated.
+
+A foreground service (for example
+[flutter_background_geolocation](https://github.com/transistorsoft/flutter_background_geolocation))
+keeps the process alive after the user swipes the app out of the recent-apps
+list. That swipe is not a process restart, so bringing the UI back still runs
+the previous Dart code.
+
+To receive patches while the process stays alive:
+
+1. Check for and download patches while the process is running with
+   [package:shorebird_code_push](https://pub.dev/packages/shorebird_code_push).
+   Default automatic updates only run on process start.
+2. Apply the patch with a real process restart: Settings → Apps → Force stop,
+   stop the foreground service and then swipe the app away, or wait until the
+   OS kills the process.
+
+Recreating the Flutter engine without killing the process is not a supported
+way to apply a patch. See [Update Strategies](/code-push/update-strategies).
+
 ### What information is sent to Shorebird servers?
 
 Although Shorebird connects to the network, it does not send any personally

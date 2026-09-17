@@ -10,25 +10,30 @@ sidebar:
 
 import { LinkCard } from 'starlight-theme-nova/components';
 
-:::note[Deleting is permanent]
+:::note
 
-Once an app, release, or patch is deleted, it can't be restored, including by
-Shorebird support. If you're only trying to stop a patch or hand off an app, see
-[Before you delete](#before-you-delete) for options that can be undone.
+Deleting is permanent and cannot be undone. Shorebird is unable to restore
+deleted apps, releases, or patches once deleted.
 
 :::
 
-The Shorebird console shows a confirmation dialog before any of these deletions,
-so you can review what's about to be removed before anything happens.
+## Before you delete
 
-## What each deletion removes
+People usually reach for delete when a patch has a problem, but deleting is
+rarely the right fix. Think about why you want to delete, and whether one of
+these options fits better:
 
-| You delete | What is removed                                                                                                                                            |
-| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| A patch    | Patches can't be deleted on their own. They are removed with their release.                                                                                |
-| A release  | Deleting all platforms removes the release and every patch published to it. Deleting one platform removes only that platform's release and patch binaries. |
-| An app     | The app and every release, patch, and artifact belonging to it.                                                                                            |
-| An account | Your personal organization and all of its apps, releases, patches, and artifacts.                                                                          |
+- **A patch has a bug.** [Roll it back](/code-push/rollback) instead of deleting
+  its release. A rollback removes the patch from end users' devices, and you can
+  roll it forward again later if the patch turns out to be fine.
+- **You want to test a patch before users get it.** Publish it to a
+  [staging track](/code-push/guides/staging-patches).
+- **You want to move an app to another organization.** Transfer ownership of the
+  app instead of deleting it.
+
+Delete only when you no longer need an app or release at all. If you're not sure
+which option is right, [reach out](mailto:contact@shorebird.dev) and the
+Shorebird team can help you decide.
 
 ## Delete a patch
 
@@ -47,8 +52,8 @@ patch or the base release. You can undo a rollback later if you need to.
 
 ## Delete a release
 
-The delete dialog asks which platforms to delete, and the answer changes what
-happens:
+Releases are deleted per platform. When you delete a release, the dialog asks
+which platforms to delete, and your choice determines what is removed:
 
 - **All** deletes the release itself, along with its artifacts and every patch
   published to it. Devices will no longer receive patches for that release
@@ -63,18 +68,18 @@ the platform selection dialog.
 
 ## Delete an app
 
+Deleting an app also deletes every release, patch, and artifact associated with
+it. Copies of the app that are already installed on end users' devices keep
+working normally, but they won't receive new patches.
+
+If you want to move an app to another organization, use **Transfer Ownership**
+in the same Danger Zone instead of deleting it.
+
 1. Navigate to the app in the
    [Shorebird console](https://console.shorebird.dev/).
 2. Go to the **Settings** tab.
 3. In the **Danger Zone**, select **Delete**.
 4. Confirm in the dialog that appears.
-
-Deleting an app also deletes every release, patch, and artifact associated with
-it. Copies of the app that are already installed on end users' devices keep
-working normally, but they won't receive new patches.
-
-If you want to hand an app to someone else, use **Transfer Ownership** in the
-same Danger Zone instead.
 
 ## Delete an account
 
@@ -86,18 +91,3 @@ If you own any team organizations, transfer or delete those first.
   href="/account/delete-account"
   description="Permanently delete your Shorebird account and all associated data."
 />
-
-## Before you delete
-
-Depending on what you're trying to do, one of these might be a better fit:
-
-- **A bad patch is live.** [Roll it back](/code-push/rollback). You can undo the
-  rollback later.
-- **You want to test a patch first.** Publish to a
-  [staging track](/code-push/guides/staging-patches).
-- **You are handing off an app.** Transfer ownership of the app or the
-  [organization](/account/orgs).
-
-If you're not sure which option is right,
-[reach out](mailto:contact@shorebird.dev) and the Shorebird team can help you
-decide.

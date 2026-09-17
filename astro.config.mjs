@@ -190,6 +190,9 @@ Developer & Agent Interfaces:
                 'Machine-readable agent capability card for agent-to-agent discovery',
             },
           ],
+          // Keep the unlisted Zap prototype page out of the generated
+          // llms.txt / llms-full.txt output.
+          exclude: ['zap'],
         }),
       ],
     }),

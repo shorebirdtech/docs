@@ -1,6 +1,6 @@
 ---
 title: Roll back a Patch
-description: Learn how to roll back a patch in Shorebird.
+description: Learn how to roll back and roll forward patches in Shorebird.
 sidebar:
   label: Rollback
   order: 7
@@ -12,11 +12,16 @@ import ArcadeEmbed from '~/components/ArcadeEmbed.astro';
 import rollbackButton from '~/assets/rollback_button.png';
 import rollbackPatch2Active from '~/assets/rollback_patch2_active.png';
 import rollbackPatch2RolledBack from '~/assets/rollback_patch2_rolled_back.png';
+import rollForwardButton from '~/assets/roll_forward_button.png';
 
 If you discover that a live patch has a bug, Shorebird supports patch roll back.
 When a patch is rolled back, it is remotely uninstalled from end users' devices
 and replaced by either the previous patch or the base release if no previous
 patch is available.
+
+A rollback is not permanent. If you roll a patch back and then decide you want
+it after all, you can [roll it forward](#roll-a-patch-forward) to make it the
+active patch again.
 
 :::danger[Emergency Quick-Rollback]
 
@@ -121,6 +126,41 @@ visible the next time the app starts.
 If your app needs to download an older patch as part of a rollback, installing
 that patch will count against your monthly patch installs. If you have no
 remaining patch installs, the app will revert to the base release.
+
+:::
+
+## Roll a patch forward
+
+Rolling a patch forward is the opposite of rolling it back: it takes a patch you
+previously rolled back and makes it the active patch again. Use it when you roll
+back a patch and then determine it was not the cause of the problem, or when you
+have confirmed the patch is safe after all.
+
+In the [Shorebird Console](https://console.shorebird.dev/), navigate to the
+release containing the rolled back patch. On the right side of the patch row,
+click the "more" icon (three vertical dots) and select "Roll Forward":
+
+<Image
+  src={rollForwardButton}
+  alt='The Shorebird Console showing a "Roll Forward" option in the menu of a rolled back patch'
+/>
+
+Confirm the dialog to roll the patch forward.
+
+The **Roll Forward** action only appears on a patch that is currently rolled
+back. On a patch that is not rolled back, the same menu offers "Rollback"
+instead.
+
+### What happens when a patch is rolled forward?
+
+The patch stops being reported as rolled back, so it becomes the active patch
+for its track again. Devices download it on their next update check and apply it
+the next time the app restarts, exactly as they would a newly published patch.
+
+:::note
+
+Devices that were downgraded by the rollback have to download the patch again,
+and that counts against your monthly patch installs.
 
 :::
 

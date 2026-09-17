@@ -241,3 +241,18 @@ routing to a staging beta group):
 ```sh
 shorebird patches set-track --release-version 1.0.0+1 --patch-number 1 --track staging
 ```
+
+### Delete a patch
+
+Individual patches can't be deleted. A patch is removed along with the release
+it belongs to, or the app that owns that release. Those deletions are permanent,
+and the console asks you to confirm before anything is removed.
+
+:::tip
+
+To stop serving a patch, use [rollback](/code-push/rollback). It remotely
+uninstalls the patch from end users' devices, and you can undo it later.
+
+:::
+
+See [Delete Apps, Releases, and Patches](/code-push/delete) for details.

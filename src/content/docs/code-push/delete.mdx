@@ -1,0 +1,93 @@
+---
+title: Delete Apps, Releases, and Patches
+description:
+  What deleting an app, release, or patch in Shorebird removes, and the options
+  to consider first.
+sidebar:
+  label: Delete
+  order: 8
+---
+
+import { LinkCard } from 'starlight-theme-nova/components';
+
+:::note
+
+Deleting is permanent and cannot be undone. Shorebird is unable to restore
+deleted apps, releases, or patches once deleted.
+
+:::
+
+## Before you delete
+
+People usually reach for delete when a patch has a problem, but deleting is
+rarely the right fix. Think about why you want to delete, and whether one of
+these options fits better:
+
+- **A patch has a bug.** [Roll it back](/code-push/rollback) instead of deleting
+  its release. A rollback removes the patch from end users' devices, and you can
+  roll it forward again later if the patch turns out to be fine.
+- **You want to test a patch before users get it.** Publish it to a
+  [staging track](/code-push/guides/staging-patches).
+- **You want to move an app to another organization.** Transfer ownership of the
+  app instead of deleting it.
+
+Delete only when you no longer need an app or release at all. If you're not sure
+which option is right, [reach out](mailto:contact@shorebird.dev) and the
+Shorebird team can help you decide.
+
+## Delete a patch
+
+Individual patches can't be deleted. A patch is removed along with the release
+it belongs to, or the app that owns that release.
+
+If you want to stop serving a patch, you can roll it back. A rollback remotely
+uninstalls the patch from end users' devices and falls back to the previous
+patch or the base release. You can undo a rollback later if you need to.
+
+<LinkCard
+  title="Roll back a Patch"
+  href="/code-push/rollback"
+  description="Remotely uninstall a patch. You can undo a rollback later."
+/>
+
+## Delete a release
+
+Releases are deleted per platform. When you delete a release, the dialog asks
+which platforms to delete, and your choice determines what is removed:
+
+- **All** deletes the release itself, along with its artifacts and every patch
+  published to it. Devices will no longer receive patches for that release
+  version.
+- **A single platform** deletes that platform's release and patch binaries. The
+  release itself remains, and the other platforms are untouched.
+
+In both cases, the deleted binaries can't be restored.
+
+See [Delete releases](/code-push/release#delete-releases) for the steps and for
+the platform selection dialog.
+
+## Delete an app
+
+Deleting an app also deletes every release, patch, and artifact associated with
+it. Copies of the app that are already installed on end users' devices keep
+working normally, but they won't receive new patches.
+
+If you want to move an app to another organization, use **Transfer Ownership**
+in the same Danger Zone instead of deleting it.
+
+1. Navigate to the app in the
+   [Shorebird console](https://console.shorebird.dev/).
+2. Go to the **Settings** tab.
+3. In the **Danger Zone**, select **Delete**.
+4. Confirm in the dialog that appears.
+
+## Delete an account
+
+Deleting your account removes your personal organization and everything in it.
+If you own any team organizations, transfer or delete those first.
+
+<LinkCard
+  title="Delete Account"
+  href="/account/delete-account"
+  description="Permanently delete your Shorebird account and all associated data."
+/>

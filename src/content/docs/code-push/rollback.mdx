@@ -40,7 +40,7 @@ these options:
 
 :::note
 
-Roll back requires a minimum Flutter version of 3.22.3.
+Roll back requires a minimum Flutter version of 3.27.4.
 
 :::
 
@@ -163,22 +163,6 @@ Devices that were downgraded by the rollback have to download the patch again,
 and that counts against your monthly patch installs.
 
 :::
-
-### When rolling forward is unavailable
-
-Roll Forward is available wherever rollback is. Releases built with Flutter
-3.22.2 or earlier do not support rollback, so they offer **Deactivate** instead
-of **Rollback**, and a deactivated patch has no Roll Forward action.
-
-Deactivating differs from rolling back in what it does to devices: it stops
-serving the patch to new devices, but devices that already installed it keep
-running it. Deactivation is still reversible, just through a different control.
-It moves the patch to a `deactivated` track, so you undo it by moving the patch
-back to `stable` with **Change Track** in the same menu, or from the CLI:
-
-```sh
-shorebird patches set-track --release-version 1.0.0+1 --patch-number 1 --track stable
-```
 
 ## Patch integrity and automatic rollback
 

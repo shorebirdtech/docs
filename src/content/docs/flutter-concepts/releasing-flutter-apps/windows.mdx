@@ -8,14 +8,11 @@ sidebar:
   order: 4
 ---
 
-{/* cspell:words msix */}
-
-To submit an app to the Windows Store, you need an **MSIX** package.
-[`package:msix`](https://pub.dev/packages/msix) is a common way to produce
-that file from a Flutter Windows build. By default it runs
-`flutter build windows` with the Flutter SDK on your `PATH`, not
-Shorebird's Flutter. That rebuild is not a Shorebird release, so patches
-will not apply.
+To submit an app to the Microsoft Store, you need an **MSIX** package.
+[`package:msix`](https://pub.dev/packages/msix) is a common way to produce that
+file from a Flutter Windows build. By default it runs `flutter build windows`
+with the Flutter SDK on your `PATH`, not Shorebird's Flutter. That rebuild is
+not a Shorebird release, so patches will not apply.
 
 Build with Shorebird first, then tell `package:msix` to package the existing
 output.
@@ -26,21 +23,20 @@ output.
 shorebird release windows
 ```
 
-The Windows executable is written to `build/windows/x64/runner/Release`.
-See [Create a Release](/code-push/release/) for flavors, targets, and
+The Windows executable is written to `build/windows/x64/runner/Release`. See
+[Create a Release](/code-push/release/) for flavors, targets, and
 `--flutter-version`.
 
 ## Step 2: Disable the MSIX rebuild
 
-Add [`package:msix`](https://pub.dev/packages/msix) as a dev dependency if
-you do not already use it:
+Add [`package:msix`](https://pub.dev/packages/msix) as a dev dependency if you
+do not already use it:
 
 ```bash
 flutter pub add dev:msix
 ```
 
-Then set `build_windows: false` in the `msix_config` section of
-`pubspec.yaml`:
+Then set `build_windows: false` in the `msix_config` section of `pubspec.yaml`:
 
 ```yaml
 msix_config:
@@ -53,27 +49,27 @@ msix_config:
   build_windows: false
 ```
 
-`build_windows: false` skips `flutter build windows` and packages the
-directory Shorebird already produced.
+`build_windows: false` skips `flutter build windows` and packages the directory
+Shorebird already produced.
 
-Copy `identity_name`, `publisher`, and `publisher_display_name` from
-Partner Center (Product identity). With `store: true`, `package:msix`
-refuses to build if any of them is missing. The fourth part of
-`msix_version` must be `0` for Store submissions.
+Copy `identity_name`, `publisher`, and `publisher_display_name` from Partner
+Center (Product identity). With `store: true`, `package:msix` refuses to build
+if any of them is missing. The fourth part of `msix_version` must be `0` for
+Store submissions.
 
-## Step 3: Create the store package
+## Step 3: Create the MSIX package
 
 ```bash
 dart run msix:create
 ```
 
-Submit the generated `.msix` file to the Windows Store.
+Submit the generated `.msix` file to the Microsoft Store.
 
 :::caution
 
-Do not run `flutter build windows` or `msix:create` without
-`build_windows: false` after `shorebird release windows`. Those commands
-rebuild with non-Shorebird Flutter and overwrite the build output, so the
-resulting MSIX will not receive patches.
+After `shorebird release windows`, do not run `flutter build windows`, or
+`msix:create` without `build_windows: false`. Those commands rebuild with
+non-Shorebird Flutter and overwrite the build output, so the resulting MSIX will
+not receive patches.
 
 :::

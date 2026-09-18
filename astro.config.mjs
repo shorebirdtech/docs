@@ -120,6 +120,7 @@ export default defineConfig({
           items: [{ autogenerate: { directory: 'flutter-concepts' } }],
         },
         { label: 'Roadmap', link: '/roadmap/' },
+        { label: 'Changelog', link: '/changelog/' },
       ],
       plugins: [
         starlightThemeNova(),

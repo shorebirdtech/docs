@@ -1,0 +1,75 @@
+---
+title: Releasing for Windows
+description:
+  Build a Shorebird Windows release, then package an MSIX from that output
+  without letting package:msix rebuild the app with stock Flutter.
+sidebar:
+  label: Windows (Microsoft Store)
+  order: 4
+---
+
+To submit an app to the Microsoft Store, you need an **MSIX** package.
+[`package:msix`](https://pub.dev/packages/msix) is a common way to produce that
+file from a Flutter Windows build. By default it runs `flutter build windows`
+with the Flutter SDK on your `PATH`, not Shorebird's Flutter. That rebuild is
+not a Shorebird release, so patches will not apply.
+
+Build with Shorebird first, then tell `package:msix` to package the existing
+output.
+
+## Step 1: Create a Shorebird Windows release
+
+```bash
+shorebird release windows
+```
+
+The Windows executable is written to `build/windows/x64/runner/Release`. See
+[Create a Release](/code-push/release/) for flavors, targets, and
+`--flutter-version`.
+
+## Step 2: Disable the MSIX rebuild
+
+Add [`package:msix`](https://pub.dev/packages/msix) as a dev dependency if you
+do not already use it:
+
+```bash
+flutter pub add dev:msix
+```
+
+Then set `build_windows: false` in the `msix_config` section of `pubspec.yaml`:
+
+```yaml
+msix_config:
+  display_name: My App
+  publisher_display_name: Example
+  publisher: CN=00000000-0000-0000-0000-000000000000
+  identity_name: com.example.myapp
+  msix_version: 1.0.0.0
+  store: true
+  build_windows: false
+```
+
+`build_windows: false` skips `flutter build windows` and packages the directory
+Shorebird already produced.
+
+Copy `identity_name`, `publisher`, and `publisher_display_name` from Partner
+Center (Product identity). With `store: true`, `package:msix` refuses to build
+if any of them is missing. The fourth part of `msix_version` must be `0` for
+Store submissions.
+
+## Step 3: Create the MSIX package
+
+```bash
+dart run msix:create
+```
+
+Submit the generated `.msix` file to the Microsoft Store.
+
+:::caution
+
+After `shorebird release windows`, do not run `flutter build windows`, or
+`msix:create` without `build_windows: false`. Those commands rebuild with
+non-Shorebird Flutter and overwrite the build output, so the resulting MSIX will
+not receive patches.
+
+:::

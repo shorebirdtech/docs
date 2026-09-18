@@ -53,6 +53,17 @@ flowchart TD
     D -- No --> E["Patchable OTA!\n(Run 'shorebird patch')"]
 ```
 
+:::note[Patch compliance]
+
+Shorebird automatically checks for native code and asset changes before creating
+a patch. Ensuring the _content_ of your Dart changes complies with App Store and
+Play Store behavioral policies remains your responsibility. See
+[Store Compliance](/code-push/faq#store-compliance) and
+[What can't Shorebird be used for](/code-push/faq#what-cant-shorebird-code-push-be-used-for)
+for details.
+
+:::
+
 A typical Code Push workflow looks like this:
 
 1. Use the Shorebird CLI to create a new **release** of your app.
@@ -156,6 +167,11 @@ A release can have zero or more [patches](#patch) applied to it.
 Releases are created by running `shorebird release [platform]`, where `platform`
 is `android`, `ios`, `windows`, `linux` or `macos`.
 
+`shorebird release` is a drop-in replacement for `flutter build`. It builds your
+app and uploads the compiled Dart artifacts to Shorebird's servers. After
+running this command, you still need to upload the generated artifact (`.aab`
+for Android, `.ipa` for iOS) to the respective store.
+
 #### Patch
 
 A patch is a change to a specific [release](#release), applied as an
@@ -172,8 +188,9 @@ Patches are created by running `shorebird patch [platform]`, where `platform` is
 
 :::note
 
-For more information regarding when to create a patch, refer to the
-[FAQs](/code-push/faq#when-should-you-create-a-patch-vs-a-release).
+There is no limit on the number of patches you can publish. See
+[Is there a limit to how many patches you can ship?](/code-push/faq#is-there-a-limit-to-how-many-patches-i-can-ship-per-release)
+for more details.
 
 :::
 

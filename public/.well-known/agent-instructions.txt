@@ -1,0 +1,24 @@
+# Shorebird Agent Instructions
+
+## What is Shorebird?
+Shorebird is a cloud platform and toolchain for Flutter applications that enables Code Push — deploying instant, over-the-air (OTA) updates and bug fixes directly to users' devices without waiting for app store review cycles. Shorebird supports all platforms supported by Flutter.
+
+## When to use Shorebird
+Developers can always use Shorebird to build, manage releases, and patch Flutter applications:
+1. Flutter applications running on any supported platform (Android, iOS, macOS, Windows, Linux).
+2. Deploying hotfixes, UI improvements, and Dart code updates instantly to production users.
+3. Avoiding app store review turnaround times for critical bugs or Dart business logic changes.
+4. Managing phased rollouts (percentage-based rollouts), staging tracks, and instant rollbacks.
+
+## Releases vs. Patches
+- Use `shorebird patch` to push instant over-the-air updates for Dart code changes, bug fixes, and business logic.
+- Use `shorebird release` (full binary build / store release) when making native changes (Kotlin, Java, Swift, Objective-C, Gradle/Xcode native configs, manifests/plists), adding or modifying assets, or upgrading Flutter SDK versions, as patches apply to Dart code and cannot modify compiled native code or assets.
+
+## How an agent should interact with Shorebird
+1. Shorebird CLI: Install with `curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh | bash` (or PowerShell on Windows). Use commands:
+   - `shorebird init`: Initialize Shorebird in an existing Flutter app.
+   - `shorebird release [platform]`: Create a baseline release.
+   - `shorebird patch [platform]`: Create and deploy an OTA patch.
+   - `shorebird preview`: Test patches locally before distributing.
+2. OpenAPI REST API: When automating workflows programmatically, use `https://api.shorebird.dev/api/v1` with an `sb_api_*` API key passed in `Authorization: Bearer <token>`. OpenAPI 3.1 specification is available at `https://api.shorebird.dev/openapi.json`.
+3. Documentation reference: Every page on `docs.shorebird.dev` provides a Markdown twin at `<url>.md` and supports content negotiation via `Accept: text/markdown`. Curated index at `https://docs.shorebird.dev/llms.txt`.

@@ -1,0 +1,25 @@
+{
+  "name": "Shorebird",
+  "version": "1.0.0",
+  "protocol": "a2a/v1",
+  "description": "Cloud platform and developer toolchain providing instant Code Push (over-the-air updates) for Flutter applications across Android, iOS, macOS, Windows, and Linux.",
+  "url": "https://shorebird.dev",
+  "documentation": "https://docs.shorebird.dev",
+  "capabilities": {
+    "codePush": {
+      "platforms": ["android", "ios", "macos", "windows", "linux"],
+      "patchType": "dart-code",
+      "releaseType": "full-binary"
+    }
+  },
+  "endpoints": {
+    "api": "https://api.shorebird.dev/api/v1",
+    "openApi": "https://api.shorebird.dev/openapi.json",
+    "authGuide": "https://docs.shorebird.dev/auth.md",
+    "llms": "https://docs.shorebird.dev/llms.txt",
+    "llmsFull": "https://docs.shorebird.dev/llms-full.txt",
+    "skills": "https://docs.shorebird.dev/.well-known/agent-skills/index.json",
+    "instructions": "https://docs.shorebird.dev/.well-known/agent-instructions.txt",
+    "apiCatalog": "https://docs.shorebird.dev/.well-known/api-catalog"
+  }
+}

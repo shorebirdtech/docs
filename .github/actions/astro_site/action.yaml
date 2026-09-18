@@ -20,7 +20,7 @@ runs:
         node-version: ${{ inputs.node_version }}
 
     - name: ⬇️ Install Dependencies
-      run: npm ci && npx --no allow-scripts
+      run: npm ci
       shell: bash
       working-directory: ${{ inputs.working_directory }}
 
@@ -30,7 +30,6 @@ runs:
       working-directory: ${{ inputs.working_directory }}
 
     - name: 📦 Build Site
-      uses: withastro/action@v5
-      with:
-        path: ${{ inputs.working_directory }}
-        node-version: ${{ inputs.node_version }}
+      run: npm run build
+      shell: bash
+      working-directory: ${{ inputs.working_directory }}

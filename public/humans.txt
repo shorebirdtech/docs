@@ -1,0 +1,11 @@
+/* TEAM */
+Founder: Eric Seidel
+Contact: contact@shorebird.dev
+Twitter: @shorebirdtech
+Location: Chicago, IL, USA
+
+/* SITE */
+Software: Shorebird Code Push
+Platform: Flutter (Android, iOS, macOS, Windows, Linux)
+Documentation: https://docs.shorebird.dev
+Standards: HTML5, CSS3, Starlight, Astro, Cloudflare Pages

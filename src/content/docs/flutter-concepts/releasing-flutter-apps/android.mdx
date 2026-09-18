@@ -8,7 +8,7 @@ sidebar:
   order: 2
 ---
 
-{/* cspell:words appbundle keytool genkey keyalg keysize proguard */}
+{/* cspell:words appbundle keytool genkey keyalg keysize proguard armeabi */}
 
 Releasing an Android Flutter application requires generating a signed **Android
 App Bundle (AAB)**, configuring your package identifiers, and managing signing
@@ -147,3 +147,14 @@ shorebird release android
 This builds the signed `.aab` bundle and registers the release artifact with the
 Shorebird cloud. Upload the generated `.aab` to Google Play Console as normal.
 When you need to deploy Dart bug fixes later, use `shorebird patch android`.
+
+To produce a smaller APK that contains only one ABI (for example `arm64-v8a`),
+do not use `flutter build apk --split-per-abi` with Shorebird. That Flutter flag
+is not supported. Pass `--target-platform` instead:
+
+```bash
+shorebird release android --artifact apk --target-platform android-arm64
+```
+
+See
+[Build a smaller APK for one architecture](/code-push/release/#build-a-smaller-apk-for-one-architecture).

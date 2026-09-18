@@ -1,0 +1,29 @@
+{
+  "version": "0.2.0",
+  "skills": [
+    {
+      "name": "install-shorebird",
+      "type": "cli-workflow",
+      "description": "Install the Shorebird CLI and verify installation on macOS, Linux, or Windows.",
+      "url": "https://docs.shorebird.dev/getting-started.md"
+    },
+    {
+      "name": "code-push-release",
+      "type": "cli-workflow",
+      "description": "Create and publish initial Flutter app releases for supported platforms using Shorebird.",
+      "url": "https://docs.shorebird.dev/code-push/release.md"
+    },
+    {
+      "name": "code-push-patch",
+      "type": "cli-workflow",
+      "description": "Deploy over-the-air patches to Flutter applications without waiting for app store reviews.",
+      "url": "https://docs.shorebird.dev/code-push/patch.md"
+    },
+    {
+      "name": "shorebird-api",
+      "type": "api-reference",
+      "description": "Programmatic access to Shorebird apps, releases, artifacts, and channels via REST OpenAPI 3.1.",
+      "url": "https://docs.shorebird.dev/account/api.md"
+    }
+  ]
+}

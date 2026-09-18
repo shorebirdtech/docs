@@ -1,5 +1,6 @@
 ---
 // cspell:words rollouts
+// cspell:ignore data-type white-space
 import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
 
 // The parts of Shorebird a change can be filed under. Fixed on purpose —
@@ -82,7 +83,7 @@ for (const e of ENTRIES) {
     for the full detail, the command, and the doc it belongs to.
   </p>
 
-  <div class="cl-toolbar">
+  <div class="cl-toolbar not-content">
     <div class="cl-search">
       <svg
         class="cl-search-icon"
@@ -92,12 +93,8 @@ for (const e of ENTRIES) {
         fill="none"
         aria-hidden="true"
       >
-        <circle
-          cx="11"
-          cy="11"
-          r="7"
-          stroke="currentColor"
-          stroke-width="2"></circle>
+        <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"
+        ></circle>
         <path
           d="M21 21l-4.3-4.3"
           stroke="currentColor"
@@ -124,7 +121,8 @@ for (const e of ENTRIES) {
       }
     </div>
     <span class="cl-count" id="cl-count">
-      {ENTRIES.length} {ENTRIES.length === 1 ? 'entry' : 'entries'}
+      {ENTRIES.length}
+      {ENTRIES.length === 1 ? 'entry' : 'entries'}
     </span>
   </div>
 
@@ -134,7 +132,8 @@ for (const e of ENTRIES) {
         <div class="cl-group">
           <h2 class="cl-month">{group.label}</h2>
           {group.items.map((e) => {
-            const searchText = `${e.title} ${e.summary} ${e.area} ${e.type}`.toLowerCase();
+            const searchText =
+              `${e.title} ${e.summary} ${e.area} ${e.type}`.toLowerCase();
             return (
               <article
                 class="cl-entry"
@@ -142,26 +141,39 @@ for (const e of ENTRIES) {
                 data-area={e.area}
                 data-search={searchText}
               >
-                <button
-                  class="cl-entry-toggle"
-                  type="button"
-                  aria-expanded="false"
-                  aria-controls={`${e.id}-detail`}
-                >
-                  <span
-                    class="cl-badge"
-                    data-type={TYPE_LABEL_COLOR[e.type]}
+                <div class="cl-head">
+                  <button
+                    class="cl-entry-toggle"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls={`${e.id}-detail`}
                   >
-                    {e.type}
-                  </span>
-                  <span class="cl-badge cl-badge-area">{e.area}</span>
-                  <span class="cl-version">{e.version}</span>
-                  <span class="cl-mark" aria-hidden="true">
-                    +
-                  </span>
-                </button>
-                <h3 class="cl-title">{e.title}</h3>
-                <p class="cl-summary">{e.summary}</p>
+                    <span class="cl-badge" data-type={TYPE_LABEL_COLOR[e.type]}>
+                      {e.type}
+                    </span>
+                    <span class="cl-badge cl-badge-area">{e.area}</span>
+                    <span class="cl-version">{e.version}</span>
+                    <span class="cl-mark" aria-hidden="true">
+                      <svg viewBox="0 0 16 16" width="12" height="12">
+                        <path
+                          d="M2 8h12"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                        />
+                        <path
+                          class="cl-mark-v"
+                          d="M8 2v12"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                        />
+                      </svg>
+                    </span>
+                  </button>
+                  <h3 class="cl-title">{e.title}</h3>
+                  <p class="cl-summary">{e.summary}</p>
+                </div>
                 <div class="cl-detail" id={`${e.id}-detail`} hidden>
                   <ul class="cl-bullets">
                     {e.bullets.map((b) => (
@@ -169,7 +181,9 @@ for (const e of ENTRIES) {
                     ))}
                   </ul>
                   {e.code && (
-                    <pre class="cl-code"><code>$ {e.code}</code></pre>
+                    <pre class="cl-code">
+                      <code>$ {e.code}</code>
+                    </pre>
                   )}
                   <div class="cl-footer">
                     {e.docLink && (
@@ -256,21 +270,15 @@ for (const e of ENTRIES) {
     }
 
     function setOpen(entry: HTMLElement, open: boolean) {
-      const toggle = entry.querySelector<HTMLButtonElement>(
-        '.cl-entry-toggle',
-      );
+      const toggle = entry.querySelector<HTMLButtonElement>('.cl-entry-toggle');
       const detail = entry.querySelector<HTMLElement>('.cl-detail');
-      const mark = entry.querySelector<HTMLElement>('.cl-mark');
-      if (!toggle || !detail || !mark) return;
+      if (!toggle || !detail) return;
       toggle.setAttribute('aria-expanded', String(open));
       detail.hidden = !open;
-      mark.textContent = open ? '−' : '+';
     }
 
     for (const entry of entries) {
-      const toggle = entry.querySelector<HTMLButtonElement>(
-        '.cl-entry-toggle',
-      );
+      const toggle = entry.querySelector<HTMLButtonElement>('.cl-entry-toggle');
       toggle?.addEventListener('click', () => {
         const isOpen = toggle.getAttribute('aria-expanded') === 'true';
         setOpen(entry, !isOpen);
@@ -414,6 +422,31 @@ for (const e of ENTRIES) {
     border-bottom: 1px solid var(--sl-color-gray-6, var(--sl-color-gray-5));
   }
 
+  /* A button cannot contain links, so the button holds only the badge row
+     and its ::after stretches over the header to make the title and summary
+     toggle too. Links inside the header sit above that overlay. */
+  .cl-head {
+    position: relative;
+    margin: 0 -0.75rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.75rem;
+    transition: background 0.15s;
+  }
+
+  .cl-head:has(.cl-entry-toggle:hover) {
+    background: color-mix(in srgb, var(--sl-color-gray-4) 8%, transparent);
+  }
+
+  .cl-head:has(.cl-entry-toggle:focus-visible) {
+    outline: 2px solid var(--sl-color-accent);
+    outline-offset: 2px;
+  }
+
+  .cl-head a {
+    position: relative;
+    z-index: 1;
+  }
+
   .cl-entry-toggle {
     display: flex;
     align-items: center;
@@ -425,6 +458,14 @@ for (const e of ENTRIES) {
     background: transparent;
     cursor: pointer;
     text-align: left;
+    outline: 0;
+  }
+
+  .cl-entry-toggle::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
   }
 
   .cl-badge {
@@ -485,13 +526,25 @@ for (const e of ENTRIES) {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 1.35rem;
-    height: 1.35rem;
+    width: 1.6rem;
+    height: 1.6rem;
     border-radius: 50%;
     background: color-mix(in srgb, var(--sl-color-gray-4) 16%, transparent);
     color: var(--sl-color-gray-2);
-    font-weight: 600;
-    font-size: 0.9rem;
+    transition: background 0.15s;
+  }
+
+  .cl-mark svg {
+    display: block;
+  }
+
+  .cl-head:has(.cl-entry-toggle:hover) .cl-mark {
+    background: color-mix(in srgb, var(--sl-color-gray-4) 32%, transparent);
+    color: var(--sl-color-white);
+  }
+
+  .cl-entry-toggle[aria-expanded='true'] .cl-mark-v {
+    display: none;
   }
 
   .cl-title {

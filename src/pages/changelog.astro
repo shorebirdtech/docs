@@ -2,12 +2,18 @@
 // cspell:words rollouts
 import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
 
+// The parts of Shorebird a change can be filed under. Fixed on purpose —
+// this drives the area filter chips, so it should stay in sync with the
+// products we actually ship rather than growing a new value per entry.
+const AREAS = ['Code Push', 'CLI', 'Console', 'API', 'Flutter'] as const;
+type Area = (typeof AREAS)[number];
+
 interface ChangelogEntry {
   /** Anchor id and permalink slug for this entry. */
   id: string;
   date: string;
   version: string;
-  area: string;
+  area: Area;
   type: 'New' | 'Fixed' | 'Changed' | 'Deprecated';
   title: string;
   summary: string;
@@ -55,8 +61,6 @@ function formatMonth(iso: string): string {
     timeZone: 'UTC',
   });
 }
-
-const areas = [...new Set(ENTRIES.map((e) => e.area))].sort();
 
 const groups: { label: string; items: ChangelogEntry[] }[] = [];
 for (const e of ENTRIES) {
@@ -112,7 +116,7 @@ for (const e of ENTRIES) {
         >All</button
       >
       {
-        areas.map((a) => (
+        AREAS.map((a) => (
           <button class="cl-chip" data-area={a} type="button">
             {a}
           </button>

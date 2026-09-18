@@ -535,7 +535,9 @@ in `--target-platform` is skipped, not treated as an error. See
 By default, the Shorebird updater checks for updates on app startup. It runs on
 a background thread and does not block the UI thread. Any updates will be
 installed while the user is using the app and will be applied the next time the
-app is restarted.
+process restarts. See
+[How do you use Shorebird with a long-running Android background process?](#how-do-you-use-shorebird-with-a-long-running-android-background-process)
+if a background process keeps the app alive.
 
 It is also possible to run the Shorebird updater manually using
 [package:shorebird_code_push](https://pub.dev/packages/shorebird_code_push),
@@ -561,12 +563,18 @@ To receive patches while the process stays alive:
 1. Check for and download patches while the process is running with
    [package:shorebird_code_push](https://pub.dev/packages/shorebird_code_push).
    Default automatic updates only run on process start.
-2. Apply the patch with a real process restart: Settings → Apps → Force stop,
-   stop the foreground service and then swipe the app away, or wait until the
-   OS kills the process.
+2. Detect the staged patch. `checkForUpdate()` returns
+   `UpdateStatus.restartRequired` once a patch is downloaded and waiting, and
+   `readNextPatch()` returns it. Use that to prompt the user to restart at a
+   point that suits your app.
+3. Apply the patch with a real process restart. Stopping the foreground service
+   and then swiping the app away is enough, as is waiting until the OS kills the
+   process.
 
-Recreating the Flutter engine without killing the process is not a supported
-way to apply a patch. See [Update Strategies](/code-push/update-strategies).
+While testing, you can force a restart with **Settings → Apps → Force stop**.
+
+Recreating the Flutter engine without killing the process is not a supported way
+to apply a patch. See [Update Strategies](/code-push/update-strategies).
 
 ### What information is sent to Shorebird servers?
 

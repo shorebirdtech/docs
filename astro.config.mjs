@@ -2,6 +2,7 @@
 
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import starlightLinksValidator from 'starlight-links-validator';
 import starlightAutoSidebar from 'starlight-auto-sidebar';
@@ -9,14 +10,66 @@ import starlightImageZoom from 'starlight-image-zoom';
 import starlightThemeNova from 'starlight-theme-nova';
 import opengraphImages from 'astro-opengraph-images';
 import { renderer } from './src/og/renderer.tsx';
-import { readFileSync } from 'node:fs';
+import { globSync, readFileSync } from 'node:fs';
+import { readFile, writeFile } from 'node:fs/promises';
+import yaml from 'js-yaml';
 import starlightLlmsTxt from 'starlight-llms-txt';
 import { remarkReplaceVersions } from './src/plugins/replace-versions.ts';
 import mermaid from 'astro-mermaid';
 import remarkGfm from 'remark-gfm';
 import { unified } from '@astrojs/markdown-remark';
+import { unlistedPages } from './src/unlisted.ts';
 
 const site = 'https://docs.shorebird.dev/';
+
+// `starlight-llms-txt` joins pages with this string. The default is a bare
+// blank line, which is indistinguishable from a paragraph break; an HTML
+// comment gives `stripUnlistedFromLlmsFull` a reliable page boundary, and
+// Markdown renderers ignore it.
+const llmsPageSeparator = '\n\n<!-- page -->\n\n';
+
+// The plugin's `exclude` option only filters `llms-small.txt` (deliberately,
+// see its 0.2.1 changelog), so unlisted pages are stripped from
+// `llms-full.txt` after the build instead. They are found by position, not by
+// title, since titles are not unique (several pages are titled "Overview"):
+// `demote` sorts them to the end of the file, in `unlistedPages` order.
+const stripUnlistedFromLlmsFull = {
+  name: 'strip-unlisted-from-llms-full',
+  hooks: {
+    'astro:build:done': async ({ dir, logger }) => {
+      if (unlistedPages.length === 0) return;
+      const file = new URL('llms-full.txt', dir);
+      const pages = (await readFile(file, 'utf8')).split(llmsPageSeparator);
+      const kept = pages.slice(0, -unlistedPages.length);
+      const stripped = pages.slice(-unlistedPages.length);
+      // Check each stripped page is the expected one before writing, so a
+      // change in the plugin's output fails the build instead of silently
+      // dropping a real page. The plugin starts each page with `# <title>`.
+      // This hook runs after the content collection APIs are torn down, so
+      // titles are read off disk.
+      unlistedPages.forEach((id, i) => {
+        const [path] = globSync(
+          `src/content/docs/{${id},${id}/index}.{md,mdx}`,
+        );
+        if (!path) throw new Error(`Unlisted page "${id}" not found.`);
+        const [, frontmatter] =
+          /^---\r?\n([\s\S]*?)\r?\n---/.exec(readFileSync(path, 'utf8')) ?? [];
+        const data = yaml.load(frontmatter ?? '');
+        const title = data?.hero?.title || data?.title;
+        if (!title) throw new Error(`No title in ${path}.`);
+        if (!stripped[i]?.startsWith(`# ${title}\n`)) {
+          throw new Error(
+            `llms-full.txt: expected unlisted page "${id}" at position ${kept.length + i}, found "${stripped[i]?.split('\n', 1)[0]}".`,
+          );
+        }
+      });
+      await writeFile(file, kept.join(llmsPageSeparator));
+      logger.info(
+        `Stripped ${stripped.length} unlisted page(s) from llms-full.txt`,
+      );
+    },
+  },
+};
 
 // https://astro.build/config
 export default defineConfig({
@@ -29,6 +82,14 @@ export default defineConfig({
   },
   integrations: [
     mermaid({ autoTheme: true }),
+    // Starlight adds `@astrojs/sitemap` itself unless it is already in this
+    // array, so configuring it here is what lets unlisted pages be filtered out.
+    sitemap({
+      filter: (page) =>
+        !unlistedPages.some(
+          (id) => page === `${site}${id}/` || page === `${site}${id}`,
+        ),
+    }),
     starlight({
       expressiveCode: false,
       title: 'Shorebird',
@@ -191,6 +252,11 @@ Developer & Agent Interfaces:
                 'Machine-readable agent capability card for agent-to-agent discovery',
             },
           ],
+          pageSeparator: llmsPageSeparator,
+          // `exclude` only affects `llms-small.txt`, and `demote` lines
+          // unlisted pages up for `stripUnlistedFromLlmsFull`.
+          exclude: [...unlistedPages],
+          demote: [...unlistedPages],
         }),
       ],
     }),
@@ -207,6 +273,7 @@ Developer & Agent Interfaces:
       },
       render: renderer,
     }),
+    stripUnlistedFromLlmsFull,
   ],
   redirects: {
     // Redirects to preserve legacy URLs & resolve agent probes.

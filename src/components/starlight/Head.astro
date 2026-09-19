@@ -2,10 +2,15 @@
 import Default from '@astrojs/starlight/components/Head.astro';
 import { getImagePath } from 'astro-opengraph-images';
 import { markdownSiblingPath } from '~/utils/markdown-path';
+import { unlistedPages } from '~/unlisted';
 
 const ogImageUrl = getImagePath({ url: Astro.url, site: Astro.site });
 
-const markdownPath = markdownSiblingPath(Astro.url.pathname);
+// Unlisted pages have no `.md` sibling (see `src/pages/[...slug].md.ts`).
+const { entry } = Astro.locals.starlightRoute;
+const markdownPath = unlistedPages.includes(entry.id)
+  ? undefined
+  : markdownSiblingPath(Astro.url.pathname);
 ---
 
 <Default><slot /></Default>
@@ -29,7 +34,11 @@ const markdownPath = markdownSiblingPath(Astro.url.pathname);
 <meta name="author" content="Shorebird, Inc." />
 
 <!-- AI Agent Discovery & Alternate Formats -->
-<link rel="alternate" type="text/markdown" href={markdownPath} />
+{
+  markdownPath && (
+    <link rel="alternate" type="text/markdown" href={markdownPath} />
+  )
+}
 <link
   rel="alternate"
   type="text/plain"

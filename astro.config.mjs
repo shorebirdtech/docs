@@ -155,7 +155,7 @@ export default defineConfig({
           label: 'CI',
           collapsed: true,
           badge: {
-            text: 'deprecated',
+            text: 'Deprecated',
             variant: 'caution',
           },
           items: [{ autogenerate: { directory: 'ci' } }],

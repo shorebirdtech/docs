@@ -98,6 +98,27 @@ Sending patch check request: PatchCheckRequest {
 
 Only patches created for this release version will be compatible with your app.
 
+**The app's process is still running because of a foreground service.**
+
+If the app runs a foreground service or other long-running background work,
+swiping it from the recent-apps list does not kill the process. Shorebird loads
+the patch on the next process start.
+
+**How to tell if this is the problem**
+
+The process ID does not change when you swipe the app away. Run
+`adb shell pidof <your.package.name>` before and after swiping: if it prints the
+same PID both times, the process never died and no patch will be applied.
+
+From Dart, the equivalent signal is `checkForUpdate()` returning
+`UpdateStatus.restartRequired`, or `readNextPatch()` reporting a higher patch
+number than `readCurrentPatch()`.
+
+**How to fix it**
+
+Force-stop the app, or stop the service first, then relaunch. See
+[How do you use Shorebird with a long-running Android background process?](/code-push/faq/#how-do-you-use-shorebird-with-a-long-running-android-background-process).
+
 ## `Your app contains asset changes` warning when creating a patch
 
 The `shorebird patch` command will print a warning if it detects changes to

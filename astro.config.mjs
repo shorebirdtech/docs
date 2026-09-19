@@ -145,20 +145,20 @@ export default defineConfig({
           items: [{ autogenerate: { directory: 'getting-started' } }],
         },
         {
-          label: 'CI',
-          collapsed: true,
-          badge: {
-            text: 'deprecated',
-            variant: 'caution',
-          },
-          items: [{ autogenerate: { directory: 'ci' } }],
-        },
-        {
           label: 'Code Push',
           collapsed: true,
           items: [
             { autogenerate: { directory: 'code-push', collapsed: true } },
           ],
+        },
+        {
+          label: 'CI',
+          collapsed: true,
+          badge: {
+            text: 'Deprecated',
+            variant: 'caution',
+          },
+          items: [{ autogenerate: { directory: 'ci' } }],
         },
         {
           label: 'Account',

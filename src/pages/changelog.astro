@@ -452,28 +452,34 @@ const groups = groupByMonth(ENTRIES);
     color: var(--sl-color-gray-2);
   }
 
+  /* Each type gets its own hue rather than the theme accent, which is gray
+     and made New look like the area badge next to it. Light-mode text shades
+     are dark enough for 4.5:1 contrast on their tinted pill at this size. */
   .cl-badge[data-type='new'] {
-    background: color-mix(in srgb, var(--sl-color-accent) 16%, transparent);
-    color: var(--sl-color-accent-high);
+    background: color-mix(in srgb, #22c55e 16%, transparent);
+    color: #166534;
   }
 
   .cl-badge[data-type='fixed'] {
-    background: color-mix(in srgb, #22c55e 16%, transparent);
-    color: #16a34a;
+    background: color-mix(in srgb, #3b82f6 16%, transparent);
+    color: #1d4ed8;
   }
 
   .cl-badge[data-type='changed'] {
     background: color-mix(in srgb, #a855f7 16%, transparent);
-    color: #9333ea;
+    color: #7e22ce;
   }
 
   .cl-badge[data-type='deprecated'] {
     background: color-mix(in srgb, #f59e0b 16%, transparent);
-    color: #d97706;
+    color: #92400e;
   }
 
-  :root[data-theme='dark'] .cl-badge[data-type='fixed'] {
+  :root[data-theme='dark'] .cl-badge[data-type='new'] {
     color: #4ade80;
+  }
+  :root[data-theme='dark'] .cl-badge[data-type='fixed'] {
+    color: #93c5fd;
   }
   :root[data-theme='dark'] .cl-badge[data-type='changed'] {
     color: #d8b4fe;

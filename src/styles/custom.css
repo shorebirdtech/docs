@@ -82,3 +82,25 @@ h6 {
 .site-title img {
   height: 1.5rem;
 }
+
+/* Sidebar badges follow the console's soft badge recipe (packages/ui/src/badge.tsx)
+   with its warning color (apps/console/app/tokens.css):
+   one source color drives the text, a dimmer border, and a dimmer background. */
+.sidebar-content .sl-badge {
+  --badge-color: light-dark(
+    oklch(0.7517 0.1106 52.07),
+    oklch(0.8208 0.1259 74.91)
+  );
+  margin-inline-start: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.125rem 0.5rem;
+  font: 500 0.6875rem/1.4 var(--sl-font);
+  color: var(--badge-color);
+  border-color: color-mix(in oklab, var(--badge-color) 35%, transparent);
+  background: color-mix(in oklab, var(--badge-color) 12%, transparent);
+}
+
+.sidebar-content .group-label {
+  display: flex;
+  align-items: center;
+}

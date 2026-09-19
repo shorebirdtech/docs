@@ -132,8 +132,17 @@ for (const e of ENTRIES) {
         <div class="cl-group">
           <h2 class="cl-month">{group.label}</h2>
           {group.items.map((e) => {
-            const searchText =
-              `${e.title} ${e.summary} ${e.area} ${e.type}`.toLowerCase();
+            const searchText = [
+              e.title,
+              e.summary,
+              e.area,
+              e.type,
+              e.version,
+              ...e.bullets,
+              e.code ?? '',
+            ]
+              .join(' ')
+              .toLowerCase();
             return (
               <article
                 class="cl-entry"
@@ -181,9 +190,7 @@ for (const e of ENTRIES) {
                     ))}
                   </ul>
                   {e.code && (
-                    <pre class="cl-code">
-                      <code>$ {e.code}</code>
-                    </pre>
+                    <pre class="cl-code"><code>$ {e.code}</code></pre>
                   )}
                   <div class="cl-footer">
                     {e.docLink && (
@@ -288,28 +295,41 @@ for (const e of ENTRIES) {
     for (const copyBtn of document.querySelectorAll<HTMLAnchorElement>(
       '.cl-copy',
     )) {
-      copyBtn.addEventListener('click', async (ev) => {
-        ev.preventDefault();
+      // No preventDefault: following the link puts the permalink in the
+      // address bar, which is the fallback when the clipboard is unavailable.
+      copyBtn.addEventListener('click', async () => {
         const hash = copyBtn.dataset.copy ?? '';
         const url = `${location.origin}${location.pathname}${hash}`;
         try {
           await navigator.clipboard.writeText(url);
         } catch {
-          // Clipboard access can fail (permissions, insecure context); the
-          // link itself still works as a fallback.
+          // Clipboard access can fail (permissions, insecure context).
+          return;
         }
+        const label = copyBtn.getAttribute('aria-label') ?? '';
+        copyBtn.textContent = '✓';
+        copyBtn.setAttribute('aria-label', 'Link copied');
+        setTimeout(() => {
+          copyBtn.textContent = '⧉';
+          copyBtn.setAttribute('aria-label', label);
+        }, 1500);
       });
     }
 
-    // Open and scroll to the entry named in the URL hash, if any.
-    const targetId = decodeURIComponent(location.hash.replace(/^#/, ''));
-    if (targetId) {
+    // Open and scroll to the entry named in the URL hash, if any. Also runs
+    // on hashchange, so a permalink followed from this same page opens too.
+    function openFromHash() {
+      const targetId = decodeURIComponent(location.hash.replace(/^#/, ''));
+      if (!targetId) return;
       const target = document.getElementById(targetId);
       if (target?.classList.contains('cl-entry')) {
         setOpen(target, true);
         target.scrollIntoView({ block: 'start' });
       }
     }
+
+    openFromHash();
+    window.addEventListener('hashchange', openFromHash);
 
     applyFilters();
   }

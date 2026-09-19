@@ -210,6 +210,12 @@ Developer & Agent Interfaces:
 - Endpoint Reachability & Status: Verify service connectivity at https://docs.shorebird.dev/system/endpoint-reachability/.`,
           optionalLinks: [
             {
+              label: 'Changelog',
+              url: 'https://docs.shorebird.dev/changelog.md',
+              description:
+                'What shipped to Code Push, the CLI, and the API, newest first',
+            },
+            {
               label: 'OpenAPI specification',
               url: 'https://api.shorebird.dev/openapi.json',
               description:

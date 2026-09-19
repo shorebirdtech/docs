@@ -95,7 +95,9 @@ h6 {
   border-radius: 9999px;
   padding: 0.125rem 0.5rem;
   font: 500 0.6875rem/1.4 var(--sl-font);
-  color: var(--badge-color);
+  /* Light text uses the console's `--on-warning`: `--warning-500` on its own
+     tint over white is 2.1:1, under WCAG AA's 4.5:1 for small text. */
+  color: light-dark(oklch(0.5264 0.1135 48.92), var(--badge-color));
   border-color: color-mix(in oklab, var(--badge-color) 35%, transparent);
   background: color-mix(in oklab, var(--badge-color) 12%, transparent);
 }

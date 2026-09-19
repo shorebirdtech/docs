@@ -145,6 +145,13 @@ export default defineConfig({
           items: [{ autogenerate: { directory: 'getting-started' } }],
         },
         {
+          label: 'Code Push',
+          collapsed: true,
+          items: [
+            { autogenerate: { directory: 'code-push', collapsed: true } },
+          ],
+        },
+        {
           label: 'CI',
           collapsed: true,
           badge: {
@@ -152,13 +159,6 @@ export default defineConfig({
             variant: 'caution',
           },
           items: [{ autogenerate: { directory: 'ci' } }],
-        },
-        {
-          label: 'Code Push',
-          collapsed: true,
-          items: [
-            { autogenerate: { directory: 'code-push', collapsed: true } },
-          ],
         },
         {
           label: 'Account',

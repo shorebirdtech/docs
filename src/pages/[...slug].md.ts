@@ -9,6 +9,7 @@ import rehypeRemark from 'rehype-remark';
 import remarkGfm from 'remark-gfm';
 import remarkStringify from 'remark-stringify';
 import { unified } from 'unified';
+import { unlistedPages } from '~/unlisted';
 
 // Serves Markdown for every docs page at its URL + `.md`, so AI agents can
 // fetch page content directly instead of scraping rendered HTML. Renders
@@ -20,7 +21,13 @@ import { unified } from 'unified';
 export const prerender = true;
 
 export const getStaticPaths = (async () => {
-  const docs = await getCollection('docs', (entry) => !entry.data.draft);
+  // Unlisted pages are reachable at their HTML URL but are not published as
+  // agent-facing Markdown, which would hand out the full text of a page that
+  // is deliberately not advertised.
+  const docs = await getCollection(
+    'docs',
+    (entry) => !entry.data.draft && !unlistedPages.includes(entry.id),
+  );
   return docs.map((entry) => ({
     params: { slug: entry.id },
     props: { entry },

@@ -9,6 +9,7 @@ match: $sentence
 exceptions:
   - Shorebird
   - Shorebird's
+  - Zap
   - Flutter
   - Flutter's
   - Dart

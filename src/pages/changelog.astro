@@ -1,0 +1,620 @@
+---
+// cspell:ignore data-type white-space
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import {
+  AREAS,
+  CHANGELOG_DESCRIPTION,
+  CHANGELOG_TITLE,
+  ENTRIES,
+  groupByMonth,
+  type ChangelogEntry,
+} from '~/data/changelog';
+
+const TYPE_LABEL_COLOR: Record<ChangelogEntry['type'], string> = {
+  New: 'new',
+  Fixed: 'fixed',
+  Changed: 'changed',
+  Deprecated: 'deprecated',
+};
+
+const groups = groupByMonth(ENTRIES);
+---
+
+<StarlightPage
+  frontmatter={{
+    title: CHANGELOG_TITLE,
+    description: CHANGELOG_DESCRIPTION,
+  }}
+>
+  <p>
+    Everything we shipped to Code Push, the CLI, and the API. Expand an entry
+    for the full detail, the command, and the doc it belongs to.
+  </p>
+
+  <div class="cl-toolbar not-content">
+    <div class="cl-search">
+      <svg
+        class="cl-search-icon"
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+      >
+        <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"
+        ></circle>
+        <path
+          d="M21 21l-4.3-4.3"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"></path>
+      </svg>
+      <input
+        id="cl-search"
+        type="text"
+        placeholder="Search the changelog"
+        aria-label="Search the changelog"
+      />
+    </div>
+    <div class="cl-chips" role="group" aria-label="Filter by area">
+      <button class="cl-chip is-active" data-area="All" type="button"
+        >All</button
+      >
+      {
+        AREAS.map((a) => (
+          <button class="cl-chip" data-area={a} type="button">
+            {a}
+          </button>
+        ))
+      }
+    </div>
+    <span class="cl-count" id="cl-count">
+      {ENTRIES.length}
+      {ENTRIES.length === 1 ? 'entry' : 'entries'}
+    </span>
+  </div>
+
+  <div class="cl-list" id="cl-list">
+    {
+      groups.map((group) => (
+        <div class="cl-group">
+          <h2 class="cl-month">{group.label}</h2>
+          {group.items.map((e) => {
+            const searchText = [
+              e.title,
+              e.summary,
+              e.area,
+              e.type,
+              e.version,
+              ...e.bullets,
+              e.code ?? '',
+            ]
+              .join(' ')
+              .toLowerCase();
+            return (
+              <article
+                class="cl-entry"
+                id={e.id}
+                data-area={e.area}
+                data-search={searchText}
+              >
+                <div class="cl-head">
+                  <button
+                    class="cl-entry-toggle"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls={`${e.id}-detail`}
+                  >
+                    <span class="cl-badge" data-type={TYPE_LABEL_COLOR[e.type]}>
+                      {e.type}
+                    </span>
+                    <span class="cl-badge cl-badge-area">{e.area}</span>
+                    <span class="cl-version">{e.version}</span>
+                    <span class="cl-mark" aria-hidden="true">
+                      <svg viewBox="0 0 16 16" width="12" height="12">
+                        <path
+                          d="M2 8h12"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                        />
+                        <path
+                          class="cl-mark-v"
+                          d="M8 2v12"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                        />
+                      </svg>
+                    </span>
+                  </button>
+                  <h3 class="cl-title">{e.title}</h3>
+                  <p class="cl-summary">{e.summary}</p>
+                </div>
+                <div class="cl-detail" id={`${e.id}-detail`} hidden>
+                  <ul class="cl-bullets">
+                    {e.bullets.map((b) => (
+                      <li>{b}</li>
+                    ))}
+                  </ul>
+                  {e.code && (
+                    <pre class="cl-code"><code>$ {e.code}</code></pre>
+                  )}
+                  <div class="cl-footer">
+                    {e.docLink && (
+                      <a href={e.docLink.href} class="cl-doc-link">
+                        {e.docLink.label} →
+                      </a>
+                    )}
+                    <span class="cl-permalink-group">
+                      <span class="cl-permalink">/changelog/#{e.id}</span>
+                      <a
+                        href={`#${e.id}`}
+                        class="cl-copy"
+                        aria-label="Copy link to this entry"
+                        data-copy={`#${e.id}`}
+                      >
+                        ⧉
+                      </a>
+                    </span>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      ))
+    }
+  </div>
+
+  <p class="cl-empty" id="cl-empty" hidden>
+    Nothing matches that search — clear the field or pick a different area.
+  </p>
+</StarlightPage>
+
+<script>
+  function init() {
+    const search = document.getElementById(
+      'cl-search',
+    ) as HTMLInputElement | null;
+    const chips = Array.from(
+      document.querySelectorAll<HTMLButtonElement>('.cl-chip'),
+    );
+    const entries = Array.from(
+      document.querySelectorAll<HTMLElement>('.cl-entry'),
+    );
+    const groups = Array.from(
+      document.querySelectorAll<HTMLElement>('.cl-group'),
+    );
+    const countEl = document.getElementById('cl-count');
+    const emptyEl = document.getElementById('cl-empty');
+    if (!search || !countEl || !emptyEl) return;
+
+    let area = 'All';
+
+    function applyFilters() {
+      const q = (search?.value ?? '').trim().toLowerCase();
+      let visibleCount = 0;
+
+      for (const entry of entries) {
+        const matchesArea = area === 'All' || entry.dataset.area === area;
+        const matchesSearch =
+          q === '' || (entry.dataset.search ?? '').includes(q);
+        const visible = matchesArea && matchesSearch;
+        entry.hidden = !visible;
+        if (visible) visibleCount += 1;
+      }
+
+      for (const group of groups) {
+        const hasVisible = group.querySelector('.cl-entry:not([hidden])');
+        group.hidden = !hasVisible;
+      }
+
+      countEl!.textContent = `${visibleCount} ${visibleCount === 1 ? 'entry' : 'entries'}`;
+      emptyEl!.hidden = visibleCount !== 0;
+    }
+
+    search.addEventListener('input', applyFilters);
+
+    for (const chip of chips) {
+      chip.addEventListener('click', () => {
+        area = chip.dataset.area ?? 'All';
+        for (const c of chips) c.classList.toggle('is-active', c === chip);
+        applyFilters();
+      });
+    }
+
+    function setOpen(entry: HTMLElement, open: boolean) {
+      const toggle = entry.querySelector<HTMLButtonElement>('.cl-entry-toggle');
+      const detail = entry.querySelector<HTMLElement>('.cl-detail');
+      if (!toggle || !detail) return;
+      toggle.setAttribute('aria-expanded', String(open));
+      detail.hidden = !open;
+    }
+
+    for (const entry of entries) {
+      const toggle = entry.querySelector<HTMLButtonElement>('.cl-entry-toggle');
+      toggle?.addEventListener('click', () => {
+        const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+        setOpen(entry, !isOpen);
+      });
+    }
+
+    for (const copyBtn of document.querySelectorAll<HTMLAnchorElement>(
+      '.cl-copy',
+    )) {
+      // No preventDefault: following the link puts the permalink in the
+      // address bar, which is the fallback when the clipboard is unavailable.
+      copyBtn.addEventListener('click', async () => {
+        const hash = copyBtn.dataset.copy ?? '';
+        const url = `${location.origin}${location.pathname}${hash}`;
+        try {
+          await navigator.clipboard.writeText(url);
+        } catch {
+          // Clipboard access can fail (permissions, insecure context).
+          return;
+        }
+        const label = copyBtn.getAttribute('aria-label') ?? '';
+        copyBtn.textContent = '✓';
+        copyBtn.setAttribute('aria-label', 'Link copied');
+        setTimeout(() => {
+          copyBtn.textContent = '⧉';
+          copyBtn.setAttribute('aria-label', label);
+        }, 1500);
+      });
+    }
+
+    // Open and scroll to the entry named in the URL hash, if any. Also runs
+    // on hashchange, so a permalink followed from this same page opens too.
+    function openFromHash() {
+      const targetId = decodeURIComponent(location.hash.replace(/^#/, ''));
+      if (!targetId) return;
+      const target = document.getElementById(targetId);
+      if (target?.classList.contains('cl-entry')) {
+        setOpen(target, true);
+        target.scrollIntoView({ block: 'start' });
+      }
+    }
+
+    openFromHash();
+    window.addEventListener('hashchange', openFromHash);
+
+    applyFilters();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+</script>
+
+<style>
+  .cl-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+  }
+
+  .cl-search {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1 1 16rem;
+    height: 2.5rem;
+    padding: 0 0.85rem;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 999px;
+    background: var(--sl-color-bg-sidebar);
+  }
+
+  .cl-search-icon {
+    flex-shrink: 0;
+    color: var(--sl-color-gray-3);
+  }
+
+  .cl-search input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--sl-color-white);
+    font: inherit;
+    font-size: 0.9rem;
+  }
+
+  .cl-search input::placeholder {
+    color: var(--sl-color-gray-3);
+  }
+
+  .cl-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .cl-chip {
+    height: 2rem;
+    padding: 0 0.85rem;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--sl-color-gray-2);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      background 0.15s,
+      border-color 0.15s,
+      color 0.15s;
+  }
+
+  .cl-chip:hover {
+    border-color: var(--sl-color-gray-3);
+  }
+
+  .cl-chip.is-active {
+    background: color-mix(in srgb, var(--sl-color-accent) 16%, transparent);
+    border-color: var(--sl-color-accent);
+    color: var(--sl-color-accent-high);
+  }
+
+  .cl-count {
+    margin-left: auto;
+    font-family: var(--sl-font-mono, ui-monospace, monospace);
+    font-size: 0.8rem;
+    color: var(--sl-color-gray-3);
+  }
+
+  .cl-group {
+    margin-top: 2rem;
+  }
+
+  .cl-month {
+    margin: 0 0 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--sl-color-gray-3);
+    border: 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--sl-color-gray-6, var(--sl-color-gray-5));
+  }
+
+  .cl-entry {
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--sl-color-gray-6, var(--sl-color-gray-5));
+  }
+
+  /* A button cannot contain links, so the button holds only the badge row
+     and its ::after stretches over the header to make the title and summary
+     toggle too. Links inside the header sit above that overlay. */
+  .cl-head {
+    position: relative;
+    margin: 0 -0.75rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.75rem;
+    transition: background 0.15s;
+  }
+
+  .cl-head:has(.cl-entry-toggle:hover) {
+    background: color-mix(in srgb, var(--sl-color-gray-4) 8%, transparent);
+  }
+
+  .cl-head:has(.cl-entry-toggle:focus-visible) {
+    outline: 2px solid var(--sl-color-accent);
+    outline-offset: 2px;
+  }
+
+  .cl-head a {
+    position: relative;
+    z-index: 1;
+  }
+
+  .cl-entry-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    text-align: left;
+    outline: 0;
+  }
+
+  .cl-entry-toggle::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  .cl-badge {
+    height: 1.25rem;
+    padding: 0 0.5rem;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    line-height: 1.25rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .cl-badge-area {
+    background: color-mix(in srgb, var(--sl-color-gray-4) 18%, transparent);
+    color: var(--sl-color-gray-2);
+  }
+
+  /* Each type gets its own hue rather than the theme accent, which is gray
+     and made New look like the area badge next to it. Light-mode text shades
+     are dark enough for 4.5:1 contrast on their tinted pill at this size. */
+  .cl-badge[data-type='new'] {
+    background: color-mix(in srgb, #22c55e 16%, transparent);
+    color: #166534;
+  }
+
+  .cl-badge[data-type='fixed'] {
+    background: color-mix(in srgb, #3b82f6 16%, transparent);
+    color: #1d4ed8;
+  }
+
+  .cl-badge[data-type='changed'] {
+    background: color-mix(in srgb, #a855f7 16%, transparent);
+    color: #7e22ce;
+  }
+
+  .cl-badge[data-type='deprecated'] {
+    background: color-mix(in srgb, #f59e0b 16%, transparent);
+    color: #92400e;
+  }
+
+  :root[data-theme='dark'] .cl-badge[data-type='new'] {
+    color: #4ade80;
+  }
+  :root[data-theme='dark'] .cl-badge[data-type='fixed'] {
+    color: #93c5fd;
+  }
+  :root[data-theme='dark'] .cl-badge[data-type='changed'] {
+    color: #d8b4fe;
+  }
+  :root[data-theme='dark'] .cl-badge[data-type='deprecated'] {
+    color: #fbbf24;
+  }
+
+  .cl-version {
+    margin-left: auto;
+    font-family: var(--sl-font-mono, ui-monospace, monospace);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--sl-color-gray-3);
+  }
+
+  .cl-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--sl-color-gray-4) 16%, transparent);
+    color: var(--sl-color-gray-2);
+    transition: background 0.15s;
+  }
+
+  .cl-mark svg {
+    display: block;
+  }
+
+  .cl-head:has(.cl-entry-toggle:hover) .cl-mark {
+    background: color-mix(in srgb, var(--sl-color-gray-4) 32%, transparent);
+    color: var(--sl-color-white);
+  }
+
+  .cl-entry-toggle[aria-expanded='true'] .cl-mark-v {
+    display: none;
+  }
+
+  .cl-title {
+    margin: 0.6rem 0 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--sl-color-white);
+  }
+
+  .cl-summary {
+    margin: 0.4rem 0 0;
+    max-width: 68ch;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--sl-color-gray-2);
+  }
+
+  .cl-detail {
+    margin-top: 1rem;
+    background: var(--sl-color-bg-sidebar);
+    border-radius: 1rem;
+    padding: 1.25rem 1.5rem;
+  }
+
+  .cl-bullets {
+    margin: 0;
+    padding-left: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--sl-color-gray-2);
+  }
+
+  .cl-code {
+    margin: 1rem 0 0;
+    padding: 0.85rem 1.1rem;
+    border-radius: 0.75rem;
+    background: var(--sl-color-bg);
+    overflow-x: auto;
+    white-space: nowrap;
+    font-family: var(--sl-font-mono, ui-monospace, monospace);
+    font-size: 0.85rem;
+    color: var(--sl-color-gray-1);
+  }
+
+  .cl-footer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--sl-color-gray-6, var(--sl-color-gray-5));
+  }
+
+  .cl-doc-link {
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .cl-permalink-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+  }
+
+  .cl-permalink {
+    font-family: var(--sl-font-mono, ui-monospace, monospace);
+    font-size: 0.72rem;
+    color: var(--sl-color-gray-3);
+  }
+
+  .cl-copy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 0.4rem;
+    border: 1px solid var(--sl-color-gray-5);
+    color: var(--sl-color-gray-2);
+    font-size: 0.75rem;
+  }
+
+  .cl-copy:hover {
+    border-color: var(--sl-color-gray-3);
+    color: var(--sl-color-white);
+  }
+
+  .cl-empty {
+    margin-top: 1.5rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--sl-color-gray-6, var(--sl-color-gray-5));
+    color: var(--sl-color-gray-2);
+  }
+</style>

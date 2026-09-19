@@ -83,18 +83,23 @@ h6 {
   height: 1.5rem;
 }
 
-/* Sidebar badges follow the console's soft badge recipe (packages/ui/src/badge.tsx)
-   with its warning color (apps/console/app/tokens.css):
-   one source color drives the text, a dimmer border, and a dimmer background. */
+/* Sidebar badges follow the console's soft badge recipe (packages/ui/src/badge.tsx):
+   a pill in the sans font, with one source color driving the text, a dimmer
+   border, and a dimmer background. */
 .sidebar-content .sl-badge {
-  --badge-color: light-dark(
-    oklch(0.7517 0.1106 52.07),
-    oklch(0.8208 0.1259 74.91)
-  );
   margin-inline-start: 0.5rem;
   border-radius: 9999px;
   padding: 0.125rem 0.5rem;
   font: 500 0.6875rem/1.4 var(--sl-font);
+}
+
+/* Only `caution` badges take the console's warning color
+   (apps/console/app/tokens.css); other variants keep Starlight's colors. */
+.sidebar-content .sl-badge.caution {
+  --badge-color: light-dark(
+    oklch(0.7517 0.1106 52.07),
+    oklch(0.8208 0.1259 74.91)
+  );
   /* Light text uses the console's `--on-warning`: `--warning-500` on its own
      tint over white is 2.1:1, under WCAG AA's 4.5:1 for small text. */
   color: light-dark(oklch(0.5264 0.1135 48.92), var(--badge-color));

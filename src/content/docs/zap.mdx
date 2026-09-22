@@ -81,7 +81,17 @@ than you needing to go through some proprietary Shorebird agent.
   </TabItem>
 
   <TabItem label="iOS">
-    Visit [Shorebird's TestFlight link](https://testflight.apple.com/join/5zqR6tQx) and install the app.
+    <Steps>
+
+    1. Download and install [TestFlight](https://apps.apple.com/app/testflight/id899247664)
+       from the App Store
+
+    2. Visit [Shorebird's TestFlight link](https://testflight.apple.com/join/5zqR6tQx)
+
+    3. Download and install the app
+
+    </Steps>
+
   </TabItem>
 </Tabs>
 
@@ -98,14 +108,11 @@ not required, to use Shorebird's MCP server.**
 
 <Tabs>
 
-  <TabItem label="With MCP">
+  <TabItem label="Install MCP">
 
     <Steps>
 
-    1.  **If you already have the Shorebird MCP installed,
-        [skip to step 3](#skip-mcp).** Otherwise, install the MCP.
-
-        The Shorebird MCP isn't available in official plugin/MCP marketplaces
+    1.  The Shorebird MCP isn't available in official plugin/MCP marketplaces
         yet, so you'll need to add a custom connector.
 
         ![Claude's + menu open to Connectors, then Add connector, then Add custom connector](../../assets/zap_add_custom_connector.png)
@@ -118,8 +125,15 @@ not required, to use Shorebird's MCP server.**
     2.  Use the default authentication settings, and authenticate the MCP using
         your Shorebird account (via OAuth).
 
-    3.  <a id="skip-mcp"></a>Create a new coding agent thread and connect it to
-        your GitHub repo
+    </Steps>
+
+  </TabItem>
+
+  <TabItem label="With MCP">
+
+    <Steps>
+
+    1.  Create a new coding agent thread and connect it to your GitHub repo
 
         <Aside type="note" title="Local source">
           If you are using an agent platform that supports local source control,
@@ -127,7 +141,7 @@ not required, to use Shorebird's MCP server.**
           instead.
         </Aside>
 
-    4.  Prompt your agent to build you an app using Shorebird Zap. You can use
+    2.  Prompt your agent to build you an app using Shorebird Zap. You can use
         whatever prompt you'd like, but here's one that has worked well:
 
         ```text
@@ -227,6 +241,14 @@ it can visit. This can usually be resolved in the environment settings for your
 coding agent provider.
 
 Note: environment network settings may not be available via mobile app.
+
+</details>
+
+<details>
+<summary>What is "Shorebird Companion"?</summary>
+
+Some parts of the app are called Shorebird Companion, and others are called
+Shorebird Zap. Neither name is final, and they will likely change.
 
 </details>
 

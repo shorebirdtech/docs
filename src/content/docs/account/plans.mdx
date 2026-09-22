@@ -1,0 +1,110 @@
+---
+title: Plans & Upgrading
+description: How to upgrade, downgrade, switch, or cancel your Shorebird plan
+sidebar:
+  order: 2
+---
+
+Shorebird's Pro and Business plans are self-service. You can upgrade, downgrade,
+switch between monthly and annual billing, and cancel from the
+[Plan page](https://console.shorebird.dev/account/plan) in the Shorebird
+Console. Enterprise plans are set up by the Shorebird team.
+
+See the [pricing page](https://shorebird.dev/pricing) for what each plan
+includes.
+
+## Who can change the plan
+
+Plans belong to an **account**, not to an organization. Every organization you
+own runs on your plan, and their patch installs count against it.
+
+This means only the [organization owner](/account/orgs#owner) can upgrade the
+plan for an organization. If you're an Admin or Developer and your team needs a
+bigger plan, ask the owner to upgrade. To see who owns an organization, open the
+organization's settings in the console.
+
+## Upgrade from Free
+
+1. Go to [Account](https://console.shorebird.dev/account) in the Shorebird
+   Console and click **Manage Plan**.
+2. Click **Upgrade plan**.
+3. Pick **Monthly** or **Annual**, then click **Upgrade to Pro** or **Upgrade to
+   Business**.
+4. Complete checkout in Stripe.
+
+Your new plan is active as soon as checkout completes, and your billing period
+starts today.
+
+## Upgrade from Pro to Business
+
+1. Go to [Account](https://console.shorebird.dev/account) and click **Manage
+   Plan**.
+2. Click **Change plan**.
+3. Click **Upgrade to Business** on the billing interval you want.
+4. Review the prorated amount due today and click **Confirm and pay**.
+
+Upgrades take effect immediately. You're charged a prorated amount for the rest
+of the current billing period, and your plan renews as Business at the next
+renewal date.
+
+## Switch between monthly and annual billing
+
+Open **Manage Plan** → **Change plan** and use the **Monthly** / **Annual** tabs
+to pick the interval, then click **Switch to** your plan on that interval.
+
+- **Monthly to annual** takes effect immediately. You're charged the annual
+  price, less a prorated credit for the unused part of the current month.
+- **Annual to monthly** is scheduled for the end of your current annual period.
+  Nothing is charged today.
+
+## Downgrade from Business to Pro
+
+Open **Manage Plan** → **Change plan** and click **Switch to Pro**.
+
+Downgrades are scheduled, not immediate: your current plan stays active through
+the period you've already paid for, and it becomes Pro at the start of the next
+period. Nothing is due today. Until then, the Plan page shows the scheduled
+change with a **Keep current plan** button that cancels it.
+
+## Cancel your plan
+
+Open **Manage Plan** and click **Cancel plan**.
+
+Nothing changes today. Your plan runs to the end of the current billing period,
+after which your account drops to the Free plan. Your apps and release history
+stay on your account, and devices keep the last patch they received. See
+[Will your app still work if you cancel?](/code-push/faq#will-your-app-still-work-if-you-cancel-your-shorebird-subscription)
+
+Until the period ends, the Plan page shows a **Resume plan** button if you
+change your mind.
+
+## Enterprise
+
+Enterprise plans include SAML single sign-on, invoice billing, custom contracts,
+and higher patch volumes. They aren't self-service:
+[reach out to sales](https://shorebird.dev/talk-to-sales) and the Shorebird team
+will set up your account. See [Enterprise](/enterprise/) for what's included.
+
+If you're already on an Enterprise or other negotiated plan, the Plan page
+doesn't offer self-service changes. Contact your Shorebird representative or
+[email billing](mailto:billing@shorebird.dev) for changes.
+
+## Troubleshooting
+
+### I upgraded but my organization still shows the old plan
+
+Plans belong to the account that owns the organization. If you upgraded your own
+account but someone else owns the organization, the organization is still on the
+owner's plan. Either the owner upgrades, or ownership of the organization is
+transferred to the account with the paid plan.
+
+### Change plan is disabled
+
+Plans can't be changed while a payment is past due. Update your payment method
+from the **Payment** card on the Plan page to settle the balance, then try
+again.
+
+### I need a plan that isn't listed
+
+If none of the self-service plans fit, or you need invoice billing or a custom
+contract, [talk to sales](https://shorebird.dev/talk-to-sales).

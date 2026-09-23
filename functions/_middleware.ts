@@ -3,13 +3,13 @@
 // Content negotiation for AI agents: a request for a normal docs URL with
 // `Accept: text/markdown` gets that page's Markdown sibling instead of HTML,
 // on the same URL a person would visit. The `.md` URLs themselves (added in
-// #654) keep working unchanged — this adds the "ask the canonical URL for
+// #654) keep working unchanged: this adds the "ask the canonical URL for
 // Markdown" path on top, which is what agent-friendliness scanners check for.
 //
 // Cloudflare's dashboard-level "Markdown for Agents" (AI Crawl Control) does
 // the same thing, but only for a zone on Cloudflare DNS with a Pro/Business
-// plan — shorebird.dev isn't (DNS lives elsewhere, just CNAMed to Pages), so
-// this reimplements the negotiation ourselves. Recipe:
+// plan, and shorebird.dev isn't (DNS lives elsewhere, just CNAMed to Pages),
+// so this reimplements the negotiation ourselves. Recipe:
 // https://acceptmarkdown.com/recipes/cloudflare-workers
 
 import { markdownSiblingPath } from '../src/utils/markdown-path';
@@ -20,7 +20,7 @@ interface Env {
 
 // Static assets never have a Markdown or JSON sibling; skip negotiation for
 // them entirely. `/.well-known/*` is skipped too: those are single-format
-// discovery/config files (RFC 8615) with their own declared Content-Type —
+// discovery/config files (RFC 8615) with their own declared Content-Type;
 // they don't participate in the markdown/html/json negotiation this
 // middleware does for docs pages, and running them through it would 406
 // a request that correctly sends that file's own declared Accept type,
@@ -81,6 +81,7 @@ const AGENT_LINK_HEADERS = [
   '</.well-known/agent.json>; rel="agent"',
   '</account/api/>; rel="service-doc"',
   '<https://api.shorebird.dev/openapi.json>; rel="service-desc"; type="application/json"',
+  '<https://auth.shorebird.dev/.well-known/oauth-authorization-server>; rel="oauth-authorization-server"',
   '</llms.txt>; rel="alternate"; type="text/plain"',
   '</opensearch.xml>; rel="search"; type="application/opensearchdescription+xml"',
   '</humans.txt>; rel="author"; type="text/plain"',
@@ -117,7 +118,7 @@ const JSON_404_BODY = JSON.stringify(
 );
 
 // The build already renders a proper Markdown 404 page (via the
-// [...slug].md.ts route from #654, since 404.md is a normal docs entry) —
+// [...slug].md.ts route from #654, since 404.md is a normal docs entry):
 // fetch that instead of hand-maintaining a second copy of its link list
 // here, which would drift from the real page over time.
 async function fetch404Markdown(assets: Fetcher, url: URL): Promise<string> {
@@ -189,8 +190,8 @@ function negotiate(acceptHeader: string | null): Preference {
   if (markdown < 0 && html < 0 && json < 0) {
     // Only 406 when the client explicitly rejected everything (an
     // unqualified `*/*;q=0`). A client that just didn't list one of our
-    // three representations — e.g. a health check sending
-    // `Accept: text/plain` — gets the default HTML rather than a hard
+    // three representations (e.g. a health check sending
+    // `Accept: text/plain`) gets the default HTML rather than a hard
     // failure; RFC 9110 §12.5.1 permits serving a non-preferred
     // representation instead of 406 for exactly this reason.
     const rejectsEverything = entries.some(

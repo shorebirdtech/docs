@@ -108,9 +108,10 @@ always be built with the version of Flutter used by the release.
 
 ### Match the Flutter version you already use
 
-If you manage Flutter with [fvm](https://fvm.app), or you just want Shorebird to
-follow the `flutter` on your `PATH`, `--flutter-version` accepts two aliases so
-you don't have to repeat the version number:
+As of Shorebird 1.6.123, if you manage Flutter with [fvm](https://fvm.app), or
+you just want Shorebird to follow the `flutter` on your `PATH`,
+`--flutter-version` accepts two aliases so you don't have to repeat the version
+number:
 
 ```sh
 # Use the version fvm resolves for this project (from its .fvmrc).
@@ -120,15 +121,23 @@ shorebird release android --flutter-version=fvm
 shorebird release android --flutter-version=system
 ```
 
-Shorebird asks that Flutter which version it is, then builds with Shorebird's
-fork of Flutter at the same version. It does not build with your fvm or system
-Flutter install, so the usual rules still apply: the version has to be one
-Shorebird supports, and patches are built with the version used by the release.
+Shorebird resolves the alias to a version number, then builds with Shorebird's
+fork of Flutter at that version. It does not build with your fvm or system
+Flutter install, so the version still has to be one Shorebird supports.
 
 :::note
 
-`--flutter-version=fvm` requires `fvm` on your `PATH`, and runs
-`fvm flutter --version` from your project directory to resolve the version.
+`--flutter-version=fvm` requires `fvm` on your `PATH`. Shorebird first asks fvm
+what your project pins in its `.fvmrc`. If that pin is a version number, the
+answer comes back immediately. If it's a channel like `stable`, or a fork ref,
+Shorebird falls back to running `fvm flutter --version`, which may have to
+install that Flutter first and can take several minutes.
+
+`--flutter-version=system` requires `flutter` on your `PATH`. If Shorebird is
+your only Flutter install, you won't have one: Shorebird's private copy lives in
+`~/.shorebird/bin/cache/flutter` and
+[should not be added to your PATH](/flutter-concepts/how-to-install-flutter).
+Pass an explicit version number instead.
 
 :::
 

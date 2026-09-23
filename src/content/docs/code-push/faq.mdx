@@ -535,7 +535,9 @@ in `--target-platform` is skipped, not treated as an error. See
 By default, the Shorebird updater checks for updates on app startup. It runs on
 a background thread and does not block the UI thread. Any updates will be
 installed while the user is using the app and will be applied the next time the
-app is restarted.
+process restarts. See
+[How do you use Shorebird with a long-running Android background process?](#how-do-you-use-shorebird-with-a-long-running-android-background-process)
+if a background process keeps the app alive.
 
 It is also possible to run the Shorebird updater manually using
 [package:shorebird_code_push](https://pub.dev/packages/shorebird_code_push),
@@ -544,6 +546,35 @@ push notification.
 
 See [Update Strategies](/code-push/update-strategies) for more information about
 how to configure this behavior.
+
+### How do you use Shorebird with a long-running Android background process?
+
+Shorebird applies a downloaded patch the next time the process starts, not when
+an Activity is recreated.
+
+A foreground service (for example
+[flutter_background_geolocation](https://github.com/transistorsoft/flutter_background_geolocation))
+keeps the process alive after the user swipes the app out of the recent-apps
+list. That swipe is not a process restart, so bringing the UI back still runs
+the previous Dart code.
+
+To receive patches while the process stays alive:
+
+1. Check for and download patches while the process is running with
+   [package:shorebird_code_push](https://pub.dev/packages/shorebird_code_push).
+   Default automatic updates only run on process start.
+2. Detect the staged patch. `checkForUpdate()` returns
+   `UpdateStatus.restartRequired` once a patch is downloaded and waiting, and
+   `readNextPatch()` returns it. Use that to prompt the user to restart at a
+   point that suits your app.
+3. Apply the patch with a real process restart. Stopping the foreground service
+   and then swiping the app away is enough, as is waiting until the OS kills the
+   process.
+
+While testing, you can force a restart with **Settings → Apps → Force stop**.
+
+Recreating the Flutter engine without killing the process is not a supported way
+to apply a patch. See [Update Strategies](/code-push/update-strategies).
 
 ### What information is sent to Shorebird servers?
 
@@ -835,10 +866,11 @@ For more details on this, please refer to the
 
 ### How do you upgrade or downgrade your plan?
 
-To upgrade your plan, you can
-[subscribe via the Shorebird console](https://console.shorebird.dev/subscriptions/create).
-If you would like to move from a monthly to a yearly plan, please reach out via
-[email](mailto:billing@shorebird.dev) to complete the change.
+From the [Plan page](https://console.shorebird.dev/account/plan) in the
+Shorebird Console. Upgrades take effect immediately; downgrades are scheduled
+for the end of your current billing period. See
+[Plans & Upgrading](/account/plans/) for step-by-step instructions, including
+switching between monthly and annual billing.
 
 ### When does your billing period reset?
 
@@ -848,9 +880,10 @@ month, your billing period will reset on the 15th of every month.
 
 ### How do you cancel your subscription?
 
-To cancel your subscription, you can view your
-[account](https://console.shorebird.dev/account) and click "Manage Plan" ->
-"Edit" -> "Cancel Subscription".
+To cancel your subscription, open the
+[Plan page](https://console.shorebird.dev/account/plan) in the Shorebird Console
+and click "Cancel plan". See
+[Plans & Upgrading](/account/plans/#cancel-your-plan) for details.
 
 You will continue to have all the features of a paid account until the end of
 your billing period.

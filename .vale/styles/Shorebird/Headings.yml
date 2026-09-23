@@ -9,6 +9,7 @@ match: $sentence
 exceptions:
   - Shorebird
   - Shorebird's
+  - Zap
   - Flutter
   - Flutter's
   - Dart
@@ -70,6 +71,10 @@ exceptions:
   - I've
   - I'll
   - Stripe
+  - Free
+  - Pro
+  - Business
+  - Enterprise
   - Fastfile
   - BuildContext
   - RenderObject

@@ -125,6 +125,13 @@ Shorebird resolves the alias to a version number, then builds with Shorebird's
 fork of Flutter at that version. It does not build with your fvm or system
 Flutter install, so the version still has to be one Shorebird supports.
 
+Shorebird prints the version it resolved before it starts building, so you can
+check it against the one you expected:
+
+```sh
+Using Flutter %flutter_version%, as reported by `fvm`.
+```
+
 :::note
 
 `--flutter-version=fvm` requires `fvm` on your `PATH`. Shorebird first asks fvm

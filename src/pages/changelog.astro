@@ -1,5 +1,5 @@
 ---
-// cspell:ignore beforematch data-type white-space
+// cspell:ignore beforematch data-type nums white-space
 import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
 import {
   AREAS,
@@ -19,6 +19,9 @@ const TYPE_LABEL_COLOR: Record<ChangelogEntry['type'], string> = {
 };
 
 const groups = groupByMonth(ENTRIES);
+
+// Only offer a chip for an area that has entries, so no filter starts empty.
+const areas = AREAS.filter((a) => ENTRIES.some((e) => e.area === a));
 
 function formatDay(iso: string): string {
   return new Date(iso).toLocaleDateString('en-US', {
@@ -80,27 +83,32 @@ function formatDay(iso: string): string {
       />
     </div>
     <div class="cl-chips" role="group" aria-label="Filter by area">
-      <button class="cl-chip is-active" data-area="All" type="button"
-        >All</button
-      >
       {
-        AREAS.map((a) => (
-          <button class="cl-chip" data-area={a} type="button">
+        ['All', ...areas].map((a) => (
+          <button
+            class:list={['cl-chip', { 'is-active': a === 'All' }]}
+            data-area={a}
+            type="button"
+            aria-pressed={a === 'All' ? 'true' : 'false'}
+          >
             {a}
+            <span class="cl-chip-count">
+              {a === 'All'
+                ? ENTRIES.length
+                : ENTRIES.filter((e) => e.area === a).length}
+            </span>
           </button>
         ))
       }
     </div>
-    <span class="cl-count" id="cl-count" aria-live="polite">
-      {ENTRIES.length}
-      {ENTRIES.length === 1 ? 'entry' : 'entries'}
-    </span>
+    {/* The chips show the counts; this tells screen reader users. */}
+    <span class="sr-only" id="cl-count" aria-live="polite"></span>
   </div>
 
   <div class="cl-list" id="cl-list">
     {
       groups.map((group) => (
-        <div class="cl-group">
+        <section class="cl-group">
           <h2 class="cl-month" id={group.id}>
             {group.label}
           </h2>
@@ -122,98 +130,118 @@ function formatDay(iso: string): string {
                 class="cl-entry"
                 id={e.id}
                 data-area={e.area}
+                data-type={TYPE_LABEL_COLOR[e.type]}
                 data-search={searchText}
               >
-                <div class="cl-head">
-                  <button
-                    class="cl-entry-toggle"
-                    id={`${e.id}-toggle`}
-                    type="button"
-                    aria-expanded="false"
-                    aria-controls={`${e.id}-detail`}
-                    aria-labelledby={`${e.id}-title ${e.id}-toggle`}
-                  >
-                    <span class="cl-badge" data-type={TYPE_LABEL_COLOR[e.type]}>
-                      {e.type}
-                    </span>
-                    <span class="cl-badge cl-badge-area">{e.area}</span>
-                    <span class="cl-meta">
-                      <time datetime={e.date}>{formatDay(e.date)}</time>
-                      <span aria-hidden="true">·</span>
-                      <span class="cl-version">CLI {e.version}</span>
-                    </span>
-                    <span class="cl-mark" aria-hidden="true">
-                      <svg viewBox="0 0 16 16" width="12" height="12">
-                        <path
-                          d="M2 8h12"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                        />
-                        <path
-                          class="cl-mark-v"
-                          d="M8 2v12"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                        />
-                      </svg>
-                    </span>
-                  </button>
-                  <h3 class="cl-title" id={`${e.id}-title`}>
-                    {e.title}
-                  </h3>
-                  <p class="cl-summary">
-                    {e.summary
-                      .split('`')
-                      .map((part, i) => (i % 2 ? <code>{part}</code> : part))}
-                  </p>
+                <div class="cl-when">
+                  <time datetime={e.date}>{formatDay(e.date)}</time>
+                  <span class="cl-version">CLI {e.version}</span>
                 </div>
-                {/* until-found lets the browser's find-in-page match text in a
-                    collapsed entry; the beforematch handler then opens it. */}
-                <div
-                  class="cl-detail"
-                  id={`${e.id}-detail`}
-                  hidden="until-found"
-                >
-                  <ul class="cl-bullets">
-                    {e.bullets.map((b) => (
-                      <li>
-                        {b
-                          .split('`')
-                          .map((part, i) => (i % 2 ? <code>{part}</code> : part))}
-                      </li>
-                    ))}
-                  </ul>
-                  {e.code && (
-                    <pre class="cl-code"><code>$ {e.code}</code></pre>
-                  )}
-                  <div class="cl-footer">
-                    {e.docLink && (
-                      <a href={e.docLink.href} class="cl-doc-link">
-                        {e.docLink.label} →
-                      </a>
+                <div class="cl-body">
+                  <div class="cl-head">
+                    <button
+                      class="cl-entry-toggle"
+                      id={`${e.id}-toggle`}
+                      type="button"
+                      aria-expanded="false"
+                      aria-controls={`${e.id}-detail`}
+                      aria-labelledby={`${e.id}-title ${e.id}-toggle`}
+                    >
+                      <span
+                        class="cl-badge"
+                        data-type={TYPE_LABEL_COLOR[e.type]}
+                      >
+                        {e.type}
+                      </span>
+                      <span class="cl-badge cl-badge-area">{e.area}</span>
+                      <span class="cl-mark" aria-hidden="true">
+                        <svg viewBox="0 0 16 16" width="12" height="12">
+                          <path
+                            d="M2 8h12"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                          />
+                          <path
+                            class="cl-mark-v"
+                            d="M8 2v12"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                          />
+                        </svg>
+                      </span>
+                    </button>
+                    <h3 class="cl-title" id={`${e.id}-title`}>
+                      {e.title}
+                    </h3>
+                    <p class="cl-summary">
+                      {e.summary
+                        .split('`')
+                        .map((part, i) => (i % 2 ? <code>{part}</code> : part))}
+                    </p>
+                  </div>
+                  {/* until-found lets the browser's find-in-page match text in
+                      a collapsed entry; the beforematch handler then opens it. */}
+                  <div
+                    class="cl-detail"
+                    id={`${e.id}-detail`}
+                    hidden="until-found"
+                  >
+                    <ul class="cl-bullets">
+                      {e.bullets.map((b) => (
+                        <li>
+                          {b
+                            .split('`')
+                            .map((part, i) =>
+                              i % 2 ? <code>{part}</code> : part,
+                            )}
+                        </li>
+                      ))}
+                    </ul>
+                    {e.code && (
+                      <pre class="cl-code"><code>$ {e.code}</code></pre>
                     )}
-                    <a href={releaseNotesUrl(e.version)} class="cl-notes-link">
-                      Release notes for {e.version}
-                    </a>
-                    <span class="cl-permalink-group">
-                      <span class="cl-permalink">/changelog/#{e.id}</span>
+                    <div class="cl-footer">
+                      {e.docLink && (
+                        <a href={e.docLink.href} class="cl-doc-link">
+                          {e.docLink.label} →
+                        </a>
+                      )}
+                      <a
+                        href={releaseNotesUrl(e.version)}
+                        class="cl-notes-link"
+                      >
+                        Release notes ↗
+                      </a>
                       <a
                         href={`#${e.id}`}
                         class="cl-copy"
-                        aria-label="Copy link to this entry"
                         data-copy={`#${e.id}`}
                       >
-                        ⧉
+                        <svg
+                          viewBox="0 0 24 24"
+                          width="14"
+                          height="14"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          aria-hidden="true"
+                        >
+                          <path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7" />
+                          <path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7" />
+                        </svg>
+                        <span class="cl-copy-label">Copy link</span>
                       </a>
-                    </span>
+                    </div>
                   </div>
                 </div>
               </article>
             );
           })}
-        </div>
+        </section>
       ))
     }
   </div>
@@ -242,18 +270,33 @@ function formatDay(iso: string): string {
     if (!search || !countEl || !emptyEl) return;
 
     let area = 'All';
+    let lastQuery = '';
 
     function applyFilters() {
       const q = (search?.value ?? '').trim().toLowerCase();
       let visibleCount = 0;
+      // Per-area matches for the current search, ignoring the area filter,
+      // so each chip says how many entries picking it would show.
+      const areaCounts = new Map<string, number>([['All', 0]]);
 
       for (const entry of entries) {
-        const matchesArea = area === 'All' || entry.dataset.area === area;
+        const entryArea = entry.dataset.area ?? '';
         const matchesSearch =
           q === '' || (entry.dataset.search ?? '').includes(q);
-        const visible = matchesArea && matchesSearch;
+        if (matchesSearch) {
+          areaCounts.set('All', areaCounts.get('All')! + 1);
+          areaCounts.set(entryArea, (areaCounts.get(entryArea) ?? 0) + 1);
+        }
+        const visible = matchesSearch && (area === 'All' || entryArea === area);
         entry.hidden = !visible;
         if (visible) visibleCount += 1;
+      }
+
+      for (const chip of chips) {
+        const n = areaCounts.get(chip.dataset.area ?? '') ?? 0;
+        const countSpan = chip.querySelector('.cl-chip-count');
+        if (countSpan) countSpan.textContent = String(n);
+        chip.classList.toggle('is-empty', n === 0);
       }
 
       for (const group of groups) {
@@ -261,10 +304,11 @@ function formatDay(iso: string): string {
         group.hidden = !hasVisible;
       }
 
-      // Only write on a change, so the live region doesn't announce the
-      // count on page load.
-      const count = `${visibleCount} ${visibleCount === 1 ? 'entry' : 'entries'}`;
-      if (countEl!.textContent?.trim() !== count) countEl!.textContent = count;
+      // Announce only after the reader changes something, not on page load.
+      if (q !== lastQuery || area !== 'All' || countEl!.textContent) {
+        countEl!.textContent = `${visibleCount} ${visibleCount === 1 ? 'entry' : 'entries'}`;
+      }
+      lastQuery = q;
       emptyEl!.hidden = visibleCount !== 0;
     }
 
@@ -273,7 +317,10 @@ function formatDay(iso: string): string {
     for (const chip of chips) {
       chip.addEventListener('click', () => {
         area = chip.dataset.area ?? 'All';
-        for (const c of chips) c.classList.toggle('is-active', c === chip);
+        for (const c of chips) {
+          c.classList.toggle('is-active', c === chip);
+          c.setAttribute('aria-pressed', String(c === chip));
+        }
         applyFilters();
       });
     }
@@ -321,12 +368,13 @@ function formatDay(iso: string): string {
           // Clipboard access can fail (permissions, insecure context).
           return;
         }
-        const label = copyBtn.getAttribute('aria-label') ?? '';
-        copyBtn.textContent = '✓';
-        copyBtn.setAttribute('aria-label', 'Link copied');
+        const label = copyBtn.querySelector('.cl-copy-label');
+        if (!label) return;
+        label.textContent = 'Copied';
+        copyBtn.classList.add('is-copied');
         setTimeout(() => {
-          copyBtn.textContent = '⧉';
-          copyBtn.setAttribute('aria-label', label);
+          label.textContent = 'Copy link';
+          copyBtn.classList.remove('is-copied');
         }, 1500);
       });
     }
@@ -357,24 +405,31 @@ function formatDay(iso: string): string {
 </script>
 
 <style>
+  /* Toolbar */
+
   .cl-toolbar {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 0.75rem;
-    margin: 1.5rem 0;
+    margin: 1.5rem 0 0.5rem;
   }
 
   .cl-search {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    flex: 1 1 16rem;
+    flex: 1 1 14rem;
     height: 2.5rem;
     padding: 0 0.85rem;
     border: 1px solid var(--sl-color-gray-5);
     border-radius: 999px;
     background: var(--sl-color-bg-sidebar);
+    transition: border-color 0.15s;
+  }
+
+  .cl-search:focus-within {
+    border-color: var(--sl-color-gray-3);
   }
 
   .cl-search-icon {
@@ -400,87 +455,167 @@ function formatDay(iso: string): string {
   .cl-chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.4rem;
   }
 
   .cl-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
     height: 2rem;
-    padding: 0 0.85rem;
+    padding: 0 0.5rem 0 0.8rem;
     border: 1px solid var(--sl-color-gray-5);
     border-radius: 999px;
     background: transparent;
     color: var(--sl-color-gray-2);
     font-size: 0.8rem;
     font-weight: 600;
+    white-space: nowrap;
     cursor: pointer;
     transition:
       background 0.15s,
       border-color 0.15s,
-      color 0.15s;
+      color 0.15s,
+      opacity 0.15s;
   }
 
   .cl-chip:hover {
     border-color: var(--sl-color-gray-3);
   }
 
-  .cl-chip.is-active {
-    background: color-mix(in srgb, var(--sl-color-accent) 16%, transparent);
-    border-color: var(--sl-color-accent);
-    color: var(--sl-color-accent-high);
+  .cl-chip-count {
+    min-width: 1.25rem;
+    padding: 0 0.3rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--sl-color-gray-4) 22%, transparent);
+    font-size: 0.7rem;
+    line-height: 1.25rem;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
   }
 
-  .cl-count {
-    margin-left: auto;
-    font-family: var(--sl-font-mono, ui-monospace, monospace);
-    font-size: 0.8rem;
-    color: var(--sl-color-gray-3);
+  .cl-chip.is-active {
+    background: var(--sl-color-white);
+    border-color: var(--sl-color-white);
+    color: var(--sl-color-black);
+  }
+
+  .cl-chip.is-active .cl-chip-count {
+    background: color-mix(in srgb, var(--sl-color-black) 14%, transparent);
+  }
+
+  .cl-chip.is-empty:not(.is-active) {
+    opacity: 0.45;
+  }
+
+  /* Timeline. Each entry is a date gutter and a body; the bodies' left
+     borders join into one line, with a dot per entry in its type's color. */
+
+  .cl-list {
+    container-type: inline-size;
   }
 
   .cl-group {
-    margin-top: 2rem;
+    margin-top: 2.25rem;
   }
 
   .cl-month {
-    margin: 0 0 0.75rem;
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
+    margin: 0 0 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--sl-color-gray-3);
     border: 0;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--sl-color-gray-6, var(--sl-color-gray-5));
+    padding: 0;
+  }
+
+  /* Starlight's content styles put a top margin between sibling blocks,
+     which would open gaps in the timeline line. */
+  .cl-entry,
+  .cl-when,
+  .cl-body,
+  .cl-head {
+    margin: 0;
   }
 
   .cl-entry {
-    padding: 1.1rem 0;
-    border-bottom: 1px solid var(--sl-color-gray-6, var(--sl-color-gray-5));
+    --cl-dot: var(--sl-color-gray-4);
+    display: grid;
+    grid-template-columns: 6rem 1fr;
+    column-gap: 1.25rem;
+  }
+
+  .cl-entry[data-type='new'] {
+    --cl-dot: #22c55e;
+  }
+  .cl-entry[data-type='fixed'] {
+    --cl-dot: #3b82f6;
+  }
+  .cl-entry[data-type='changed'] {
+    --cl-dot: #a855f7;
+  }
+  .cl-entry[data-type='deprecated'] {
+    --cl-dot: #f59e0b;
+  }
+
+  .cl-when {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.15rem;
+    padding-top: 1.1rem;
+    text-align: right;
+  }
+
+  .cl-when time {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--sl-color-gray-2);
+  }
+
+  .cl-version {
+    font-family: var(--sl-font-mono, ui-monospace, monospace);
+    font-size: 0.7rem;
+    color: var(--sl-color-gray-3);
+  }
+
+  .cl-body {
+    position: relative;
+    min-width: 0;
+    padding: 1rem 0 1.25rem 1.5rem;
+    border-left: 1px solid var(--sl-color-gray-5);
+  }
+
+  .cl-body::before {
+    content: '';
+    position: absolute;
+    top: 1.5rem;
+    left: -0.3125rem;
+    width: 0.5625rem;
+    height: 0.5625rem;
+    border-radius: 50%;
+    background: var(--cl-dot);
+    box-shadow: 0 0 0 0.25rem var(--sl-color-bg);
   }
 
   /* The button holds only the badge row; a click handler on the header
      makes the title and summary toggle too, while leaving their text
      selectable. */
   .cl-head {
-    margin: 0 -0.75rem;
-    padding: 0.5rem 0.75rem;
-    border-radius: 0.75rem;
+    border-radius: 0.5rem;
     cursor: pointer;
-    transition: background 0.15s;
-  }
-
-  .cl-head:hover {
-    background: color-mix(in srgb, var(--sl-color-gray-4) 8%, transparent);
   }
 
   .cl-head:has(.cl-entry-toggle:focus-visible) {
-    outline: 2px solid var(--sl-color-accent);
-    outline-offset: 2px;
+    outline: 2px solid var(--sl-color-white);
+    outline-offset: 0.35rem;
   }
 
   .cl-entry-toggle {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
     flex-wrap: wrap;
     width: 100%;
     padding: 0;
@@ -543,30 +678,19 @@ function formatDay(iso: string): string {
     color: #fbbf24;
   }
 
-  .cl-meta {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    margin-left: auto;
-    font-size: 0.75rem;
-    color: var(--sl-color-gray-3);
-  }
-
-  .cl-version {
-    font-family: var(--sl-font-mono, ui-monospace, monospace);
-    font-weight: 600;
-  }
-
   .cl-mark {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 1.6rem;
     height: 1.6rem;
+    margin-left: auto;
     border-radius: 50%;
     background: color-mix(in srgb, var(--sl-color-gray-4) 16%, transparent);
     color: var(--sl-color-gray-2);
-    transition: background 0.15s;
+    transition:
+      background 0.15s,
+      color 0.15s;
   }
 
   .cl-mark svg {
@@ -583,25 +707,35 @@ function formatDay(iso: string): string {
   }
 
   .cl-title {
-    margin: 0.6rem 0 0;
-    font-size: 1.1rem;
+    margin: 0.5rem 0 0;
+    font-size: 1.05rem;
     font-weight: 600;
+    line-height: 1.4;
     color: var(--sl-color-white);
+    text-decoration: underline 1px transparent;
+    text-underline-offset: 0.2em;
+    transition: text-decoration-color 0.15s;
+  }
+
+  .cl-head:hover .cl-title {
+    text-decoration-color: var(--sl-color-gray-4);
   }
 
   .cl-summary {
-    margin: 0.4rem 0 0;
-    max-width: 68ch;
+    margin: 0.35rem 0 0;
     font-size: 0.9rem;
     line-height: 1.6;
     color: var(--sl-color-gray-2);
   }
 
+  /* Detail */
+
   .cl-detail {
-    margin-top: 1rem;
+    margin-top: 0.9rem;
     background: var(--sl-color-bg-sidebar);
-    border-radius: 1rem;
-    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--sl-color-gray-6, var(--sl-color-gray-5));
+    border-radius: 0.75rem;
+    padding: 1rem 1.25rem;
   }
 
   /* The sidebar background is white in light mode, the same as the page. */
@@ -614,6 +748,7 @@ function formatDay(iso: string): string {
   .cl-detail[hidden] {
     margin: 0;
     padding: 0;
+    border: 0;
   }
 
   .cl-bullets {
@@ -621,21 +756,21 @@ function formatDay(iso: string): string {
     padding-left: 1.1rem;
     display: flex;
     flex-direction: column;
-    gap: 0.55rem;
+    gap: 0.45rem;
     font-size: 0.875rem;
     line-height: 1.6;
     color: var(--sl-color-gray-2);
   }
 
   .cl-code {
-    margin: 1rem 0 0;
-    padding: 0.85rem 1.1rem;
-    border-radius: 0.75rem;
+    margin: 0.9rem 0 0;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
     background: var(--sl-color-bg);
     overflow-x: auto;
     white-space: pre;
     font-family: var(--sl-font-mono, ui-monospace, monospace);
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     color: var(--sl-color-gray-1);
   }
 
@@ -651,46 +786,34 @@ function formatDay(iso: string): string {
   .cl-footer {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem 1.25rem;
     flex-wrap: wrap;
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--sl-color-gray-6, var(--sl-color-gray-5));
+    margin-top: 0.9rem;
+    font-size: 0.85rem;
   }
 
   .cl-doc-link {
-    font-size: 0.875rem;
     font-weight: 600;
   }
 
   .cl-notes-link {
-    font-size: 0.8rem;
     color: var(--sl-color-gray-2);
-  }
-
-  .cl-permalink-group {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-left: auto;
-  }
-
-  .cl-permalink {
-    font-family: var(--sl-font-mono, ui-monospace, monospace);
-    font-size: 0.72rem;
-    color: var(--sl-color-gray-3);
   }
 
   .cl-copy {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 1.6rem;
-    height: 1.6rem;
-    border-radius: 0.4rem;
+    gap: 0.35rem;
+    margin-left: auto;
+    padding: 0.2rem 0.6rem;
     border: 1px solid var(--sl-color-gray-5);
+    border-radius: 999px;
     color: var(--sl-color-gray-2);
-    font-size: 0.75rem;
+    font-size: 0.78rem;
+    text-decoration: none;
+    transition:
+      border-color 0.15s,
+      color 0.15s;
   }
 
   .cl-copy:hover {
@@ -698,10 +821,71 @@ function formatDay(iso: string): string {
     color: var(--sl-color-white);
   }
 
+  .cl-copy.is-copied {
+    border-color: #22c55e;
+    color: var(--sl-color-white);
+  }
+
   .cl-empty {
     margin-top: 1.5rem;
     padding: 1.5rem 0;
-    border-top: 1px solid var(--sl-color-gray-6, var(--sl-color-gray-5));
     color: var(--sl-color-gray-2);
+  }
+
+  /* Narrow content column (phones, or a squeezed layout): drop the date
+     gutter, move the date above the badges, and let the chips scroll
+     sideways in one row instead of wrapping. */
+  @container (max-width: 34rem) {
+    .cl-entry {
+      grid-template-columns: 1fr;
+      padding-left: 1.25rem;
+      border-left: 1px solid var(--sl-color-gray-5);
+      position: relative;
+    }
+
+    .cl-entry::before {
+      content: '';
+      position: absolute;
+      top: 1.35rem;
+      left: -0.3125rem;
+      width: 0.5625rem;
+      height: 0.5625rem;
+      border-radius: 50%;
+      background: var(--cl-dot);
+      box-shadow: 0 0 0 0.25rem var(--sl-color-bg);
+    }
+
+    .cl-when {
+      flex-direction: row;
+      align-items: baseline;
+      gap: 0.5rem;
+      padding-top: 1rem;
+      text-align: left;
+    }
+
+    .cl-body {
+      padding: 0.4rem 0 1.25rem;
+      border-left: 0;
+    }
+
+    .cl-body::before {
+      content: none;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .cl-chips {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      width: 100%;
+      margin: 0 -1rem;
+      padding: 0 1rem;
+      box-sizing: content-box;
+      scrollbar-width: none;
+    }
+
+    .cl-chips::-webkit-scrollbar {
+      display: none;
+    }
   }
 </style>

@@ -3,6 +3,7 @@ import {
   CHANGELOG_TITLE,
   ENTRIES,
   groupByMonth,
+  releaseNotesUrl,
   type ChangelogEntry,
 } from '~/data/changelog';
 
@@ -16,7 +17,7 @@ export const prerender = true;
 function entryToMarkdown(e: ChangelogEntry): string {
   return [
     `### ${e.title}`,
-    `**${e.type}** in ${e.area}, version ${e.version}, ${e.date}. Permalink: [/changelog/#${e.id}](/changelog/#${e.id})`,
+    `**${e.type}** in ${e.area}, ${e.date}, Shorebird CLI ${e.version} ([release notes](${releaseNotesUrl(e.version)})). Permalink: [/changelog/#${e.id}](/changelog/#${e.id})`,
     e.summary,
     e.bullets.map((b) => `- ${b}`).join('\n'),
     e.code && ['```sh', e.code, '```'].join('\n'),
@@ -36,7 +37,7 @@ export function GET() {
 
   const body = [
     frontmatter,
-    `${CHANGELOG_DESCRIPTION} Newest first.`,
+    `${CHANGELOG_DESCRIPTION} RSS feed: [/changelog.xml](/changelog.xml)`,
     ...groupByMonth(ENTRIES).flatMap((group) => [
       `## ${group.label}`,
       ...group.items.map(entryToMarkdown),

@@ -7,6 +7,7 @@ import {
   CHANGELOG_TITLE,
   ENTRIES,
   groupByMonth,
+  releaseNotesUrl,
   type ChangelogEntry,
 } from '~/data/changelog';
 
@@ -18,17 +19,39 @@ const TYPE_LABEL_COLOR: Record<ChangelogEntry['type'], string> = {
 };
 
 const groups = groupByMonth(ENTRIES);
+
+function formatDay(iso: string): string {
+  return new Date(iso).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    timeZone: 'UTC',
+  });
+}
 ---
 
 <StarlightPage
   frontmatter={{
     title: CHANGELOG_TITLE,
     description: CHANGELOG_DESCRIPTION,
+    head: [
+      {
+        tag: 'link',
+        attrs: {
+          rel: 'alternate',
+          type: 'application/rss+xml',
+          title: 'Shorebird changelog',
+          href: '/changelog.xml',
+        },
+      },
+    ],
   }}
+  headings={groups.map((g) => ({ depth: 2, slug: g.id, text: g.label }))}
 >
   <p>
-    Everything we shipped to Code Push, the CLI, and the API. Expand an entry
-    for the full detail, the command, and the doc it belongs to.
+    What we shipped to Code Push, the CLI, and the API. Expand an entry for the
+    full detail, the command, and the doc it belongs to. Subscribe with the <a
+      href="/changelog.xml">RSS feed</a
+    >.
   </p>
 
   <div class="cl-toolbar not-content">
@@ -78,7 +101,9 @@ const groups = groupByMonth(ENTRIES);
     {
       groups.map((group) => (
         <div class="cl-group">
-          <h2 class="cl-month">{group.label}</h2>
+          <h2 class="cl-month" id={group.id}>
+            {group.label}
+          </h2>
           {group.items.map((e) => {
             const searchText = [
               e.title,
@@ -112,7 +137,11 @@ const groups = groupByMonth(ENTRIES);
                       {e.type}
                     </span>
                     <span class="cl-badge cl-badge-area">{e.area}</span>
-                    <span class="cl-version">{e.version}</span>
+                    <span class="cl-meta">
+                      <time datetime={e.date}>{formatDay(e.date)}</time>
+                      <span aria-hidden="true">·</span>
+                      <span class="cl-version">CLI {e.version}</span>
+                    </span>
                     <span class="cl-mark" aria-hidden="true">
                       <svg viewBox="0 0 16 16" width="12" height="12">
                         <path
@@ -165,6 +194,9 @@ const groups = groupByMonth(ENTRIES);
                         {e.docLink.label} →
                       </a>
                     )}
+                    <a href={releaseNotesUrl(e.version)} class="cl-notes-link">
+                      Release notes for {e.version}
+                    </a>
                     <span class="cl-permalink-group">
                       <span class="cl-permalink">/changelog/#{e.id}</span>
                       <a
@@ -187,7 +219,7 @@ const groups = groupByMonth(ENTRIES);
   </div>
 
   <p class="cl-empty" id="cl-empty" hidden>
-    Nothing matches that search — clear the field or pick a different area.
+    Nothing matches that search. Clear the field or pick a different area.
   </p>
 </StarlightPage>
 
@@ -511,12 +543,18 @@ const groups = groupByMonth(ENTRIES);
     color: #fbbf24;
   }
 
-  .cl-version {
+  .cl-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
     margin-left: auto;
-    font-family: var(--sl-font-mono, ui-monospace, monospace);
     font-size: 0.75rem;
-    font-weight: 600;
     color: var(--sl-color-gray-3);
+  }
+
+  .cl-version {
+    font-family: var(--sl-font-mono, ui-monospace, monospace);
+    font-weight: 600;
   }
 
   .cl-mark {
@@ -623,6 +661,11 @@ const groups = groupByMonth(ENTRIES);
   .cl-doc-link {
     font-size: 0.875rem;
     font-weight: 600;
+  }
+
+  .cl-notes-link {
+    font-size: 0.8rem;
+    color: var(--sl-color-gray-2);
   }
 
   .cl-permalink-group {

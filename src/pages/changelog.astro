@@ -319,15 +319,17 @@ function formatDay(iso: string): string {
 
     search.addEventListener('input', applyFilters);
 
+    function selectArea(chip: HTMLButtonElement) {
+      area = chip.dataset.area ?? 'All';
+      for (const c of chips) {
+        c.classList.toggle('is-active', c === chip);
+        c.setAttribute('aria-pressed', String(c === chip));
+      }
+      applyFilters();
+    }
+
     for (const chip of chips) {
-      chip.addEventListener('click', () => {
-        area = chip.dataset.area ?? 'All';
-        for (const c of chips) {
-          c.classList.toggle('is-active', c === chip);
-          c.setAttribute('aria-pressed', String(c === chip));
-        }
-        applyFilters();
-      });
+      chip.addEventListener('click', () => selectArea(chip));
     }
 
     function setOpen(entry: HTMLElement, open: boolean) {
@@ -390,10 +392,18 @@ function formatDay(iso: string): string {
       const targetId = decodeURIComponent(location.hash.replace(/^#/, ''));
       if (!targetId) return;
       const target = document.getElementById(targetId);
-      if (target?.classList.contains('cl-entry')) {
-        setOpen(target, true);
-        target.scrollIntoView({ block: 'start' });
+      const isEntry = target?.classList.contains('cl-entry');
+      if (!target || !(isEntry || target.classList.contains('cl-month'))) {
+        return;
       }
+      // A search or area filter may be hiding the entry or its month; clear
+      // them, or the link would go nowhere.
+      if (target.closest('.cl-entry[hidden], .cl-group[hidden]')) {
+        search!.value = '';
+        selectArea(chips[0]);
+      }
+      if (isEntry) setOpen(target, true);
+      target.scrollIntoView({ block: 'start' });
     }
 
     openFromHash();

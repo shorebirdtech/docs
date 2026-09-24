@@ -39,7 +39,15 @@ export const changelogSchema = z
     docLink: z
       .strictObject({
         label: z.string().trim().min(1),
-        href: z.string().trim().min(1),
+        // A relative href would resolve against /changelog/ on the page.
+        href: z
+          .string()
+          .trim()
+          .regex(
+            /^(\/|https:\/\/)/,
+            'docLink.href must start with "/" for a docs page, like ' +
+              '/code-push/rollback/, or with "https://"',
+          ),
       })
       .optional(),
   })

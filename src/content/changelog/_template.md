@@ -9,7 +9,8 @@
 
 # A short headline, in sentence case.
 title: Roll patches back from the CLI
-# The day the release shipped, as YYYY-MM-DD with no quotes.
+# The day the release shipped, as YYYY-MM-DD with no quotes. Entries from the
+# same day are listed in file name order.
 date: 2026-08-28
 # The Shorebird CLI release that shipped the change, without a "v". Required
 # for CLI and Flutter changes. Delete this line for a change that didn't ship in
@@ -20,8 +21,8 @@ area: CLI
 # One of: New, Fixed, Changed, Deprecated
 type: New
 # Optional: the docs page to read next. `href` must be a docs page on this
-# site, and a #fragment must match a heading on it. Delete both lines if
-# there's no page for it.
+# site, starting with "/", and a #fragment must match a heading on it. Delete
+# both lines if there's no page for it.
 docLink:
   label: Roll back a patch
   href: /code-push/rollback/
@@ -42,4 +43,7 @@ shorebird patches rollback --release-version 1.0.0+1 --patch-number 1
 The code block is optional: one command per line, with no leading `$`. Nothing
 else is allowed in the body besides the summary, the bullets, the code block,
 and comments like this one.
+
+Backticks are the only formatting. Links and bold aren't supported (put the link
+in docLink), and placeholders like <id> go inside backticks.
 -->

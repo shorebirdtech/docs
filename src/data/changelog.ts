@@ -42,6 +42,27 @@ const BODY_HELP =
   'optionally one ```sh code block. See src/content/changelog/_template.md.';
 
 /**
+ * The page renders only backticks (as inline code), while `/changelog.md`
+ * passes text through as Markdown. Returns what in `text` would render
+ * differently between the two, or `undefined` if nothing would.
+ */
+function inlineProblem(text: string, allowCode = true): string | undefined {
+  const parts = text.split('`');
+  if (!allowCode && parts.length > 1)
+    return 'Backticks are not supported here.';
+  if (parts.length % 2 === 0) return 'A backtick is never closed.';
+  const prose = parts.filter((_, i) => i % 2 === 0).join(' ');
+  if (/\[[^\]]*\]\([^)]*\)/.test(prose)) {
+    return 'Links are not supported in entry text. Put the link in docLink.';
+  }
+  if (/\*\*|__/.test(prose)) return 'Bold text is not supported.';
+  if (/<[^>]*>/.test(prose)) {
+    return 'Wrap placeholders like <id> in backticks, or they vanish from /changelog.md.';
+  }
+  return undefined;
+}
+
+/**
  * Splits an entry's Markdown body into its summary, bullets, and command.
  * Only that shape is accepted, so a stray heading or second paragraph fails
  * the build instead of silently disappearing from the page.
@@ -71,7 +92,9 @@ function parseBody(
     .split(/\r?\n/);
 
   const summary: string[] = [];
+  let summaryLine = 0;
   const bullets: string[] = [];
+  const bulletLines: number[] = [];
   let code: string[] | undefined;
   let block: 'none' | 'summary' | 'bullet' = 'none';
 
@@ -98,6 +121,7 @@ function parseBody(
     } else if (/^[-*]\s/.test(line)) {
       if (summary.length === 0) fail(n, 'The summary paragraph comes first.');
       bullets.push(line.replace(/^[-*]\s+/, '').trim());
+      bulletLines.push(n);
       block = 'bullet';
     } else if (block === 'bullet' && /^\s/.test(line)) {
       bullets[bullets.length - 1] += ` ${line.trim()}`;
@@ -105,6 +129,7 @@ function parseBody(
       summary.push(line.trim());
     } else if (summary.length === 0 && block === 'none') {
       summary.push(line.trim());
+      summaryLine = n;
       block = 'summary';
     } else {
       fail(n, `Unexpected text: "${line.trim().slice(0, 40)}".`);
@@ -115,8 +140,17 @@ function parseBody(
     fail(undefined, 'The summary paragraph is missing.');
   if (bullets.length === 0) fail(undefined, 'At least one bullet is required.');
   if (code?.length === 0) fail(undefined, 'The code block is empty.');
+
+  const summaryText = summary.join(' ');
+  const summaryProblem = inlineProblem(summaryText);
+  if (summaryProblem) fail(summaryLine, summaryProblem);
+  bullets.forEach((b, i) => {
+    const problem = inlineProblem(b);
+    if (problem) fail(bulletLines[i], problem);
+  });
+
   return {
-    summary: summary.join(' '),
+    summary: summaryText,
     bullets,
     code: code?.join('\n'),
   };
@@ -151,9 +185,14 @@ async function checkDocLink(file: string, href: string): Promise<void> {
   }
 }
 
-/** A copy of `entries`, newest first. Same-day entries keep their order. */
+/**
+ * A copy of `entries`, newest first. Same-day entries are ordered by file
+ * name, since the order `getCollection` returns them in isn't guaranteed.
+ */
 export function newestFirst(entries: ChangelogEntry[]): ChangelogEntry[] {
-  return [...entries].sort((a, b) => b.date.localeCompare(a.date));
+  return [...entries].sort(
+    (a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id),
+  );
 }
 
 let cached: Promise<ChangelogEntry[]> | undefined;
@@ -165,6 +204,8 @@ export function getEntries(): Promise<ChangelogEntry[]> {
     const entries = await Promise.all(
       files.map(async ({ id, data, body, filePath }) => {
         const file = filePath ?? `src/content/changelog/${id}.md`;
+        const titleProblem = inlineProblem(data.title, false);
+        if (titleProblem) throw new Error(`${file}: title: ${titleProblem}`);
         if (data.docLink) await checkDocLink(file, data.docLink.href);
         return {
           id,

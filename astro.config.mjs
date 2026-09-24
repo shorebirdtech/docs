@@ -153,12 +153,11 @@ export default defineConfig({
         },
         {
           label: 'CI',
-          collapsed: true,
+          link: '/ci/',
           badge: {
             text: 'Deprecated',
             variant: 'caution',
           },
-          items: [{ autogenerate: { directory: 'ci' } }],
         },
         {
           label: 'Account',
@@ -360,5 +359,16 @@ Developer & Agent Interfaces:
     '/troubleshooting': '/code-push/troubleshooting/',
     '/uninstall': '/code-push/uninstall/',
     '/update-strategies': '/code-push/update-strategies/',
+    // Redirects for removed CI sub-routes
+    '/ci/setup': '/ci/',
+    '/ci/view-logs': '/ci/',
+    '/ci/uninstall': '/ci/',
+    '/ci/faq': '/ci/',
+    '/ci/checks': '/ci/',
+    '/ci/checks/analyze': '/ci/',
+    '/ci/checks/check-spelling': '/ci/',
+    '/ci/checks/format': '/ci/',
+    '/ci/checks/run-tests': '/ci/',
+    '/ci/checks/upload-coverage': '/ci/',
   },
 });

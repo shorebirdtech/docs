@@ -1,6 +1,6 @@
 <!-- vale off -->
 
-# Shorebird auth.md — Authentication guide for agents and automated tooling
+# Shorebird auth.md: Authentication guide for agents and automated tooling
 
 This document describes how AI agents, scripts, and CI/CD pipelines authenticate
 with Shorebird services.
@@ -46,15 +46,21 @@ creating an `sb_api_*` API key, as described under
 the credential issuance step; once issued, it's the only artifact an agent needs
 to authenticate.
 
-Registration page: `https://console.shorebird.dev` (Account > API Keys) — this
-is an authenticated web console, not a callable API. A human (or an agent
-driving a browser) must sign in there to issue a key; there is no anonymous,
+Registration page: `https://console.shorebird.dev` (Account > API Keys). This is
+an authenticated web console, not a callable API: a human (or an agent driving a
+browser) must sign in there to issue a key, and there is no anonymous,
 unauthenticated, or programmatic registration path.
 
 ## Protected resources
 
 - **API base URL**: `https://api.shorebird.dev/api/v1`
 - **OpenAPI specification**: `https://api.shorebird.dev/openapi.json`
+- **Authorization server metadata (RFC 8414)**:
+  `https://auth.shorebird.dev/.well-known/oauth-authorization-server`. This is
+  published by the authorization server itself, not mirrored here: RFC 8414
+  resolves it from the issuer (`https://auth.shorebird.dev`), so a copy at this
+  domain would not be found by standards-based discovery and could drift from
+  the real one.
 - **API catalog**: `https://docs.shorebird.dev/.well-known/api-catalog`
 - **Agent card**: `https://docs.shorebird.dev/.well-known/agent.json`
 - **Reachability verification**: Verify endpoint status at

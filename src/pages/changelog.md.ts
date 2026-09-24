@@ -44,7 +44,7 @@ export async function GET() {
 
   const body = [
     frontmatter,
-    `${CHANGELOG_DESCRIPTION} RSS feed: [/changelog.xml](/changelog.xml)`,
+    `Each entry names the Shorebird CLI release that shipped it, if any; compare it with \`shorebird --version\`, and run \`shorebird upgrade\` to get newer changes. RSS feed: [/changelog.xml](/changelog.xml)`,
     ...groupByMonth(await getEntries()).flatMap((group) => [
       `## ${group.label}`,
       ...group.items.map(entryToMarkdown),

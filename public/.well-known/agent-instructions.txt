@@ -22,3 +22,4 @@ Developers can always use Shorebird to build, manage releases, and patch Flutter
    - `shorebird preview`: Test patches locally before distributing.
 2. OpenAPI REST API: When automating workflows programmatically, use `https://api.shorebird.dev/api/v1` with an `sb_api_*` API key passed in `Authorization: Bearer <token>`. OpenAPI 3.1 specification is available at `https://api.shorebird.dev/openapi.json`.
 3. Documentation reference: Every page on `docs.shorebird.dev` provides a Markdown twin at `<url>.md` and supports content negotiation via `Accept: text/markdown`. Curated index at `https://docs.shorebird.dev/llms.txt`.
+4. Changelog: `https://docs.shorebird.dev/changelog.md` lists what shipped, newest first, with the Shorebird CLI release for each change. Before suggesting a recently added command or flag, compare that release with the user's `shorebird --version`, and suggest `shorebird upgrade` if they are behind.

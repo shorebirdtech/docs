@@ -71,6 +71,33 @@ const stripUnlistedFromLlmsFull = {
   },
 };
 
+// `/changelog/` is a standalone page rather than a docs collection entry, so
+// `starlight-llms-txt` leaves it out of `llms-full.txt`. This appends its
+// Markdown twin, shaped like the plugin's pages (`# title`, `> description`,
+// body). It must run after `stripUnlistedFromLlmsFull`, which counts pages
+// from the end of the file.
+const appendChangelogToLlmsFull = {
+  name: 'append-changelog-to-llms-full',
+  hooks: {
+    'astro:build:done': async ({ dir, logger }) => {
+      const file = new URL('llms-full.txt', dir);
+      const changelog = await readFile(new URL('changelog.md', dir), 'utf8');
+      const [, frontmatter, body] =
+        /^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/.exec(changelog) ?? [];
+      const { title, description } = yaml.load(frontmatter ?? '') ?? {};
+      if (!title || !description || !body?.trim()) {
+        throw new Error(
+          'changelog.md: expected a title, description, and body.',
+        );
+      }
+      const page = `# ${title}\n\n> ${description}\n\n${body.trim()}\n`;
+      const full = await readFile(file, 'utf8');
+      await writeFile(file, `${full.trimEnd()}${llmsPageSeparator}${page}`);
+      logger.info('Appended the changelog to llms-full.txt');
+    },
+  },
+};
+
 // https://astro.build/config
 export default defineConfig({
   site,
@@ -279,6 +306,7 @@ Developer & Agent Interfaces:
       render: renderer,
     }),
     stripUnlistedFromLlmsFull,
+    appendChangelogToLlmsFull,
   ],
   redirects: {
     // Redirects to preserve legacy URLs & resolve agent probes.

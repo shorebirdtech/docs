@@ -1,5 +1,5 @@
 ---
-// cspell:ignore data-type white-space
+// cspell:ignore beforematch data-type white-space
 import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
 import {
   AREAS,
@@ -51,7 +51,7 @@ const groups = groupByMonth(ENTRIES);
       </svg>
       <input
         id="cl-search"
-        type="text"
+        type="search"
         placeholder="Search the changelog"
         aria-label="Search the changelog"
       />
@@ -68,7 +68,7 @@ const groups = groupByMonth(ENTRIES);
         ))
       }
     </div>
-    <span class="cl-count" id="cl-count">
+    <span class="cl-count" id="cl-count" aria-live="polite">
       {ENTRIES.length}
       {ENTRIES.length === 1 ? 'entry' : 'entries'}
     </span>
@@ -90,6 +90,7 @@ const groups = groupByMonth(ENTRIES);
               e.code ?? '',
             ]
               .join(' ')
+              .replaceAll('`', '')
               .toLowerCase();
             return (
               <article
@@ -101,9 +102,11 @@ const groups = groupByMonth(ENTRIES);
                 <div class="cl-head">
                   <button
                     class="cl-entry-toggle"
+                    id={`${e.id}-toggle`}
                     type="button"
                     aria-expanded="false"
                     aria-controls={`${e.id}-detail`}
+                    aria-labelledby={`${e.id}-title ${e.id}-toggle`}
                   >
                     <span class="cl-badge" data-type={TYPE_LABEL_COLOR[e.type]}>
                       {e.type}
@@ -128,13 +131,29 @@ const groups = groupByMonth(ENTRIES);
                       </svg>
                     </span>
                   </button>
-                  <h3 class="cl-title">{e.title}</h3>
-                  <p class="cl-summary">{e.summary}</p>
+                  <h3 class="cl-title" id={`${e.id}-title`}>
+                    {e.title}
+                  </h3>
+                  <p class="cl-summary">
+                    {e.summary
+                      .split('`')
+                      .map((part, i) => (i % 2 ? <code>{part}</code> : part))}
+                  </p>
                 </div>
-                <div class="cl-detail" id={`${e.id}-detail`} hidden>
+                {/* until-found lets the browser's find-in-page match text in a
+                    collapsed entry; the beforematch handler then opens it. */}
+                <div
+                  class="cl-detail"
+                  id={`${e.id}-detail`}
+                  hidden="until-found"
+                >
                   <ul class="cl-bullets">
                     {e.bullets.map((b) => (
-                      <li>{b}</li>
+                      <li>
+                        {b
+                          .split('`')
+                          .map((part, i) => (i % 2 ? <code>{part}</code> : part))}
+                      </li>
                     ))}
                   </ul>
                   {e.code && (
@@ -210,7 +229,10 @@ const groups = groupByMonth(ENTRIES);
         group.hidden = !hasVisible;
       }
 
-      countEl!.textContent = `${visibleCount} ${visibleCount === 1 ? 'entry' : 'entries'}`;
+      // Only write on a change, so the live region doesn't announce the
+      // count on page load.
+      const count = `${visibleCount} ${visibleCount === 1 ? 'entry' : 'entries'}`;
+      if (countEl!.textContent?.trim() !== count) countEl!.textContent = count;
       emptyEl!.hidden = visibleCount !== 0;
     }
 
@@ -229,15 +251,28 @@ const groups = groupByMonth(ENTRIES);
       const detail = entry.querySelector<HTMLElement>('.cl-detail');
       if (!toggle || !detail) return;
       toggle.setAttribute('aria-expanded', String(open));
-      detail.hidden = !open;
+      if (open) detail.removeAttribute('hidden');
+      else detail.setAttribute('hidden', 'until-found');
     }
 
     for (const entry of entries) {
       const toggle = entry.querySelector<HTMLButtonElement>('.cl-entry-toggle');
-      toggle?.addEventListener('click', () => {
+      if (!toggle) continue;
+      toggle.addEventListener('click', () => {
         const isOpen = toggle.getAttribute('aria-expanded') === 'true';
         setOpen(entry, !isOpen);
       });
+      // Clicking the title or summary toggles too, unless the click was
+      // the end of a text selection or landed on a link.
+      entry.querySelector('.cl-head')?.addEventListener('click', (ev) => {
+        const target = ev.target as Element;
+        if (toggle.contains(target) || target.closest('a')) return;
+        if (window.getSelection()?.toString()) return;
+        toggle.click();
+      });
+      entry
+        .querySelector('.cl-detail')
+        ?.addEventListener('beforematch', () => setOpen(entry, true));
     }
 
     for (const copyBtn of document.querySelectorAll<HTMLAnchorElement>(
@@ -390,29 +425,24 @@ const groups = groupByMonth(ENTRIES);
     border-bottom: 1px solid var(--sl-color-gray-6, var(--sl-color-gray-5));
   }
 
-  /* A button cannot contain links, so the button holds only the badge row
-     and its ::after stretches over the header to make the title and summary
-     toggle too. Links inside the header sit above that overlay. */
+  /* The button holds only the badge row; a click handler on the header
+     makes the title and summary toggle too, while leaving their text
+     selectable. */
   .cl-head {
-    position: relative;
     margin: 0 -0.75rem;
     padding: 0.5rem 0.75rem;
     border-radius: 0.75rem;
+    cursor: pointer;
     transition: background 0.15s;
   }
 
-  .cl-head:has(.cl-entry-toggle:hover) {
+  .cl-head:hover {
     background: color-mix(in srgb, var(--sl-color-gray-4) 8%, transparent);
   }
 
   .cl-head:has(.cl-entry-toggle:focus-visible) {
     outline: 2px solid var(--sl-color-accent);
     outline-offset: 2px;
-  }
-
-  .cl-head a {
-    position: relative;
-    z-index: 1;
   }
 
   .cl-entry-toggle {
@@ -427,13 +457,6 @@ const groups = groupByMonth(ENTRIES);
     cursor: pointer;
     text-align: left;
     outline: 0;
-  }
-
-  .cl-entry-toggle::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
   }
 
   .cl-badge {
@@ -512,7 +535,7 @@ const groups = groupByMonth(ENTRIES);
     display: block;
   }
 
-  .cl-head:has(.cl-entry-toggle:hover) .cl-mark {
+  .cl-head:hover .cl-mark {
     background: color-mix(in srgb, var(--sl-color-gray-4) 32%, transparent);
     color: var(--sl-color-white);
   }
@@ -543,6 +566,18 @@ const groups = groupByMonth(ENTRIES);
     padding: 1.25rem 1.5rem;
   }
 
+  /* The sidebar background is white in light mode, the same as the page. */
+  :root[data-theme='light'] .cl-detail {
+    background: var(--sl-color-gray-7, var(--sl-color-gray-6));
+  }
+
+  /* hidden="until-found" keeps the box rendered with its content hidden, so
+     drop the spacing that would otherwise leave an empty panel. */
+  .cl-detail[hidden] {
+    margin: 0;
+    padding: 0;
+  }
+
   .cl-bullets {
     margin: 0;
     padding-left: 1.1rem;
@@ -560,10 +595,19 @@ const groups = groupByMonth(ENTRIES);
     border-radius: 0.75rem;
     background: var(--sl-color-bg);
     overflow-x: auto;
-    white-space: nowrap;
+    white-space: pre;
     font-family: var(--sl-font-mono, ui-monospace, monospace);
     font-size: 0.85rem;
     color: var(--sl-color-gray-1);
+  }
+
+  /* Starlight's inline-code border and padding would box the command a
+     second time inside the block. */
+  .cl-code code {
+    padding: 0;
+    border: 0;
+    background: none;
+    font-size: inherit;
   }
 
   .cl-footer {

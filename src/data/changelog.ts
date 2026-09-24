@@ -28,8 +28,10 @@ export interface ChangelogEntry {
   docLink?: { label: string; href: string };
 }
 
-// Hand-written, newest first. Add an entry here when something ships that a
-// developer integrating Code Push would want to know about.
+// Hand-written; the page sorts them newest first. Add an entry here when
+// something ships that a developer integrating Code Push would want to know
+// about. Wrap commands and flags in backticks in `summary` and `bullets` to
+// render them as inline code, as in Markdown.
 export const ENTRIES: ChangelogEntry[] = [
   {
     id: 'staged-rollouts-in-one-command',
@@ -39,10 +41,10 @@ export const ENTRIES: ChangelogEntry[] = [
     type: 'New',
     title: 'Staged rollouts in one command',
     summary:
-      'shorebird patch --track=beta now takes --rollout, so a staged patch can start at 5% without a second command.',
+      '`shorebird patch --track=beta` now takes `--rollout`, so a staged patch can start at 5% without a second command.',
     bullets: [
-      '--rollout takes a whole percentage from 1 to 100. Omit it and the patch goes to the entire track, exactly as before.',
-      'Raise or halt a rollout from the console, or with shorebird patch rollout set 25.',
+      '`--rollout` takes a whole percentage from 1 to 100. Omit it and the patch goes to the entire track, exactly as before.',
+      'Raise or halt a rollout from the console, or with `shorebird patch rollout set 25`.',
       'Rollback still applies to the whole track — halting a rollout leaves the previous patch installed.',
     ],
     code: 'shorebird patch android --track=beta --rollout=5',
@@ -66,7 +68,10 @@ export function groupByMonth(
   entries: ChangelogEntry[],
 ): { label: string; items: ChangelogEntry[] }[] {
   const groups: { label: string; items: ChangelogEntry[] }[] = [];
-  for (const e of entries) {
+  // Sort rather than trust the array order: one entry out of place would
+  // otherwise start a second heading for its month.
+  const newestFirst = [...entries].sort((a, b) => b.date.localeCompare(a.date));
+  for (const e of newestFirst) {
     const label = formatMonth(e.date);
     let group = groups.find((g) => g.label === label);
     if (!group) groups.push((group = { label, items: [] }));

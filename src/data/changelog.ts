@@ -1,5 +1,6 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { getCollection, render } from 'astro:content';
+import { unlistedPages } from '~/unlisted';
 import { AREAS, type Area, type ChangeType } from './changelog-schema';
 
 // Shared by the changelog page (`src/pages/changelog.astro`), its
@@ -13,7 +14,7 @@ export { AREAS, type Area };
 
 export const CHANGELOG_TITLE = 'Changelog';
 export const CHANGELOG_DESCRIPTION =
-  'What we shipped to Code Push, the CLI, and the API, newest first.';
+  'New features, fixes, and supported Flutter versions in Shorebird, newest first.';
 
 export interface ChangelogEntry {
   /** Anchor id and permalink slug for this entry: its file name. */
@@ -56,8 +57,21 @@ function inlineProblem(text: string, allowCode = true): string | undefined {
     return 'Links are not supported in entry text. Put the link in docLink.';
   }
   if (/\*\*|__/.test(prose)) return 'Bold text is not supported.';
+  // Emphasis needs a closing marker, so `snake_case` and `_template.md` pass.
+  if (/(^|[\s(])([*_])\S(?:[^*_\n]*?\S)?\2(?=$|[\s.,;:!?)])/.test(prose)) {
+    return 'Italic text is not supported.';
+  }
   if (/<[^>]*>/.test(prose)) {
     return 'Wrap placeholders like <id> in backticks, or they vanish from /changelog.md.';
+  }
+  if (/&(#\d+|[a-z]+);/i.test(prose)) {
+    return 'Write characters as they are, not as HTML entities like &amp;.';
+  }
+  if (/\\[\\`*_{}[\]()#+\-.!|]/.test(prose)) {
+    return 'Backslash escapes are not supported. Put the text in backticks instead.';
+  }
+  if (/https?:\/\/|www\./.test(prose)) {
+    return 'Links are not supported in entry text. Put the link in docLink.';
   }
   return undefined;
 }
@@ -111,10 +125,14 @@ function parseBody(
         fail(n, 'The code block must be ```sh.');
       }
       code = [];
+      // Keep lines as written: indentation and blank lines can matter, and
+      // only a `$ ` prompt is stripped, never a `$VARIABLE`.
       for (i++; i < lines.length && !lines[i].startsWith('```'); i++) {
-        if (lines[i].trim()) code.push(lines[i].trim().replace(/^\$\s*/, ''));
+        code.push(lines[i].trimEnd().replace(/^\$\s+/, ''));
       }
       if (i === lines.length) fail(n, 'This code block is never closed.');
+      while (code.length && !code[0]) code.shift();
+      while (code.length && !code[code.length - 1]) code.pop();
       block = 'none';
     } else if (code) {
       fail(n, 'Nothing can follow the code block.');
@@ -162,11 +180,25 @@ function parseBody(
  * validator only covers links inside docs pages, not these.
  */
 async function checkDocLink(file: string, href: string): Promise<void> {
-  if (/^https?:\/\//.test(href)) return;
   const url = new URL(href, 'https://docs.shorebird.dev');
+  if (url.origin !== 'https://docs.shorebird.dev') return;
   const path = url.pathname.replace(/^\/|\/$/g, '');
   const docs = await getCollection('docs');
   const doc = docs.find((d) => d.id === path || d.id === `${path}/index`);
+  // Linking an unlisted or draft page would advertise it, which is what
+  // `src/unlisted.ts` exists to prevent (and a draft 404s in production).
+  if (doc && (doc.data.draft || unlistedPages.includes(doc.id))) {
+    throw new Error(
+      `${file}: docLink.href "${href}" is an unlisted or draft page. Link a ` +
+        'published page instead.',
+    );
+  }
+  // Standalone pages like /roadmap/ aren't in the docs collection.
+  const standalone = [
+    `src/pages/${path}.astro`,
+    `src/pages/${path}/index.astro`,
+  ];
+  if (!doc && path && standalone.some((f) => existsSync(f))) return;
   if (!doc) {
     throw new Error(
       `${file}: docLink.href "${href}" doesn't match any docs page. Use the ` +
@@ -204,6 +236,16 @@ export function getEntries(): Promise<ChangelogEntry[]> {
     const entries = await Promise.all(
       files.map(async ({ id, data, body, filePath }) => {
         const file = filePath ?? `src/content/changelog/${id}.md`;
+        // The file name is the entry's anchor, so it can't be a month's.
+        if (
+          /^(january|february|march|april|may|june|july|august|september|october|november|december)-\d{4}$/.test(
+            id,
+          )
+        ) {
+          throw new Error(
+            `${file}: the file name matches a month heading's anchor. Rename it.`,
+          );
+        }
         const titleProblem = inlineProblem(data.title, false);
         if (titleProblem) throw new Error(`${file}: title: ${titleProblem}`);
         if (data.docLink) await checkDocLink(file, data.docLink.href);

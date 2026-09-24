@@ -239,7 +239,7 @@ Developer & Agent Interfaces:
               label: 'Changelog',
               url: 'https://docs.shorebird.dev/changelog.md',
               description:
-                'What shipped to Code Push, the CLI, and the API, newest first',
+                'New features, fixes, and supported Flutter versions in Shorebird, newest first',
             },
             {
               label: 'OpenAPI specification',

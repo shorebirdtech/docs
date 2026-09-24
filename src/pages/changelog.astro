@@ -24,6 +24,16 @@ const groups = groupByMonth(ENTRIES);
 // Only offer a chip for an area that has entries, so no filter starts empty.
 const areas = AREAS.filter((a) => ENTRIES.some((e) => e.area === a));
 
+// A command's lines, each marked for whether it gets a `$ ` prompt: not a
+// blank line, and not one continuing the previous line after a backslash.
+function commandLines(code: string): { text: string; prompt: boolean }[] {
+  const lines = code.split('\n');
+  return lines.map((text, i) => ({
+    text,
+    prompt: text.trim() !== '' && !lines[i - 1]?.endsWith('\\'),
+  }));
+}
+
 function formatDay(iso: string): string {
   return new Date(iso).toLocaleDateString('en-US', {
     month: 'short',
@@ -52,8 +62,8 @@ function formatDay(iso: string): string {
   headings={groups.map((g) => ({ depth: 2, slug: g.id, text: g.label }))}
 >
   <p>
-    What we shipped to Code Push, the CLI, and the API. Expand an entry for the
-    full detail, the command, and the doc it belongs to. Subscribe with the <a
+    New features, fixes, and supported Flutter versions in Shorebird. Expand an
+    entry for the full detail, the command, and the doc it belongs to. Subscribe with the <a
       href="/changelog.xml">RSS feed</a
     >.
   </p>
@@ -203,7 +213,7 @@ function formatDay(iso: string): string {
                       ))}
                     </ul>
                     {e.code && (
-                      <pre class="cl-code"><code>{e.code.split('\n').map((c) => `$ ${c}`).join('\n')}</code></pre>
+                      <pre class="cl-code"><code>{commandLines(e.code).map((l, i) => [i > 0 && '\n', <span class:list={['cl-line', { 'is-prompt': l.prompt }]}>{l.text}</span>])}</code></pre>
                     )}
                     <div class="cl-footer">
                       {e.docLink && (
@@ -389,7 +399,12 @@ function formatDay(iso: string): string {
     // Open and scroll to the entry named in the URL hash, if any. Also runs
     // on hashchange, so a permalink followed from this same page opens too.
     function openFromHash() {
-      const targetId = decodeURIComponent(location.hash.replace(/^#/, ''));
+      let targetId = '';
+      try {
+        targetId = decodeURIComponent(location.hash.replace(/^#/, ''));
+      } catch {
+        return; // A malformed hash like #%E0 names nothing on the page.
+      }
       if (!targetId) return;
       const target = document.getElementById(targetId);
       const isEntry = target?.classList.contains('cl-entry');
@@ -519,8 +534,14 @@ function formatDay(iso: string): string {
     background: color-mix(in srgb, var(--sl-color-black) 14%, transparent);
   }
 
+  /* Dim with a dashed border and a quieter pill rather than opacity, so the
+     label keeps its contrast; the chip is still focusable and clickable. */
   .cl-chip.is-empty:not(.is-active) {
-    opacity: 0.45;
+    border-style: dashed;
+  }
+
+  .cl-chip.is-empty:not(.is-active) .cl-chip-count {
+    background: transparent;
   }
 
   /* Timeline. Each entry is a date gutter and a body; the bodies' left
@@ -787,6 +808,15 @@ function formatDay(iso: string): string {
     font-family: var(--sl-font-mono, ui-monospace, monospace);
     font-size: 0.82rem;
     color: var(--sl-color-gray-1);
+  }
+
+  /* The prompt is drawn, not written, so copying a command doesn't copy it.
+     A line continuing the previous one (after a trailing backslash) gets no
+     prompt. */
+  .cl-line.is-prompt::before {
+    content: '$ ';
+    color: var(--sl-color-gray-3);
+    user-select: none;
   }
 
   /* Starlight's inline-code border and padding would box the command a

@@ -1,7 +1,7 @@
 import {
   CHANGELOG_DESCRIPTION,
   CHANGELOG_TITLE,
-  ENTRIES,
+  getEntries,
   groupByMonth,
   releaseNotesUrl,
   type ChangelogEntry,
@@ -17,7 +17,14 @@ export const prerender = true;
 function entryToMarkdown(e: ChangelogEntry): string {
   return [
     `### ${e.title}`,
-    `**${e.type}** in ${e.area}, ${e.date}, Shorebird CLI ${e.version} ([release notes](${releaseNotesUrl(e.version)})). Permalink: [/changelog/#${e.id}](/changelog/#${e.id})`,
+    [
+      `**${e.type}** in ${e.area}, ${e.date}`,
+      e.version &&
+        `, Shorebird CLI ${e.version} ([release notes](${releaseNotesUrl(e.version)}))`,
+      `. Permalink: [/changelog/#${e.id}](/changelog/#${e.id})`,
+    ]
+      .filter(Boolean)
+      .join(''),
     e.summary,
     e.bullets.map((b) => `- ${b}`).join('\n'),
     e.code && ['```sh', e.code, '```'].join('\n'),
@@ -27,7 +34,7 @@ function entryToMarkdown(e: ChangelogEntry): string {
     .join('\n\n');
 }
 
-export function GET() {
+export async function GET() {
   const frontmatter = [
     '---',
     `title: ${JSON.stringify(CHANGELOG_TITLE)}`,
@@ -38,7 +45,7 @@ export function GET() {
   const body = [
     frontmatter,
     `${CHANGELOG_DESCRIPTION} RSS feed: [/changelog.xml](/changelog.xml)`,
-    ...groupByMonth(ENTRIES).flatMap((group) => [
+    ...groupByMonth(await getEntries()).flatMap((group) => [
       `## ${group.label}`,
       ...group.items.map(entryToMarkdown),
     ]),

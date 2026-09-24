@@ -1,4 +1,4 @@
-import { CHANGELOG_DESCRIPTION, ENTRIES, newestFirst } from '~/data/changelog';
+import { CHANGELOG_DESCRIPTION, getEntries } from '~/data/changelog';
 
 // RSS 2.0 feed of the changelog, so readers can subscribe instead of checking
 // the page. Written by hand rather than with `@astrojs/rss`, since a flat list
@@ -15,8 +15,8 @@ function escapeXml(text: string): string {
     .replaceAll('"', '&quot;');
 }
 
-export function GET() {
-  const entries = newestFirst(ENTRIES);
+export async function GET() {
+  const entries = await getEntries();
   const items = entries.map((e) => {
     const link = `${SITE}/changelog/#${e.id}`;
     // Feed readers show the description as plain text, so drop the

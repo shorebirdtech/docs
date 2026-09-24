@@ -5,7 +5,7 @@ import {
   AREAS,
   CHANGELOG_DESCRIPTION,
   CHANGELOG_TITLE,
-  ENTRIES,
+  getEntries,
   groupByMonth,
   releaseNotesUrl,
   type ChangelogEntry,
@@ -18,6 +18,7 @@ const TYPE_LABEL_COLOR: Record<ChangelogEntry['type'], string> = {
   Deprecated: 'deprecated',
 };
 
+const ENTRIES = await getEntries();
 const groups = groupByMonth(ENTRIES);
 
 // Only offer a chip for an area that has entries, so no filter starts empty.
@@ -118,7 +119,7 @@ function formatDay(iso: string): string {
               e.summary,
               e.area,
               e.type,
-              e.version,
+              e.version ?? '',
               ...e.bullets,
               e.code ?? '',
             ]
@@ -135,7 +136,9 @@ function formatDay(iso: string): string {
               >
                 <div class="cl-when">
                   <time datetime={e.date}>{formatDay(e.date)}</time>
-                  <span class="cl-version">CLI {e.version}</span>
+                  {e.version && (
+                    <span class="cl-version">CLI {e.version}</span>
+                  )}
                 </div>
                 <div class="cl-body">
                   <div class="cl-head">
@@ -200,7 +203,7 @@ function formatDay(iso: string): string {
                       ))}
                     </ul>
                     {e.code && (
-                      <pre class="cl-code"><code>$ {e.code}</code></pre>
+                      <pre class="cl-code"><code>{e.code.split('\n').map((c) => `$ ${c}`).join('\n')}</code></pre>
                     )}
                     <div class="cl-footer">
                       {e.docLink && (
@@ -208,12 +211,14 @@ function formatDay(iso: string): string {
                           {e.docLink.label} →
                         </a>
                       )}
-                      <a
-                        href={releaseNotesUrl(e.version)}
-                        class="cl-notes-link"
-                      >
-                        Release notes ↗
-                      </a>
+                      {e.version && (
+                        <a
+                          href={releaseNotesUrl(e.version)}
+                          class="cl-notes-link"
+                        >
+                          Release notes ↗
+                        </a>
+                      )}
                       <a
                         href={`#${e.id}`}
                         class="cl-copy"

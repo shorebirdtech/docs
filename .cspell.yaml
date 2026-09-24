@@ -103,6 +103,7 @@ words:
   - previewable
   - recompiles
   - riverpod
+  - rollforward
   - rollouts
   - rsassa
   - sdkman

@@ -319,6 +319,35 @@ info). To work around this, you can quote the `--` separator. For example:
 shorebird release android '--' --dart-define=foo=bar
 ```
 
+## Xcode project `overrides FLUTTER_ build setting(s)` warning
+
+`shorebird doctor`, and `shorebird release` and `shorebird patch` for iOS, print
+this warning when your Xcode project hard-codes a Flutter build setting:
+
+```
+ios/Runner.xcodeproj/project.pbxproj overrides FLUTTER_ build setting(s): FLUTTER_ROOT. FLUTTER_* variables are set by Flutter (at runtime or via ios/Flutter/Generated.xcconfig) and should not be hard-coded in the Xcode project.
+```
+
+Flutter sets `FLUTTER_*` build settings itself, in
+`ios/Flutter/Generated.xcconfig`. A value hard-coded in the Xcode project takes
+priority over that file. For example, a `FLUTTER_ROOT` that points at your own
+Flutter install can make Xcode build part of your app with a different Flutter
+than Shorebird's, which can cause build failures.
+
+To fix it, remove each setting the warning names:
+
+1. Open `ios/Runner.xcworkspace` in Xcode.
+2. Select the **Runner** project, then the **Build Settings** tab.
+3. Search for `FLUTTER_`.
+4. Select each setting the warning lists and press **Delete**. Check every
+   target and build configuration.
+
+`FLUTTER_TARGET` is allowed and never triggers the warning, since projects
+commonly set it to a flavor's entry point, such as `lib/main_dev.dart`.
+
+For a Flutter module used with add-to-app, the check looks at
+`.ios/Runner.xcodeproj` instead.
+
 ## Your iOS build number is auto incrementing
 
 This is likely because you are providing an ExportOptions.plist file that sets

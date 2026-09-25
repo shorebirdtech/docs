@@ -194,9 +194,10 @@ or installed directly on devices. You must manually codesign the generated
 
 The Shorebird CLI detects CI environments, for example when the `CI` environment
 variable is set, and runs in non-interactive mode. In this mode it never waits
-for input: a step that would normally prompt fails with an error that names the
-flag to pass instead. For example, `shorebird patch` fails on native code
-changes unless you pass `--allow-native-diffs`.
+for input. Some prompts use a default instead, and others fail with an error
+that names the flag to pass. For example, `shorebird patch` fails on native code
+changes unless you pass `--allow-native-diffs`, and without `--release-version`
+it builds first to work out which release to patch.
 
 Set the `SHOREBIRD_TOKEN` environment variable so the CLI never needs to log in
 interactively. See [Scripting the Shorebird CLI](/code-push/ci/scripting) for

@@ -22,20 +22,26 @@ Shorebird stops asking questions when any of these is true:
   or the variables set by Travis, AppVeyor, Cirrus CI, AWS CodeBuild, or
   Jenkins.
 
-In non-interactive mode:
+In non-interactive mode, nothing waits for input:
 
-- **Prompts fail instead of waiting.** A command that needs an answer exits with
+- **Some prompts use a default.** `shorebird init` uses your pubspec name as the
+  app's display name. `shorebird patch` without `--release-version` builds the
+  patch with the latest Flutter version to work out which release it belongs to,
+  which can pick the wrong release or Flutter version.
+- **Other prompts fail.** When there's no safe default, the command exits with
   an error and a hint, usually naming the flag that provides the answer. For
   example, `shorebird patch` fails on native code changes unless you pass
-  `--allow-native-diffs`, instead of asking whether to continue.
+  `--allow-native-diffs`, and `shorebird init` fails if you belong to several
+  organizations and don't pass `--organization-id`.
 - **Progress spinners become plain lines** when stdout isn't a terminal or
   `--json` is passed. Each step prints `Starting ...` and then `Done ...` or
   `Failed ...` to stderr.
 
-To keep a job from failing on a prompt, pass every input as a flag: the app with
-`--app-id` or `--flavor`, the release with `--release-version`, and so on.
-Authenticate with an [API key](/account/api-keys) in the `SHOREBIRD_TOKEN`
-environment variable, since `shorebird login` needs a browser.
+To keep a job from failing or guessing, pass every input as a flag: the app with
+`--app-id` or `--flavor`, and the release with `--release-version`. For
+`shorebird patch`, `--release-version=latest` targets the most recently updated
+release. Authenticate with an [API key](/account/api-keys) in the
+`SHOREBIRD_TOKEN` environment variable, since `shorebird login` needs a browser.
 
 ## JSON output
 
@@ -122,7 +128,7 @@ before a command starts, such as looking for `shorebird.yaml`, print plain text.
 
 ## Destructive commands
 
-Commands that delete something permanently, `shorebird apps delete` and
+Commands that delete something, `shorebird apps delete` and
 `shorebird channels delete`, never prompt. Instead, they require
 `--confirm-name` set to the exact name of what you're deleting:
 

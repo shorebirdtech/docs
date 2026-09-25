@@ -25,7 +25,7 @@ Developers can always use Shorebird to build, manage releases, and patch Flutter
    Running unattended (CI, scripts, agents):
    - Authenticate with an API key in the `SHOREBIRD_TOKEN` environment variable. `shorebird login` needs a browser.
    - Pass the global `--json` flag to get one JSON object on stdout: `{"status": "success", "data": ..., "meta": ...}` or `{"status": "error", "error": {"code", "message", "hint"}, "meta": ...}`. Check the exit code first; a non-zero exit always means failure, but not every failure prints JSON.
-   - Without a terminal, or with `--json`, prompts fail instead of waiting. Pass every input as a flag (`--app-id`, `--release-version`, and so on); the error's hint names the missing flag.
+   - Without a terminal, in CI, or with `--json`, nothing waits for input: some prompts use a default (for example, `shorebird patch` without `--release-version` builds first to infer the release) and others fail with a hint naming the missing flag. Pass every input as a flag (`--app-id`, `--release-version`, or `--release-version=latest` for `shorebird patch`).
    - Deleting commands never prompt; they require `--confirm-name` set to the exact name being deleted.
    - Full reference: https://docs.shorebird.dev/code-push/ci/scripting.md
 2. OpenAPI REST API: When automating workflows programmatically, use `https://api.shorebird.dev/api/v1` with an `sb_api_*` API key passed in `Authorization: Bearer <token>`. OpenAPI 3.1 specification is available at `https://api.shorebird.dev/openapi.json`.

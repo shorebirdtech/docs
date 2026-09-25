@@ -18,6 +18,7 @@
     "authGuide": "https://docs.shorebird.dev/auth.md",
     "llms": "https://docs.shorebird.dev/llms.txt",
     "llmsFull": "https://docs.shorebird.dev/llms-full.txt",
+    "changelog": "https://docs.shorebird.dev/changelog.md",
     "skills": "https://docs.shorebird.dev/.well-known/agent-skills/index.json",
     "instructions": "https://docs.shorebird.dev/.well-known/agent-instructions.txt",
     "apiCatalog": "https://docs.shorebird.dev/.well-known/api-catalog"

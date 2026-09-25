@@ -42,6 +42,17 @@
       ]
     },
     {
+      "identifier": "urn:air:shorebird.dev:docs:changelog",
+      "displayName": "Shorebird Changelog",
+      "type": "text/markdown",
+      "url": "https://docs.shorebird.dev/changelog.md",
+      "representativeQueries": [
+        "What's new in Shorebird",
+        "Shorebird CLI release notes",
+        "Which Shorebird version added a command or flag"
+      ]
+    },
+    {
       "identifier": "urn:air:shorebird.dev:status:endpoint-reachability",
       "displayName": "Shorebird Service Endpoint Reachability",
       "type": "text/html",

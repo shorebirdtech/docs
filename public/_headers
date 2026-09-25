@@ -55,6 +55,10 @@
   Content-Type: application/trafficadvice+json; charset=utf-8
   Access-Control-Allow-Origin: *
 
+/changelog.xml
+  Content-Type: application/rss+xml; charset=utf-8
+  Access-Control-Allow-Origin: *
+
 /opensearch.xml
   Content-Type: application/opensearchdescription+xml; charset=utf-8
   Access-Control-Allow-Origin: *

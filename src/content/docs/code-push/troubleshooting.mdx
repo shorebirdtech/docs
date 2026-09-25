@@ -5,6 +5,8 @@ sidebar:
   order: 14
 ---
 
+{/* cspell:words appbundle symbolicate */}
+
 This page covers the most common issues with Shorebird Code Push. Still stuck?
 Reach out on [Discord](https://discord.gg/shorebird) or
 [file an issue](https://github.com/shorebirdtech/shorebird/issues). The
@@ -361,6 +363,67 @@ to check which Java version works with which Gradle release.
 - Or try installing the required Java version for your project's Gradle release
   and set the path where it was installed in the `JAVA_HOME` environment
   variable.
+
+## Android build fails with "lower than Flutter's minimum supported version"
+
+Starting with Flutter 3.47, Android builds fail if your project uses a Gradle,
+Android Gradle Plugin (AGP), or Kotlin version older than Flutter's minimum:
+
+| Dependency            | Minimum version |
+| --------------------- | --------------- |
+| Gradle                | 8.14            |
+| Android Gradle Plugin | 8.11.1          |
+| Kotlin                | 2.2.20          |
+
+Earlier Flutter versions only printed a warning for these versions. Java 17
+remains the minimum Java version, unchanged. The error names the dependency that
+is too old:
+
+```
+Error: Your project's Gradle version (8.12) is lower than Flutter's minimum supported version of 8.14. Please upgrade your Gradle version.
+```
+
+The error also includes a "Potential fix" line pointing at the file to change.
+Gradle is set in `android/gradle/wrapper/gradle-wrapper.properties`. AGP and
+Kotlin are set in the `plugins` block of `android/settings.gradle` (or
+`settings.gradle.kts`). Projects created from older templates set them in the
+top-level `android/build.gradle` instead.
+
+If you need to ship before upgrading, you can skip the check temporarily by
+forwarding Flutter's flag after `--`:
+
+```sh
+shorebird release android -- --android-skip-build-dependency-validation
+```
+
+Pass the same flag to `shorebird patch android`. Treat this as a stopgap:
+Flutter doesn't support building with these older versions.
+
+## `libapp.so.sym or libapp.so.dbg not present` warning on Android
+
+Starting with Flutter 3.44, the Android Gradle Plugin strips `libapp.so` and
+produces a `libapp.so.sym` file, which Google Play Console uses to symbolicate
+Dart crashes. If you see this warning when building an Android release:
+
+```
+libapp.so.sym or libapp.so.dbg not present when checking final appbundle for
+debug symbols. Play Console will not receive Dart crash symbols for this build.
+```
+
+your `android/app/build.gradle` (or `build.gradle.kts`) most likely still
+contains this line, which some projects added to keep `libapp.so` unchanged for
+Shorebird:
+
+```kotlin
+packaging.jniLibs.keepDebugSymbols.add("**/libapp.so")
+```
+
+On Flutter 3.44 and newer, remove it. The line stops the Android Gradle Plugin
+from stripping `libapp.so`, so no `libapp.so.sym` is produced. Your build still
+succeeds, but Play Console won't be able to symbolicate Dart crashes.
+`shorebird doctor` warns you if the line is present.
+
+On Flutter versions older than 3.44, keep the line.
 
 ## Missing a provisioning profile or no signing team was found
 

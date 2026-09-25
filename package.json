@@ -2,7 +2,7 @@
   "name": "shorebird-docs",
   "type": "module",
   "version": "0.0.1",
-  "//": "typescript pinned to 6.x: TypeScript 7.0 (Go-based 'Project Corsa') removed the JS API (ts.sys), breaking twoslash (a dep of starlight-theme-nova) and @astrojs/check. js-yaml pinned to 4.x: v5 is ESM-only with no default export, which breaks astro's prerender (static-paths.js imports its default export). mermaid pinned to 11.x: astro-mermaid@2 supports mermaid 10/11 only, and mermaid 12 switches the default layout to ELK, re-laying out existing diagrams. Dependabot ignores major updates for all three; re-evaluate when upstream compatibility is added.",
+  "//": "typescript pinned to 6.x: TypeScript 7.0 (Go-based 'Project Corsa') removed the JS API (ts.sys), breaking twoslash (a dep of starlight-theme-nova) and @astrojs/check. js-yaml pinned to 4.x: v5 is ESM-only with no default export, which breaks astro's prerender (static-paths.js imports its default export). mermaid pinned to 11.x: astro-mermaid@2 supports mermaid 10/11 only, and mermaid 12 switches the default layout to ELK, re-laying out existing diagrams. Dependabot ignores major updates for all three; re-evaluate when upstream compatibility is added. @emnapi/core and @emnapi/runtime are listed directly because @astrojs/check needs them through @napi-rs/wasm-runtime, which only declares them as peers; with legacy-peer-deps they are otherwise left out on newer npm, and astro check then skips type checking and still exits 0.",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -20,6 +20,8 @@
     "@astrojs/mdx": "^8.0.1",
     "@astrojs/sitemap": "^3.7.4",
     "@astrojs/starlight": "^0.42.2",
+    "@emnapi/core": "^1.11.3",
+    "@emnapi/runtime": "^1.11.3",
     "@lavamoat/preinstall-always-fail": "^3.0.0",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.3.3",

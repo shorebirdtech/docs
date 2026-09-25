@@ -87,10 +87,12 @@ Upload the files in that directory by following your tool's guide:
 :::caution[iOS]
 
 On iOS, the symbol files are only usable by crash reporting tools for releases
-built with Shorebird 1.6.123 (Flutter 3.47.5) or newer. With older versions,
-tools such as `sentry-cli` report finding no debug information files, even
-though the upload command succeeds. Release again with a newer Flutter version
-to get readable Dart stack traces on iOS.
+built with Flutter 3.47.5 or newer, the default Flutter version since Shorebird
+1.6.123. What counts is the Flutter version the release was built with, so a
+release that pins an older version with `--flutter-version` still gets the old
+files. With those, tools such as `sentry-cli` report finding no debug
+information files, even though the upload command succeeds. Release again with
+Flutter 3.47.5 or newer to get readable Dart stack traces on iOS.
 
 :::
 

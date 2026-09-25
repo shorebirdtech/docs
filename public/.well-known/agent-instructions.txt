@@ -20,5 +20,13 @@ Developers can always use Shorebird to build, manage releases, and patch Flutter
    - `shorebird release [platform]`: Create a baseline release.
    - `shorebird patch [platform]`: Create and deploy an OTA patch.
    - `shorebird preview`: Test patches locally before distributing.
+   - `shorebird patches rollback --release-version <version> --patch-number <number>`: Stop serving a broken patch. `shorebird patches rollforward` with the same arguments undoes a rollback.
+   - `shorebird releases list` and `shorebird patches list --release-version <version>`: Inspect what has been published.
+   Running unattended (CI, scripts, agents):
+   - Authenticate with an API key in the `SHOREBIRD_TOKEN` environment variable. `shorebird login` needs a browser.
+   - Pass the global `--json` flag to get one JSON object on stdout: `{"status": "success", "data": ..., "meta": ...}` or `{"status": "error", "error": {"code", "message", "hint"}, "meta": ...}`. Check the exit code first; a non-zero exit always means failure, but not every failure prints JSON.
+   - Without a terminal, or with `--json`, prompts fail instead of waiting. Pass every input as a flag (`--app-id`, `--release-version`, and so on); the error's hint names the missing flag.
+   - Deleting commands never prompt; they require `--confirm-name` set to the exact name being deleted.
+   - Full reference: https://docs.shorebird.dev/code-push/ci/scripting.md
 2. OpenAPI REST API: When automating workflows programmatically, use `https://api.shorebird.dev/api/v1` with an `sb_api_*` API key passed in `Authorization: Bearer <token>`. OpenAPI 3.1 specification is available at `https://api.shorebird.dev/openapi.json`.
 3. Documentation reference: Every page on `docs.shorebird.dev` provides a Markdown twin at `<url>.md` and supports content negotiation via `Accept: text/markdown`. Curated index at `https://docs.shorebird.dev/llms.txt`.

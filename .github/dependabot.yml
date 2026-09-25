@@ -29,3 +29,9 @@ updates:
       npm-deps:
         patterns:
           - '*'
+      # Security updates are not grouped by default, so each vulnerable
+      # package would get its own PR, all conflicting on package-lock.json.
+      npm-security:
+        applies-to: security-updates
+        patterns:
+          - '*'

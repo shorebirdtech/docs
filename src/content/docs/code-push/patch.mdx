@@ -221,8 +221,8 @@ To view detailed information for a specific patch number:
 shorebird patches info --release-version 1.0.0+1 --patch-number 1
 ```
 
-This command shows metadata for the specified patch, including build logs,
-checksums, and deployment track information.
+This command shows the patch's ID, track, whether it is rolled back, any notes,
+and the size of each platform and architecture artifact.
 
 ### Promote a patch
 
@@ -239,8 +239,20 @@ To assign a patch directly to a specific deployment track (e.g., promoting or
 routing to a staging beta group):
 
 ```sh
-shorebird patches set-track --release-version 1.0.0+1 --patch-number 1 --track staging
+shorebird patches set-track --release 1.0.0+1 --patch 1 --track staging
 ```
+
+### Roll back or roll forward a patch
+
+To stop serving a patch, roll it back. To serve it again later, roll it forward:
+
+```sh
+shorebird patches rollback --release-version 1.0.0+1 --patch-number 1
+shorebird patches rollforward --release-version 1.0.0+1 --patch-number 1
+```
+
+See [Roll back a Patch](/code-push/rollback#roll-back-from-the-cli) for what
+happens on devices and the options these commands take.
 
 ### Delete a patch
 

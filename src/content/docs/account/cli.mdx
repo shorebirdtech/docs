@@ -8,7 +8,7 @@ sidebar:
 ---
 
 The Shorebird CLI provides several commands to help you manage your
-authentication state, inspect your account details, and list your apps and
+authentication state, inspect your account details, and manage your apps and
 organizations directly from the terminal.
 
 ## Authentication commands
@@ -97,17 +97,85 @@ shorebird account orgs
 This output displays the Organization ID, name, organization type (`personal` or
 `team`), and your membership role (`owner`, `admin`, or `developer`).
 
+## App management commands
+
+As of Shorebird 1.6.121, the `shorebird apps` commands list, rename, delete, and
+transfer your apps. `shorebird apps list` shows the same output as
+[`shorebird account apps`](#list-apps).
+
+`rename`, `delete`, and `transfer` act on the app in `shorebird.yaml` in the
+current directory. Pass `--app-id` to pick a different app or to run the command
+from outside a Shorebird project. If your app uses flavors, pass `--flavor` to
+pick that flavor's app ID.
+
+### Rename an app
+
+To change an app's display name, which can be up to 128 characters, run:
+
+```sh
+shorebird apps rename --name "Acme Consumer"
+```
+
+**Example output:**
+
+```
+Renamed "Acme Mobile" to "Acme Consumer".
+```
+
+### Transfer an app
+
+To move an app into another organization, pass the organization's ID. Run
+[`shorebird account orgs`](#list-organizations) to find it:
+
+```sh
+shorebird apps transfer --org-id 42
+```
+
+**Example output:**
+
+```
+Moved "Acme Mobile" into "Acme Corp".
+```
+
+You must be a member of the target organization, and have permission to move
+apps out of the app's current organization and into the target one. See
+[Organizations](/account/orgs#transfer-an-app) for more on transferring apps.
+
+### Delete an app
+
+Deleting an app permanently deletes every release and patch that belongs to it,
+and can't be undone. Read
+[Delete Apps, Releases, and Patches](/code-push/delete) before you do this.
+
+There's no confirmation prompt. Instead, you confirm by passing the app's
+current display name, exactly as `shorebird apps list` shows it, to
+`--confirm-name`:
+
+```sh
+shorebird apps delete --confirm-name "Acme Mobile"
+```
+
+**Example output:**
+
+```
+Deleted "Acme Mobile" (01H...).
+```
+
+If the name doesn't match, nothing is deleted and the command prints the name it
+expected.
+
 ---
 
 ## JSON output for automation
 
-All `shorebird account` subcommands support the `--json` flag, making them easy
-to integrate into scripts and automation workflows.
+All `shorebird account` and `shorebird apps` subcommands support the `--json`
+flag, making them easy to integrate into scripts and automation workflows.
 
 ```sh
 shorebird account whoami --json
 shorebird account apps --json
 shorebird account orgs --json
+shorebird apps list --json
 ```
 
 When using `--json`, the CLI will output a structured JSON response instead of

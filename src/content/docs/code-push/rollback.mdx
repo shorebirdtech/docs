@@ -185,10 +185,11 @@ Finally Shorebird's [updater](https://github.com/shorebirdtech/updater) includes
 automatic on-device rollback. If for any reason a patch's hash or signature does
 not match, the patch is discarded. If a patch fails to load into the Dart
 runtime, the device marks it "bad" and never tries to boot it again. That launch
-runs your release's original code, and the device checks for a newer patch.
-Later launches boot the newer patch once it has downloaded. Until then, they
-boot the previous working patch still on the device, or your release's original
-code if there isn't one.
+runs your release's original code. If automatic updates are on, the device also
+checks for a newer patch. With `auto_update: false` in `shorebird.yaml`, the
+check happens when your app calls the updater. Later launches boot the newer
+patch once it has downloaded. Until then, they boot the previous working patch
+still on the device, or your release's original code if there isn't one.
 
 The previous patch file is always kept on disk until at least one successful
 boot is made of the next patch, after which a patch file is automatically

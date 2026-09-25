@@ -28,7 +28,9 @@ active patch again.
 If a broken patch is live in production, roll it back immediately using one of
 these options:
 
-- **Option A (CLI - Fastest)**: Run the following command in your terminal:
+- **Option A (CLI - Fastest)**: Run the following command in your terminal. It
+  needs Shorebird 1.6.120 or newer. On an older CLI, use Option B, or run
+  `shorebird upgrade` first:
   ```sh
   shorebird patches rollback --release-version <RELEASE_VERSION> --patch-number <PATCH_NUMBER>
   ```

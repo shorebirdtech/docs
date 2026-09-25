@@ -369,7 +369,9 @@ shorebird flutter config --jdk-dir=/path/to/jdk
 ```
 
 `shorebird flutter config` passes its arguments to Shorebird's copy of
-`flutter config`. To go back to automatic detection, run
+`flutter config`. Flutter stores `jdk-dir` in your user settings, not in the
+SDK, so it also changes the JDK used by any other Flutter install on your
+account. To go back to automatic detection, run
 `shorebird flutter config --jdk-dir=`.
 
 - [Android Studio](https://developer.android.com/studio) comes with a bundled

@@ -62,7 +62,7 @@
       "astro>sharp": false,
       "sharp": false,
       "astro>vite>esbuild": false,
-      "@vvago/vale#3.21.0": true
+      "@vvago/vale#3.22.0": true
     }
   }
 }

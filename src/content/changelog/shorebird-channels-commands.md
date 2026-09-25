@@ -14,8 +14,8 @@ an app can publish to.
 
 - Publishing a patch with `--track=<name>` still creates that channel
   automatically.
-- `shorebird channels delete` is permanent and has no prompt. Pass
-  `--confirm-name` with the channel name to confirm.
+- `shorebird channels delete` has no prompt. Pass `--confirm-name` with the
+  channel name to confirm. Devices on a deleted channel stop receiving patches.
 
 ```sh
 shorebird channels create --app-id <id> --name qa

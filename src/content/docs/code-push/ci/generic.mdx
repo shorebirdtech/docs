@@ -192,15 +192,15 @@ or installed directly on devices. You must manually codesign the generated
 
 ### Run CLI commands non-interactively
 
-The Shorebird CLI automatically detects if it is running in a CI environment
-(such as when the `CI` environment variable is set to `true`) and runs in
-non-interactive mode. In this mode, prompts that normally require user
-confirmation are skipped or use safe default options.
+The Shorebird CLI detects CI environments, for example when the `CI` environment
+variable is set, and runs in non-interactive mode. In this mode it never waits
+for input: a step that would normally prompt fails with an error that names the
+flag to pass instead. For example, `shorebird patch` fails on native code
+changes unless you pass `--allow-native-diffs`.
 
-To guarantee that your CI builds never block on an interactive prompt, ensure
-the `SHOREBIRD_TOKEN` environment variable is set. If you need to explicitly
-bypass interactive prompts in other environments, you can pass the
-`--no-confirm` flag to `shorebird patch` or `shorebird release`.
+Set the `SHOREBIRD_TOKEN` environment variable so the CLI never needs to log in
+interactively. See [Scripting the Shorebird CLI](/code-push/ci/scripting) for
+the full rules and for JSON output.
 
 Thank you for reading this guide. If you have any questions or suggestions, feel
 free to reach out on [Discord](https://discord.gg/shorebird).

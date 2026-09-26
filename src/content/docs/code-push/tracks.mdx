@@ -12,9 +12,18 @@ import ArcadeEmbed from '~/components/ArcadeEmbed.astro';
 
 **Tracks** are named deployment channels that control which devices receive a
 patch. Every Shorebird app has a built-in `stable` track, which is the default
-channel that all devices subscribe to. You can create additional tracks (such as
-`staging` or `beta`) on the fly, simply by naming them when publishing a patch.
-No configuration or registration is needed; tracks are created implicitly.
+channel that all devices subscribe to. You can create additional tracks on the
+fly, simply by naming them when publishing a patch. No configuration or
+registration is needed; a track is created the first time you publish to it. To
+create, list, or delete tracks yourself, see
+[Managing tracks from the CLI](#managing-tracks-from-the-cli).
+
+:::note
+
+The CLI calls tracks **channels** in some places, such as the
+`shorebird channels` commands. Track and channel mean the same thing.
+
+:::
 
 ## How tracks work
 
@@ -38,15 +47,16 @@ flowchart LR
 | Track      | Description                                                                                                 |
 | ---------- | ----------------------------------------------------------------------------------------------------------- |
 | `stable`   | The default track. All devices receive patches from this track unless they explicitly subscribe to another. |
-| `staging`  | Convention for internal / CI validation before promoting to production.                                     |
-| `beta`     | Convention for wider pre-production testing (e.g., QA teams, opt-in testers).                               |
-| _Any name_ | Tracks are created on demand. Any string is a valid track name.                                             |
+| `staging`  | Commonly used for internal / CI validation before promoting to production.                                  |
+| `beta`     | Commonly used for wider pre-production testing (e.g., QA teams, opt-in testers).                            |
+| _Any name_ | Custom tracks are created on demand, or with `shorebird channels create`.                                   |
 
 :::note
 
-Track names are arbitrary strings. `staging` and `beta` are community
-conventions, not reserved keywords. Use whatever naming convention makes sense
-for your team.
+Track names are arbitrary strings. `shorebird channels create` and
+`shorebird patches set-track` accept names of up to 128 characters. Use whatever
+naming convention makes sense for your team. `stable`, `beta`, and `staging` are
+built-in names, so those tracks can't be deleted.
 
 :::
 
@@ -130,8 +140,8 @@ To move a patch to any other track by name, use `set-track`:
 
 ```bash
 shorebird patches set-track \
-  --release-version 1.0.0+1 \
-  --patch-number 1 \
+  --release 1.0.0+1 \
+  --patch 1 \
   --track beta
 ```
 
@@ -181,6 +191,50 @@ shorebird patches list --release-version 1.0.0+1
 
 The output shows each patch number, its active status, and the track it is
 currently assigned to.
+
+## Managing tracks from the CLI
+
+As of Shorebird 1.6.121, the `shorebird channels` commands list, create, and
+delete an app's tracks. Like other app commands, they read the app ID from
+`shorebird.yaml` in the current directory. Pass `--app-id` to run them from
+anywhere else, or `--flavor` to pick a flavor's app ID. All of them support the
+global `--json` flag.
+
+### List tracks
+
+```bash
+shorebird channels list
+```
+
+```
+1  stable
+2  beta
+```
+
+Each line shows the track's ID and name.
+
+### Create a track
+
+```bash
+shorebird channels create --name qa
+```
+
+You don't need to create a track before publishing to it, since
+`shorebird patch --track=<name>` creates it for you. Use `channels create` when
+you want the track to exist before its first patch. The command fails if a track
+with that name already exists.
+
+### Delete a track
+
+Devices on a deleted track stop receiving patches. There's no confirmation
+prompt. Instead, you confirm by repeating the track's name with
+`--confirm-name`, which works the same in a terminal and in CI:
+
+```bash
+shorebird channels delete --name qa --confirm-name qa
+```
+
+The built-in `stable`, `beta`, and `staging` tracks can't be deleted.
 
 ## Common patterns
 
@@ -242,8 +296,8 @@ track:
 
 ```bash
 shorebird patches set-track \
-  --release-version 1.0.0+1 \
-  --patch-number 1 \
+  --release 1.0.0+1 \
+  --patch 1 \
   --track beta
 ```
 

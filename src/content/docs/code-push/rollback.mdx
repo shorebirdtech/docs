@@ -174,18 +174,22 @@ separately from the patch and checked every time your patch is installed, or
 booted from on the user's device.
 
 Customers are also encouraged to use Shorebird's
-[patch-signing feature](https://docs.shorebird.dev/guides/patch-signing/) to
-cryptographically sign patch files. This uses the same cryptographic algorithms
-used in the Google and Apple app stores. When enabled, your
+[patch-signing feature](/code-push/guides/patch-signing) to cryptographically
+sign patch files. This uses the same cryptographic algorithms used in the Google
+and Apple app stores. When enabled, your
 [public key](https://en.wikipedia.org/wiki/Public-key_cryptography) is included
 in your app bundle and a patch's signature is checked on every install and boot
 to ensure your app can never accept a patch file not signed by your secret key.
 
 Finally Shorebird's [updater](https://github.com/shorebirdtech/updater) includes
 automatic on-device rollback. If for any reason a patch's hash or signature does
-not match, the patch is discarded. If for any reason a patch fails to load into
-the Dart runtime, a patch will be marked "bad" on that device, and the app will
-be automatically rolled back to the latest installed patch.
+not match, the patch is discarded. If a patch fails to load into the Dart
+runtime, the device marks it "bad" and never tries to boot it again. That launch
+runs your release's original code. If automatic updates are on, the device also
+checks for a newer patch. With `auto_update: false` in `shorebird.yaml`, the
+check happens when your app calls the updater. Later launches boot the newer
+patch once it has downloaded. Until then, they boot the previous working patch
+still on the device, or your release's original code if there isn't one.
 
 The previous patch file is always kept on disk until at least one successful
 boot is made of the next patch, after which a patch file is automatically

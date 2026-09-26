@@ -353,14 +353,34 @@ Refer to the
 [official Gradle documentation](https://docs.gradle.org/current/userguide/compatibility.html)
 to check which Java version works with which Gradle release.
 
+Shorebird looks for Java in this order, and uses the first one it finds:
+
+1. The `jdk-dir` Flutter setting, if you've set one.
+2. The JDK bundled with Android Studio.
+3. The `JAVA_HOME` environment variable.
+4. The `java` on your `PATH`.
+
+`shorebird doctor -v` prints the Java path it picked. Because Android Studio's
+JDK comes before `JAVA_HOME`, setting `JAVA_HOME` has no effect on a machine
+with Android Studio installed. To use a different JDK there, set `jdk-dir`:
+
+```sh
+shorebird flutter config --jdk-dir=/path/to/jdk
+```
+
+`shorebird flutter config` passes its arguments to Shorebird's copy of
+`flutter config`. Flutter stores `jdk-dir` in your user settings, not in the
+SDK, so it also changes the JDK used by any other Flutter install on your
+account. To go back to automatic detection, run
+`shorebird flutter config --jdk-dir=`.
+
 - [Android Studio](https://developer.android.com/studio) comes with a bundled
   JDK which should be auto-detected by Shorebird and might be the easiest way of
   solving the issue.
 - If in a GitHub Action, the [setup-java](https://github.com/actions/setup-java)
   action can help.
-- Or try installing the required Java version for your project's Gradle release
-  and set the path where it was installed in the `JAVA_HOME` environment
-  variable.
+- Or install the required Java version for your project's Gradle release and
+  point `jdk-dir` at it, or `JAVA_HOME` if Android Studio isn't installed.
 
 ## Missing a provisioning profile or no signing team was found
 

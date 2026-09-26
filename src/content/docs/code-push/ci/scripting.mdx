@@ -1,0 +1,156 @@
+---
+title: Scripting the Shorebird CLI
+description:
+  Run Shorebird commands unattended in CI or from coding agents, and read their
+  results as JSON.
+sidebar:
+  label: Scripting and JSON
+  order: 12
+---
+
+The Shorebird CLI can run without a person at the keyboard, in a CI job, a
+script, or a coding agent. This page covers how it behaves there, how to get
+machine-readable output, and how to run destructive commands safely.
+
+## Non-interactive mode
+
+Shorebird stops asking questions when any of these is true:
+
+- The global `--json` flag is passed.
+- stdout or stdin isn't a terminal, for example when output is piped to a file.
+- A CI environment variable is set, such as `CI` (with any value), `BOT=true`,
+  or the variables set by Travis, AppVeyor, Cirrus CI, AWS CodeBuild, or
+  Jenkins.
+
+In non-interactive mode, nothing waits for input:
+
+- **Some prompts use a default.** `shorebird init` uses your pubspec name as the
+  app's display name. `shorebird patch` without `--release-version` builds the
+  patch with the latest Flutter version to work out which release it belongs to,
+  which can pick the wrong release or Flutter version.
+- **Other prompts fail.** When there's no safe default, the command exits with
+  an error and a hint, usually naming the flag that provides the answer. For
+  example, `shorebird patch` fails on native code changes unless you pass
+  `--allow-native-diffs`, and `shorebird init` fails if you belong to several
+  organizations and don't pass `--organization-id`.
+- **Progress spinners become plain lines** when stdout isn't a terminal or
+  `--json` is passed. Each step prints `Starting ...` and then `Done ...` or
+  `Failed ...` to stderr.
+
+To keep a job from failing or guessing, pass every input as a flag: the app with
+`--app-id` or `--flavor`, and the release with `--release-version`. For
+`shorebird patch`, `--release-version=latest` targets the most recently updated
+release. Authenticate with an [API key](/account/api-keys) in the
+`SHOREBIRD_TOKEN` environment variable, since `shorebird login` needs a browser.
+
+## JSON output
+
+Pass the global `--json` flag to get one JSON object on stdout instead of
+human-readable text. `--json` also turns on non-interactive mode and removes
+color codes.
+
+These commands return structured JSON:
+
+| Group                                                           | Commands                                                                     |
+| --------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| [`shorebird account`](/account/cli#account-management-commands) | `whoami`, `apps`, `orgs`                                                     |
+| `shorebird apps`                                                | `list`, `rename`, `delete`, `transfer`                                       |
+| [`shorebird channels`](/code-push/tracks)                       | `list`, `create`, `delete`                                                   |
+| [`shorebird patches`](/code-push/patch#manage-patches)          | `list`, `info`, `set-track`, `rollback`, `rollforward`                       |
+| [`shorebird releases`](/code-push/release)                      | `list`, `info`                                                               |
+| Other                                                           | `shorebird doctor`, `shorebird flutter versions list`, `shorebird --version` |
+
+Other commands, such as `shorebird release` and `shorebird patch`, accept
+`--json` and run non-interactively, but still print human-readable logs. Check
+their exit code rather than parsing their output.
+
+### Success
+
+A successful command prints an object with `status` set to `success`. The
+command's result is in `data`, and `meta` says which CLI version and command
+produced it:
+
+```sh
+shorebird --version --json
+```
+
+```json
+{
+  "status": "success",
+  "data": {
+    "shorebird_version": "1.6.123",
+    "flutter_version": "3.47.5",
+    "flutter_revision": "ff900e7fbab20fdeb40905ee631baa8d49bd0fa1",
+    "engine_revision": "c663a2682e6adfc60a1aaff99ff62baa891dcf87"
+  },
+  "meta": { "version": "1.6.123", "command": "version" }
+}
+```
+
+The fields inside `data` depend on the command.
+
+### Errors
+
+A failed command prints an object with `status` set to `error` and exits with a
+non-zero code:
+
+```json
+{
+  "status": "error",
+  "error": {
+    "code": "fetch_failed",
+    "message": "Failed to fetch channels for app \"<app-id>\"."
+  },
+  "meta": { "version": "1.6.123", "command": "channels list" }
+}
+```
+
+`error.code` is one of:
+
+| Code                          | Meaning                                                          |
+| ----------------------------- | ---------------------------------------------------------------- |
+| `usage_error`                 | Invalid or missing arguments. Exit code 64.                      |
+| `interactive_prompt_required` | The command needed an answer to a prompt. Exit code 64.          |
+| `fetch_failed`                | Shorebird couldn't retrieve something it needed, such as an app. |
+| `software_error`              | The command failed unexpectedly.                                 |
+| `process_exit`                | The command stopped with a non-zero exit code.                   |
+
+When there's a way to recover, `error.hint` says what to do, such as the flag to
+add.
+
+:::caution
+
+Check the exit code before parsing stdout. A non-zero exit code always means the
+command failed, but not every failure prints a JSON object. Some checks that run
+before a command starts, such as looking for `shorebird.yaml`, print plain text.
+
+:::
+
+## Destructive commands
+
+Commands that delete something, `shorebird apps delete` and
+`shorebird channels delete`, never prompt. Instead, they require
+`--confirm-name` set to the exact name of what you're deleting:
+
+```sh
+shorebird apps delete --app-id <app-id> --confirm-name "Acme Mobile"
+```
+
+If the name doesn't match, nothing is deleted and the command exits with a usage
+error. Look the name up first, with `shorebird apps list` or
+`shorebird channels list`, rather than hard-coding it.
+
+## Retrying rollbacks
+
+`shorebird patches rollback` and `shorebird patches rollforward` succeed when
+the patch is already in the requested state, so a retried job doesn't fail. Pass
+`--require-change` to make the command exit with a usage error when nothing
+changed, if your script needs to know. With `--json`, the `data.changed` field
+reports the same thing:
+
+```sh
+shorebird patches rollback --release-version 1.0.0+1 --patch-number 2 --json
+```
+
+See [Roll back a Patch](/code-push/rollback) for what a rollback does on
+devices.

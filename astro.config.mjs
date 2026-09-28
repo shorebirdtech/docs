@@ -19,6 +19,7 @@ import mermaid from 'astro-mermaid';
 import remarkGfm from 'remark-gfm';
 import { unified } from '@astrojs/markdown-remark';
 import { unlistedPages } from './src/unlisted.ts';
+import { HEADING_ANCHOR_LINK_SELECTOR } from './src/utils/heading-anchor.ts';
 
 const site = 'https://docs.shorebird.dev/';
 
@@ -251,6 +252,9 @@ Developer & Agent Interfaces:
             },
           ],
           pageSeparator: llmsPageSeparator,
+          // Strip heading anchor links from llms-full.txt and llms-small.txt
+          // (see src/utils/heading-anchor.ts).
+          customSelectors: { all: [HEADING_ANCHOR_LINK_SELECTOR] },
           // `exclude` only affects `llms-small.txt`, and `demote` lines
           // unlisted pages up for `stripUnlistedFromLlmsFull`.
           exclude: [...unlistedPages],

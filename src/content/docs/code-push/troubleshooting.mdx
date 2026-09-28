@@ -380,7 +380,8 @@ remains the minimum Java version, unchanged. The error names the dependency that
 is too old:
 
 ```
-Error: Your project's Gradle version (8.12) is lower than Flutter's minimum supported version of 8.14. Please upgrade your Gradle version.
+Error: Your project's Gradle version (8.12.0) is lower than Flutter's minimum supported version of 8.14.0. Please upgrade your Gradle version.
+Alternatively, use the flag "--android-skip-build-dependency-validation" to bypass this check.
 ```
 
 The error also includes a "Potential fix" line pointing at the file to change.
@@ -406,8 +407,7 @@ produces a `libapp.so.sym` file, which Google Play Console uses to symbolicate
 Dart crashes. If you see this warning when building an Android release:
 
 ```
-libapp.so.sym or libapp.so.dbg not present when checking final appbundle for
-debug symbols. Play Console will not receive Dart crash symbols for this build.
+libapp.so.sym or libapp.so.dbg not present when checking final appbundle for debug symbols. Play Console will not receive Dart crash symbols for this build. To enable, remove `packaging.jniLibs.keepDebugSymbols.add("**/libapp.so")` from android/app/build.gradle.kts.
 ```
 
 your `android/app/build.gradle` (or `build.gradle.kts`) most likely still

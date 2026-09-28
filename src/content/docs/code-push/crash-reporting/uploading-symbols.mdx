@@ -61,3 +61,43 @@ symbols can be downloaded from the following URLs:
 https://download.shorebird.dev/flutter_infra_release/flutter/f275acddf709f94ef38af54adb2c1a0a0a90b5c6/android-arm64-release/symbols.zip
 https://download.shorebird.dev/flutter_infra_release/flutter/f275acddf709f94ef38af54adb2c1a0a0a90b5c6/android-arm-release/symbols.zip
 https://download.shorebird.dev/flutter_infra_release/flutter/f275acddf709f94ef38af54adb2c1a0a0a90b5c6/android-x64-release/symbols.zip
+
+# Dart symbols for obfuscated builds
+
+The engine symbols above cover Flutter's C++ code. If you build with
+`--obfuscate` or `--split-debug-info`, your Dart code's debug information is
+also removed from the app, and your crash reporting tool needs it to show
+readable Dart stack traces.
+
+`--split-debug-info` writes that debug information to a directory, one file per
+architecture, such as `app.android-arm64.symbols` or `app.ios-arm64.symbols`:
+
+```sh
+shorebird release android --obfuscate --split-debug-info=build/symbols
+```
+
+If you pass `--obfuscate` without `--split-debug-info`, Shorebird writes the
+files to `build/shorebird/symbols`.
+
+Upload the files in that directory by following your tool's guide:
+
+- [Sentry: Debug Symbols](https://docs.sentry.io/platforms/dart/guides/flutter/debug-symbols/)
+- [Crashlytics: Get readable crash reports](https://firebase.google.com/docs/crashlytics/flutter/get-deobfuscated-reports)
+
+:::caution[iOS]
+
+On iOS, the symbol files are only usable by crash reporting tools for releases
+built with Flutter 3.47.5 or newer, the default Flutter version since Shorebird
+1.6.123. What counts is the Flutter version the release was built with, so a
+release that pins an older version with `--flutter-version` still gets the old
+files. With those, tools such as `sentry-cli` report finding no debug
+information files, even though the upload command succeeds. Release again with
+Flutter 3.47.5 or newer to get readable Dart stack traces on iOS.
+
+:::
+
+`shorebird patch` accepts the same flags, and an obfuscated release's patches
+are obfuscated too. When a patch writes to the same directory as an earlier
+build, whether the default or a path you pass again, it replaces that build's
+files, because the file names are the same. Upload or copy the files after every
+build, before you run the next one.

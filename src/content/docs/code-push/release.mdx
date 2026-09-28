@@ -450,19 +450,19 @@ stock Flutter. See
 
 ## Options
 
-| Option               | Abbreviation | Description                                                                                         |
-| -------------------- | ------------ | --------------------------------------------------------------------------------------------------- |
-| `--platforms`        | `-p`         | Comma-separated list of platforms to release simultaneously (e.g., `android,ios`).                  |
-| `--flavor`           |              | The product flavor to use when building.                                                            |
-| `--target`           | `-t`         | The main entrypoint file of the application.                                                        |
-| `--flutter-version`  |              | The Flutter version to build with (e.g., `3.24.0`). Defaults to the version bundled with Shorebird. |
-| `--build-name`       |              | Override the version name (e.g., `1.2.3`).                                                          |
-| `--build-number`     |              | Override the version code / build number (e.g., `42`).                                              |
-| `--artifact`         |              | Android artifact type: `aab` (default) or `apk`.                                                    |
-| `--target-platform`  |              | Android ABIs to compile: `android-arm`, `android-arm64`, `android-x64`. Defaults to all three.      |
-| `--dry-run`          | `-n`         | Build and validate the release but **do not upload** it. Ideal for CI validation.                   |
-| `--obfuscate`        |              | Obfuscate Dart code. Must be used together with `--split-debug-info`.                               |
-| `--split-debug-info` |              | Output debug symbol files to the specified directory when obfuscating.                              |
+| Option               | Abbreviation | Description                                                                                                                                                          |
+| -------------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--platforms`        | `-p`         | Comma-separated list of platforms to release simultaneously (e.g., `android,ios`).                                                                                   |
+| `--flavor`           |              | The product flavor to use when building.                                                                                                                             |
+| `--target`           | `-t`         | The main entrypoint file of the application.                                                                                                                         |
+| `--flutter-version`  |              | The Flutter version to build with (e.g., `3.24.0`). Defaults to the version bundled with Shorebird.                                                                  |
+| `--build-name`       |              | Override the version name (e.g., `1.2.3`).                                                                                                                           |
+| `--build-number`     |              | Override the version code / build number (e.g., `42`).                                                                                                               |
+| `--artifact`         |              | Android artifact type: `aab` (default) or `apk`.                                                                                                                     |
+| `--target-platform`  |              | Android ABIs to compile: `android-arm`, `android-arm64`, `android-x64`. Defaults to all three.                                                                       |
+| `--dry-run`          | `-n`         | Build and validate the release but **do not upload** it. Ideal for CI validation.                                                                                    |
+| `--obfuscate`        |              | Obfuscate Dart code. Without `--split-debug-info`, symbols are written to `build/shorebird/symbols`.                                                                 |
+| `--split-debug-info` |              | Output Dart debug symbol files to the specified directory. See [Uploading Symbols](/code-push/crash-reporting/uploading-symbols#dart-symbols-for-obfuscated-builds). |
 
 ### iOS-specific options
 

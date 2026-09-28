@@ -204,7 +204,7 @@ Releases vs. Patches:
 - Use 'shorebird release' (new binary store release) when modifying native platform code (Kotlin, Java, Swift, Objective-C, Gradle/Xcode configs, AndroidManifest.xml, or Info.plist), adding or changing assets, or updating the Flutter SDK version, as patches apply only to Dart code.
 
 Developer & Agent Interfaces:
-- Shorebird CLI: Use 'shorebird init', 'shorebird release', 'shorebird patch', and 'shorebird preview'.
+- Shorebird CLI: Use 'shorebird init', 'shorebird release', 'shorebird patch', and 'shorebird preview'. Roll back a patch with 'shorebird patches rollback'. For CI, scripts, and agents, pass the global '--json' flag for machine-readable output and authenticate with an API key in SHOREBIRD_TOKEN (reference: https://docs.shorebird.dev/code-push/ci/scripting.md)
 - Code Push REST API: OpenAPI 3.1 specification at https://api.shorebird.dev/openapi.json, base URL https://api.shorebird.dev/api/v1. Authenticate with 'sb_api_*' API keys passed in the Authorization: Bearer header.
 - Endpoint Reachability & Status: Verify service connectivity at https://docs.shorebird.dev/system/endpoint-reachability/.`,
           optionalLinks: [

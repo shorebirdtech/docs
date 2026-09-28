@@ -321,8 +321,9 @@ shorebird release android '--' --dart-define=foo=bar
 
 ## Xcode project `overrides FLUTTER_ build setting(s)` warning
 
-`shorebird doctor`, and `shorebird release` and `shorebird patch` for iOS, print
-this warning when your Xcode project hard-codes a Flutter build setting:
+`shorebird doctor` and `shorebird init`, and `shorebird release` and
+`shorebird patch` for iOS, print this warning when your Xcode project hard-codes
+a Flutter build setting:
 
 ```
 ios/Runner.xcodeproj/project.pbxproj overrides FLUTTER_ build setting(s): FLUTTER_ROOT. FLUTTER_* variables are set by Flutter (at runtime or via ios/Flutter/Generated.xcconfig) and should not be hard-coded in the Xcode project.

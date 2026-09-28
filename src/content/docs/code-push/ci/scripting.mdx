@@ -19,8 +19,8 @@ Shorebird stops asking questions when any of these is true:
 - The global `--json` flag is passed.
 - stdout or stdin isn't a terminal, for example when output is piped to a file.
 - A CI environment variable is set, such as `CI` (with any value), `BOT=true`,
-  or the variables set by Travis, AppVeyor, Cirrus CI, AWS CodeBuild, or
-  Jenkins.
+  or the variables set by GitHub Actions, Azure Pipelines, Travis, AppVeyor,
+  Cirrus CI, AWS CodeBuild, or Jenkins.
 
 In non-interactive mode, nothing waits for input:
 

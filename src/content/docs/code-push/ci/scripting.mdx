@@ -51,14 +51,14 @@ color codes.
 
 These commands return structured JSON:
 
-| Group                                                           | Commands                                                                     |
-| --------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| [`shorebird account`](/account/cli#account-management-commands) | `whoami`, `apps`, `orgs`                                                     |
-| `shorebird apps`                                                | `list`, `rename`, `delete`, `transfer`                                       |
-| [`shorebird channels`](/code-push/tracks)                       | `list`, `create`, `delete`                                                   |
-| [`shorebird patches`](/code-push/patch#manage-patches)          | `list`, `info`, `set-track`, `rollback`, `rollforward`                       |
-| [`shorebird releases`](/code-push/release)                      | `list`, `info`                                                               |
-| Other                                                           | `shorebird doctor`, `shorebird flutter versions list`, `shorebird --version` |
+| Group                                                                  | Commands                                                                     |
+| ---------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| [`shorebird account`](/account/cli#account-management-commands)        | `whoami`, `apps`, `orgs`                                                     |
+| [`shorebird apps`](/account/cli#app-management-commands)               | `list`, `rename`, `delete`, `transfer`                                       |
+| [`shorebird channels`](/code-push/tracks#managing-tracks-from-the-cli) | `list`, `create`, `delete`                                                   |
+| [`shorebird patches`](/code-push/patch#manage-patches)                 | `list`, `info`, `set-track`, `rollback`, `rollforward`                       |
+| [`shorebird releases`](/code-push/release)                             | `list`, `info`                                                               |
+| Other                                                                  | `shorebird doctor`, `shorebird flutter versions list`, `shorebird --version` |
 
 Other commands, such as `shorebird release` and `shorebird patch`, accept
 `--json` and run non-interactively, but still print human-readable logs. Check
@@ -152,5 +152,7 @@ reports the same thing:
 shorebird patches rollback --release-version 1.0.0+1 --patch-number 2 --json
 ```
 
-See [Roll back a Patch](/code-push/rollback) for what a rollback does on
-devices.
+See [Roll back from the CLI](/code-push/rollback#roll-back-from-the-cli) for the
+command's options, and
+[What happens when a patch is rolled back?](/code-push/rollback#what-happens-when-a-patch-is-rolled-back)
+for what it does on devices.

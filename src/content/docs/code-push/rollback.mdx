@@ -28,9 +28,11 @@ active patch again.
 If a broken patch is live in production, roll it back immediately using one of
 these options:
 
-- **Option A (CLI - Fastest)**: Run the following command in your terminal:
+- **Option A (CLI - Fastest)**: Run the following command in your terminal. It
+  needs Shorebird 1.6.120 or newer. On an older CLI, use Option B, or run
+  `shorebird upgrade` first:
   ```sh
-  shorebird patches set-track --release-version <RELEASE_VERSION> --patch-number <PATCH_NUMBER> --track stable
+  shorebird patches rollback --release-version <RELEASE_VERSION> --patch-number <PATCH_NUMBER>
   ```
 - **Option B (Console)**: Go to the
   [Shorebird Console](https://console.shorebird.dev/), select your release,
@@ -91,6 +93,38 @@ patch row, click the "more" icon (three vertical dots) and select "Rollback":
   alt='The Shorebird Console showing a "roll back patch" button'
 />
 
+### Roll back from the CLI
+
+As of Shorebird 1.6.120, you can also roll back a patch from the command line.
+Pass the release version and the patch number:
+
+```sh
+shorebird patches rollback --release-version 1.0.0+1 --patch-number 2
+```
+
+```
+Patch 2 on release 1.0.0+1 has been rolled back.
+ID:          42
+Number:      2
+Track:       stable
+Rolled back: yes
+```
+
+Shorebird reads the app ID from `shorebird.yaml` in the current directory. To
+run the command from anywhere else, such as a CI job, pass `--app-id`. If your
+app uses [flavors](/code-push/guides/flavors/android), pass `--flavor` to pick
+the right app ID.
+
+If the patch is already rolled back, the command says so and exits successfully.
+Add `--require-change` to make it exit with an error instead, so a script can
+tell whether this run changed anything. Add the global `--json` flag for
+machine-readable output:
+
+```sh
+shorebird patches rollback --release-version 1.0.0+1 --patch-number 2 \
+  --require-change --json
+```
+
 ## What happens when a patch is rolled back?
 
 Imagine a release with two patches:
@@ -150,6 +184,27 @@ Confirm the dialog to roll the patch forward.
 The **Roll Forward** action only appears on a patch that is currently rolled
 back. On a patch that is not rolled back, the same menu offers "Rollback"
 instead.
+
+### Roll forward from the CLI
+
+`shorebird patches rollforward` takes the same arguments as
+[`shorebird patches rollback`](#roll-back-from-the-cli), including `--app-id`,
+`--flavor`, `--require-change`, and `--json`:
+
+```sh
+shorebird patches rollforward --release-version 1.0.0+1 --patch-number 2
+```
+
+```
+Patch 2 on release 1.0.0+1 has been rolled forward.
+ID:          42
+Number:      2
+Track:       stable
+Rolled back: no
+```
+
+If the patch isn't rolled back, the command reports that it is already active
+and exits successfully, unless you pass `--require-change`.
 
 ### What happens when a patch is rolled forward?
 

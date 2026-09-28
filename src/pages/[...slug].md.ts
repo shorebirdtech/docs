@@ -3,13 +3,14 @@ import type { APIContext, GetStaticPaths } from 'astro';
 import { experimental_AstroContainer } from 'astro/container';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import type { ElementContent } from 'hast';
-import { selectAll } from 'hast-util-select';
+import { matches, selectAll } from 'hast-util-select';
 import rehypeParse from 'rehype-parse';
 import rehypeRemark from 'rehype-remark';
 import remarkGfm from 'remark-gfm';
 import remarkStringify from 'remark-stringify';
 import { unified } from 'unified';
 import { unlistedPages } from '~/unlisted';
+import { HEADING_ANCHOR_LINK_SELECTOR } from '~/utils/heading-anchor';
 
 // Serves Markdown for every docs page at its URL + `.md`, so AI agents can
 // fetch page content directly instead of scraping rendered HTML. Renders
@@ -40,6 +41,20 @@ const astroContainer = await experimental_AstroContainer.create({
 
 const htmlToMarkdown = unified()
   .use(rehypeParse, { fragment: true })
+  // Drop Starlight's heading anchor links (see `~/utils/heading-anchor`). The
+  // heading itself is kept.
+  .use(function stripHeadingAnchorLinks() {
+    const strip = (node: { children?: ElementContent[] }) => {
+      if (!node.children) return;
+      node.children = node.children.filter(
+        (child) => !matches(HEADING_ANCHOR_LINK_SELECTOR, child),
+      );
+      for (const child of node.children) {
+        if (child.type === 'element') strip(child);
+      }
+    };
+    return (tree) => strip(tree as { children?: ElementContent[] });
+  })
   // `<Tabs>` renders as a `<starlight-tabs>` custom element; without this,
   // hast-util-to-mdast has no idea what it is and drops the tab labels
   // while running every panel's content together with no separation.

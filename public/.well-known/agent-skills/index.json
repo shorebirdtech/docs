@@ -20,6 +20,24 @@
       "url": "https://docs.shorebird.dev/code-push/patch.md"
     },
     {
+      "name": "code-push-rollback",
+      "type": "cli-workflow",
+      "description": "Roll back a broken patch, or roll a rolled-back patch forward again, from the console or the Shorebird CLI.",
+      "url": "https://docs.shorebird.dev/code-push/rollback.md"
+    },
+    {
+      "name": "code-push-tracks",
+      "type": "cli-workflow",
+      "description": "Publish patches to tracks (channels) such as staging or beta, promote them to stable, and manage tracks from the CLI.",
+      "url": "https://docs.shorebird.dev/code-push/tracks.md"
+    },
+    {
+      "name": "cli-scripting",
+      "type": "cli-workflow",
+      "description": "Run the Shorebird CLI unattended in CI or from agents: non-interactive mode, --json output and error codes, and safe destructive commands.",
+      "url": "https://docs.shorebird.dev/code-push/ci/scripting.md"
+    },
+    {
       "name": "shorebird-api",
       "type": "api-reference",
       "description": "Programmatic access to Shorebird apps, releases, artifacts, and channels via REST OpenAPI 3.1.",

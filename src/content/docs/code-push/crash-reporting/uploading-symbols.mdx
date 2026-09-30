@@ -20,8 +20,9 @@ reports, upload the symbols to your crash reporting tool.
 There are two kinds of symbols:
 
 - **Shorebird engine symbols** cover native engine frames, such as
-  `libflutter.so` on Android and `Flutter.framework` on iOS. Get them from the
-  console or the URLs below.
+  `libflutter.so` on Android and `Flutter.framework` on iOS. On iOS, get them
+  from the console or the [download URL](#symbols-for-ios). On Android, use the
+  [download URLs](#symbols-for-android).
 - **Dart symbols** cover Dart frames. You only need them if you build with
   `--obfuscate` or `--split-debug-info`. See
   [Dart symbols for obfuscated builds](#dart-symbols-for-obfuscated-builds).
@@ -45,13 +46,15 @@ https://docs.flutter.dev/cookbook/maintenance/error-reporting
 
 # Getting symbols from the console
 
-Shorebird's console provides links to download the symbols for both for your
-built app and the Flutter engine in the "Artifacts" tab of the release page.
+For iOS and macOS releases, the "Artifacts" tab of the release page in
+Shorebird's console links to the Flutter engine's dSYM, next to your release's
+build artifacts. The console doesn't link to Android engine symbols. Use the
+[download URLs](#symbols-for-android) instead.
 
-The current URL format for the console has this tab under:
+The current URL format for this tab is:
 
 ```
-https://console.shorebird.dev/apps/<app-id>/releases/<release-id>
+https://console.shorebird.dev/orgs/<org-id>/apps/<app-id>/releases/<release-id>/artifacts
 ```
 
 # Manual instructions (only needed for CI or scripts)
@@ -78,6 +81,9 @@ can be downloaded from the following URL:
 
 https://storage.googleapis.com/download.shorebird.dev/flutter_infra_release/flutter/f275acddf709f94ef38af54adb2c1a0a0a90b5c6/ios-release/Flutter.framework.dSYM.zip
 
+For some older Flutter versions, the file is named `Flutter.dSYM.zip` instead of
+`Flutter.framework.dSYM.zip`.
+
 ## Symbols for Android
 
 Assuming engine hash `f275acddf709f94ef38af54adb2c1a0a0a90b5c6`, the Android
@@ -100,7 +106,7 @@ CLI, which searches it recursively for `.so` files:
 firebase crashlytics:symbols:upload --app=FIREBASE_APP_ID PATH/TO/SYMBOLS
 ```
 
-On iOS, upload `Flutter.framework.dSYM.zip` in the dSYMs tab of the Crashlytics
+On iOS, upload the engine's dSYM zip in the dSYMs tab of the Crashlytics
 dashboard, or pass it to Crashlytics' `upload-symbols` script, which accepts zip
 archives of dSYMs. See
 [Get readable crash reports](https://firebase.google.com/docs/crashlytics/ios/get-deobfuscated-reports)

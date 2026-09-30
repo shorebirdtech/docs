@@ -26,10 +26,11 @@ There are two kinds of symbols:
   `--obfuscate` or `--split-debug-info`. See
   [Dart symbols for obfuscated builds](#dart-symbols-for-obfuscated-builds).
 
-A common mistake is to upload only the `--split-debug-info` output with
+A mistake to avoid is uploading only the `--split-debug-info` output with
 `firebase crashlytics:symbols:upload`. Those files don't contain Shorebird's
 engine symbols, so native engine crashes stay unsymbolicated. To make both Dart
-and native crashes readable, upload both kinds of symbols.
+and native crashes readable, upload both kinds of symbols. See
+[Uploading engine symbols to Crashlytics](#uploading-engine-symbols-to-crashlytics).
 
 Upload symbols as part of each release build. Some tools only symbolicate
 crashes reported after the upload. For example, Crashlytics needs Dart symbols
@@ -85,6 +86,22 @@ symbols can be downloaded from the following URLs:
 https://download.shorebird.dev/flutter_infra_release/flutter/f275acddf709f94ef38af54adb2c1a0a0a90b5c6/android-arm64-release/symbols.zip
 https://download.shorebird.dev/flutter_infra_release/flutter/f275acddf709f94ef38af54adb2c1a0a0a90b5c6/android-arm-release/symbols.zip
 https://download.shorebird.dev/flutter_infra_release/flutter/f275acddf709f94ef38af54adb2c1a0a0a90b5c6/android-x64-release/symbols.zip
+
+# Uploading engine symbols to Crashlytics
+
+On Android, unzip each architecture's `symbols.zip` into its own directory,
+because every zip contains a file named `libflutter.so`. Then upload them with
+the Firebase CLI, which searches the directory you pass for `.so` files:
+
+```sh
+firebase crashlytics:symbols:upload --app=FIREBASE_APP_ID PATH/TO/SYMBOLS
+```
+
+On iOS, upload `Flutter.framework.dSYM.zip` in the dSYMs tab of the Crashlytics
+dashboard, or unzip it and upload `Flutter.framework.dSYM` with Crashlytics'
+`upload-symbols` script. See
+[Get readable crash reports](https://firebase.google.com/docs/crashlytics/ios/get-deobfuscated-reports)
+for the script's options.
 
 # Dart symbols for obfuscated builds
 

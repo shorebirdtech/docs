@@ -11,10 +11,10 @@ with Shorebird releases and patches. However, if you have multiple patches, it
 can be unclear which patch caused the crash. This document shows how you can use
 Crashlytics to differentiate between patches.
 
-Native engine frames need Shorebird's engine symbols. If you build with
-`--obfuscate` or `--split-debug-info`, Dart frames also need the Dart symbols
-from that build. These are separate uploads. See
-[Uploading Symbols](/code-push/crash-reporting/uploading-symbols).
+To see readable native engine frames, upload Shorebird's engine symbols to
+Crashlytics. If you build with `--obfuscate` or `--split-debug-info`, Dart
+frames also need the Dart symbols from that build. These are separate uploads.
+See [Uploading Symbols](/code-push/crash-reporting/uploading-symbols).
 
 ## Add the `shorebird_code_push` package to your project.
 

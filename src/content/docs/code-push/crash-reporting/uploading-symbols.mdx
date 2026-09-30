@@ -32,9 +32,9 @@ engine symbols, so native engine crashes stay unsymbolicated. To make both Dart
 and native crashes readable, upload both kinds of symbols. See
 [Uploading engine symbols to Crashlytics](#uploading-engine-symbols-to-crashlytics).
 
-Upload symbols as part of each release build. Some tools only symbolicate
-crashes reported after the upload. For example, Crashlytics needs Dart symbols
-uploaded before an obfuscated build reports a crash.
+Upload Dart symbols as part of each build. Some tools only symbolicate crashes
+reported after the upload. For example, Crashlytics needs Dart symbols uploaded
+before an obfuscated build reports a crash.
 
 :::
 
@@ -89,19 +89,22 @@ https://download.shorebird.dev/flutter_infra_release/flutter/f275acddf709f94ef38
 
 # Uploading engine symbols to Crashlytics
 
-On Android, unzip each architecture's `symbols.zip` into its own directory,
-because every zip contains a file named `libflutter.so`. Then upload them with
-the Firebase CLI, which searches the directory you pass for `.so` files:
+On Android, Crashlytics only reports native crashes if you set up
+[NDK crash reporting](https://firebase.google.com/docs/crashlytics/android/get-started-ndk),
+which the FlutterFire plugin doesn't add for you. Unzip each architecture's
+`symbols.zip` into its own subdirectory of one folder, because every zip
+contains a file named `libflutter.so`. Then pass that folder to the Firebase
+CLI, which searches it recursively for `.so` files:
 
 ```sh
 firebase crashlytics:symbols:upload --app=FIREBASE_APP_ID PATH/TO/SYMBOLS
 ```
 
 On iOS, upload `Flutter.framework.dSYM.zip` in the dSYMs tab of the Crashlytics
-dashboard, or unzip it and upload `Flutter.framework.dSYM` with Crashlytics'
-`upload-symbols` script. See
+dashboard, or pass it to Crashlytics' `upload-symbols` script, which accepts zip
+archives of dSYMs. See
 [Get readable crash reports](https://firebase.google.com/docs/crashlytics/ios/get-deobfuscated-reports)
-for the script's options.
+for how to run the script, or run it with `--help` for its options.
 
 # Dart symbols for obfuscated builds
 

@@ -22,17 +22,18 @@ There are two kinds of symbols:
 - **Shorebird engine symbols** cover native engine frames, such as
   `libflutter.so` on Android and `Flutter.framework` on iOS. Get them from the
   console or the URLs below.
-- **Dart symbols** come from `--split-debug-info` and cover Dart frames. See
+- **Dart symbols** cover Dart frames. You only need them if you build with
+  `--obfuscate` or `--split-debug-info`. See
   [Dart symbols for obfuscated builds](#dart-symbols-for-obfuscated-builds).
 
-A common mistake is to upload only the `--split-debug-info` output to
-Crashlytics' native symbol upload. Those files don't contain Shorebird's engine
-symbols, so native engine crashes stay unsymbolicated. To make both Dart and
-native crashes readable, upload both kinds of symbols in CI.
+A common mistake is to upload only the `--split-debug-info` output with
+`firebase crashlytics:symbols:upload`. Those files don't contain Shorebird's
+engine symbols, so native engine crashes stay unsymbolicated. To make both Dart
+and native crashes readable, upload both kinds of symbols.
 
-Symbols only apply to crashes reported after the upload. For example,
-Crashlytics doesn't symbolicate crashes it already received. Upload symbols as
-part of each release build.
+Upload symbols as part of each release build. Some tools only symbolicate
+crashes reported after the upload. For example, Crashlytics needs Dart symbols
+uploaded before an obfuscated build reports a crash.
 
 :::
 

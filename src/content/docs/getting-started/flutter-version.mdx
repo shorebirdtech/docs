@@ -60,11 +60,16 @@ are updated within 1 business day.
 
 ### Supported Flutter versions
 
+Shorebird supports Flutter versions at most two years old, and may require a
+newer minimum. The table below lists the current minimum for each platform.
+Support for older Flutter versions can be negotiated as part of an
+[Enterprise plan](/enterprise/).
+
 | Platform | Minimum Flutter Version | Minimum Shorebird Version |
 | -------- | ----------------------- | ------------------------- |
-| Android  | 3.24.0                  | 1.2.0                     |
-| iOS      | 3.24.0                  | 1.2.0                     |
-| MacOS    | 3.27.3                  | 1.6.17                    |
+| Android  | 3.27.0                  | 1.4.0                     |
+| iOS      | 3.27.0                  | 1.4.0                     |
+| MacOS    | 3.27.4                  | 1.6.17                    |
 | Windows  | 3.32.6                  | 1.6.17                    |
 | Linux    | 3.29.0                  | 1.6.17                    |
 
@@ -154,6 +159,9 @@ To help you avoid hidden pitfalls, Shorebird maintains version notes on Flutter
 releases that have known issues affecting releasing apps or patching. Check here
 before upgrading or deploying.
 
+- October 1, 2026: Shorebird supports Flutter versions at most two years old.
+  The minimum supported version for Android and iOS is now 3.27.0 (December 11,
+  2024).
 - November 18, 2025: Shorebird has skipped support for 3.38.0 given
   [an issue with the pinned Dart version](https://github.com/flutter/flutter/issues/178400).
   If you're using 3.38 please ensure you are at least on 3.38.1 or higher.

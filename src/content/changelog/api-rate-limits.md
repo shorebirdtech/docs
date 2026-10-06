@@ -9,7 +9,7 @@ docLink:
 ---
 
 Every API response now carries `RateLimit` and `RateLimit-Policy` headers, so
-scripts can see their limit and how much of it is left.
+scripts can see their limit and how close they are to it.
 
 - Going over the limit returns 429 with a `Retry-After` header and the code
   `rate_limited`.

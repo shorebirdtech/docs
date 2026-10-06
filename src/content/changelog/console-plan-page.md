@@ -19,3 +19,5 @@ own.
 - Set a monthly spending limit on overage installs, see past overage charges,
   and open or pay invoices from the same page.
 - A past-due payment shows a banner that links to the Plan page.
+- The organizations list is split into Owned by you and Member of, with each
+  organization's plan tier, and organization settings say whose plan it runs on.

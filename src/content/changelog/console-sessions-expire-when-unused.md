@@ -5,8 +5,8 @@ area: Console
 type: Changed
 ---
 
-A sign-in now ends after 30 days without use, instead of at a fixed age, so you
-stay signed in as long as you keep using Shorebird.
+Sign-ins no longer end at a fixed 90 days. A sign-in now lasts until it goes 30
+days without use, so you stay signed in as long as you keep using Shorebird.
 
-- Previously, a sign-in ended 90 days after it began, even in daily use.
-- You can still sign out any session from your account settings.
+- Previously, a sign-in also ended 90 days after it began, even in daily use.
+- You can still revoke any session from your Account page.

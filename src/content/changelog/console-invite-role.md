@@ -8,10 +8,8 @@ docLink:
   href: /account/orgs/#member-roles
 ---
 
-The invite dialog now has a role picker, so a new member joins with the right
-role instead of always as a Developer.
+The invite dialog now has a role picker, so a new member joins with any role
+your plan offers instead of always as a Developer.
 
 - The dialog lists what the selected role can do.
 - Owner can't be picked. Ownership changes only through an ownership transfer.
-- Pending invitations now have a Copy invitation link button in the members
-  table.

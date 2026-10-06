@@ -5,8 +5,8 @@ version: 1.6.123
 area: CLI
 type: Fixed
 docLink:
-  label: Release options
-  href: /code-push/release/#options
+  label: Dart symbols for obfuscated builds
+  href: /code-push/crash-reporting/uploading-symbols/#dart-symbols-for-obfuscated-builds
 ---
 
 On iOS, `--split-debug-info` now writes a Mach-O dSYM, so symbol servers ingest

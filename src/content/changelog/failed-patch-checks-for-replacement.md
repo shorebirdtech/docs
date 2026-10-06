@@ -18,6 +18,8 @@ decides when to check.
   couldn't pick up a fixed patch until it launched again.
 - Patch checks now report the patch the device is actually running, so each
   device is attributed to the right patch.
+- Installing a new patch can no longer retire a patch that is still booting for
+  the first time.
 - These fixes are in the updater built into Shorebird's Flutter engine, so they
   apply to releases built with Shorebird's Flutter 3.47.4 or later, the default
   in CLI 1.6.122.

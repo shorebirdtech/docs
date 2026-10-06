@@ -5,8 +5,8 @@ version: 1.6.121
 area: CLI
 type: New
 docLink:
-  label: Transfer an app
-  href: /account/orgs/#transfer-an-app
+  label: App management commands
+  href: /account/cli/#app-management-commands
 ---
 
 New `shorebird apps` commands list, rename, delete, and transfer apps without

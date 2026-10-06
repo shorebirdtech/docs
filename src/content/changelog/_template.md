@@ -9,8 +9,9 @@
 
 # A short headline, in sentence case.
 title: Roll patches back from the CLI
-# The day the release shipped, as YYYY-MM-DD with no quotes. Entries from the
-# same day are listed in file name order.
+# The day the change shipped, as YYYY-MM-DD with no quotes: the CLI release
+# date, or for a Console, API, or server-side change, the day it went live.
+# Entries from the same day are listed in file name order.
 date: 2026-08-28
 # The Shorebird CLI release that shipped the change, without a "v". Required
 # for CLI and Flutter changes. Delete this line for a change that didn't ship in

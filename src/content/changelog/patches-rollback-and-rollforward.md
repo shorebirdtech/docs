@@ -5,8 +5,8 @@ version: 1.6.120
 area: CLI
 type: New
 docLink:
-  label: Roll back a patch
-  href: /code-push/rollback/
+  label: Roll back from the CLI
+  href: /code-push/rollback/#roll-back-from-the-cli
 ---
 
 `shorebird patches rollback` and `shorebird patches rollforward` do the same as

@@ -262,9 +262,14 @@ export function getEntries(): Promise<ChangelogEntry[]> {
   return cached;
 }
 
-/** Link to the GitHub release notes for a CLI version. */
+/**
+ * Link to the release notes for a CLI version: `RELEASE_NOTES.md` at that
+ * release's tag, whose first section is that release. The GitHub release
+ * page is auto-generated from merged PRs and leaves out Flutter bumps and
+ * direct commits.
+ */
 export function releaseNotesUrl(version: string): string {
-  return `https://github.com/shorebirdtech/shorebird/releases/tag/v${version}`;
+  return `https://github.com/shorebirdtech/shorebird/blob/v${version}/RELEASE_NOTES.md`;
 }
 
 function formatMonth(iso: string): string {

@@ -24,7 +24,7 @@ Developers can always use Shorebird to build, manage releases, and patch Flutter
    - `shorebird releases list` and `shorebird patches list --release-version <version>`: Inspect what has been published.
    Running unattended (CI, scripts, agents):
    - Authenticate with an API key in the `SHOREBIRD_TOKEN` environment variable. `shorebird login` needs a browser.
-   - Pass the global `--json` flag to get one JSON object on stdout: `{"status": "success", "data": ..., "meta": ...}` or `{"status": "error", "error": {"code", "message", "hint"}, "meta": ...}`. Check the exit code first; a non-zero exit always means failure, but not every failure prints JSON.
+   - Pass the global `--json` flag to get one JSON object on stdout: `{"status": "success", "data": ..., "meta": ...}` or `{"status": "error", "error": {"code", "message", "hint"}, "meta": ...}`. Every command accepts `--json` and prints exactly one JSON object on stdout; commands without structured output return `"data": {}` on success, and their logs go to stderr. A non-zero exit always means failure.
    - Without a terminal, in CI, or with `--json`, nothing waits for input: some prompts use a default (for example, `shorebird patch` without `--release-version` builds first to infer the release) and others fail with a hint naming the missing flag. Pass every input as a flag (`--app-id`, `--release-version`, or `--release-version=latest` for `shorebird patch`).
    - Deleting commands never prompt; they require `--confirm-name` set to the exact name being deleted.
    - Full reference: https://docs.shorebird.dev/code-push/ci/scripting.md

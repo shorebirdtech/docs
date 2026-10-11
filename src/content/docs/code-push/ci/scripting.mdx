@@ -125,8 +125,8 @@ add.
 
 Check the exit code as well as `status`. A non-zero exit code always means the
 command failed. Every `--json` run prints exactly one JSON object on stdout,
-including failures in the checks that run before a command starts, which report
-`precondition_failed`.
+including failures in the checks that run before a command starts. Most of
+those, such as not being logged in, report `precondition_failed`.
 
 :::
 

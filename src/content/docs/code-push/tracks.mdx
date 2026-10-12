@@ -115,9 +115,9 @@ without rebuilding. This pushes the patch to all production users.
 
 :::note
 
-The Shorebird console and the `shorebird patches promote` command only promote a
-patch to `stable`. To move a patch to a different custom track, use
-`shorebird patches set-track` from the CLI.
+`shorebird patches promote` is deprecated. Use
+`shorebird patches set-track --track stable` instead. Existing scripts that call
+`promote` still work.
 
 :::
 
@@ -125,18 +125,21 @@ patch to `stable`. To move a patch to a different custom track, use
 
 Navigate to the release details page, click the **⋮** context menu next to the
 patch, choose **Change Track**, and select `stable` in the dialog that appears.
+The dialog lists every track in the app, so you can move a patch to any of them
+the same way.
 
 ### Via the CLI
 
 Promote a patch directly to `stable`:
 
 ```bash
-shorebird patches promote \
+shorebird patches set-track \
   --release-version 1.0.0+1 \
-  --patch-number 1
+  --patch-number 1 \
+  --track stable
 ```
 
-To move a patch to any other track by name, use `set-track`:
+To move a patch to any other track, pass that track's name to `--track`:
 
 ```bash
 shorebird patches set-track \
@@ -291,8 +294,8 @@ patch). It does **not** fall back to the `stable` track automatically.
 
 ### Can you promote a patch to a track other than stable?
 
-Using `shorebird patches set-track` from the CLI, you can assign a patch to any
-track:
+Yes. In the Shorebird console, choose **Change Track** on the patch and select
+any track. From the CLI, use `shorebird patches set-track`:
 
 ```bash
 shorebird patches set-track \
@@ -300,6 +303,3 @@ shorebird patches set-track \
   --patch-number 1 \
   --track beta
 ```
-
-The Shorebird console and `shorebird patches promote` only target `stable`. Use
-`set-track` from the CLI when you need to move a patch to a different track.

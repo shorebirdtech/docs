@@ -14,8 +14,8 @@ use are now removed automatically, so they stop piling up across upgrades and
 - Only the 10 most recently used previews are kept, and each is removed after 30
   days without use.
 - The Flutter version your CLI is pinned to is never removed.
-- `shorebird cache clean --unused` removes unused items now, without clearing
-  the rest of the cache.
+- `shorebird cache clean --unused` removes unused items right away, without
+  clearing the rest of the cache.
 
 ```sh
 shorebird cache clean --unused

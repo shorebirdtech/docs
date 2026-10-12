@@ -1,5 +1,5 @@
 ---
-title: patches promote is hidden from help
+title: The patches promote command is hidden from help
 date: 2026-10-11
 version: 1.6.128
 area: CLI

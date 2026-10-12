@@ -14,5 +14,6 @@ build, as `shorebird release` already did.
 
 - Previously only `--public-key-path` reached the patch build. Signing itself
   still worked.
-- The command now runs once per invocation instead of once per architecture, so
-  a command that prompts, such as for two-factor authentication, prompts once.
+- The `--public-key-cmd` command now runs once per `shorebird patch` or
+  `shorebird release` run, instead of once per architecture or platform, so a
+  command that prompts, such as for two-factor authentication, prompts once.

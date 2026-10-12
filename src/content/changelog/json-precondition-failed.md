@@ -17,5 +17,6 @@ message and a hint.
   being in a Shorebird project.
 - Previously some of these failures left stdout empty, and the reason was only
   on stderr.
-- `shorebird patches set-track`, `rollback`, and `rollforward` report `changed`,
-  so a script can tell whether the run did anything.
+- `shorebird patches set-track` now reports `changed` and the patch, as
+  `rollback` and `rollforward` already did, so a script can tell whether the run
+  did anything.

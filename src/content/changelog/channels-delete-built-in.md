@@ -10,7 +10,7 @@ docLink:
 ---
 
 `shorebird channels delete` now refuses `stable`, `beta`, and `staging` with a
-usage error before contacting the server, which always refused them.
+usage error before contacting the server, which already refuses them.
 
 - With `--json`, the success object no longer includes `is_default_track`, since
   a successful delete can no longer involve a built-in track.

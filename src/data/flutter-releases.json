@@ -1,17 +1,17 @@
 {
   "latestStable": {
-    "version": "3.47.1",
-    "dartVersion": "3.13.1",
-    "releaseDate": "2026-08-19"
+    "version": "3.47.7",
+    "dartVersion": "3.13.5",
+    "releaseDate": "2026-10-08"
   },
   "lines": [
     {
       "line": "3.47",
-      "latestPatch": "3.47.1",
-      "dartVersion": "3.13.1",
+      "latestPatch": "3.47.7",
+      "dartVersion": "3.13.5",
       "releaseDate": "2026-08-12",
-      "latestPatchDate": "2026-08-19",
-      "patchCount": 2
+      "latestPatchDate": "2026-10-08",
+      "patchCount": 8
     },
     {
       "line": "3.44",

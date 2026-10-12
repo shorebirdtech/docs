@@ -58,8 +58,9 @@ All expiration options are available on every plan.
 
 API keys support two permission levels:
 
-- **Full access** — the key has the same permissions as your account. Available
-  on all plans.
+- **Full access** — the key can do everything your account can, except delete
+  your account, change billing limits, or manage your sessions and API keys.
+  Those require signing in to the console. Available on all plans.
 - **Release & Patch only** — the key can create releases and patches, but cannot
   manage apps, organizations, members, or billing. Available on Pro and Business
   plans.
@@ -72,8 +73,9 @@ action cannot be undone.
 
 ## Migrating from `shorebird login:ci`
 
-The `shorebird login:ci` command is deprecated, and tokens it generated stopped
-working on October 1, 2026. Replace them with API keys created from the console.
+The `shorebird login:ci` command has been replaced by API keys, and tokens it
+generated stopped working on October 1, 2026. Replace them with API keys created
+from the console.
 
 To migrate:
 

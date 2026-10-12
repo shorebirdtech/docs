@@ -1,6 +1,6 @@
 ---
 title: Find apps faster in the Console
-date: 2026-09-23
+date: 2026-09-24
 area: Console
 type: New
 ---

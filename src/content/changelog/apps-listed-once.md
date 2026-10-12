@@ -1,6 +1,6 @@
 ---
 title: Apps are listed once
-date: 2026-10-06
+date: 2026-10-09
 area: API
 type: Fixed
 docLink:

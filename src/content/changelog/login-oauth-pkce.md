@@ -18,6 +18,5 @@ the local credentials.
   longer supported. The server stopped accepting them on October 1, 2026. Run
   `shorebird login` to sign in again, and use an API key in `SHOREBIRD_TOKEN`
   for CI.
-- `shorebird login:ci` now only explains how to create an API key.
 - If your stored credentials have expired, `shorebird login` signs you in again
   instead of reporting that you're already logged in.

@@ -9,8 +9,10 @@
 
 # A short headline, in sentence case.
 title: Roll patches back from the CLI
-# The day the change shipped, as YYYY-MM-DD with no quotes: the CLI release
-# date, or for a Console, API, or server-side change, the day it went live.
+# The day the change shipped, as YYYY-MM-DD with no quotes, in US Pacific
+# time: the CLI release date, or for a Console, API, or server-side change, the
+# day of the first production deploy that included it. A change that took
+# effect on an announced date, like a cutoff, uses that date.
 # Entries from the same day are listed in file name order.
 date: 2026-08-28
 # The Shorebird CLI release that shipped the change, without a "v". Required
@@ -23,7 +25,7 @@ area: CLI
 type: New
 # Optional: the docs page to read next. `href` must be a docs page on this
 # site, starting with "/", and a #fragment must match a heading on it. Delete
-# both lines if there's no page for it.
+# all three docLink lines if there's no page for it.
 docLink:
   label: Roll back a patch
   href: /code-push/rollback/

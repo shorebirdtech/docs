@@ -26,4 +26,5 @@ CLI 1.6.128 also fixes these issues.
   `tools:node="remove"` instead of offering a fix that conflicts with it.
 - `shorebird patch aar` without `--release-version` in a non-interactive shell
   fails before building instead of crashing after it.
-- Ctrl-C works again after `shorebird preview` launches an iOS app.
+- After `shorebird preview` launches an app on a device running iOS 16 or
+  earlier, Ctrl-C works normally for the rest of the run.

@@ -21,10 +21,19 @@ To authenticate with Shorebird on your machine, run:
 shorebird login
 ```
 
-This command will prompt you to visit a URL in your browser to complete the
-OAuth login process. Once authenticated, your session credentials are saved
-securely on your machine, allowing you to use `shorebird` commands without
-needing to re-authenticate.
+This command opens your browser to complete the OAuth login process. It also
+prints the login URL, in case the browser doesn't open. Once authenticated, your
+session credentials are saved securely on your machine, allowing you to use
+`shorebird` commands without needing to re-authenticate.
+
+When no browser can open on your machine, such as over SSH, in CI, or on Linux
+without a display, `shorebird login` instead shows a URL and a code. Visit the
+URL in a browser on any device and enter the code. To use a code even when a
+browser is available, run:
+
+```sh
+shorebird login --device
+```
 
 ### Logout
 
@@ -54,12 +63,14 @@ shorebird account whoami
 ID:             42
 Email:          user@example.com
 Display name:   Example User
-Plan:           paid
+Plan:           pro
+Subscription:   active
 Overage limit:  10000
 ```
 
 This command is useful for verifying which account you are logged into and
-checking your current billing plan and patch overage limit.
+checking your plan level, whether you have an active subscription, and your
+patch overage limit.
 
 ### List apps
 

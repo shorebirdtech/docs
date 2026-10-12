@@ -4,9 +4,6 @@ date: 2026-10-08
 version: 1.6.125
 area: CLI
 type: New
-docLink:
-  label: JSON output
-  href: /code-push/ci/scripting/#json-output
 ---
 
 `shorebird release` and `shorebird patch` now support `--json`, so a script gets

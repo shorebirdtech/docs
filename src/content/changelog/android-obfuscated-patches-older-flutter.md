@@ -14,5 +14,6 @@ than 3.41.2 no longer fails with `Unrecognized flags: load_obfuscation_map`.
 - iOS patches still need the release to use Flutter 3.41.2 or later for
   obfuscation, and now fail up front with a clear error instead of a
   `gen_snapshot` failure.
-- `shorebird release` now checks the Flutter version it actually builds with,
-  including `--flutter-version`.
+- For an obfuscated iOS release, `shorebird release ios` and
+  `shorebird release ios-framework` now check the Flutter version they actually
+  build with, including `--flutter-version`.

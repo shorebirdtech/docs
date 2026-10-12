@@ -13,8 +13,9 @@ Shorebird now supports Flutter 3.47.3 and Dart 3.13.3.
 
 - Android: fixes license detection for cmdline-tools 23.0 and newer.
 - iOS and macOS: a missing Xcode is now handled instead of failing hard.
-- Windows: fixes Dart cross-compilation.
-- B-series PowerVR GPUs no longer use Vulkan.
+- Dart: fixes Windows-to-Linux cross-compilation producing incorrect executables
+  when build hooks link native code.
+- Android: B-series PowerVR GPUs no longer use Vulkan.
 
 ```sh
 shorebird release android --flutter-version=3.47.3

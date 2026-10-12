@@ -14,10 +14,10 @@ as the commands next to them. The old names still work, but no longer appear in
   like the other `patches` commands, in place of `--release` and `--patch`.
 - `shorebird init` takes `--org-id`, like `shorebird apps transfer`, in place of
   `--organization-id`.
-- Blank names, or names that are only whitespace, are now rejected by
-  `shorebird init`, `shorebird channels create`, and the `--track` flag of
-  `shorebird patch` and `shorebird patches set-track`, as
-  `shorebird apps rename` already did.
+- Names that are only whitespace are now rejected by `shorebird init`,
+  `shorebird channels create`, and `shorebird patches set-track`, as
+  `shorebird apps rename` already did. `shorebird patch` now also rejects a
+  `--track` that is empty, only whitespace, or longer than 128 characters.
 
 ```sh
 shorebird init --org-id 42

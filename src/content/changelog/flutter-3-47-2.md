@@ -12,7 +12,7 @@ docLink:
 Shorebird now supports Flutter 3.47.2 and Dart 3.13.2.
 
 - iOS and macOS: Swift package dependencies are always updated.
-- Windows: fixes hot reload failing on file time truncation.
+- Windows: fixes hot reload ignoring file edits made within the same second.
 - Desktop: `--build-name` and `--build-number` are now forwarded to
   `version.json`.
 

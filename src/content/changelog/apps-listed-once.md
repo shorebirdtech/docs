@@ -11,6 +11,6 @@ docLink:
 The app list no longer shows an app twice when you have both a role in its
 organization and a role granted on the app itself.
 
-- This affected `GET /api/v1/apps`, `shorebird apps list`, and the app picker in
-  `shorebird preview`.
+- This affected `GET /api/v1/apps`, `shorebird account apps`,
+  `shorebird apps list`, and the app picker in `shorebird preview`.
 - The Console's app list wasn't affected.

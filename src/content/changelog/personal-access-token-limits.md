@@ -8,9 +8,8 @@ docLink:
   href: /account/api-keys/#permissions
 ---
 
-An API key can no longer delete your account, change your billing limits, or
-manage your sessions and API keys, even with full access. Sign in to the console
-to do these.
+An API key can no longer delete your account or change your billing limits, even
+with full access. Sign in to the Console to do these.
 
 - Deleting the account or changing billing limits with a key returns 403 with
   the code `personal_access_token_forbidden`.

@@ -5,8 +5,8 @@ version: 1.6.128
 area: CLI
 type: Deprecated
 docLink:
-  label: Promote a patch from the CLI
-  href: /code-push/tracks/#via-the-cli
+  label: Set patch track
+  href: /code-push/patch/#set-patch-track
 ---
 
 `shorebird patches promote` no longer appears in `shorebird patches --help`. Use

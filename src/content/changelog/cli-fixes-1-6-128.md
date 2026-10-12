@@ -21,6 +21,9 @@ CLI 1.6.128 also fixes these issues.
   Linux the file is now readable only by you.
 - `shorebird doctor --fix` shows every issue a fix leaves, and the count of
   fixable issues is accurate. `--fix` with `--json` is now a usage error.
+- The Android INTERNET permission check finds the permission when `android:name`
+  isn't its first attribute, and reports a permission removed with
+  `tools:node="remove"` instead of offering a fix that conflicts with it.
 - `shorebird patch aar` without `--release-version` in a non-interactive shell
   fails before building instead of crashing after it.
 - Ctrl-C works again after `shorebird preview` launches an iOS app.

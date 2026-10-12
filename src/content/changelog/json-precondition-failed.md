@@ -4,14 +4,11 @@ date: 2026-10-11
 version: 1.6.128
 area: CLI
 type: Changed
-docLink:
-  label: JSON errors
-  href: /code-push/ci/scripting/#errors
 ---
 
 With `--json`, every failing command now prints an error object on stdout, and a
 failed check before the command runs reports `precondition_failed` with a
-message and a hint.
+message and, when there's a known fix, a hint.
 
 - Checks that report `precondition_failed` include not being logged in and not
   being in a Shorebird project.

@@ -12,5 +12,5 @@ after `--`, so the patch matches the release it targets.
 - Previously the patch was built from the default entrypoint and without the
   arguments after `--`, such as `--dart-define` values, so it could differ from
   its release.
-- It also runs the same checks as other platforms before building: logged in,
-  project initialized, `shorebird doctor`, and a Linux host.
+- Before building, it now checks that you're logged in, that the project is
+  initialized, and that the host is Linux, as `shorebird release linux` does.

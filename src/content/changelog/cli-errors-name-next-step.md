@@ -11,4 +11,4 @@ checks that run before a command now name the step that fixes them.
 
 - `shorebird patch --force` explains that there's no `--force` flag and points
   to `--allow-native-diffs` and `--allow-asset-diffs`.
-- With `--json`, this advice is in the error's `hint`.
+- With `--json`, the `--force` advice is in the error's `hint`.

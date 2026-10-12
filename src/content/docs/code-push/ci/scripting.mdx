@@ -32,7 +32,7 @@ In non-interactive mode, nothing waits for input:
   an error and a hint, usually naming the flag that provides the answer. For
   example, `shorebird patch` fails on native code changes unless you pass
   `--allow-native-diffs`, and `shorebird init` fails if you belong to several
-  organizations and don't pass `--organization-id`.
+  organizations and don't pass `--org-id`.
 - **Progress spinners become plain lines** when stdout isn't a terminal or
   `--json` is passed. Each step prints `Starting ...` and then `Done ...` or
   `Failed ...` to stderr.

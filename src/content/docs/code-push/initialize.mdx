@@ -85,11 +85,14 @@ shorebird init --display-name "My App"
 
 If your account belongs to multiple organizations, `shorebird init` will prompt
 you to choose one interactively. In non-interactive environments (e.g., CI), you
-can skip the prompt by passing `--organization-id`:
+can skip the prompt by passing `--org-id`:
 
 ```sh
-shorebird init --organization-id 42
+shorebird init --org-id 42
 ```
+
+`--org-id` needs Shorebird 1.6.128 or newer. On an older CLI, use
+`--organization-id` instead, or run `shorebird upgrade` first.
 
 Run `shorebird account orgs` to list your organization IDs.
 

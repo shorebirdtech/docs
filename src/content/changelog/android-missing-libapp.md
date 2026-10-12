@@ -10,8 +10,8 @@ type: Fixed
 explanation when the built app bundle has no `libapp.so`, your compiled Dart
 code, for any architecture.
 
-- Previously this failed with a generic error about missing artifacts that
-  pointed at ABI filters.
+- Previously this failed with a generic error about missing artifacts, which for
+  `shorebird release android` pointed at ABI filters.
 - The usual cause is a custom Gradle setup that relocates build directories, so
   the bundle is packaged before `libapp.so` is written.
 - A patch that covers only some of the release's architectures now warns and

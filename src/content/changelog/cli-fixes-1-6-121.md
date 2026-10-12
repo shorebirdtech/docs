@@ -20,3 +20,5 @@ CLI 1.6.121 also fixes these issues.
   `--public-key-path` and `--private-key-path` names the one that's missing.
 - iOS patch errors, like a missing `.xcarchive` or a release built with Flutter
   older than 3.22.2, now say what to do next.
+- An interrupted Flutter install, such as for `--flutter-version`, now resumes
+  on the next run instead of needing `shorebird cache clean`.

@@ -29,13 +29,14 @@ useful for verifying releases that were created on a CI/CD server.
 
 ## Options
 
-| Option              | Abbreviation | Description                                                                          |
-| ------------------- | ------------ | ------------------------------------------------------------------------------------ |
-| `--release-version` |              | The release version to preview (e.g., `1.0.0+1`). Defaults to an interactive prompt. |
-| `--platform`        |              | Target platform to preview: `android`, `ios`, `macos`, `linux`, or `windows`.        |
-| `--device-id`       | `-d`         | The ID of the device or simulator to preview on. Defaults to an interactive prompt.  |
-| `--track`           |              | The deployment track to preview (e.g., `stable`, `staging`). Defaults to `stable`.   |
-| `--app-id`          |              | The Shorebird app ID. Inferred from `shorebird.yaml` if not specified.               |
+| Option              | Abbreviation | Description                                                                                                     |
+| ------------------- | ------------ | --------------------------------------------------------------------------------------------------------------- |
+| `--release-version` |              | The release version to preview (e.g., `1.0.0+1`). Defaults to an interactive prompt.                            |
+| `--platform`        |              | Target platform to preview: `android`, `ios`, `macos`, `linux`, or `windows`.                                   |
+| `--device-id`       | `-d`         | The ID of the device or simulator to preview on. Defaults to an interactive prompt.                             |
+| `--track`           |              | The deployment track to preview (e.g., `stable`, `staging`). Defaults to `stable`.                              |
+| `--app-id`          |              | The Shorebird app ID. Inferred from `shorebird.yaml` if not specified.                                          |
+| `--flavor`          |              | The product flavor whose app ID to use from `shorebird.yaml` (e.g., `prod`). Ignored when `--app-id` is passed. |
 
 ### Android keystore options
 

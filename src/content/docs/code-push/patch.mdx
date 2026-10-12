@@ -242,6 +242,10 @@ routing to a staging beta group):
 shorebird patches set-track --release-version 1.0.0+1 --patch-number 1 --track staging
 ```
 
+The `--release-version` and `--patch-number` flags of `set-track` need Shorebird
+1.6.128 or newer. On an older CLI, use `--release` and `--patch` instead, or run
+`shorebird upgrade` first.
+
 ### Roll back or roll forward a patch
 
 To stop serving a patch, roll it back. To serve it again later, roll it forward:

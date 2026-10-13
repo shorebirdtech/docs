@@ -65,11 +65,13 @@ const hiddenCount = rows.filter((row) => row.extra).length;
           <tr class={row.extra ? 'extra' : undefined}>
             <td>
               <a href={row.notesUrl}>{row.latestPatch}</a>
-              <span class="sub">Dart {row.dartVersion}</span>
+              <span class="sub"><span class="sep">, </span>Dart {row.dartVersion}</span>
             </td>
             <td>
               {row.released}
-              {row.age && <span class="sub">{row.age}</span>}
+              {row.age && (
+                <span class="sub"><span class="sep">, </span>{row.age}</span>
+              )}
             </td>
             <td>{row.highlight ?? '—'}</td>
             <td class={`verdict ${row.recommendation.tone}`}>
@@ -138,6 +140,12 @@ const hiddenCount = rows.filter((row) => row.extra).length;
     font-size: var(--sl-text-xs);
     font-weight: 400;
     color: var(--sl-color-gray-3);
+  }
+
+  /* Each .sub is on its own line, so the comma only shows up in the
+     Markdown and llms-full.txt versions of the table. */
+  .flutter-releases .sep {
+    display: none;
   }
 
   .flutter-releases .verdict {

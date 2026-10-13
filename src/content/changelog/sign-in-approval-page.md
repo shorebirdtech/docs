@@ -1,0 +1,19 @@
+---
+title: Approve each app that signs in as you
+date: 2026-10-10
+area: Console
+type: Changed
+---
+
+Signing in from the CLI or another app now stops at an approval page that says
+which app is asking, which account it signs in to, and what it gets. Choose
+Authorize to continue or Cancel to refuse.
+
+- Only the Console skips this page. Previously the CLI and older apps were
+  approved without asking.
+- The page shows where you'll be sent next and links to your Account page, where
+  you can remove the app's access later.
+- To approve a CLI sign-in with a code, type the code shown on your device. A
+  link with the code already filled in isn't accepted.
+- Use a different account from the same page if you're signed in to the wrong
+  one.

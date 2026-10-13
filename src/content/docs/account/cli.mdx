@@ -92,7 +92,7 @@ patch number (with `-` indicating no release or patch has been published yet).
 
 ### List organizations
 
-To list all the organizations you belong to, run:
+To list the organizations you can access, run:
 
 ```sh
 shorebird account orgs
@@ -106,7 +106,9 @@ shorebird account orgs
 ```
 
 This output displays the Organization ID, name, organization type (`personal` or
-`team`), and your membership role (`owner`, `admin`, or `developer`).
+`team`), and your [role](/account/orgs/#member-roles) (`owner`, `admin`,
+`appManager`, `developer`, or `viewer`). An organization you are not a member
+of, but where you collaborate on one of its apps, shows the role `none`.
 
 ## App management commands
 

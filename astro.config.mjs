@@ -199,7 +199,6 @@ export default defineConfig({
           collapsed: true,
           items: [{ autogenerate: { directory: 'flutter-concepts' } }],
         },
-        { label: 'Roadmap', link: '/roadmap/' },
         { label: 'Changelog', link: '/changelog/' },
       ],
       plugins: [
@@ -394,5 +393,7 @@ Developer & Agent Interfaces:
     '/ci/checks/format': '/ci/',
     '/ci/checks/run-tests': '/ci/',
     '/ci/checks/upload-coverage': '/ci/',
+    // The roadmap was replaced by the changelog.
+    '/roadmap': '/changelog/',
   },
 });

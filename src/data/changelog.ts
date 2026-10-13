@@ -193,7 +193,7 @@ async function checkDocLink(file: string, href: string): Promise<void> {
         'published page instead.',
     );
   }
-  // Standalone pages like /roadmap/ aren't in the docs collection.
+  // Standalone pages like /changelog/ aren't in the docs collection.
   const standalone = [
     `src/pages/${path}.astro`,
     `src/pages/${path}/index.astro`,

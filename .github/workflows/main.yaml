@@ -2,7 +2,7 @@ name: ci
 
 on:
   schedule:
-    - cron: '0 6 * * *' # 6am UTC / midnight CST — keeps roadmap data fresh
+    - cron: '0 6 * * *' # 6am UTC / midnight CST: keeps build-time dates fresh
   workflow_dispatch:
   pull_request:
   push:
@@ -24,8 +24,6 @@ jobs:
 
       - name: 📦 Build Docs
         uses: ./.github/actions/astro_site
-        env:
-          LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
 
       - name: 🚀 Deploy to Cloudflare Pages
         if:

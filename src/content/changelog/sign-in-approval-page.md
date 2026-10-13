@@ -5,12 +5,13 @@ area: Console
 type: Changed
 ---
 
-Signing in from the CLI or another app now stops at an approval page that says
-which app is asking, which account it signs in to, and what it gets. Choose
-Authorize to continue or Cancel to refuse.
+Signing in from the CLI now stops at an approval page, as signing in from other
+apps such as Claude Code already did. The redesigned page says which app is
+asking, which account it signs in to, and what it gets. Choose Authorize to
+continue or Cancel to refuse.
 
-- Only the Console skips this page. Previously the CLI and older apps were
-  approved without asking.
+- Only the Console skips this page. Previously, the CLI signed in without
+  asking.
 - The page shows where you'll be sent next and links to your Account page, where
   you can remove the app's access later.
 - To approve a CLI sign-in with a code, type the code shown on your device. A

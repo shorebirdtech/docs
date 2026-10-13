@@ -8,11 +8,13 @@ docLink:
   href: /account/orgs/#add-a-member
 ---
 
-Inviting a member or adding an app collaborator now finds their account no
-matter how the email address is capitalized.
+Inviting a member or collaborator now finds their account no matter how the
+email address is capitalized.
 
-- Previously, adding a collaborator as `Abby@example.com` when the account was
-  `abby@example.com` failed with `User with email ... not found`, and an
-  invitation could go to someone who was already a member.
-- If an address matches more than one account, the request is refused with 409
-  and a code ending in `ambiguous_email`.
+- Previously, an invitation could go to someone who was already a member or
+  collaborator, and adding a collaborator through the API as `Abby@example.com`
+  when the account was `abby@example.com` failed with
+  `User with email ... not found`.
+- If the address matches more than one account, the request is refused with a
+  message asking you to contact support to merge them. The API returns 409 with
+  a code ending in `ambiguous_email`.

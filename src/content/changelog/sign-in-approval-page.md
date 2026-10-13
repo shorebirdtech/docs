@@ -10,8 +10,9 @@ apps such as Claude Code already did. The redesigned page says which app is
 asking, which account it signs in to, and what it gets. Choose Authorize to
 continue or Cancel to refuse.
 
-- Only the Console skips this page. Previously, the CLI signed in without
-  asking.
+- Only the Console skips this page. Previously, signing in to the CLI through
+  the browser didn't ask.
+- CLIs older than 1.6.125 appear on the page as `An app on this computer`.
 - The page shows where you'll be sent next and links to your Account page, where
   you can remove the app's access later.
 - To approve a CLI sign-in with a code, type the code shown on your device. A

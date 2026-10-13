@@ -11,5 +11,6 @@ browser it was approved in underneath.
 
 - Previously, sessions were named after the browser, or after an internal ID
   like `shorebird-cli (api)`.
-- Existing sessions get the new names too, not just new sign-ins.
-- Sessions from CLIs older than 1.6.125 keep the browser name they had.
+- Existing sessions get the new names too, except Console sign-ins from before
+  October 5, 2026, and sessions from CLIs older than 1.6.125, which keep the
+  name they had.

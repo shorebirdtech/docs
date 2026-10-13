@@ -65,13 +65,22 @@ const hiddenCount = rows.filter((row) => row.extra).length;
           <tr class={row.extra ? 'extra' : undefined}>
             <td>
               <a href={row.notesUrl}>{row.latestPatch}</a>
-              <span class="sub">Dart {row.dartVersion}</span>
+              {/* Each .sub sits on its own line on the page. The sr-only comma
+                  separates it from the text before it for screen readers and
+                  in the Markdown and llms-full.txt versions of the table. */}
+              <span class="sub">
+                <span class="sr-only">, </span>Dart {row.dartVersion}
+              </span>
             </td>
             <td>
               {row.released}
-              {row.age && <span class="sub">{row.age}</span>}
+              {row.age && (
+                <span class="sub">
+                  <span class="sr-only">, </span>{row.age}
+                </span>
+              )}
             </td>
-            <td>{row.highlight ?? '—'}</td>
+            <td>{row.highlight ?? '-'}</td>
             <td class={`verdict ${row.recommendation.tone}`}>
               {row.recommendation.label}
             </td>

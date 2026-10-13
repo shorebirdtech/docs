@@ -230,8 +230,11 @@ If you published a patch to a staging track (e.g., `staging`) and verified it
 works correctly, you can promote it directly to the `stable` track using:
 
 ```sh
-shorebird patches promote --release-version 1.0.0+1 --patch-number 1
+shorebird patches set-track --release-version 1.0.0+1 --patch-number 1 --track stable
 ```
+
+This command needs Shorebird 1.6.128 or newer. See
+[Set patch track](#set-patch-track) for older CLIs.
 
 ### Set patch track
 
@@ -239,8 +242,12 @@ To assign a patch directly to a specific deployment track (e.g., promoting or
 routing to a staging beta group):
 
 ```sh
-shorebird patches set-track --release 1.0.0+1 --patch 1 --track staging
+shorebird patches set-track --release-version 1.0.0+1 --patch-number 1 --track staging
 ```
+
+The `--release-version` and `--patch-number` flags of `set-track` need Shorebird
+1.6.128 or newer. On an older CLI, use `--release` and `--patch` instead, or run
+`shorebird upgrade` first.
 
 ### Roll back or roll forward a patch
 

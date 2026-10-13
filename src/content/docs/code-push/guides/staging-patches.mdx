@@ -181,8 +181,11 @@ appears.
 You can promote the patch to the stable channel using the following command:
 
 ```sh
-shorebird patches set-track --release 1.0.0+1 --patch 1 --track stable
+shorebird patches set-track --release-version 1.0.0+1 --patch-number 1 --track stable
 ```
+
+These flag names need Shorebird 1.6.128 or newer. On an older CLI, use
+`--release` and `--patch` instead, or run `shorebird upgrade` first.
 
 </details>
 

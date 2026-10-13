@@ -21,8 +21,8 @@ API key.
 - **How to obtain**: Generate an API key in the
   [Shorebird console](https://console.shorebird.dev) (Account > API Keys).
 - **Format**: `sb_api_<unique_token_characters>`
-- **Lifespan**: No expiry by default; an expiry in days can be set when the key
-  is created.
+- **Lifespan**: 1 year by default. When creating the key you can choose 30 days,
+  90 days, or no expiration instead.
 - **Usage**: Pass the key in the HTTP `Authorization` header on all API
   requests:
   ```http

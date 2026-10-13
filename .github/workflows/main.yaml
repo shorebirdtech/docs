@@ -2,7 +2,7 @@ name: ci
 
 on:
   schedule:
-    - cron: '0 6 * * *' # 6am UTC / midnight CST: keeps build-time dates fresh
+    - cron: '0 6 * * *' # 6am UTC: refreshes the Flutter release table's ages and Upgrade flags
   workflow_dispatch:
   pull_request:
   push:

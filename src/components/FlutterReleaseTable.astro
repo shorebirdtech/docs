@@ -66,8 +66,8 @@ const hiddenCount = rows.filter((row) => row.extra).length;
             <td>
               <a href={row.notesUrl}>{row.latestPatch}</a>
               {/* Each .sub sits on its own line on the page. The sr-only comma
-                  separates it for screen readers and the Markdown and
-                  llms-full.txt versions of the table. */}
+                  separates it from the text before it for screen readers and
+                  in the Markdown and llms-full.txt versions of the table. */}
               <span class="sub">
                 <span class="sr-only">, </span>Dart {row.dartVersion}
               </span>

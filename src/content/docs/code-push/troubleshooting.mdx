@@ -26,15 +26,12 @@ If you do see Shorebird in your logs, you'll want to look for a line that
 includes the patch check request being made. It looks like:
 
 ```
-Sending patch check request: PatchCheckRequest {
-  app_id: "<your app id>",
-  channel: "stable",
-  release_version: "1.0.3+16", <-- this is the release version
-  patch_number: <some patch number>,
-  platform: "android",
-  arch: "aarch64"
-}
+Sending patch check request: app_id: <your app id>, channel: stable, release_version: 1.0.3+16, platform: android, arch: aarch64, current_patch_number: Some(3)
 ```
+
+`release_version` is the release version your app is running, and
+`current_patch_number` is the patch it already has installed (`None` if it is
+running the release unpatched).
 
 If the release version is the version you expect to see, check the
 [Shorebird Console](https://console.shorebird.dev) to ensure that this release
@@ -88,14 +85,7 @@ of the release you patched. You can see what release version your app is running
 by looking in the device logs for a patch check request:
 
 ```
-Sending patch check request: PatchCheckRequest {
-  app_id: "<your app ID>",
-  channel: "stable",
-  release_version: "1.0.3+16", <-- this is the release version
-  patch_number: <some patch number>,
-  platform: "android",
-  arch: "aarch64"
-}
+Sending patch check request: app_id: <your app ID>, channel: stable, release_version: 1.0.3+16, platform: android, arch: aarch64, current_patch_number: Some(3)
 ```
 
 Only patches created for this release version will be compatible with your app.

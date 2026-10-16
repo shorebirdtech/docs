@@ -233,13 +233,15 @@ with that name already exists.
 
 ### Delete a track
 
-Devices on a deleted track stop receiving patches. There's no confirmation
-prompt. Instead, you confirm by repeating the track's name with
-`--confirm-name`, which works the same in a terminal and in CI:
+Devices on a deleted track stop receiving patches. In a terminal, the command
+asks you to confirm. In scripts and CI, pass `--yes` to skip the prompt:
 
 ```bash
-shorebird channels delete --name qa --confirm-name qa
+shorebird channels delete --name qa --yes
 ```
+
+`--yes` is available in Shorebird CLI releases after 1.6.128; earlier releases
+used `--confirm-name`, which still works but is deprecated.
 
 The built-in `stable`, `beta`, and `staging` tracks can't be deleted.
 

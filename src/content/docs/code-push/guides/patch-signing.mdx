@@ -127,16 +127,16 @@ You can verify that the patch is properly signed using `shorebird preview`. On
 the first launch, you should see something like the following in your app logs:
 
 ```
-05-22 23:47:51.645  6963  6994 I flutter : updater::updater: Patch 1 successfully installed.
-05-22 23:47:51.645  6963  6994 I flutter : updater::updater: Update thread finished with status: Update installed
+05-22 23:47:51.645  6963  6994 I flutter : updater::updater: [shorebird] Patch 1 successfully downloaded. It will be launched when the app next restarts.
+05-22 23:47:51.645  6963  6994 I flutter : updater::updater: [shorebird] Update thread finished with status: Update installed
 ```
 
 If you close and relaunch your app, you should see this message telling you that
 the patch's signature was verified:
 
 ```
-05-23 11:32:33.944  7029  7029 I flutter : updater::cache::signing: Verifying patch signature...
-05-23 11:32:33.944  7029  7029 I flutter : updater::cache::signing: Patch signature is valid
+05-23 11:32:33.944  7029  7029 I flutter : updater::cache::signing: [shorebird] Verifying patch signature...
+05-23 11:32:33.944  7029  7029 I flutter : updater::cache::signing: [shorebird] Patch signature is valid
 ```
 
 If the patch is missing a signature, or fails signature verification for any

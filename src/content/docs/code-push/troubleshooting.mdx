@@ -30,9 +30,10 @@ Sending patch check request: PatchCheckRequest {
   app_id: "<your app id>",
   channel: "stable",
   release_version: "1.0.3+16", <-- this is the release version
-  patch_number: <some patch number>,
   platform: "android",
-  arch: "aarch64"
+  arch: "aarch64",
+  client_id: "<anonymous install id>",
+  current_patch_number: <Some(patch number) or None>
 }
 ```
 
@@ -92,9 +93,10 @@ Sending patch check request: PatchCheckRequest {
   app_id: "<your app ID>",
   channel: "stable",
   release_version: "1.0.3+16", <-- this is the release version
-  patch_number: <some patch number>,
   platform: "android",
-  arch: "aarch64"
+  arch: "aarch64",
+  client_id: "<anonymous install id>",
+  current_patch_number: None
 }
 ```
 

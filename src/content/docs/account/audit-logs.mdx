@@ -67,7 +67,7 @@ rate limit, and a `429` response carries a `Retry-After` header.
 This reads one page, appends its events to `events.jsonl`, and saves the cursor
 for the next run:
 
-```sh
+```bash
 ORG_ID=1234
 cursor=$(cat cursor.txt 2>/dev/null)
 
@@ -79,17 +79,18 @@ curl -sf -G "https://api.shorebird.dev/api/v1/organizations/$ORG_ID/audit-logs" 
 
 jq -c '.data[]' page.json >> events.jsonl
 next=$(jq -r '.next_cursor // empty' page.json)
-[ -n "$next" ] && echo "$next" > cursor.txt
+if [ -n "$next" ]; then echo "$next" > cursor.txt; fi
 ```
 
 ### Poll with the Shorebird CLI
 
 [`shorebird api`](/account/api/#calling-the-api-from-the-command-line) sends the
-same request, authenticated with the key in `SHOREBIRD_TOKEN`:
+same request, authenticated with the key in `SHOREBIRD_TOKEN`. It replaces the
+`curl` call in the script above:
 
-```sh
+```bash
 page=(-X GET organizations/$ORG_ID/audit-logs -f order=asc -f per_page=100)
-[ -n "$cursor" ] && page+=(-f "cursor=$cursor")
+if [ -n "$cursor" ]; then page+=(-f "cursor=$cursor"); fi
 shorebird api "${page[@]}" > page.json || exit 1
 ```
 
@@ -101,13 +102,15 @@ These query parameters narrow the results, in either `order`:
   `2026-10-01T00:00:00Z`. Both ends are inclusive.
 - `appId`: only events for that app.
 - `actorId`: only events by that user or service account (its `actor.user.uid`).
+  Events by a user whose account was later deleted no longer have a `uid`, so
+  this filter doesn't find them.
 - `operation`: only one event, by name, such as `patch.rollback`. See
   [Events](#events).
 - `order`: `desc` (newest first, the default) or `asc`.
 
 For example, to list the patch rollbacks in an app, newest first:
 
-```sh
+```bash
 shorebird api -X GET organizations/$ORG_ID/audit-logs \
   -f appId=$APP_ID -f operation=patch.rollback
 ```
@@ -117,7 +120,8 @@ shorebird api -X GET organizations/$ORG_ID/audit-logs \
 Each event is an
 [OCSF 1.9.0 API Activity](https://schema.ocsf.io/1.9.0/classes/api_activity)
 event (`class_uid` 6003), so a SIEM that reads OCSF can ingest it without a
-custom parser. This is a member rolling back a patch from the console:
+custom parser. This is a member rolling back a patch with
+`shorebird patches rollback`:
 
 ```json
 {
@@ -152,7 +156,9 @@ custom parser. This is a member rolling back a patch from the console:
     }
   },
   "src_endpoint": { "ip": "203.0.113.7" },
-  "http_request": { "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X)" },
+  "http_request": {
+    "user_agent": "shorebird-cli/1.6.129 (macos; dart 3.11.0)"
+  },
   "resources": [{ "type": "patch", "uid": "3456" }],
   "unmapped": {
     "patch_number": "2",
@@ -171,10 +177,12 @@ The fields most queries use:
   or 99 for anything else.
 - `time`: when the event happened, in milliseconds since the Unix epoch.
 - `actor.user`: who acted. `type_id` is 1 for a person and 4 for a service
-  account, whose `name` is its name followed by `[bot]`. A change Shorebird
-  staff made to your organization has `type_id` 99 and `type` `shorebird_staff`,
-  with the name `Shorebird staff`. Which staff member acted isn't shown, and
-  neither is their credential, session, IP address, or user agent.
+  account, whose `name` is its name followed by `[bot]`. A service account has
+  no email address, so identify it by `uid`, not `email_addr`. A change
+  Shorebird staff made to your organization has `type_id` 99 and `type`
+  `shorebird_staff`, with the name `Shorebird staff`. Which staff member acted
+  isn't shown, and neither is their credential, session, IP address, or user
+  agent.
 - `actor.session`: present when the actor was signed in to the console or the
   CLI. `uid` identifies the sign-in session, `created_time` is when it began,
   and `issuer` is the identity provider the person signed in with. `is_mfa` is
@@ -191,11 +199,12 @@ The fields most queries use:
 - `resources`: what was acted on. `type` names the kind of thing `uid`
   identifies, such as `patch`, `release`, or `user`.
 - `metadata.uid`: the event's unique ID. `metadata.tenant_uid` is the
-  organization ID.
+  organization ID, and `metadata.correlation_uid`, when present, is the ID of
+  the request that caused the event.
 - `unmapped`: fields OCSF has no place for. `app_id` and `app_name` name the
   app, `actor_source` names the kind of credential (`session`, `api_key`,
-  `service_account`, `federated` for a CI job signed in with OIDC, or
-  `admin_api` for Shorebird staff), and the rest are details of the event, such
+  `service_account`, `federated` for a CI job signed in with OIDC, `admin_api`
+  for Shorebird staff, or `none`), and the rest are details of the event, such
   as a patch number or a member's previous role. A request from a CI job signed
   in with a [trust rule](https://docs.shorebird.dev/account/trust-rules/) has
   `ci`, with the `repository`, the `runId` of the workflow run, and the `ruleId`
@@ -203,15 +212,20 @@ The fields most queries use:
 
 ## Events
 
-Event names can change. An event recorded under a name that is no longer in use
-appears with its original resource and action as `api.operation` (for example
-`releases.update`) and `activity_id` 99.
+Event names can change. A renamed event appears under its new name, including
+past occurrences. An event Shorebird no longer records appears with its stored
+resource and action as `api.operation`, in the form `resource_type.action`, and
+`activity_id` 99. The `operation` filter takes only the names listed here.
+
+Changes to a person's own account, such as their display name, billing limits,
+or deleting their account, aren't part of an organization's audit log.
 
 ### Organizations
 
 - `organization.create`: an organization was created.
 - `organization.rename`: an organization was renamed.
-- `organization.delete`: an organization and its apps were deleted.
+- `organization.delete`: deleting an organization and its apps stopped partway.
+  Once an organization is fully deleted, its audit log can no longer be read.
 - `organization.ownership_transfer`: ownership was transferred to another
   member.
 - `org_allowed_domain.add`: Shorebird staff added an email domain to the domains
@@ -277,11 +291,3 @@ appears with its original resource and action as `api.operation` (for example
 - `patch.rollback`: a patch was rolled back.
 - `patch.rollforward`: a rolled-back patch was rolled forward.
 - `patch.notes_update`: a patch's notes were changed.
-
-### Accounts and billing
-
-- `user.display_name_update`: a user changed their display name.
-- `user.delete`: a user deleted their account.
-- `billing.overage_limit_update`: a user changed their patch overage limit.
-- `billing.overage_subscription_create`: an overage subscription was created
-  when a user raised their limit.

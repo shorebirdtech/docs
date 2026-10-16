@@ -186,7 +186,7 @@ is recognized and applied. In logcat, you should see output like the following:
 ```
 [INFO:shorebird.cc(109)] Shorebird updater: no active patch.
 [INFO:shorebird.cc(113)] Starting Shorebird update
-updater::network: [shorebird] Sending patch check request: PatchCheckRequest { app_id: "baad0583-6810-44a7-9034-6aadb8127f29", channel: "stable", release_version: "1.0.0+8", platform: "android", arch: "aarch64", client_id: "<uuid>", current_patch_number: None }
+updater::network: [shorebird] Sending patch check request: app_id: baad0583-6810-44a7-9034-6aadb8127f29, channel: stable, release_version: 1.0.0+8, platform: android, arch: aarch64, current_patch_number: None
 updater::updater: [shorebird] Patch 1 successfully downloaded. It will be launched when the app next restarts.
 updater::updater: [shorebird] Update thread finished with status: Update installed
 ```

@@ -64,13 +64,11 @@ ID:             42
 Email:          user@example.com
 Display name:   Example User
 Plan:           pro
-Subscription:   active
 Overage limit:  10000
 ```
 
 This command is useful for verifying which account you are logged into and
-checking your plan level, whether you have an active subscription, and your
-patch overage limit.
+checking your plan level and your patch overage limit.
 
 ### List apps
 
@@ -160,22 +158,39 @@ Deleting an app permanently deletes every release and patch that belongs to it,
 and can't be undone. Read
 [Delete Apps, Releases, and Patches](/code-push/delete) before you do this.
 
-There's no confirmation prompt. Instead, you confirm by passing the app's
-current display name, exactly as `shorebird apps list` shows it, to
-`--confirm-name`:
+Before deleting, the command says what goes with the app: its releases and their
+patches, its channels, and its collaborators. Devices running the app stop
+getting patches. In a terminal, you then type the app's display name to confirm:
 
 ```sh
-shorebird apps delete --confirm-name "Acme Mobile"
+shorebird apps delete
 ```
 
-**Example output:**
+In scripts and CI, where nothing can prompt, pass the display name with
+`--confirm-name`. There is no `--yes` for deleting an app, so an app is never
+deleted without naming it:
 
-```
-Deleted "Acme Mobile" (01H...).
+```sh
+shorebird apps delete --app-id <app-id> --confirm-name "<display name>"
 ```
 
-If the name doesn't match, nothing is deleted and the command prints the name it
-expected.
+The prompt needs Shorebird 1.6.129 or newer. Earlier releases don't prompt and
+always need `--confirm-name`.
+
+## Metrics commands
+
+`shorebird metrics` shows the same install, adoption, and usage numbers as the
+**Insights** tab in the Shorebird console, for the app in `shorebird.yaml` or
+the one you pass with `--app-id`. Use it to check how a patch is rolling out
+without opening the console, or to feed the numbers into a script with `--json`.
+It needs Shorebird 1.6.129 or newer.
+
+```sh
+shorebird metrics adoption --release-version 1.0.0+1
+```
+
+Run `shorebird metrics --help` to see every metric, and
+`shorebird metrics <metric> --help` for its options.
 
 ---
 

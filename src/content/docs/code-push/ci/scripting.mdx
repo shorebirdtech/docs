@@ -54,18 +54,26 @@ color codes.
 
 These commands return structured JSON:
 
-| Group                                                                  | Commands                                                                     |
-| ---------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| [`shorebird account`](/account/cli#account-management-commands)        | `whoami`, `apps`, `orgs`                                                     |
-| [`shorebird apps`](/account/cli#app-management-commands)               | `list`, `rename`, `delete`, `transfer`                                       |
-| [`shorebird channels`](/code-push/tracks#managing-tracks-from-the-cli) | `list`, `create`, `delete`                                                   |
-| [`shorebird patches`](/code-push/patch#manage-patches)                 | `list`, `info`, `set-track`, `rollback`, `rollforward`                       |
-| [`shorebird releases`](/code-push/release)                             | `list`, `info`                                                               |
-| Other                                                                  | `shorebird doctor`, `shorebird flutter versions list`, `shorebird --version` |
+| Group                                                                  | Commands                                                                                                             |
+| ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| [`shorebird account`](/account/cli#account-management-commands)        | `whoami`, `apps`, `orgs`                                                                                             |
+| [`shorebird apps`](/account/cli#app-management-commands)               | `list`, `rename`, `delete`, `transfer`                                                                               |
+| [`shorebird channels`](/code-push/tracks#managing-tracks-from-the-cli) | `list`, `create`, `delete`                                                                                           |
+| [`shorebird patches`](/code-push/patch#manage-patches)                 | `list`, `info`, `set-track`, `rollback`, `rollforward`                                                               |
+| [`shorebird releases`](/code-push/release)                             | `list`, `info`, `delete`                                                                                             |
+| `shorebird metrics`                                                    | `active-hours`, `adoption`, `downloads`, `heatmap`, `installs`, `new-devices`, `users`, `versions`                   |
+| Other                                                                  | `shorebird release`, `shorebird patch`, `shorebird doctor`, `shorebird flutter versions list`, `shorebird --version` |
 
-Other commands, such as `shorebird release` and `shorebird patch`, accept
-`--json` and run non-interactively, but still print human-readable logs. Check
-their exit code rather than parsing their output.
+Every other command, such as `shorebird init` or `shorebird cache clean`, also
+accepts `--json` and runs non-interactively. Its logs go to stderr, and when it
+succeeds it prints a success object whose `data` is empty (`{}`), so stdout
+always holds exactly one JSON object. `--help` with `--json` works the same way:
+the usage text goes to stderr. This needs Shorebird 1.6.129 or newer; earlier
+releases leave stdout empty when these commands succeed.
+
+`shorebird api` is the exception: it prints the API response body as-is and
+rejects `--json`. See
+[Calling the API from the command line](/account/api/#calling-the-api-from-the-command-line).
 
 ### Success
 
@@ -110,38 +118,50 @@ non-zero code:
 
 `error.code` is one of:
 
-| Code                          | Meaning                                                          |
-| ----------------------------- | ---------------------------------------------------------------- |
-| `usage_error`                 | Invalid or missing arguments. Exit code 64.                      |
-| `interactive_prompt_required` | The command needed an answer to a prompt. Exit code 64.          |
-| `fetch_failed`                | Shorebird couldn't retrieve something it needed, such as an app. |
-| `software_error`              | The command failed unexpectedly.                                 |
-| `process_exit`                | The command stopped with a non-zero exit code.                   |
+| Code                          | Meaning                                                                                             |
+| ----------------------------- | --------------------------------------------------------------------------------------------------- |
+| `usage_error`                 | Invalid or missing arguments. Exit code 64.                                                         |
+| `interactive_prompt_required` | The command needed an answer to a prompt. Exit code 64.                                             |
+| `fetch_failed`                | Shorebird couldn't retrieve something it needed, such as an app.                                    |
+| `precondition_failed`         | A check before the command ran failed, such as not being logged in or not finding `shorebird.yaml`. |
+| `software_error`              | The command failed unexpectedly.                                                                    |
+| `process_exit`                | The command stopped with a non-zero exit code.                                                      |
 
 When there's a way to recover, `error.hint` says what to do, such as the flag to
 add.
 
+When the Shorebird API rejected the request, `error.api_code` holds the server's
+error code, such as `shorebird_plan_insufficient_tier` for a feature your plan
+doesn't include, and `error.details` holds any extra detail the server sent.
+Branch on `api_code` rather than on the message text. These fields need
+Shorebird 1.6.129 or newer.
+
 :::caution
 
-Check the exit code before parsing stdout. A non-zero exit code always means the
-command failed, but not every failure prints a JSON object. Some checks that run
-before a command starts, such as looking for `shorebird.yaml`, print plain text.
+Check the exit code as well as `status`. A non-zero exit code always means the
+command failed. Every `--json` run prints exactly one JSON object on stdout,
+including failures in the checks that run before a command starts. Most of
+those, such as not being logged in, report `precondition_failed`.
 
 :::
 
 ## Destructive commands
 
-Commands that delete something, `shorebird apps delete` and
-`shorebird channels delete`, never prompt. Instead, they require
-`--confirm-name` set to the exact name of what you're deleting:
+Commands that delete something ask for confirmation in a terminal. Without a
+terminal, in CI, or with `--json`, they never prompt, so confirm with a flag or
+the command fails with a usage error and nothing is deleted:
+
+- `shorebird releases delete` and `shorebird channels delete`: pass `--yes`.
+- `shorebird apps delete`: pass the app's display name with `--confirm-name`.
+  Deleting an app has no `--yes`.
 
 ```sh
-shorebird apps delete --app-id <app-id> --confirm-name "Acme Mobile"
+shorebird releases delete --app-id <app-id> --release-version 1.0.0+1 --yes --json
+shorebird apps delete --app-id <app-id> --confirm-name "<display name>" --json
 ```
 
-If the name doesn't match, nothing is deleted and the command exits with a usage
-error. Look the name up first, with `shorebird apps list` or
-`shorebird channels list`, rather than hard-coding it.
+This behavior needs Shorebird 1.6.129 or newer. Earlier releases confirmed every
+delete with `--confirm-name`.
 
 ## Retrying rollbacks
 

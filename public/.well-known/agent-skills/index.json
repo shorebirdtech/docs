@@ -40,7 +40,7 @@
     {
       "name": "shorebird-api",
       "type": "api-reference",
-      "description": "Programmatic access to Shorebird apps, releases, artifacts, and channels via REST OpenAPI 3.1.",
+      "description": "Programmatic access to Shorebird apps, releases, artifacts, and channels via REST OpenAPI 3.1, or from the CLI with `shorebird api`.",
       "url": "https://docs.shorebird.dev/account/api.md"
     }
   ]

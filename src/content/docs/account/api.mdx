@@ -79,7 +79,9 @@ How it works:
   `with_entries`.
 - **Output and errors**: the response body is printed as-is. On a non-2xx
   response the body is still printed, a one-line error goes to stderr, and the
-  command exits with status 1.
+  command exits with status 1. `--jq` applies only to successful responses: on
+  an error, the raw error body goes to stdout instead, so scripts should check
+  the exit status before using the output.
 - **Retries**: `GET` requests are retried on transient failures. Other methods
   are sent at most once.
 
@@ -151,9 +153,18 @@ parameter and response detail on each:
   next one. Without `per_page` or `cursor`, these lists return every item. Some
   newer list endpoints page by default, with the same parameters.
 
-  ```sh
-  cursor=$(shorebird api '/apps?per_page=50' --jq '.next_cursor')
-  shorebird api -X GET /apps -f per_page=50 -f cursor="$cursor"
+  This loop prints every app ID, one page of 50 at a time, and stops when a page
+  has no `next_cursor`:
+
+  ```bash
+  cursor=""
+  while :; do
+    page=(-X GET /apps -f per_page=50)
+    [ -n "$cursor" ] && page+=(-f "cursor=$cursor")
+    shorebird api "${page[@]}" --jq '.apps[].app_id' || exit 1
+    cursor=$(shorebird api "${page[@]}" --jq '.next_cursor | select(. != null)') || exit 1
+    [ -n "$cursor" ] || break
+  done
   ```
 
 - **Unauthenticated endpoint** — `POST /patches/check` is the one exception to

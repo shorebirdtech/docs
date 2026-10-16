@@ -44,8 +44,8 @@ A job signs in only when everything the rule names matches it:
 - **Repository**: the owner and repository name. When you add the rule,
   Shorebird looks up the owner's GitHub account and records its ID, so if the
   name is later deleted and registered by someone else, their workflows don't
-  match. If you rename the GitHub user or organization, add the rule again with
-  the new name.
+  match. If you rename the GitHub user, organization, or repository, add the
+  rule again with the new name.
 - **Workflow file**: the file that defines the job, directly in
   `.github/workflows/` and ending in `.yml` or `.yaml`, such as
   `.github/workflows/release.yaml`. In the console, a bare file name like
@@ -85,7 +85,10 @@ The console suggests this once one of the account's rules has been used.
 
 Each rule is listed on its service account with its repository, workflow file,
 environment, ref pattern, and when it was last used. To stop a workflow from
-signing in, click the trash icon next to its rule.
+signing in, click the trash icon next to its rule. Jobs that already signed in
+keep their access token until it expires, within 15 minutes. To cut off access
+right away, delete the service account. A change to its role also applies from
+the next request.
 
 From the command line:
 

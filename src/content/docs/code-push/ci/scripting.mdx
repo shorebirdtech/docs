@@ -121,8 +121,8 @@ add.
 When the Shorebird API rejected the request, `error.api_code` holds the server's
 error code, such as `shorebird_plan_insufficient_tier` for a feature your plan
 doesn't include, and `error.details` holds any extra detail the server sent.
-Branch on `api_code` rather than on the message text. These fields are available
-in Shorebird CLI releases after 1.6.128.
+Branch on `api_code` rather than on the message text. These fields need
+Shorebird 1.6.129 or newer.
 
 :::caution
 
@@ -147,8 +147,8 @@ shorebird releases delete --app-id <app-id> --release-version 1.0.0+1 --yes --js
 shorebird apps delete --app-id <app-id> --confirm-name "<display name>" --json
 ```
 
-This behavior is available in Shorebird CLI releases after 1.6.128. Earlier
-releases confirmed every delete with `--confirm-name`.
+This behavior needs Shorebird 1.6.129 or newer. Earlier releases confirmed every
+delete with `--confirm-name`.
 
 ## Retrying rollbacks
 

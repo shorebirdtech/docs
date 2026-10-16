@@ -593,8 +593,8 @@ You can also delete a release from the command line, which is useful in scripts
 that clean up test releases. Deleting a release deletes its patches, and devices
 on that release get no new patches. Pass `--platform` to delete only one
 platform's release artifacts and patch files and keep the release. The command
-asks you to confirm; pass `--yes` in scripts. It's available in Shorebird CLI
-releases after 1.6.128:
+asks you to confirm; pass `--yes` in scripts. It needs Shorebird 1.6.129 or
+newer:
 
 ```sh
 shorebird releases delete --release-version 1.0.0+1

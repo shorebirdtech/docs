@@ -121,7 +121,8 @@ add.
 When the Shorebird API rejected the request, `error.api_code` holds the server's
 error code, such as `shorebird_plan_insufficient_tier` for a feature your plan
 doesn't include, and `error.details` holds any extra detail the server sent.
-Branch on `api_code` rather than on the message text.
+Branch on `api_code` rather than on the message text. These fields are available
+in Shorebird CLI releases after 1.6.128.
 
 :::caution
 

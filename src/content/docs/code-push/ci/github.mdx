@@ -112,8 +112,10 @@ still be deleted, but new ones cannot be added.
 2. Create a service account for the workflow, or pick an existing one.
 3. Under **GitHub Actions**, click **Add workflow** and enter:
    - **Owner** and **Repository**: where the workflow lives.
-   - **Workflow file**: the path of the workflow, such as
-     `.github/workflows/release.yaml`.
+   - **Workflow file**: the path of the workflow file that defines the job, such
+     as `.github/workflows/release.yaml`. If the job is in a reusable workflow,
+     enter that file, not the workflow that calls it. A reusable workflow from
+     another repository cannot sign in.
    - **Environment** (recommended): the
      [GitHub environment](https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/manage-environments)
      the job runs in. Requiring one lets you add reviewers or branch

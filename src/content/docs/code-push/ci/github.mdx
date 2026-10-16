@@ -94,8 +94,8 @@ job, so no Shorebird secret is stored in GitHub and nothing has to be rotated.
 The job signs in as a service account in your organization and can do what that
 account's role allows.
 
-Signing in with OIDC is available in Shorebird CLI releases after 1.6.128. On an
-older CLI, use an API key in `SHOREBIRD_TOKEN` instead.
+Signing in with OIDC needs Shorebird 1.6.129 or newer. On an older CLI, use an
+API key in `SHOREBIRD_TOKEN` instead.
 
 :::note
 
@@ -107,9 +107,13 @@ still be deleted, but new ones cannot be added.
 
 ### Add a trust rule
 
-1. In the [Shorebird Console](https://console.shorebird.dev), open your
-   organization's **Settings → Service accounts**.
-2. Create a service account for the workflow, or pick an existing one.
+1. In the [Shorebird Console](https://console.shorebird.dev), go to
+   `/orgs/<project id>/settings/service-accounts`, with your project's ID in
+   place of `<project id>`. The ID is the number after `/orgs/` in the console's
+   address bar, and `shorebird account orgs` lists it too.
+2. Create a service account for the workflow, or pick an existing one. Its role
+   decides what the workflow can do: App manager can create releases and
+   patches.
 3. Under **GitHub Actions**, click **Add workflow** and enter:
    - **Owner** and **Repository**: where the workflow lives.
    - **Workflow file**: the path of the workflow file that defines the job, such
@@ -124,6 +128,21 @@ still be deleted, but new ones cannot be added.
      as `refs/heads/main` or `refs/tags/*`. Leave it empty to accept any ref.
 
 The console then shows your project's ID, which the workflow needs.
+
+#### Add a trust rule from the command line
+
+`shorebird api` can make the same changes. Create the service account, then add
+a trust rule to it with the `id` the first command prints:
+
+```sh
+shorebird api -X POST organizations/<project id>/service-accounts \
+  -f name=release -f role=appManager
+shorebird api -X POST organizations/<project id>/service-accounts/<service account id>/trust-rules \
+  -f provider=github -f repository_owner=acme -f repository_name=app \
+  -f workflow_path=.github/workflows/release.yaml -f ref_pattern=refs/heads/main
+```
+
+`environment` and `ref_pattern` are optional, as in the console.
 
 ### Configure the workflow
 

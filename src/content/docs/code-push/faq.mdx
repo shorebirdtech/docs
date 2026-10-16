@@ -586,15 +586,23 @@ Requests sent from the app to Shorebird servers include:
 
 - app_id (specified in `shorebird.yaml`)
 - channel (optional in `shorebird.yaml`)
-- release_version (`versionName` from `AndroidManifest.xml`)
-- patch_number (generated as part of `shorebird patch android`)
+- release_version (e.g. `1.0.0+1`, the app's version name and build number)
+- current_patch_number (the patch the app is running, if any)
 - arch (e.g. `aarch64`, needed to send down the right patch)
 - platform (e.g. `android`, needed to send down the right patch)
 - client_id (the anonymous install identifier, used to count active users, see
   [What is the anonymous install identifier?](#what-is-the-anonymous-install-identifier))
 
-The code for this is public in the
-[updater package](https://github.com/shorebirdtech/updater/blob/main/library/src/network.rs)
+Patch events, sent when a patch downloads, launches or fails, also include the
+patch_number (generated as part of `shorebird patch`), a timestamp, and for
+failures a short error message (newer engines also send a failure category for
+download or install failures). See
+[Lifetime of a Shorebird Update](/code-push/system-architecture/#lifetime-of-a-shorebird-update).
+
+The code for this is public in the updater package
+([network.rs](https://github.com/shorebirdtech/updater/blob/main/library/src/network.rs)
+and
+[events.rs](https://github.com/shorebirdtech/updater/blob/main/library/src/events.rs))
 and can be reviewed at any time.
 
 ### Do you need to keep your app_id secret?

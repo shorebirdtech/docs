@@ -590,8 +590,11 @@ The deletion takes effect as soon as you confirm. See
 for alternatives to deleting.
 
 You can also delete a release from the command line, which is useful in scripts
-that clean up test releases. Pass `--platform` to delete only one platform. It's
-available in Shorebird CLI releases after 1.6.128:
+that clean up test releases. Deleting a release deletes its patches, devices on
+that release stop getting patches, and you can't patch it again. Pass
+`--platform` to delete only one platform's artifacts and keep the release. The
+command asks you to confirm; pass `--yes` in scripts. It's available in
+Shorebird CLI releases after 1.6.128:
 
 ```sh
 shorebird releases delete --release-version 1.0.0+1

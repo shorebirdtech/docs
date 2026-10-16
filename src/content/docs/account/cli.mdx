@@ -158,16 +158,21 @@ Deleting an app permanently deletes every release and patch that belongs to it,
 and can't be undone. Read
 [Delete Apps, Releases, and Patches](/code-push/delete) before you do this.
 
-In a terminal, the command asks you to type the app's display name to confirm:
+Before deleting, the command says what goes with the app: its releases and their
+patches, its channels, and its collaborators. Devices running the app stop
+getting patches. In a terminal, you then type the app's display name to confirm:
 
 ```sh
 shorebird apps delete
 ```
 
-In scripts and CI, where nothing can prompt, pass `--yes` to skip the
-confirmation. Without it, the command fails and nothing is deleted. `--yes` is
-available in Shorebird CLI releases after 1.6.128; earlier releases used
-`--confirm-name`, which still works but is deprecated.
+In scripts and CI, where nothing can prompt, pass the display name with
+`--confirm-name`. There is no `--yes` for deleting an app, so an app is never
+deleted without naming it:
+
+```sh
+shorebird apps delete --app-id <app-id> --confirm-name "<display name>"
+```
 
 ## Metrics commands
 

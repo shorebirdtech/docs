@@ -186,27 +186,45 @@ errors. For added security, there's also a way for you to
 [sign your patches](/code-push/guides/patch-signing/) if needed as per your
 security requirements.
 
-The modified Flutter engine also reports successful or failed launch of a patch
-back to Shorebird's servers the next time it makes a patch check.
+The modified Flutter engine also reports patch events back to Shorebird's
+servers: when a patch finishes downloading, when it first launches successfully,
+and when it fails to download, install or launch. Download and launch events are
+sent right away. Failure events are saved on the device and sent with the next
+patch check.
 
-A patch event contains:
+A patch event is sent as:
 
 ```json
 {
-  "app_id": "uuid...",
-  "arch": "arm64-v8a",
-  "platform": "android",
-  "type": "PatchInstallSuccess",
-  "release_version": "1.0.0",
-  "patch_number": 1
+  "event": {
+    "app_id": "uuid...",
+    "arch": "aarch64",
+    "client_id": "uuid...",
+    "type": "__patch_install__",
+    "patch_number": 1,
+    "platform": "android",
+    "release_version": "1.0.0",
+    "timestamp": 1760000000,
+    "message": null
+  }
 }
 ```
+
+`type` is one of:
+
+- `__patch_download__`: the patch was downloaded.
+- `__patch_install__`: the patch launched successfully for the first time.
+- `__patch_install_failure__`: the patch failed to launch.
+- `__patch_update_failure__`: the patch failed to download or install.
+
+Failure events also carry a short `message`, and newer engines add a
+`failure_category` such as `network` or `corrupt_patch` to update failures.
 
 These events are used to display patch install analytics in the Shorebird
 Console.
 
 If a patch fails to launch after install, in addition to sending a
-"PatchInstallFailure" event, the updater library will also mark that patch
+`__patch_install_failure__` event, the updater library will also mark that patch
 number as "bad" locally and refuse to boot the app with that patch number again.
 This is to prevent a bad patch from causing a crash loop on the device.
 

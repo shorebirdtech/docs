@@ -42,6 +42,9 @@ To keep a job from failing or guessing, pass every input as a flag: the app with
 `shorebird patch`, `--release-version=latest` targets the most recently updated
 release. Authenticate with an [API key](/account/api-keys) in the
 `SHOREBIRD_TOKEN` environment variable, since `shorebird login` needs a browser.
+In GitHub Actions, a job can
+[sign in with OIDC](/code-push/ci/github/#sign-in-with-oidc-instead-of-a-stored-key)
+instead, in Shorebird CLI releases after 1.6.128.
 
 ## JSON output
 

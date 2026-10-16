@@ -94,6 +94,9 @@ job, so no Shorebird secret is stored in GitHub and nothing has to be rotated.
 The job signs in as a service account in your organization and can do what that
 account's role allows.
 
+Signing in with OIDC is available in Shorebird CLI releases after 1.6.128. On an
+older CLI, use an API key in `SHOREBIRD_TOKEN` instead.
+
 :::note
 
 Trust rules are available on Business and Enterprise plans. If your organization
@@ -112,7 +115,7 @@ still be deleted, but new ones cannot be added.
    - **Workflow file**: the path of the workflow, such as
      `.github/workflows/release.yaml`.
    - **Environment** (recommended): the
-     [GitHub environment](https://docs.github.com/en/actions/managing-workflow-runs-and-deployments/managing-deployments/managing-environments-for-deployment)
+     [GitHub environment](https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/manage-environments)
      the job runs in. Requiring one lets you add reviewers or branch
      restrictions in GitHub before a release can run.
    - **Ref pattern** (optional): the branches or tags allowed to sign in, such
@@ -158,11 +161,12 @@ jobs:
 Do not set `SHOREBIRD_TOKEN` in a job that signs in with OIDC. When
 `SHOREBIRD_TOKEN` is set, the Shorebird CLI uses it instead. If you are moving a
 workflow from an API key to OIDC, remove the `SHOREBIRD_TOKEN` line and the
-repository secret.
+repository secret, then
+[revoke the API key](/account/api-keys/#revoking-an-api-key).
 
 If the sign-in is refused, the CLI prints the reason, such as
-`no trust rule matches`. Check that the repository, workflow file, environment
-and ref of the job match the trust rule.
+`No trust rule matches this workflow`. Check that the repository, workflow file,
+environment and ref of the job match the trust rule.
 
 ## Android code signing
 

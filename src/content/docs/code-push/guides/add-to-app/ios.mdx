@@ -177,15 +177,15 @@ and build numbers in Xcode. The command above will patch the release created
 earlier in this guide.
 
 You can now test the patch in your app by running the app from Xcode. After the
-app launches, you should see a logs from Shorebird informing you that the app is
-checking for new patches and saying that the patch was installed:
+app launches, you should see logs from Shorebird informing you that the app is
+checking for new patches and saying that the patch was downloaded:
 
 ```
 [shorebird] Sending patch check request: app_id: db32f785-284a-429b-9348-d3ead3485438, channel: stable, release_version: 1.2.3+4, platform: ios, arch: aarch64, current_patch_number: None
 
 /// other logs
 
-Patch 1 successfully installed.
+[shorebird] Patch 1 successfully downloaded. It will be launched when the app next restarts.
 ```
 
 For the app to reflect the changes, you will need to close and reopen the app.

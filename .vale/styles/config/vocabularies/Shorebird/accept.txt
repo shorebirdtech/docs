@@ -1,3 +1,4 @@
 Shorebird
 Flutter
 Code Push
+(?i)(?:[a-z0-9-]+\.)*shorebird\.dev

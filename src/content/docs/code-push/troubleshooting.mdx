@@ -30,8 +30,14 @@ Sending patch check request: app_id: <your app id>, channel: stable, release_ver
 ```
 
 `release_version` is the release version your app is running, and
-`current_patch_number` is the patch it already has installed (`None` if it is
+`current_patch_number` is the patch it is currently running (`None` if it is
 running the release unpatched).
+
+Older engines print the same fields in a different format:
+
+```
+Sending patch check request: PatchCheckRequest { app_id: "<your app id>", channel: "stable", release_version: "1.0.3+16", platform: "android", arch: "aarch64", client_id: "<id>", current_patch_number: Some(3) }
+```
 
 If the release version is the version you expect to see, check the
 [Shorebird Console](https://console.shorebird.dev) to ensure that this release

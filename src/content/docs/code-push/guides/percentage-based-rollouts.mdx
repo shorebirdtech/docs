@@ -162,9 +162,10 @@ Press the update button, and the Shorebird preview output shows the following
 
 ```
 11-13 15:54:06.188 1854 1943 I flutter : updater::network:
-  [shorebird] Sending patch check request: app_id:
-  fdd48b3f-0b05-41b0-ac22-464600f739ee, channel: stable, release_version:
-  1.0.0+1, platform: android, arch: aarch64, current_patch_number: None
+  [shorebird] Sending patch check request:
+  app_id: fdd48b3f-0b05-41b0-ac22-464600f739ee, channel: stable,
+  release_version: 1.0.0+1, platform: android, arch: aarch64,
+  current_patch_number: None
 ```
 
 Now, change the rollout percentage in Firebase to 76%:
@@ -178,9 +179,10 @@ Press the update button again, and you'll now see:
 
 ```
 11-13 16:41:42.525 7036 7102 I flutter : updater::network:
-  [shorebird] Sending patch check request: app_id:
-  fdd48b3f-0b05-41b0-ac22-464600f739ee, channel: beta, release_version:
-  1.0.0+1, platform: android, arch: aarch64, current_patch_number: None
+  [shorebird] Sending patch check request:
+  app_id: fdd48b3f-0b05-41b0-ac22-464600f739ee, channel: beta,
+  release_version: 1.0.0+1, platform: android, arch: aarch64,
+  current_patch_number: None
 
 11-13 16:41:42.666 7036 7102 I flutter : updater::updater:
   [shorebird] Patch check response: PatchCheckResponse {

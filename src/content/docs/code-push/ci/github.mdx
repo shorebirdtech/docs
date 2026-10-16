@@ -107,16 +107,15 @@ still be deleted, but new ones cannot be added.
 
 ### Add a trust rule
 
-1. Open
-   `https://console.shorebird.dev/orgs/<project id>/settings/service-accounts`,
-   with your project's ID in place of `<project id>`. The ID is the number after
-   `/orgs/` in the console's address bar, and `shorebird account orgs` lists it
-   too. You need the Admin or Owner role to manage service accounts.
-2. Create a service account for the workflow, or pick an existing one. Its role
-   decides what the workflow can do: Developer, the default, can create releases
-   and patches, and App manager can also create, update, and delete apps.
-   Creating an account in the console also creates an API key for it. A workflow
-   that signs in with OIDC doesn't use the key, so you can revoke it.
+1. In the console, open your organization's **Settings** and select **Service
+   Accounts**. You need the Admin or Owner role to manage
+   [service accounts](/account/service-accounts/).
+2. Create a service account for the workflow, or pick an existing one. Its
+   [role](/account/service-accounts/#choose-a-role) decides what the workflow
+   can do: Developer, the default, can create releases and patches, and App
+   Manager can also create, update, and delete apps. Creating an account in the
+   console also creates an API key for it. A workflow that signs in with OIDC
+   doesn't use the key, so you can revoke it.
 3. Under **GitHub Actions**, click **Add workflow** and enter:
    - **Owner** and **Repository**: where the workflow lives.
    - **Workflow file**: the path of the workflow file that defines the job, such
@@ -130,7 +129,10 @@ still be deleted, but new ones cannot be added.
    - **Ref pattern** (optional): the branches or tags allowed to sign in, such
      as `refs/heads/main` or `refs/tags/*`. Leave it empty to accept any ref.
 
-The console then shows your project's ID, which the workflow needs.
+[Trust rules](/account/trust-rules/#what-a-rule-matches) explains how each field
+is matched. The console then shows your project's ID, which the workflow needs.
+It is also the number after `/orgs/` in the console's address bar, and
+`shorebird account orgs` lists it.
 
 #### Add a trust rule from the command line
 

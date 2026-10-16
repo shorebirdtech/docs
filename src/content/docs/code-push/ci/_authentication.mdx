@@ -28,6 +28,14 @@ publicly. Store it in your CI platform's secrets manager.
 See [API Keys](/account/api-keys/#permissions) for details on permission levels
 and other key management options.
 
+:::tip[Use a service account for shared CI]
+
+A personal API key stops working if its owner's account is deleted. A
+[service account](/account/service-accounts/) belongs to your organization
+instead, and its key goes in `SHOREBIRD_TOKEN` the same way.
+
+:::
+
 :::tip[Migrating from `shorebird login:ci`]
 
 The `shorebird login:ci` command has been replaced by API keys, and tokens it

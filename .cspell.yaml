@@ -90,6 +90,7 @@ words:
   - msix
   - notlike
   - nubank
+  - ocsf
   - opengraph
   - opensearch
   - opensearchdescription
@@ -112,6 +113,7 @@ words:
   - seidel
   - shellenv
   - shorebirdtech
+  - siem
   - softwareupdate
   - squircle
   - squircles
@@ -125,6 +127,7 @@ words:
   - twoslash
   - trafficadvice
   - uiscene
+  - urlencode
   - vsync
   - vvago
   - wagus

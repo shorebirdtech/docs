@@ -59,7 +59,8 @@
   },
   "overrides": {
     "fflate": "^0.7.5",
-    "postcss": "^8.5.23"
+    "postcss": "^8.5.23",
+    "katex": "^0.18.10"
   },
   "lavamoat": {
     "allowScripts": {

@@ -25,6 +25,64 @@ The API does not yet carry a compatibility guarantee. It is the same API the
 Shorebird CLI and console use, and it changes when they do. You are welcome to
 build on it; expect to follow it.
 
+## Calling the API from the command line
+
+The quickest way to call the API is `shorebird api`. It sends an authenticated
+request using your current Shorebird credentials and prints the response, so
+there is no token to copy and no headers to set. It is designed mainly for
+coding agents and scripts: only the response body goes to stdout, and a failed
+request exits with a non-zero status. It is modeled on
+[`gh api`](https://cli.github.com/manual/gh_api), so its common flags work the
+same way.
+
+`shorebird api` is available in Shorebird CLI releases after 1.6.128.
+
+```sh
+# List the apps you have access to
+shorebird api /apps
+
+# List the release versions of the app in the current project
+shorebird api /apps/{appId}/releases --jq '.releases[].version'
+
+# Create a channel
+shorebird api /apps/{appId}/channels -f channel=beta
+
+# Add query parameters to a GET request
+shorebird api -X GET /apps/{appId}/metrics/patch-installs -f granularity=day
+```
+
+How it works:
+
+- **Endpoint**: a path relative to the base URL below, such as `/apps`. A full
+  URL under `https://api.shorebird.dev/api/v1` also works. URLs on any other
+  host are rejected, so your credentials are only sent to the Shorebird API.
+- **`{appId}`**: replaced with the app ID from the current project's
+  `shorebird.yaml`, in the endpoint and in `-F` values. Pass `--flavor` to use a
+  flavor's app ID.
+- **Authentication**: your `shorebird login` session, or the API key in the
+  `SHOREBIRD_TOKEN` environment variable.
+- **`-X`, `--method`**: the HTTP method. The default is `GET`, or `POST` when
+  fields or `--input` are given.
+- **`-f`, `--raw-field key=value`**: adds a string parameter. **`-F`,
+  `--field key=value`** adds a typed one: `true`, `false`, `null` and integers
+  become JSON values, and `@path` reads the value from a file (`@-` from
+  standard input). For `GET` requests, fields go in the query string; for other
+  methods they are sent as a JSON object body.
+- **`--input file`**: sends a JSON file as the request body (`-` reads standard
+  input). Use it for nested JSON. Fields then go in the query string.
+- **`--jq expression`**: prints the results of a jq query over the response.
+  Strings print without quotes, other values as JSON. A common subset of jq is
+  supported: paths (`.a.b`, `.[]`, `.[0]`, `?`), pipes, `,`, comparisons,
+  `and`/`or`/`not`, object and array construction, string interpolation, and
+  `length`, `keys`, `map`, `select`, `empty`, `first`, `last`, `sort_by`,
+  `unique`, `unique_by`, `join`, `to_entries`, `from_entries` and
+  `with_entries`.
+- **Output and errors**: the response body is printed as-is. On a non-2xx
+  response the body is still printed, a one-line error goes to stderr, and the
+  command exits with status 1.
+- **Retries**: `GET` requests are retried on transient failures. Other methods
+  are sent at most once.
+
 ## Base URL
 
 ```
@@ -84,9 +142,20 @@ parameter and response detail on each:
 
 ## Common patterns
 
-- **Errors** — non-2xx responses return a standard `ErrorResponse` shape with a
-  `code`, a human-readable `message`, and optional `details`. Check the spec for
-  the schema.
+- **Errors**: non-2xx responses return a standard `ErrorResponse` with a
+  machine-readable `code`, a human-readable `message`, and optional `details`
+  and `documentation_url`. Branch on `code` rather than on `message`.
+- **Pagination**: the apps, releases and patches lists accept an optional
+  `per_page` (default 30, maximum 100) and `cursor`. A paged response includes
+  `next_cursor` when there is another page; pass it as `cursor` to fetch the
+  next one. Without `per_page` or `cursor`, these lists return every item. Some
+  newer list endpoints page by default, with the same parameters.
+
+  ```sh
+  cursor=$(shorebird api '/apps?per_page=50' --jq '.next_cursor')
+  shorebird api -X GET /apps -f per_page=50 -f cursor="$cursor"
+  ```
+
 - **Unauthenticated endpoint** — `POST /patches/check` is the one exception to
   the auth rule above: it's what a device calls to check for an available patch,
   and it doesn't require a bearer token.

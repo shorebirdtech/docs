@@ -68,6 +68,10 @@ always holds exactly one JSON object. `--help` with `--json` works the same way:
 the usage text goes to stderr. This needs Shorebird 1.6.129 or newer; earlier
 releases leave stdout empty when these commands succeed.
 
+`shorebird api` is the exception: it prints the API response body as-is and
+rejects `--json`. See
+[Calling the API from the command line](/account/api/#calling-the-api-from-the-command-line).
+
 ### Success
 
 A successful command prints an object with `status` set to `success`. The

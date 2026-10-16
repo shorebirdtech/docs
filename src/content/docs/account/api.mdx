@@ -28,14 +28,14 @@ build on it; expect to follow it.
 ## Calling the API from the command line
 
 For everyday tasks, use the dedicated commands (`shorebird apps list`,
-`shorebird releases list`, `shorebird metrics`, and so on). `shorebird api` is
-for everything else: it calls any API endpoint, including ones with no dedicated
-command, and is designed mainly for coding agents and scripts. It sends an
-authenticated request using your current Shorebird credentials, so there is no
-token to copy and no headers to set. Only the response body goes to stdout (the
-global `--json` flag is not supported), and a failed request exits with a
-non-zero status. `--jq` applies only to successful responses; on an error the
-raw error body is printed instead, so check the exit status before using the
+`shorebird releases list`, `shorebird patches list`, and so on). `shorebird api`
+is for everything else: it calls any API endpoint, including ones with no
+dedicated command, and is designed mainly for coding agents and scripts. It
+sends an authenticated request using your current Shorebird credentials, so
+there is no token to copy and no headers to set. Only the response body goes to
+stdout (the global `--json` flag is not supported), and a failed request exits
+with a non-zero status. `--jq` applies only to successful responses; on an error
+the raw error body is printed instead, so check the exit status before using the
 output. Find endpoints in
 [the OpenAPI spec](https://api.shorebird.dev/openapi.json).
 

@@ -32,10 +32,11 @@ For everyday tasks, use the dedicated commands (`shorebird apps list`,
 for everything else: it calls any API endpoint, including ones with no dedicated
 command, and is designed mainly for coding agents and scripts. It sends an
 authenticated request using your current Shorebird credentials, so there is no
-token to copy and no headers to set. Only the response body goes to stdout, and
-a failed request exits with a non-zero status. `--jq` applies only to successful
-responses; on an error the raw error body is printed instead, so check the exit
-status before using the output. Find endpoints in
+token to copy and no headers to set. Only the response body goes to stdout (the
+global `--json` flag is not supported), and a failed request exits with a
+non-zero status. `--jq` applies only to successful responses; on an error the
+raw error body is printed instead, so check the exit status before using the
+output. Find endpoints in
 [the OpenAPI spec](https://api.shorebird.dev/openapi.json).
 
 `shorebird api` is available in Shorebird CLI releases after 1.6.128.
@@ -116,8 +117,8 @@ parameter and response detail on each:
   next one. Without `per_page` or `cursor`, these lists return every item. Some
   newer list endpoints page by default, with the same parameters.
 
-  This loop prints every app ID, one page of 50 at a time, and stops when a page
-  has no `next_cursor`:
+  This script prints every app ID, one page of 50 at a time, stops when a page
+  has no `next_cursor`, and exits with status 1 if a request fails:
 
   ```bash
   cursor=""
@@ -130,6 +131,6 @@ parameter and response detail on each:
   done
   ```
 
-- **Unauthenticated endpoint** — `POST /patches/check` is the one exception to
+- **Unauthenticated endpoint**: `POST /patches/check` is the one exception to
   the auth rule above: it's what a device calls to check for an available patch,
   and it doesn't require a bearer token.

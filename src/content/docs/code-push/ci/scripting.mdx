@@ -64,6 +64,10 @@ Other commands, such as `shorebird release` and `shorebird patch`, accept
 `--json` and run non-interactively, but still print human-readable logs. Check
 their exit code rather than parsing their output.
 
+`shorebird api` is the exception: it prints the API response body as-is and
+rejects `--json`. See
+[Calling the API from the command line](/account/api/#calling-the-api-from-the-command-line).
+
 ### Success
 
 A successful command prints an object with `status` set to `success`. The

@@ -7,5 +7,5 @@
       "~/*": ["src/*"]
     }
   },
-  "exclude": ["functions"]
+  "exclude": ["dist", "functions"]
 }

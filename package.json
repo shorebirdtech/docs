@@ -28,7 +28,7 @@
     "astro-mermaid": "^2.1.0",
     "astro-opengraph-images": "^1.20.4",
     "hast-util-select": "^6.0.4",
-    "mermaid": "^11.17.2",
+    "mermaid": "^12.2.0",
     "rehype-parse": "^9.0.1",
     "rehype-remark": "^10.0.1",
     "remark-gfm": "^4.0.1",

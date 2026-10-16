@@ -123,6 +123,12 @@ non-zero code:
 When there's a way to recover, `error.hint` says what to do, such as the flag to
 add.
 
+When the Shorebird API rejected the request, `error.api_code` holds the server's
+error code, such as `shorebird_plan_insufficient_tier` for a feature your plan
+doesn't include, and `error.details` holds any extra detail the server sent.
+Branch on `api_code` rather than on the message text. These fields need
+Shorebird 1.6.129 or newer.
+
 :::caution
 
 Check the exit code as well as `status`. A non-zero exit code always means the
@@ -134,17 +140,21 @@ those, such as not being logged in, report `precondition_failed`.
 
 ## Destructive commands
 
-Commands that delete something, `shorebird apps delete` and
-`shorebird channels delete`, never prompt. Instead, they require
-`--confirm-name` set to the exact name of what you're deleting:
+Commands that delete something ask for confirmation in a terminal. Without a
+terminal, in CI, or with `--json`, they never prompt, so confirm with a flag or
+the command fails with a usage error and nothing is deleted:
+
+- `shorebird releases delete` and `shorebird channels delete`: pass `--yes`.
+- `shorebird apps delete`: pass the app's display name with `--confirm-name`.
+  Deleting an app has no `--yes`.
 
 ```sh
-shorebird apps delete --app-id <app-id> --confirm-name "Acme Mobile"
+shorebird releases delete --app-id <app-id> --release-version 1.0.0+1 --yes --json
+shorebird apps delete --app-id <app-id> --confirm-name "<display name>" --json
 ```
 
-If the name doesn't match, nothing is deleted and the command exits with a usage
-error. Look the name up first, with `shorebird apps list` or
-`shorebird channels list`, rather than hard-coding it.
+This behavior needs Shorebird 1.6.129 or newer. Earlier releases confirmed every
+delete with `--confirm-name`.
 
 ## Retrying rollbacks
 

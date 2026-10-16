@@ -107,13 +107,16 @@ still be deleted, but new ones cannot be added.
 
 ### Add a trust rule
 
-1. In the [Shorebird Console](https://console.shorebird.dev), go to
-   `/orgs/<project id>/settings/service-accounts`, with your project's ID in
-   place of `<project id>`. The ID is the number after `/orgs/` in the console's
-   address bar, and `shorebird account orgs` lists it too.
+1. Open
+   `https://console.shorebird.dev/orgs/<project id>/settings/service-accounts`,
+   with your project's ID in place of `<project id>`. The ID is the number after
+   `/orgs/` in the console's address bar, and `shorebird account orgs` lists it
+   too. You need the Admin or Owner role to manage service accounts.
 2. Create a service account for the workflow, or pick an existing one. Its role
-   decides what the workflow can do: App manager can create releases and
-   patches.
+   decides what the workflow can do: Developer, the default, can create releases
+   and patches, and App manager can also create, update, and delete apps.
+   Creating an account in the console also creates an API key for it. A workflow
+   that signs in with OIDC doesn't use the key, so you can revoke it.
 3. Under **GitHub Actions**, click **Add workflow** and enter:
    - **Owner** and **Repository**: where the workflow lives.
    - **Workflow file**: the path of the workflow file that defines the job, such
@@ -136,7 +139,7 @@ a trust rule to it with the `id` the first command prints:
 
 ```sh
 shorebird api -X POST organizations/<project id>/service-accounts \
-  -f name=release -f role=appManager
+  -f name=release -f role=developer
 shorebird api -X POST organizations/<project id>/service-accounts/<service account id>/trust-rules \
   -f provider=github -f repository_owner=acme -f repository_name=app \
   -f workflow_path=.github/workflows/release.yaml -f ref_pattern=refs/heads/main

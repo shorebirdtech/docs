@@ -109,6 +109,30 @@ You can easily remove a member from an organization via the organization's
 settings page. Locate the member you wish to remove, click the Trash icon, and
 confirm the action.
 
+### Accept an invitation
+
+When someone invites you to an organization or an app, Shorebird emails you a
+link to accept it. You can also see and answer your invitations from the command
+line, which helps when you're setting up a new machine or working through an
+agent:
+
+```sh
+shorebird invitations list
+```
+
+Each line shows the invitation's id, the organization or app name, its kind, the
+role you'd get, who sent it, and when it was sent and expires. Accept or decline
+one by its id:
+
+```sh
+shorebird invitations accept <id>
+shorebird invitations decline <id>
+```
+
+Sign in as the invited email address first. If you're signed in as a different
+account, the CLI tells you to run `shorebird account whoami` and
+`shorebird login`.
+
 ## Member roles
 
 Organization roles apply to all apps within the organization and can be managed

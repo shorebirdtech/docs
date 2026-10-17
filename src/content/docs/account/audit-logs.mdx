@@ -40,11 +40,11 @@ To keep the audit log in your own security tooling, poll the audit log API in
 oldest-first order and forward each new event.
 
 1. Create a
-   [service account](https://docs.shorebird.dev/account/service-accounts/) with
-   the **Auditor** role. Auditor can read the audit log and nothing else, so the
-   key your SIEM holds cannot change anything in the organization.
-2. [Issue it a key](https://docs.shorebird.dev/account/service-accounts/#issue-and-revoke-keys)
-   and send the key (`sb_api_...`) as a bearer token.
+   [service account](https://docs.shorebird.dev/account/service-accounts/) and
+   change its role to **Auditor**. Auditor can read the audit log and nothing
+   else, so the key your SIEM holds cannot change anything in the organization.
+2. [Create a key](https://docs.shorebird.dev/account/service-accounts/#create-and-revoke-keys)
+   for it and send the key (`sb_api_...`) as a bearer token.
 3. Call `GET /api/v1/organizations/{organizationId}/audit-logs?order=asc`. The
    organization ID is the number after `/orgs/` in the console's address bar.
 4. Forward the events in `data`, then save the response's `next_cursor`.

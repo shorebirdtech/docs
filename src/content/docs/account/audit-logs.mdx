@@ -8,9 +8,13 @@ sidebar:
 ---
 
 The audit log records changes made in your Shorebird organization: who created a
-release, promoted or rolled back a patch, changed a member's role, issued an API
-key, and so on. Each entry says who acted, with which credential, from where,
-and on what.
+release, promoted or rolled back a patch, changed a member's role, issued a
+service account key, and so on. Each entry says who acted, with which
+credential, from where, and on what.
+
+People signing in, personal API keys, and requests that were refused aren't
+recorded as events of their own. Each event names the sign-in session or API key
+behind it instead.
 
 The audit log is available on the Enterprise plan. Owners and Admins of the
 organization can read it, as can a
@@ -64,18 +68,22 @@ rate limit, and a `429` response carries a `Retry-After` header.
 
 ### Poll with curl
 
-This reads one page, appends its events to `events.jsonl`, and saves the cursor
-for the next run:
+Save this as a script and run it on a schedule. Each run reads one page, appends
+its events to `events.jsonl`, and saves the cursor for the next run:
 
 ```bash
+#!/usr/bin/env bash
+set -euo pipefail
 ORG_ID=1234
-cursor=$(cat cursor.txt 2>/dev/null)
+
+query=(--data-urlencode order=asc --data-urlencode per_page=100)
+if [ -f cursor.txt ]; then
+  query+=(--data-urlencode "cursor=$(cat cursor.txt)")
+fi
 
 curl -sf -G "https://api.shorebird.dev/api/v1/organizations/$ORG_ID/audit-logs" \
   -H "Authorization: Bearer $SHOREBIRD_TOKEN" \
-  --data-urlencode order=asc \
-  --data-urlencode per_page=100 \
-  ${cursor:+--data-urlencode "cursor=$cursor"} > page.json || exit 1
+  "${query[@]}" > page.json
 
 jq -c '.data[]' page.json >> events.jsonl
 next=$(jq -r '.next_cursor // empty' page.json)
@@ -84,26 +92,30 @@ if [ -n "$next" ]; then echo "$next" > cursor.txt; fi
 
 ### Poll with the Shorebird CLI
 
-[`shorebird api`](/account/api/#calling-the-api-from-the-command-line) sends the
-same request, authenticated with the key in `SHOREBIRD_TOKEN`. It replaces the
-`curl` call in the script above:
+[`shorebird api`](/account/api/#calling-the-api-from-the-command-line)
+(Shorebird CLI 1.6.129 or later) sends the same request, authenticated with the
+key in `SHOREBIRD_TOKEN`. It replaces the `query` and `curl` lines in the script
+above:
 
 ```bash
-page=(-X GET organizations/$ORG_ID/audit-logs -f order=asc -f per_page=100)
-if [ -n "$cursor" ]; then page+=(-f "cursor=$cursor"); fi
-shorebird api "${page[@]}" > page.json || exit 1
+query=(-X GET "organizations/$ORG_ID/audit-logs" -f order=asc -f per_page=100)
+if [ -f cursor.txt ]; then
+  query+=(-f "cursor=$(cat cursor.txt)")
+fi
+shorebird api "${query[@]}" > page.json
 ```
 
 ### Filter the audit log
 
 These query parameters narrow the results, in either `order`:
 
-- `startDate` and `endDate`: ISO 8601 timestamps, such as
+- `startDate` and `endDate`: ISO 8601 timestamps with a time zone, such as
   `2026-10-01T00:00:00Z`. Both ends are inclusive.
 - `appId`: only events for that app.
 - `actorId`: only events by that user or service account (its `actor.user.uid`).
-  Events by a user whose account was later deleted no longer have a `uid`, so
-  this filter doesn't find them. It never matches events by Shorebird staff.
+  Events by a user or service account that was later deleted no longer have a
+  `uid`, so this filter doesn't find them. It never matches events by Shorebird
+  staff.
 - `operation`: only one event, by name, such as `patch.rollback`. See
   [Events](#events).
 - `order`: `desc` (newest first, the default) or `asc`.
@@ -199,23 +211,25 @@ The fields most queries use:
 - `resources`: what was acted on. `type` names the kind of thing `uid`
   identifies, such as `patch`, `release`, or `user`.
 - `metadata.uid`: the event's unique ID. `metadata.tenant_uid` is the
-  organization ID, and `metadata.correlation_uid`, when present, is the ID of
-  the request that caused the event.
+  organization ID, and `metadata.correlation_uid`, when present, is the
+  `X-Request-ID` header the request sent.
 - `unmapped`: fields OCSF has no place for. `app_id` and `app_name` name the
   app, `actor_source` names the kind of credential (`session`, `api_key`,
   `service_account`, `federated` for a CI job signed in with OIDC, `admin_api`
-  for Shorebird staff, or `none`), and the rest are details of the event, such
-  as a patch number or a member's previous role. A request from a CI job signed
-  in with a [trust rule](https://docs.shorebird.dev/account/trust-rules/) has
-  `ci`, with the `repository`, the `run_id` of the workflow run, and the
-  `rule_id` of the trust rule.
+  for Shorebird staff, or `none`; absent on older events), and the rest are
+  details of the event, such as a patch number or a member's previous role. A
+  request from a CI job signed in with a
+  [trust rule](https://docs.shorebird.dev/account/trust-rules/) has `ci`, with
+  the `repository`, the `run_id` of the workflow run, and the `rule_id` of the
+  trust rule.
 
 ## Events
 
 Event names can change. A renamed event appears under its new name, including
 past occurrences. An event Shorebird no longer records appears with its stored
 resource and action as `api.operation`, in the form `resource_type.action`, and
-`activity_id` 99. The `operation` filter takes only the names listed here.
+`activity_id` 99. The `operation` filter takes event names, not that fallback
+form.
 
 Changes to a person's own account, such as their display name, billing limits,
 or deleting their account, aren't part of an organization's audit log.
@@ -254,7 +268,9 @@ or deleting their account, aren't part of an organization's audit log.
   account.
 - `service_account_trust_rule.delete`: a trust rule was deleted.
 - `service_account.sign_in`: a CI job signed in as a service account through a
-  trust rule. The details include the repository, workflow, and run ID.
+  trust rule. Its `unmapped` details are the job's claims, such as `repository`,
+  `workflow_ref`, `run_id`, and `ref`, with the trust rule's `rule_id`. They
+  aren't under `ci`.
 
 ### Apps and collaborators
 

@@ -177,8 +177,8 @@ The fields most queries use:
   or 99 for anything else.
 - `time`: when the event happened, in milliseconds since the Unix epoch.
 - `actor.user`: who acted. `type_id` is 1 for a person and 4 for a service
-  account, whose `name` is its name followed by `[bot]`. A service account has
-  no email address, so identify it by `uid`, not `email_addr`. A change
+  account, whose `name` is the account's name. A service account has no email
+  address, so it has no `email_addr`; identify it by `uid`. A change
   Shorebird staff made to your organization has `type_id` 99 and `type`
   `shorebird_staff`, with the name `Shorebird staff`. Which staff member acted
   isn't shown, and neither is their credential, session, IP address, or user

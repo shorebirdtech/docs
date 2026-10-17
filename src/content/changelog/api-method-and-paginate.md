@@ -1,6 +1,6 @@
 ---
-title: shorebird api takes the method first and reads every page
-date: 2026-10-16
+title: The api command takes the method first and reads every page
+date: 2026-10-19
 version: 1.6.130
 area: CLI
 type: New

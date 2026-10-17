@@ -1,6 +1,6 @@
 ---
 title: The patches promote command is back as a set-track shortcut
-date: 2026-10-16
+date: 2026-10-19
 version: 1.6.130
 area: CLI
 type: Changed

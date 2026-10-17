@@ -1,6 +1,6 @@
 ---
-title: shorebird account apps moved to shorebird apps list
-date: 2026-10-16
+title: Apps are listed with apps list, not account apps
+date: 2026-10-19
 version: 1.6.130
 area: CLI
 type: Changed

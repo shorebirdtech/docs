@@ -68,7 +68,9 @@ built-in names, so those tracks can't be deleted.
 />
 
 Pass the `--track` flag to any `shorebird patch` command. If you omit the flag,
-the patch is published to `stable` by default.
+the patch is published to `stable` by default. With Shorebird 1.6.130 or newer,
+`--channel` works as another name for `--track` here and on `shorebird preview`,
+`shorebird patches set-track`, and `shorebird patches promote`.
 
 <CodeTabs>
 
@@ -113,14 +115,6 @@ applying the latest patch available on the specified track.
 Once you've validated a patch on a staging track, you can promote it to `stable`
 without rebuilding. This pushes the patch to all production users.
 
-:::note
-
-`shorebird patches promote` is deprecated. Use
-`shorebird patches set-track --track stable` instead. Existing scripts that call
-`promote` still work.
-
-:::
-
 ### Via the Shorebird console
 
 Navigate to the release details page, click the **⋮** context menu next to the
@@ -130,18 +124,17 @@ the same way.
 
 ### Via the CLI
 
-The `--release-version` and `--patch-number` flags of `set-track` need Shorebird
-1.6.128 or newer. On an older CLI, use `--release` and `--patch` instead, or run
-`shorebird upgrade` first.
-
 Promote a patch directly to `stable`:
 
 ```bash
-shorebird patches set-track \
+shorebird patches promote \
   --release-version 1.0.0+1 \
-  --patch-number 1 \
-  --track stable
+  --patch-number 1
 ```
+
+`promote` is `set-track` with the track defaulting to `stable`. Older CLIs run
+the same command but print a deprecation warning, and its `--track`,
+`--channel`, `--app-id`, and `--json` flags need Shorebird 1.6.130 or newer.
 
 To move a patch to any other track, pass that track's name to `--track`:
 
@@ -151,6 +144,10 @@ shorebird patches set-track \
   --patch-number 1 \
   --track beta
 ```
+
+The `--release-version` and `--patch-number` flags of `set-track` need Shorebird
+1.6.128 or newer. On an older CLI, use `--release` and `--patch` instead, or run
+`shorebird upgrade` first.
 
 ## Subscribing a device to a track
 

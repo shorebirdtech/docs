@@ -12,8 +12,8 @@ docLink:
 `shorebird api` accepts the HTTP method before the endpoint, and `--paginate`
 reads a whole paged list in one call.
 
-- The method can be GET, POST, PUT, PATCH, DELETE, or HEAD, in any case. Passing
-  a different method in `-X` is a usage error.
+- The method can be GET, POST, PUT, PATCH, DELETE, or HEAD, in any case. If you
+  also pass `-X`, it must name the same method.
 - `--paginate` follows `next_cursor` and prints the pages as one JSON object,
   with list fields joined. `--jq` runs on the joined result.
 - `--paginate` works only with GET. A failed page stops the command with exit

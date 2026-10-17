@@ -233,16 +233,9 @@ works correctly, you can promote it directly to the `stable` track using:
 shorebird patches promote --release-version 1.0.0+1 --patch-number 1
 ```
 
-`promote` is `set-track` with the track defaulting to `stable`, and needs
-Shorebird 1.6.130 or newer. On an older CLI, use `set-track` with
-`--track stable`:
-
-```sh
-shorebird patches set-track --release-version 1.0.0+1 --patch-number 1 --track stable
-```
-
-That form needs Shorebird 1.6.128 or newer. See
-[Set patch track](#set-patch-track) for older CLIs.
+`promote` is `set-track` with the track defaulting to `stable`. Older CLIs run
+the same command but print a deprecation warning, and its `--track`,
+`--channel`, `--app-id`, and `--json` flags need Shorebird 1.6.130 or newer.
 
 ### Set patch track
 

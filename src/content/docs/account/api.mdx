@@ -63,6 +63,9 @@ single request:
 shorebird api /apps -f per_page=100 --paginate --jq '.apps[].app_id'
 ```
 
+Because `--paginate` always sends a GET, the `-f` fields here go in the query
+string.
+
 The method before the endpoint and `--paginate` need Shorebird 1.6.130 or newer.
 
 Run `shorebird api --help` for all options. For how paging works, see

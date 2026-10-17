@@ -124,10 +124,6 @@ the same way.
 
 ### Via the CLI
 
-The `--release-version` and `--patch-number` flags of `set-track` need Shorebird
-1.6.128 or newer. On an older CLI, use `--release` and `--patch` instead, or run
-`shorebird upgrade` first.
-
 Promote a patch directly to `stable`:
 
 ```bash
@@ -136,9 +132,9 @@ shorebird patches promote \
   --patch-number 1
 ```
 
-`promote` is `set-track` with the track defaulting to `stable`, and needs
-Shorebird 1.6.130 or newer. On an older CLI, run
-`shorebird patches set-track --track stable` with the same flags.
+`promote` is `set-track` with the track defaulting to `stable`. Older CLIs run
+the same command but print a deprecation warning, and its `--track`,
+`--channel`, `--app-id`, and `--json` flags need Shorebird 1.6.130 or newer.
 
 To move a patch to any other track, pass that track's name to `--track`:
 
@@ -148,6 +144,10 @@ shorebird patches set-track \
   --patch-number 1 \
   --track beta
 ```
+
+The `--release-version` and `--patch-number` flags of `set-track` need Shorebird
+1.6.128 or newer. On an older CLI, use `--release` and `--patch` instead, or run
+`shorebird upgrade` first.
 
 ## Subscribing a device to a track
 

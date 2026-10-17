@@ -77,7 +77,7 @@ curl -H "Authorization: Bearer $(shorebird auth token)" \
   https://api.shorebird.dev/api/v1/users/me
 ```
 
-The token expires soon after you get it, so run `shorebird auth token` each time
+The token may expire soon after you get it, so run `shorebird auth token` each time
 rather than storing the output. With an API key in `SHOREBIRD_TOKEN`, it prints
 the key. Treat the output as a secret.
 
@@ -85,8 +85,8 @@ These `auth` commands need Shorebird 1.6.130 or newer.
 
 ## Account management commands
 
-The `shorebird account` command provides several subcommands to inspect your
-account details, apps, and organizations.
+The `shorebird account` command shows who you're signed in as, and its
+subcommands list your organizations and change your account settings.
 
 ### Current account
 
@@ -116,6 +116,8 @@ command signed in; see
 the `Credential` line need Shorebird 1.6.130 or newer.
 
 ### Change your display name
+
+To change the name on your account, run:
 
 ```sh
 shorebird account update --name "Jane Doe"

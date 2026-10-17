@@ -26,7 +26,7 @@ organization's **Settings** and select the **Audit Log** tab to see every event
 in the organization, newest first. Each app also has an **Audit Log** tab that
 shows only that app's events.
 
-Both pages can be filtered by event. Click an entry to see its details: the
+Both pages can be filtered by event. Open an entry's details to see the
 credential used, the API key or sign-in session, the IP address, the user agent,
 and any event-specific details such as the patch number.
 
@@ -103,7 +103,7 @@ These query parameters narrow the results, in either `order`:
 - `appId`: only events for that app.
 - `actorId`: only events by that user or service account (its `actor.user.uid`).
   Events by a user whose account was later deleted no longer have a `uid`, so
-  this filter doesn't find them.
+  this filter doesn't find them. It never matches events by Shorebird staff.
 - `operation`: only one event, by name, such as `patch.rollback`. See
   [Events](#events).
 - `order`: `desc` (newest first, the default) or `asc`.
@@ -120,8 +120,7 @@ shorebird api -X GET organizations/$ORG_ID/audit-logs \
 Each event is an
 [OCSF 1.9.0 API Activity](https://schema.ocsf.io/1.9.0/classes/api_activity)
 event (`class_uid` 6003), so a SIEM that reads OCSF can ingest it without a
-custom parser. This is a member rolling back a patch with
-`shorebird patches rollback`:
+custom parser. This is a member rolling back a patch in the console:
 
 ```json
 {
@@ -157,7 +156,7 @@ custom parser. This is a member rolling back a patch with
   },
   "src_endpoint": { "ip": "203.0.113.7" },
   "http_request": {
-    "user_agent": "shorebird-cli/1.6.129 (macos; dart 3.11.0)"
+    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
   },
   "resources": [{ "type": "patch", "uid": "3456" }],
   "unmapped": {
@@ -192,9 +191,11 @@ The fields most queries use:
 - `api.token`: present when the request used an API key. `uid` is the key's ID,
   which is what you revoke, and `name` is the key's name when the event was
   recorded.
-- `src_endpoint.ip`: the IP address the request came from. When none was
+- `src_endpoint.ip`: the IP address the request came from. For an action in the
+  console, that's the person's own address, not the console's. When none was
   recorded, `src_endpoint` is `{"name": "unknown"}`.
-- `http_request.user_agent`: the request's `User-Agent`, when it sent one.
+- `http_request.user_agent`: the request's `User-Agent`, when it sent one. For
+  an action in the console, that's the person's browser.
 - `resources`: what was acted on. `type` names the kind of thing `uid`
   identifies, such as `patch`, `release`, or `user`.
 - `metadata.uid`: the event's unique ID. `metadata.tenant_uid` is the

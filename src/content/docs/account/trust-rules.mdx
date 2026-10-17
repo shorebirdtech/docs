@@ -15,7 +15,7 @@ account's role allows.
 
 Use a trust rule for workflows that run in GitHub Actions. For other CI systems
 and for scripts, use a
-[service account key](/account/service-accounts/#issue-and-revoke-keys).
+[service account key](/account/service-accounts/#create-and-revoke-keys).
 
 Adding a trust rule needs:
 
@@ -85,10 +85,10 @@ The console suggests this once one of the account's rules has been used.
 
 Each rule is listed on its service account with its repository, workflow file,
 environment, ref pattern, and when it was last used. To stop a workflow from
-signing in, click the trash icon next to its rule. Jobs that already signed in
-keep their access token until it expires, within 15 minutes. To cut off access
-right away, delete the service account. A change to its role also applies from
-the next request.
+signing in, click **Remove** next to its rule and confirm. Jobs that already
+signed in keep their access token until it expires, within 15 minutes. To cut
+off access right away, delete the service account. A change to its role also
+applies from the next request.
 
 From the command line:
 

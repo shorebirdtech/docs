@@ -113,9 +113,8 @@ still be deleted, but new ones cannot be added.
 2. Create a service account for the workflow, or pick an existing one. Its
    [role](/account/service-accounts/#choose-a-role) decides what the workflow
    can do: Developer, the default, can create releases and patches, and App
-   Manager can also create, update, and delete apps. Creating an account in the
-   console also creates an API key for it. A workflow that signs in with OIDC
-   doesn't use the key, so you can revoke it.
+   Manager can also create, update, and delete apps. A workflow that signs in
+   with OIDC needs no API key.
 3. Under **GitHub Actions**, click **Add workflow** and enter:
    - **Owner** and **Repository**: where the workflow lives.
    - **Workflow file**: the path of the workflow file that defines the job, such

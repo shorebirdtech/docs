@@ -1,0 +1,309 @@
+---
+title: Audit Logs
+description:
+  See who changed what in your organization, and export the audit log to your
+  SIEM
+sidebar:
+  order: 5
+---
+
+The audit log records changes made in your Shorebird organization: who created a
+release, promoted or rolled back a patch, changed a member's role, issued a
+service account key, and so on. Each entry says who acted, with which
+credential, from where, and on what.
+
+People signing in, personal API keys, and requests that were refused aren't
+recorded as events of their own. Each event names the sign-in session or API key
+behind it instead.
+
+The audit log is available on the Enterprise plan. Owners and Admins of the
+organization can read it, as can a
+[service account](https://docs.shorebird.dev/account/service-accounts/) with the
+Auditor role. Other roles cannot.
+
+Events are available through the API for at least 90 days.
+
+## View the audit log in the console
+
+In the [Shorebird console](https://console.shorebird.dev), open your
+organization's **Settings** and select the **Audit Log** tab to see every event
+in the organization, newest first. Each app also has an **Audit Log** tab that
+shows only that app's events.
+
+Both pages can be filtered by event. Open an entry's details to see the
+credential used, the API key or sign-in session, the IP address, the user agent,
+and any event-specific details such as the patch number.
+
+## Export the audit log to a SIEM
+
+To keep the audit log in your own security tooling, poll the audit log API in
+oldest-first order and forward each new event.
+
+1. Create a
+   [service account](https://docs.shorebird.dev/account/service-accounts/) and
+   change its role to **Auditor**. Auditor can read the audit log and nothing
+   else, so the key your SIEM holds cannot change anything in the organization.
+2. [Create a key](https://docs.shorebird.dev/account/service-accounts/#create-and-revoke-keys)
+   for it and send the key (`sb_api_...`) as a bearer token.
+3. Call `GET /api/v1/organizations/{organizationId}/audit-logs?order=asc`. The
+   organization ID is the number after `/orgs/` in the console's address bar.
+4. Forward the events in `data`, then save the response's `next_cursor`.
+5. On the next poll, send the saved value as `cursor`. Keep the cursor you have
+   when a response has no `next_cursor`.
+
+A poll without a cursor starts at the oldest event available. To start later,
+add `startDate`.
+
+Oldest-first reads leave out events from the most recent minute, so an event
+whose write was still finishing when you polled is never skipped. It appears on
+a later poll instead.
+
+If your poller stops after forwarding a page but before saving its cursor, the
+next poll returns those events again. Deduplicate on each event's
+`metadata.uid`, which is unique per event.
+
+Each page holds up to 100 events (`per_page`, default 30). When a page comes
+back full, poll again right away. Requests count against the API's per-caller
+rate limit, and a `429` response carries a `Retry-After` header.
+
+### Poll with curl
+
+Save this as a script and run it on a schedule. Each run reads one page, appends
+its events to `events.jsonl`, and saves the cursor for the next run:
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+ORG_ID=1234
+
+query=(--data-urlencode order=asc --data-urlencode per_page=100)
+if [ -f cursor.txt ]; then
+  query+=(--data-urlencode "cursor=$(cat cursor.txt)")
+fi
+
+curl -sf -G "https://api.shorebird.dev/api/v1/organizations/$ORG_ID/audit-logs" \
+  -H "Authorization: Bearer $SHOREBIRD_TOKEN" \
+  "${query[@]}" > page.json
+
+jq -c '.data[]' page.json >> events.jsonl
+next=$(jq -r '.next_cursor // empty' page.json)
+if [ -n "$next" ]; then echo "$next" > cursor.txt; fi
+```
+
+### Poll with the Shorebird CLI
+
+[`shorebird api`](/account/api/#calling-the-api-from-the-command-line)
+(Shorebird CLI 1.6.129 or later) sends the same request, authenticated with the
+key in `SHOREBIRD_TOKEN`. It replaces the `query` and `curl` lines in the script
+above:
+
+```bash
+query=(-X GET "organizations/$ORG_ID/audit-logs" -f order=asc -f per_page=100)
+if [ -f cursor.txt ]; then
+  query+=(-f "cursor=$(cat cursor.txt)")
+fi
+shorebird api "${query[@]}" > page.json
+```
+
+### Filter the audit log
+
+These query parameters narrow the results, in either `order`:
+
+- `startDate` and `endDate`: ISO 8601 timestamps with a time zone, such as
+  `2026-10-01T00:00:00Z`. Both ends are inclusive.
+- `appId`: only events for that app.
+- `actorId`: only events by that user or service account (its `actor.user.uid`).
+  Events by a user or service account that was later deleted no longer have a
+  `uid`, so this filter doesn't find them. It never matches events by Shorebird
+  staff.
+- `operation`: only one event, by name, such as `patch.rollback`. See
+  [Events](#events).
+- `order`: `desc` (newest first, the default) or `asc`.
+
+For example, to list the patch rollbacks in an app, newest first:
+
+```bash
+shorebird api -X GET organizations/$ORG_ID/audit-logs \
+  -f appId=$APP_ID -f operation=patch.rollback
+```
+
+## Event format
+
+Each event is an
+[OCSF 1.9.0 API Activity](https://schema.ocsf.io/1.9.0/classes/api_activity)
+event (`class_uid` 6003), so a SIEM that reads OCSF can ingest it without a
+custom parser. This is a member rolling back a patch in the console:
+
+```json
+{
+  "class_uid": 6003,
+  "category_uid": 6,
+  "activity_id": 3,
+  "type_uid": 600303,
+  "time": 1792180800000,
+  "severity_id": 1,
+  "status_id": 1,
+  "metadata": {
+    "version": "1.9.0",
+    "product": { "name": "Shorebird", "vendor_name": "Shorebird" },
+    "uid": "48213",
+    "tenant_uid": "1234",
+    "log_name": "audit"
+  },
+  "api": { "operation": "patch.rollback" },
+  "actor": {
+    "user": {
+      "uid": "5678",
+      "name": "jane@example.com",
+      "email_addr": "jane@example.com",
+      "type_id": 1,
+      "type": "User"
+    },
+    "session": {
+      "uid": "9012",
+      "created_time": 1792170000000,
+      "issuer": "https://accounts.google.com",
+      "is_mfa": true
+    }
+  },
+  "src_endpoint": { "ip": "203.0.113.7" },
+  "http_request": {
+    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+  },
+  "resources": [{ "type": "patch", "uid": "3456" }],
+  "unmapped": {
+    "patch_number": "2",
+    "release_version": "1.4.0+12",
+    "app_name": "Example App",
+    "app_id": "0f3c9a52-6d1e-4b7a-9c1f-2e8d4a6b7c90",
+    "actor_source": "session"
+  }
+}
+```
+
+The fields most queries use:
+
+- `api.operation`: the event name, from the [list below](#events). `activity_id`
+  says whether it created (1), read (2), updated (3), or deleted (4) something,
+  or 99 for anything else.
+- `time`: when the event happened, in milliseconds since the Unix epoch.
+- `actor.user`: who acted. `type_id` is 1 for a person and 4 for a service
+  account, whose `name` is the account's name. A service account has no email
+  address, so it has no `email_addr`; identify it by `uid`. A change Shorebird
+  staff made to your organization has `type_id` 99 and `type` `shorebird_staff`,
+  with the name `Shorebird staff`. Which staff member acted isn't shown, and
+  neither is their credential, session, IP address, or user agent.
+- `actor.session`: present when the actor was signed in to the console or the
+  CLI. `uid` identifies the sign-in session, `created_time` is when it began,
+  and `issuer` is the identity provider the person signed in with. `is_mfa` is
+  present only when the identity provider reported whether a second factor was
+  used. Google reports it only when the person authenticated with Google during
+  that sign-in, not when Google reused an existing Google session, so a missing
+  `is_mfa` means unknown, not "no".
+- `api.token`: present when the request used an API key. `uid` is the key's ID,
+  which is what you revoke, and `name` is the key's name when the event was
+  recorded.
+- `src_endpoint.ip`: the IP address the request came from. For an action in the
+  console, that's the person's own address, not the console's. When none was
+  recorded, `src_endpoint` is `{"name": "unknown"}`.
+- `http_request.user_agent`: the request's `User-Agent`, when it sent one. For
+  an action in the console, that's the person's browser.
+- `resources`: what was acted on. `type` names the kind of thing `uid`
+  identifies, such as `patch`, `release`, or `user`.
+- `metadata.uid`: the event's unique ID. `metadata.tenant_uid` is the
+  organization ID, and `metadata.correlation_uid`, when present, is the
+  `X-Request-ID` header the request sent.
+- `unmapped`: fields OCSF has no place for. `app_id` and `app_name` name the
+  app, `actor_source` names the kind of credential (`session`, `api_key`,
+  `service_account`, `federated` for a CI job signed in with OIDC, `admin_api`
+  for Shorebird staff, or `none`; absent on older events), and the rest are
+  details of the event, such as a patch number or a member's previous role. A
+  request from a CI job signed in with a
+  [trust rule](https://docs.shorebird.dev/account/trust-rules/) has `ci`, with
+  the `repository`, the `run_id` of the workflow run, and the `rule_id` of the
+  trust rule.
+
+## Events
+
+Event names can change. A renamed event appears under its new name, including
+past occurrences. An event Shorebird no longer records appears with its stored
+resource and action as `api.operation`, in the form `resource_type.action`, and
+`activity_id` 99. The `operation` filter takes event names, not that fallback
+form.
+
+Changes to a person's own account, such as their display name, billing limits,
+or deleting their account, aren't part of an organization's audit log.
+
+### Organizations
+
+- `organization.create`: an organization was created.
+- `organization.rename`: an organization was renamed.
+- `organization.delete`: deleting an organization and its apps stopped partway.
+  Once an organization is fully deleted, its audit log can no longer be read.
+- `organization.ownership_transfer`: ownership was transferred to another
+  member.
+- `org_allowed_domain.add`: Shorebird staff added an email domain to the domains
+  the organization can invite from.
+- `org_allowed_domain.remove`: Shorebird staff removed an email domain from
+  those domains.
+
+### Members and invitations
+
+- `org_member.add`: a user joined the organization.
+- `org_member.role_update`: a member's role was changed.
+- `org_member.remove`: a member was removed.
+- `invitation.create`: an invitation to the organization or an app was sent.
+- `invitation.revoke`: a pending invitation was revoked.
+- `invitation.accept`: an invitation was accepted.
+- `invitation.decline`: an invitation was declined.
+
+### Service accounts
+
+- `service_account.create`: a service account was created.
+- `service_account.role_update`: a service account's role was changed.
+- `service_account.delete`: a service account and its API keys were deleted.
+- `service_account_key.create`: an API key was issued to a service account.
+- `service_account_key.revoke`: a service account's API key was revoked.
+- `service_account_trust_rule.create`: a trust rule was added to a service
+  account.
+- `service_account_trust_rule.delete`: a trust rule was deleted.
+- `service_account.sign_in`: a CI job signed in as a service account through a
+  trust rule. Its `unmapped` details are the job's claims, such as `repository`,
+  `workflow_ref`, `run_id`, and `ref`, with the trust rule's `rule_id`. They
+  aren't under `ci`.
+
+### Apps and collaborators
+
+- `app.create`: an app was created.
+- `app.update`: an app's settings, such as its display name, were changed.
+- `app.transfer`: an app was moved to another organization.
+- `app.delete`: an app was deleted.
+- `app_collaborator.add`: a user was given a role on an app.
+- `app_collaborator.role_update`: an app collaborator's role was changed.
+- `app_collaborator.remove`: a collaborator was removed from an app.
+
+### Channels
+
+- `channel.create`: a channel was created.
+- `channel.delete`: a channel was deleted.
+
+### Releases
+
+- `release.create`: a release was created.
+- `release.update`: a release was updated, such as its status or notes.
+- `release.delete`: a release was deleted.
+- `release_artifact.upload`: a release artifact was uploaded.
+- `release_artifact.replace`: a release artifact was replaced by a new upload.
+- `release_artifact.delete`: a release's artifacts were deleted.
+- `release_artifact.download`: a release's artifacts were listed with their
+  download links.
+
+### Patches
+
+- `patch.create`: a patch was created.
+- `patch_artifact.upload`: a patch artifact was uploaded.
+- `patch.promote`: a patch was promoted to the stable channel.
+- `patch.channel_update`: a patch was moved to a channel other than stable.
+- `patch.rollback`: a patch was rolled back.
+- `patch.rollforward`: a rolled-back patch was rolled forward.
+- `patch.notes_update`: a patch's notes were changed.

@@ -178,11 +178,10 @@ The fields most queries use:
 - `time`: when the event happened, in milliseconds since the Unix epoch.
 - `actor.user`: who acted. `type_id` is 1 for a person and 4 for a service
   account, whose `name` is the account's name. A service account has no email
-  address, so it has no `email_addr`; identify it by `uid`. A change
-  Shorebird staff made to your organization has `type_id` 99 and `type`
-  `shorebird_staff`, with the name `Shorebird staff`. Which staff member acted
-  isn't shown, and neither is their credential, session, IP address, or user
-  agent.
+  address, so it has no `email_addr`; identify it by `uid`. A change Shorebird
+  staff made to your organization has `type_id` 99 and `type` `shorebird_staff`,
+  with the name `Shorebird staff`. Which staff member acted isn't shown, and
+  neither is their credential, session, IP address, or user agent.
 - `actor.session`: present when the actor was signed in to the console or the
   CLI. `uid` identifies the sign-in session, `created_time` is when it began,
   and `issuer` is the identity provider the person signed in with. `is_mfa` is
@@ -207,8 +206,8 @@ The fields most queries use:
   for Shorebird staff, or `none`), and the rest are details of the event, such
   as a patch number or a member's previous role. A request from a CI job signed
   in with a [trust rule](https://docs.shorebird.dev/account/trust-rules/) has
-  `ci`, with the `repository`, the `runId` of the workflow run, and the `ruleId`
-  of the trust rule.
+  `ci`, with the `repository`, the `run_id` of the workflow run, and the
+  `rule_id` of the trust rule.
 
 ## Events
 

@@ -68,7 +68,13 @@ To create a new app within an organization, select the organization when running
 To transfer an existing app to an organization, visit the app's settings and
 click the "Transfer" button besides "Transfer Ownership" section. You can then
 select the organization you want to transfer the app to from the dropdown. You
-can only transfer to an organization you are part of.
+must be an admin or owner of both the app's current organization and the one you
+transfer it to, so the dropdown lists only organizations where you are.
+
+The app's releases, patches and collaborators move with it. Members of the old
+organization lose access to the app unless they are also in the new one, and the
+app's usage for the current billing period counts toward the new organization's
+owner.
 
 <Image
   src={transferAppToDifferentOrg}

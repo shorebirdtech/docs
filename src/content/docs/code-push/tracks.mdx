@@ -175,13 +175,14 @@ final updater = ShorebirdUpdater();
 await updater.update(track: UpdateTrack.beta);
 
 // Or use a custom track name
-await updater.update(track: UpdateTrack.custom('qa-team'));
+await updater.update(track: UpdateTrack('qa-team'));
 ```
 
 :::tip
 
-`UpdateTrack.stable` and `UpdateTrack.beta` are convenience constants. For any
-other track name, use `UpdateTrack.custom('your-track-name')`.
+`UpdateTrack.stable`, `UpdateTrack.beta`, and `UpdateTrack.staging` are
+convenience constants. For any other track name, use
+`UpdateTrack('your-track-name')`.
 
 :::
 

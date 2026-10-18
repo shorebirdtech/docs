@@ -19,15 +19,17 @@ A patch replaces the module's compiled Dart code as a whole, not one entrypoint
 at a time. Every entrypoint is part of the same release and the same patch, so a
 patch can change the code that any of them runs.
 
-The updater runs once per app process, not once per engine. Shorebird picks the
-patch to run when the first engine starts, and every engine the process starts
-afterwards, through any entrypoint, runs that same patch. Engines in one process
-never run different patches.
+Shorebird picks the patch to run when the app process starts, and checks for a
+new one once per process, not once per engine. A patch downloaded while the app
+is running is meant for the next time the app starts. To run it, fully quit the
+app and launch it again.
 
-A patch downloaded while the app is running takes effect the next time the app
-process starts. Engines started later in the same process keep running the patch
-the process started with, so destroying an engine and creating a new one doesn't
-apply a new patch; the app has to be fully quit and launched again.
+Don't count on engines you create later in the same process running the same
+patch as the first one. On Android they do: Shorebird picks the patch once per
+process. On iOS, an engine created after a new patch has downloaded can start
+that new patch while older engines keep running the previous one. If your
+entrypoints share state that a patch changes the shape of, start every engine
+when the app starts, or make the code tolerate both versions.
 
 ## What a patch can't change
 
@@ -54,9 +56,11 @@ entrypoint.
 With `auto_update: false`, your code decides when to check, using
 [`package:shorebird_code_push`](https://pub.dev/packages/shorebird_code_push).
 Check from the entrypoint that runs first, or from each entrypoint if you don't
-know which one will. Only one check runs at a time: if a second engine calls
-`update` while another check is running, that call throws an `UpdateException`,
-so catch errors from `update` in every entrypoint that calls it. The
+know which one will. If you check from each one, pass every check the same
+track, and expect a network request each time an engine starts. Only one check
+runs at a time: if a second engine calls `update` while another check is
+running, that call throws an `UpdateException`, so catch errors from `update` in
+every entrypoint that calls it. The
 [testing patches](/code-push/guides/add-to-app/testing-patches#set-up-the-module-once-before-you-release)
 page has an example.
 
@@ -73,6 +77,3 @@ void settingsMain(List<String> args) {
   runApp(const SettingsApp());
 }
 ```
-
-`ShorebirdUpdater().readCurrentPatch()` returns the same patch in every engine,
-because they all run the patch the process started with.

@@ -8,7 +8,7 @@ sidebar:
   order: 28
 ---
 
-{/* cspell:words gradlew */}
+{/* cspell:words gradlew Pshorebird */}
 
 import { CodeTabs } from 'starlight-theme-nova/components';
 
@@ -56,7 +56,8 @@ the release. Follow
 [Set up the module once, before you release](/code-push/guides/add-to-app/testing-patches#set-up-the-module-once-before-you-release):
 add `shorebird_code_push`, set `auto_update: false`, and check for updates on
 the track the host app passes as `--shorebird-track=<name>`. With no track, the
-module checks `stable`, so the build you ship needs no change.
+module checks the default track (`stable`, or the `channel:` set in
+`shorebird.yaml`), so the build you ship needs no change.
 
 ## Add a QA build to your host app
 
@@ -82,7 +83,10 @@ android {
         buildConfig true
     }
     defaultConfig {
-        buildConfigField "String", "SHOREBIRD_TRACK", "\"\""
+        // From "Test an add-to-app patch before publishing it": empty unless
+        // you build with -PshorebirdTrack=<name>.
+        buildConfigField "String", "SHOREBIRD_TRACK",
+            "\"${project.findProperty('shorebirdTrack') ?: ''}\""
     }
     buildTypes {
         release {
@@ -90,8 +94,8 @@ android {
         }
         qa {
             initWith release
-            // Lets QA builds install next to the store app. Drop it if QA
-            // installs over the store app instead.
+            // Makes the QA build a separate app, so it installs next to the
+            // store app and you can upload it with the same version code.
             applicationIdSuffix ".qa"
             buildConfigField "String", "SHOREBIRD_TRACK", "\"qa\""
             // For library modules that have no qa build type of their own.
@@ -108,23 +112,56 @@ dependencies {
 
 Build the QA build with `./gradlew assembleQa` (or `bundleQa`), and hand it to
 QA the way you do today, for example with Firebase App Distribution. The release
-build still has an empty `SHOREBIRD_TRACK`, so it checks `stable`.
+build still has an empty `SHOREBIRD_TRACK`, so it checks the default track.
+
+The `.qa` suffix gives the QA build its own package name. Shorebird doesn't
+mind: the module's `app_id` comes from the `aar`, and the release version from
+the version name and code. But anything else keyed on the package name needs the
+QA one registered too, for example a Firebase app in `google-services.json`,
+OAuth clients, and API keys. Without the suffix, the QA build replaces the store
+app on testers' devices, and you can't upload it to Google Play under the same
+version code as the build you ship.
+
+If your app uses `build.gradle.kts`, the build type is:
+
+```kotlin title="app/build.gradle.kts"
+buildTypes {
+    create("qa") {
+        initWith(getByName("release"))
+        applicationIdSuffix = ".qa"
+        buildConfigField("String", "SHOREBIRD_TRACK", "\"qa\"")
+        matchingFallbacks += listOf("release")
+    }
+}
+
+dependencies {
+    "qaImplementation"("com.example.my_flutter_module:flutter_release:1.0")
+}
+```
 
 ### iOS
 
 1. In your project's **Info** tab, duplicate the **Release** configuration and
    name the copy **QA**. The copy keeps Release's build settings, including the
-   Framework Search Paths to your module's `.xcframework`s.
+   Framework Search Paths to your module's `.xcframework`s. If your app uses
+   CocoaPods for other dependencies, map the new configuration to release in
+   your `Podfile` (`project 'MyApp', 'QA' => :release`) and run `pod install`
+   again.
 2. In your app target's **Build Settings**, add a user-defined setting
    `SHOREBIRD_TRACK`. Leave it empty for Release and set it to `qa` for QA.
-3. In your app's Info.plist, add an entry `ShorebirdTrack` with the value
+3. Still in the target's **Build Settings**, give the QA configuration its own
+   **Product Bundle Identifier**, such as `com.example.myapp.qa`. The QA build
+   has to keep the version and build number of the build you ship, and App Store
+   Connect accepts each build number only once per app, so the QA build needs an
+   app of its own there (or distribute it ad hoc).
+4. In your app's Info.plist, add an entry `ShorebirdTrack` with the value
    `$(SHOREBIRD_TRACK)`.
-4. Duplicate your scheme, name it for QA, and set its **Archive** build
+5. Duplicate your scheme, name it for QA, and set its **Archive** build
    configuration to **QA**.
 
 Archive the QA scheme and hand the build to QA the way you do today, for example
-with TestFlight. Archives of your normal scheme still have an empty
-`ShorebirdTrack`, so they check `stable`.
+with TestFlight under the QA app. Archives of your normal scheme still have an
+empty `ShorebirdTrack`, so they check the default track.
 
 ## Ship a new release
 
@@ -163,8 +200,9 @@ with TestFlight. Archives of your normal scheme still have an empty
 
    </CodeTabs>
 
-2. QA launches their build so the module downloads the patch, then fully quits
-   it and launches it again to run it. Builds from the store never see it.
+2. QA launches their build so the module downloads the patch (if the app starts
+   Flutter only when a Flutter screen opens, they open one), then fully quits it
+   and launches it again to run it. Builds from the store never see it.
 3. When QA signs off, promote the patch to `stable`, with the patch number that
    `shorebird patch` printed (or find it with
    `shorebird patches list --release-version 1.2.3+1`):

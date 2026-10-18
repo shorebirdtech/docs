@@ -4,9 +4,11 @@ description:
   Try a patch to your Flutter module in a host app you build yourself, without
   waiting for a QA build or shipping the patch to your users.
 sidebar:
-  label: Testing patches
+  label: Testing patches locally
   order: 27
 ---
+
+{/* cspell:words gradlew Pshorebird */}
 
 import { CodeTabs } from 'starlight-theme-nova/components';
 
@@ -27,8 +29,9 @@ track. Your users' devices ask for `stable`, so a patch on any other track is
 invisible to them. Your module chooses its track at runtime with
 [`package:shorebird_code_push`](https://pub.dev/packages/shorebird_code_push),
 and the host app tells it which track to use when it starts the Flutter engine.
-A host app you build locally asks for your track. The host app you ship asks for
-nothing and gets `stable`.
+A host app you build locally asks for your track. The host app you ship passes
+no track, so it keeps checking the default track (`stable`, or the `channel:`
+set in `shorebird.yaml`).
 
 ## Set up the module once, before you release
 
@@ -51,27 +54,47 @@ you run `shorebird release aar` or `shorebird release ios-framework`.
    ```
 
 3. Read the track from the entrypoint arguments in the module's `main`, and
-   check for updates on it. With no argument, the module uses `stable`, so the
-   host app you ship needs no change.
+   check for updates on it. With no argument, `track` is `null` and the updater
+   checks the default track, so the host app you ship needs no change. Requires
+   `shorebird_code_push` 2.0.4 or newer.
 
    ```dart title="lib/main.dart"
+   import 'dart:async';
+
+   import 'package:flutter/foundation.dart';
    import 'package:flutter/material.dart';
    import 'package:shorebird_code_push/shorebird_code_push.dart';
 
    void main(List<String> args) {
+     checkForPatch(args);
+     runApp(const MyApp());
+   }
+
+   /// Checks for a patch on the track passed as `--shorebird-track=<name>`,
+   /// or on the default track if there is none.
+   void checkForPatch(List<String> args) {
      const prefix = '--shorebird-track=';
      final trackArg = args.where((arg) => arg.startsWith(prefix)).firstOrNull;
      final track = trackArg == null
-         ? UpdateTrack.stable
+         ? null
          : UpdateTrack(trackArg.substring(prefix.length));
-     ShorebirdUpdater().update(track: track);
-
-     runApp(const MyApp());
+     unawaited(
+       ShorebirdUpdater().update(track: track).catchError((Object error) {
+         debugPrint('Shorebird update failed: $error');
+       }),
+     );
    }
    ```
 
    Because `auto_update` is off, this `update` call is what checks for patches
-   in every build, including the one your users run. Don't remove it.
+   in every build, including the one your users run. Don't remove it. If the
+   host app starts the module through other Dart entrypoints (functions marked
+   `@pragma('vm:entry-point')`), call `checkForPatch` from each of them too, or
+   those engines never check for patches.
+
+   `update` throws when the check fails, for example when the device is offline.
+   The `catchError` keeps that from reaching your error reporting as an
+   unhandled error.
 
 Then create the release as usual:
 
@@ -89,9 +112,14 @@ shorebird release ios-framework --release-version 1.2.3+4
 
 ## Build the host app locally with your track
 
-Build the host app the way the add-to-app guide describes, from the module
-release (the `aar` from the Maven repository, or the `.xcframework`s in the
-module's `release` directory). Two things matter:
+Build the host app the way the add-to-app guide describes, from the module's
+`release` directory: on Android it's the local Maven repository with the `aar`,
+on iOS it holds the `.xcframework`s. Three things matter:
+
+- **Use the exact release.** You need the `release` directory that
+  `shorebird release` produced (from your CI, or from whoever ran it). If you
+  rebuild the module with `flutter build`, the result doesn't match the release
+  and patches won't apply to it.
 
 - **Use a release build.** Shorebird only patches release builds: the Android
   `release` build type, or the iOS `Release` configuration on a device (not a
@@ -101,36 +129,83 @@ module's `release` directory). Two things matter:
   release that doesn't exist.
 
 Pass your track to the module when the host app starts the Flutter engine. Pick
-a name that is yours, such as `dev-<your-name>`. Add the argument only in the
-build you make locally, for example behind a build flag, so the app you ship
-never sends it.
+a name that is yours, such as `dev-<your-name>`.
+
+:::caution
+
+Never hardcode your track in the host app. If a build that passes it ships, your
+users' devices check your track instead of `stable`: they get your untested
+patches and none of your real ones. Set the track only when you build, as below,
+so a normal build passes nothing.
+
+:::
+
+On Android, add a build config field that is empty unless you set a Gradle
+property:
+
+```groovy title="app/build.gradle"
+android {
+    buildFeatures {
+        buildConfig true
+    }
+    defaultConfig {
+        buildConfigField "String", "SHOREBIRD_TRACK",
+            "\"${project.findProperty('shorebirdTrack') ?: ''}\""
+    }
+}
+```
+
+On iOS, add a user-defined build setting `SHOREBIRD_TRACK` (empty by default) to
+your app target, and an Info.plist entry `ShorebirdTrack` with the value
+`$(SHOREBIRD_TRACK)`.
+
+Then pass the track to the module only when it's set:
 
 <CodeTabs>
 
 ```kotlin title="Android (Kotlin)"
+val track = BuildConfig.SHOREBIRD_TRACK
+val args = if (track.isEmpty()) emptyList() else listOf("--shorebird-track=$track")
 val engine = FlutterEngine(context)
 engine.dartExecutor.executeDartEntrypoint(
     DartExecutor.DartEntrypoint.createDefault(),
-    listOf("--shorebird-track=dev-alice"),
+    args,
 )
 FlutterEngineCache.getInstance().put("my_engine_id", engine)
 ```
 
 ```swift title="iOS (Swift)"
+let track = Bundle.main.object(forInfoDictionaryKey: "ShorebirdTrack") as? String ?? ""
 let engine = FlutterEngine(name: "my flutter engine")
 engine.run(
     withEntrypoint: nil,
     libraryURI: nil,
     initialRoute: nil,
-    entrypointArgs: ["--shorebird-track=dev-alice"]
+    entrypointArgs: track.isEmpty ? nil : ["--shorebird-track=\(track)"]
 )
 ```
 
 </CodeTabs>
 
-If your host app opens Flutter with a new engine instead of a cached one, pass
-the same list to `FlutterActivity.withNewEngine().dartEntrypointArgs(...)` on
-Android.
+If your Android app starts Flutter another way, pass the same list to
+`FlutterActivity.withNewEngine().dartEntrypointArgs(...)`,
+`FlutterFragment.withNewEngine().dartEntrypointArgs(...)`, or
+`FlutterEngineGroup.Options.setDartEntrypointArgs(...)`.
+
+Build your local host app with the track set:
+
+<CodeTabs>
+
+```sh title="Android"
+./gradlew assembleRelease -PshorebirdTrack=dev-alice
+```
+
+```sh title="iOS"
+# Or set SHOREBIRD_TRACK in the target's build settings, without committing it.
+xcodebuild -scheme MyApp -configuration Release SHOREBIRD_TRACK=dev-alice build
+```
+
+</CodeTabs>
 
 ## Publish the patch to your track and try it
 
@@ -148,12 +223,14 @@ shorebird patch ios-framework --release-version 1.2.3+4 --track dev-alice
 
 </CodeTabs>
 
-The track is created the first time you publish to it. Open the Flutter screen
-in your local build so the module checks for the patch, then restart the host
-app to run it. In logcat or the Xcode console, the patch check names your track:
+The track is created the first time you publish to it. Launch your local build
+so the module checks for the patch. If your app starts the Flutter engine only
+when a Flutter screen opens, open one. Then fully quit the app (force-stop it on
+Android) and launch it again to run the patch. In logcat or the Xcode console,
+the patch check names your track:
 
 ```
-updater::network: [shorebird] Sending patch check request: ... channel: dev-alice, release_version: 1.2.3+1 ...
+[shorebird] Sending patch check request: ... channel: dev-alice, release_version: 1.2.3+1 ...
 ```
 
 To try another change, publish another patch to the same track.
@@ -161,11 +238,15 @@ To try another change, publish another patch to the same track.
 ## Promote the patch when it works
 
 When the patch works, move it to `stable` without rebuilding. Your users get the
-exact patch you tested:
+exact patch you tested. Run this from the module directory, with the patch
+number that `shorebird patch` printed (or find it with
+`shorebird patches list --release-version 1.2.3+1`):
 
 ```sh
-shorebird patches promote --release-version 1.2.3+1 --patch-number 1
+shorebird patches promote --release-version 1.2.3+1 --patch-number 3
 ```
+
+Promoting moves the patch from your track to `stable`.
 
 See [Tracks](/code-push/tracks) for more on tracks, including how to list and
 delete them.

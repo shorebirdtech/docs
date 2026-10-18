@@ -14,9 +14,10 @@ you, and `shorebird invitations accept` and `decline` answer one by its id.
 
 - Before this, an invitation could only be answered from the link in its email.
 - With `--json`, `list` returns each invitation's `id`, `kind` (`organization`
-  or `app`), `name`, `role`, `inviter_email`, `created_at` and `expires_at`.
-- Sign in as the invited email address. Service account keys can't answer
-  invitations.
+  or `app`), `organization_id`, `app_id`, `name`, `role`, `inviter_email`,
+  `created_at` and `expires_at`.
+- Sign in as the invited email address. Use your own login or a full access API
+  key. Service account keys and release and patch only keys can't.
 
 ```sh
 shorebird invitations list

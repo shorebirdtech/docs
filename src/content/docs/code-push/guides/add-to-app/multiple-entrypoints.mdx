@@ -1,0 +1,78 @@
+---
+title: Multiple Dart entrypoints and engines
+description:
+  How Shorebird patches an add-to-app module that the host app starts through
+  more than one Dart entrypoint or Flutter engine.
+sidebar:
+  label: Multiple entrypoints
+  order: 29
+---
+
+A host app can start a Flutter module through more than one Dart entrypoint
+(functions marked `@pragma('vm:entry-point')`), and run several Flutter engines
+at once, for example with `FlutterEngineGroup`. Shorebird supports this with no
+extra setup. This page explains how patches behave in that case.
+
+## One patch for the whole module
+
+A patch replaces the module's compiled Dart code as a whole, not one entrypoint
+at a time. Every entrypoint is part of the same release and the same patch, so a
+patch can change the code that any of them runs.
+
+The updater runs once per app process, not once per engine. Shorebird picks the
+patch to run when the first engine starts, and every engine the process starts
+afterwards, through any entrypoint, runs that same patch. Engines in one process
+never run different patches.
+
+A patch downloaded while the app is running takes effect the next time the app
+process starts. Engines started later in the same process keep running the patch
+the process started with, so destroying an engine and creating a new one doesn't
+apply a new patch; the app has to be fully quit and launched again.
+
+## What a patch can't change
+
+The host app's native code names the entrypoints it starts, and Shorebird
+doesn't patch native code. So, in a patch:
+
+- **Don't remove or rename an entrypoint** that the host app starts. The host
+  app shipped in the store still asks for it by name. Shorebird doesn't check
+  this when you create the patch.
+- **Adding an entrypoint** is allowed, but nothing calls it until you ship a
+  host app that does. Add it in a release instead.
+- **Keep `@pragma('vm:entry-point')`** on every entrypoint. Without it, the Dart
+  compiler can remove a function that only native code calls.
+
+Changing what an entrypoint does, or what its arguments mean, is fine as long as
+the host app you shipped still passes arguments the new code accepts.
+
+## Checking for updates
+
+With `auto_update` on (the default), the updater checks for a patch once per
+process, when the first engine starts. You don't need to do anything in each
+entrypoint.
+
+With `auto_update: false`, your code decides when to check, using
+[`package:shorebird_code_push`](https://pub.dev/packages/shorebird_code_push).
+Check from the entrypoint that runs first, or from each entrypoint if you don't
+know which one will. Only one check runs at a time: if a second engine calls
+`update` while another check is running, that call throws an `UpdateException`,
+so catch errors from `update` in every entrypoint that calls it. The
+[testing patches](/code-push/guides/add-to-app/testing-patches#set-up-the-module-once-before-you-release)
+page has an example.
+
+```dart title="lib/main.dart"
+@pragma('vm:entry-point')
+void main(List<String> args) {
+  checkForPatch(args);
+  runApp(const MyApp());
+}
+
+@pragma('vm:entry-point')
+void settingsMain(List<String> args) {
+  checkForPatch(args);
+  runApp(const SettingsApp());
+}
+```
+
+`ShorebirdUpdater().readCurrentPatch()` returns the same patch in every engine,
+because they all run the patch the process started with.

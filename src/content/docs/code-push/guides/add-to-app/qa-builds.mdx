@@ -1,0 +1,189 @@
+---
+title: Give QA an add-to-app build, then promote it
+description:
+  Hand a QA build of your host app to testers, send it patches on a track of its
+  own, and promote each one to your users once QA signs off.
+sidebar:
+  label: QA builds
+  order: 28
+---
+
+{/* cspell:words gradlew */}
+
+import { CodeTabs } from 'starlight-theme-nova/components';
+
+If your host app (Android or iOS) has a QA build that goes to a group of testers
+before your users get anything, Shorebird fits into it with a
+[track](/code-push/tracks). The QA build checks the `qa` track and the build you
+ship checks `stable`. You publish each patch to `qa`, and when QA signs off you
+promote that same patch to `stable`, without rebuilding it.
+
+This page assumes you have already followed the
+[Android](/code-push/guides/add-to-app/android) or
+[iOS](/code-push/guides/add-to-app/ios) add-to-app guide.
+
+## How releases and patches reach QA
+
+- **A release** is the module build that `shorebird release aar` or
+  `shorebird release ios-framework` produced. It reaches devices only inside a
+  host app build, so QA sees a new release as soon as you give them a host build
+  that contains it, and your users see it when you ship that host app to the
+  store. Shorebird doesn't need to hold the release back.
+- **A patch** reaches every device running its release that checks the patch's
+  track. Publish it to `qa` and only QA builds get it. Promote it to `stable`
+  and your users get it too.
+
+For a patch to work in both builds, the QA build and the build you ship must
+contain the **same** module release: the same `aar` or `.xcframework`s from the
+same `release` directory. The QA build differs only in the host app: it tells
+the module which track to check.
+
+:::caution
+
+Don't make the QA build out of a different build of the module, such as a module
+flavor or a Dart change that points it at your QA servers. That is a separate
+release with its own patches, so a patch QA tested doesn't apply to the module
+your users run. Keep everything that differs between QA and production in the
+host app, and pass it to the module at startup, the same way this page passes
+the track.
+
+:::
+
+## Set up the module once, before you release
+
+The module has to read its track from the host app, and that code has to be in
+the release. Follow
+[Set up the module once, before you release](/code-push/guides/add-to-app/testing-patches#set-up-the-module-once-before-you-release):
+add `shorebird_code_push`, set `auto_update: false`, and check for updates on
+the track the host app passes as `--shorebird-track=<name>`. With no track, the
+module checks `stable`, so the build you ship needs no change.
+
+## Add a QA build to your host app
+
+Give the host app a QA build that passes `--shorebird-track=qa` to the module,
+and keep the build you ship passing nothing. The code that starts the Flutter
+engine is the same as in
+[Build the host app locally with your track](/code-push/guides/add-to-app/testing-patches#build-the-host-app-locally-with-your-track):
+it reads `SHOREBIRD_TRACK` from the build and passes it to the module only when
+it's set. Here the QA build sets it to `qa`.
+
+The QA build must be a release build, because Shorebird only patches release
+builds. It must also keep the host app's version: the version and build number
+have to match the `--release-version` you released the module with.
+
+### Android
+
+Add a `qa` build type that starts from `release`, sets the track, and uses the
+module's release `aar`:
+
+```groovy title="app/build.gradle"
+android {
+    buildFeatures {
+        buildConfig true
+    }
+    defaultConfig {
+        buildConfigField "String", "SHOREBIRD_TRACK", "\"\""
+    }
+    buildTypes {
+        release {
+            // ...
+        }
+        qa {
+            initWith release
+            // Lets QA builds install next to the store app. Drop it if QA
+            // installs over the store app instead.
+            applicationIdSuffix ".qa"
+            buildConfigField "String", "SHOREBIRD_TRACK", "\"qa\""
+            // For library modules that have no qa build type of their own.
+            matchingFallbacks = ['release']
+        }
+    }
+}
+
+dependencies {
+    releaseImplementation 'com.example.my_flutter_module:flutter_release:1.0'
+    qaImplementation 'com.example.my_flutter_module:flutter_release:1.0'
+}
+```
+
+Build the QA build with `./gradlew assembleQa` (or `bundleQa`), and hand it to
+QA the way you do today, for example with Firebase App Distribution. The release
+build still has an empty `SHOREBIRD_TRACK`, so it checks `stable`.
+
+### iOS
+
+1. In your project's **Info** tab, duplicate the **Release** configuration and
+   name the copy **QA**. The copy keeps Release's build settings, including the
+   Framework Search Paths to your module's `.xcframework`s.
+2. In your app target's **Build Settings**, add a user-defined setting
+   `SHOREBIRD_TRACK`. Leave it empty for Release and set it to `qa` for QA.
+3. In your app's Info.plist, add an entry `ShorebirdTrack` with the value
+   `$(SHOREBIRD_TRACK)`.
+4. Duplicate your scheme, name it for QA, and set its **Archive** build
+   configuration to **QA**.
+
+Archive the QA scheme and hand the build to QA the way you do today, for example
+with TestFlight. Archives of your normal scheme still have an empty
+`ShorebirdTrack`, so they check `stable`.
+
+## Ship a new release
+
+1. Release the module, with the version of the host app that will contain it:
+
+   <CodeTabs>
+
+   ```sh title="Android"
+   shorebird release aar --release-version 1.2.3+1
+   ```
+
+   ```sh title="iOS"
+   shorebird release ios-framework --release-version 1.2.3+4
+   ```
+
+   </CodeTabs>
+
+2. Build the host app's QA build from that `release` directory and give it to
+   QA.
+3. When QA signs off, build the host app you ship from the **same** `release`
+   directory and submit it to the store. Don't rebuild the module in between.
+
+## Ship a patch
+
+1. Make your change in the module and publish the patch to `qa`:
+
+   <CodeTabs>
+
+   ```sh title="Android"
+   shorebird patch aar --release-version 1.2.3+1 --track qa
+   ```
+
+   ```sh title="iOS"
+   shorebird patch ios-framework --release-version 1.2.3+4 --track qa
+   ```
+
+   </CodeTabs>
+
+2. QA launches their build so the module downloads the patch, then fully quits
+   it and launches it again to run it. Builds from the store never see it.
+3. When QA signs off, promote the patch to `stable`, with the patch number that
+   `shorebird patch` printed (or find it with
+   `shorebird patches list --release-version 1.2.3+1`):
+
+   ```sh
+   shorebird patches promote --release-version 1.2.3+1 --patch-number 2
+   ```
+
+   Your users get the exact patch QA tested.
+
+To patch again, publish the next patch to `qa` and repeat. A patch QA rejects
+stays on `qa`; publish a fixed one to `qa` and promote that instead.
+
+## If QA and your users get the same store build
+
+Some teams don't have a separate QA build: QA installs from a Google Play test
+track or TestFlight, and the same binary is later promoted to your users. That
+binary can't have `qa` built in. Choose the track at runtime instead, for
+example from how the app was installed or who is signed in, and pass it to the
+module the same way. See
+[Testing patches with a subset of users](/code-push/guides/testing-patches) for
+ways to choose it.

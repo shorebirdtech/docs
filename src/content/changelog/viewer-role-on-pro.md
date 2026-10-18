@@ -8,6 +8,7 @@ docLink:
   href: /account/orgs/#member-roles
 ---
 
-Organizations on the Pro plan can now give members the Viewer role, which gives
-read-only access to apps, releases, and patches. Viewer used to need the
-Business plan or higher.
+Organizations on the Pro plan can now give members the Viewer role. It used to
+need the Business plan or higher.
+
+- Viewers can see apps, releases, and patches but can't change them.

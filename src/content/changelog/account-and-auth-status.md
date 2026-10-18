@@ -1,6 +1,6 @@
 ---
 title: See which credential the CLI is using
-date: 2026-10-19
+date: 2026-10-17
 version: 1.6.130
 area: CLI
 type: New

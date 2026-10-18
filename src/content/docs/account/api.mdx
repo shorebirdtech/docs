@@ -46,7 +46,29 @@ output. Find endpoints in
 shorebird api /organizations/ORG_ID/users --jq '.users[].user.email'
 ```
 
-Run `shorebird api --help` for all options. For walking a paged list, see
+The HTTP method can go before the endpoint, or in `-X`. Without one, the request
+is a GET, or a POST when you pass fields with `-f` or `-F`:
+
+```sh
+shorebird api GET /apps
+shorebird api DELETE /apps/APP_ID/releases/RELEASE_ID
+```
+
+To read a whole paged list in one call, add `--paginate`. It keeps requesting
+the next page and prints the pages as one JSON object, with the list fields
+joined. It works only with GET, and on an endpoint that doesn't page it makes a
+single request:
+
+```sh
+shorebird api /apps -f per_page=100 --paginate --jq '.apps[].app_id'
+```
+
+Because `--paginate` always sends a GET, the `-f` fields here go in the query
+string.
+
+The method before the endpoint and `--paginate` need Shorebird 1.6.130 or newer.
+
+Run `shorebird api --help` for all options. For how paging works, see
 [Pagination](#common-patterns) below.
 
 ## Base URL
@@ -116,9 +138,11 @@ parameter and response detail on each:
   `next_cursor` when there is another page; pass it as `cursor` to fetch the
   next one. Without `per_page` or `cursor`, these lists return every item. Some
   newer list endpoints page by default, with the same parameters.
+  `shorebird api --paginate` follows `next_cursor` for you.
 
-  This script prints every app ID, one page of 50 at a time, stops when a page
-  has no `next_cursor`, and exits with status 1 if a request fails:
+  On a CLI older than 1.6.130, this script prints every app ID, one page of 50
+  at a time, stops when a page has no `next_cursor`, and exits with status 1 if
+  a request fails:
 
   ```bash
   cursor=""

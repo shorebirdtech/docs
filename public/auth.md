@@ -20,6 +20,10 @@ API key.
 
 - **How to obtain**: Generate an API key in the
   [Shorebird console](https://console.shorebird.dev) (Account > API Keys).
+- **For shared CI**: create the key on a service account (console: your
+  organization's Settings > Service Accounts), so it belongs to the organization
+  rather than a person and acts with the account's role. See
+  https://docs.shorebird.dev/account/service-accounts/.
 - **Format**: `sb_api_<unique_token_characters>`
 - **Lifespan**: 1 year by default. When creating the key, you can choose 30
   days, 90 days, or no expiration instead.

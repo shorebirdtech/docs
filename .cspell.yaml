@@ -92,12 +92,14 @@ words:
   - msix
   - notlike
   - nubank
+  - ocsf
   - opengraph
   - opensearch
   - opensearchdescription
   - outform
   - paweł
   - pbxproj
+  - pipefail
   - pixelmator
   - podfile
   - podhelper
@@ -114,6 +116,7 @@ words:
   - seidel
   - shellenv
   - shorebirdtech
+  - siem
   - softwareupdate
   - squircle
   - squircles
@@ -127,6 +130,7 @@ words:
   - twoslash
   - trafficadvice
   - uiscene
+  - urlencode
   - vsync
   - vvago
   - wagus

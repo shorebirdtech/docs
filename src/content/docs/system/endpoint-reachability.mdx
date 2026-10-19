@@ -32,11 +32,14 @@ All traffic travels over HTTPS (port 443) and is encrypted using TLS/SSL. If any
 endpoint is marked as **Unreachable**, that indicates a network-level block
 between your device and Shorebird's servers, not a Shorebird outage.
 
-:::note The checker tests network-level reachability, not HTTP correctness. Any
-HTTP response from a server (including 4xx or 5xx status codes) confirms the
-endpoint is reachable from your network. Only a complete failure to connect
-(such as a DNS error, firewall block, or timeout) will be reported as
-unreachable. :::
+:::note
+
+The checker tests network-level reachability, not HTTP correctness. Any HTTP
+response from a server (including 4xx or 5xx status codes) confirms the endpoint
+is reachable from your network. Only a complete failure to connect (such as a
+DNS error, firewall block, or timeout) will be reported as unreachable.
+
+:::
 
 ## What to do if an endpoint is unreachable
 
@@ -47,5 +50,9 @@ unreachable. :::
 3. **Ask for help.** Reach out on [Discord](https://discord.gg/shorebird) with
    your results and someone from the team will help you.
 
-:::tip If your network must download Flutter from an internal mirror, see
-[Firewalls, proxies and mirrors](/system/firewalls-and-mirrors/). :::
+:::tip
+
+If your network must download Flutter from an internal mirror, see
+[Firewalls, proxies and mirrors](/system/firewalls-and-mirrors/).
+
+:::

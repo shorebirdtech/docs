@@ -372,10 +372,9 @@ A custom server, the artifact proxy, is also used to handle requests from
 The artifact proxy is hosted at https://download.shorebird.dev via Google Cloud
 Run.
 
-This proxy knows how to serve the modified binaries from Shorebird's Google
-Storage bucket, as well as how to forward along requests to Google's Flutter
-storage bucket for unmodified binaries for all parts of Flutter that didn't need
-to be modified.
+This proxy redirects requests for the modified binaries to Shorebird's Google
+Storage bucket, and requests for every other part of Flutter to Google's Flutter
+storage bucket.
 
 ### Shorebird's cloud infrastructure
 

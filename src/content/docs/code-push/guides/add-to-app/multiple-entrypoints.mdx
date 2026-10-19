@@ -59,8 +59,11 @@ Check from the entrypoint that runs first, or from each entrypoint if you don't
 know which one will. If you check from each one, pass every check the same
 track, and expect a network request each time an engine starts. Only one check
 runs at a time: if a second engine calls `update` while another check is
-running, that call throws an `UpdateException`, so catch errors from `update` in
-every entrypoint that calls it. The
+running, that call returns without starting another check. (In a release built
+with a Flutter version older than 3.41.7, or with `shorebird_code_push` older
+than 2.0.6, it throws an `UpdateException` instead.) `update` also throws when a
+check fails, for example when the device is offline, so catch errors from
+`update` in every entrypoint that calls it. The
 [testing patches](/code-push/guides/add-to-app/testing-patches#set-up-the-module-once-before-you-release)
 page has an example.
 

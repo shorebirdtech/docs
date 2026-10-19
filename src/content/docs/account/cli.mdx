@@ -44,17 +44,56 @@ from your machine, run:
 shorebird logout
 ```
 
+### Check which credential is active
+
+The CLI signs in with the first credential it finds: an API key in
+`SHOREBIRD_TOKEN`, then GitHub Actions OIDC, then your `shorebird login`. To see
+which one it's using and who it acts as, run:
+
+```sh
+shorebird auth status
+```
+
+**Example output:**
+
+```
+Credential:  Login (shorebird login)
+Acting as:   user@example.com (ID 42)
+Expires:     2026-10-17T01:00:00.000Z
+```
+
+`Expires` is when the current access token expires. A login and GitHub Actions
+OIDC get a new token automatically. An API key has no access token to expire, so
+that line is left out. A personal API key and a service account key both show as
+`API key (SHOREBIRD_TOKEN)`; the `Acting as` line tells them apart.
+
+### Print an access token
+
+To call the Shorebird API from another tool with your current credentials, print
+the access token the CLI would send:
+
+```sh
+curl -H "Authorization: Bearer $(shorebird auth token)" \
+  https://api.shorebird.dev/api/v1/users/me
+```
+
+The token may expire soon after you get it, so run `shorebird auth token` each
+time rather than storing the output. With an API key in `SHOREBIRD_TOKEN`, it
+prints the key. Treat the output as a secret.
+
+These `auth` commands need Shorebird 1.6.130 or newer.
+
 ## Account management commands
 
-The `shorebird account` command provides several subcommands to inspect your
-account details, apps, and organizations.
+The `shorebird account` command shows who you're signed in as, and its
+subcommands list your organizations and change your account settings.
 
 ### Current account
 
 To see the currently authenticated user's details, run:
 
 ```sh
-shorebird account whoami
+shorebird account
 ```
 
 **Example output:**
@@ -65,18 +104,54 @@ Email:          user@example.com
 Display name:   Example User
 Plan:           pro
 Overage limit:  10000
+Credential:     Login (shorebird login)
 ```
 
 This command is useful for verifying which account you are logged into and
-checking your plan level and your patch overage limit.
+checking your plan level and your patch overage limit. `Credential` is how the
+command signed in; see
+[Check which credential is active](#check-which-credential-is-active).
+
+`shorebird account whoami` prints the same thing. Bare `shorebird account` and
+the `Credential` line need Shorebird 1.6.130 or newer.
+
+### Change your display name
+
+To change the name on your account, run:
+
+```sh
+shorebird account update --name "Jane Doe"
+```
+
+### Turn email notifications on or off
+
+The emails Shorebird sends today warn you when an app is near or over its plan's
+patch install limit. To see whether they're on, run:
+
+```sh
+shorebird account notifications
+```
+
+To turn them off, or back on:
+
+```sh
+shorebird account notifications --email off
+shorebird account notifications --email on
+```
+
+`account update` and `account notifications` need Shorebird 1.6.130 or newer.
 
 ### List apps
 
 To list all the Shorebird apps that your current account has access to, run:
 
 ```sh
-shorebird account apps
+shorebird apps list
 ```
+
+On Shorebird 1.6.129 and older, `shorebird account apps` prints the same list.
+From 1.6.130 it prints the `shorebird apps list` command instead and exits with
+an error.
 
 **Example output:**
 
@@ -108,11 +183,18 @@ This output displays the Organization ID, name, organization type (`personal` or
 `appManager`, `developer`, or `viewer`). An organization you are not a member
 of, but where you collaborate on one of its apps, shows the role `none`.
 
+### Answer invitations
+
+`shorebird invitations list`, `accept` and `decline` show and answer the
+organization and app invitations sent to you. See
+[Accept an invitation](/account/orgs/#accept-an-invitation). They need Shorebird
+1.6.130 or newer.
+
 ## App management commands
 
 As of Shorebird 1.6.121, the `shorebird apps` commands list, rename, delete, and
-transfer your apps. `shorebird apps list` shows the same output as
-[`shorebird account apps`](#list-apps).
+transfer your apps. `shorebird apps list` is covered under
+[List apps](#list-apps).
 
 `rename`, `delete`, and `transfer` act on the app in `shorebird.yaml` in the
 current directory. Pass `--app-id` to pick a different app or to run the command
@@ -201,7 +283,6 @@ flag, making them easy to integrate into scripts and automation workflows.
 
 ```sh
 shorebird account whoami --json
-shorebird account apps --json
 shorebird account orgs --json
 shorebird apps list --json
 ```

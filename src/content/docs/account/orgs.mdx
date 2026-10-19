@@ -66,9 +66,22 @@ To create a new app within an organization, select the organization when running
 ### Transfer an app
 
 To transfer an existing app to an organization, visit the app's settings and
-click the "Transfer" button besides "Transfer Ownership" section. You can then
-select the organization you want to transfer the app to from the dropdown. You
-can only transfer to an organization you are part of.
+click the "Transfer" button beside the "Transfer Ownership" section. You can
+then select the organization you want to transfer the app to from the dropdown.
+You must be an admin or owner of both the app's current organization and the one
+you transfer it to. Organizations where you aren't are shown in the dropdown but
+can't be selected, and if you aren't an admin or owner of the app's current
+organization, the "Transfer" button is disabled.
+
+The app's releases, patches and collaborators move with it, and collaborators
+keep their access. Members of the old organization lose access to the app unless
+they are also in the new one or are collaborators on the app. Their API keys
+stop working for the app too, so update any CI that uses one.
+
+Usage follows the app's current organization. All of the app's installs in the
+new organization owner's current billing period, including installs from before
+the transfer, count toward that owner's usage and plan limits. Check that the
+new owner's plan has room before transferring a high-traffic app.
 
 <Image
   src={transferAppToDifferentOrg}
@@ -108,6 +121,32 @@ same members page.
 You can easily remove a member from an organization via the organization's
 settings page. Locate the member you wish to remove, click the Trash icon, and
 confirm the action.
+
+### Accept an invitation
+
+When someone invites you to an organization or an app, Shorebird emails you a
+link to accept it. You can also see and answer your pending invitations from the
+command line:
+
+```sh
+shorebird invitations list
+```
+
+Each line shows the invitation's id, the organization or app name, its kind, the
+role you'd get, who sent it, and when it was sent and expires. Accept or decline
+one by its id:
+
+```sh
+shorebird invitations accept <id>
+shorebird invitations decline <id>
+```
+
+Sign in as the invited email address first. If you're signed in as a different
+account, the CLI tells you to run `shorebird account whoami` and
+`shorebird login`. Service account keys and release and patch only API keys
+can't answer invitations.
+
+`shorebird invitations` needs Shorebird 1.6.130 or newer.
 
 ## Member roles
 
@@ -170,7 +209,8 @@ console. See [Billing](/account/billing) for more details.
 
 Per-app collaborators can also be added and managed via the Shorebird console.
 The same management and permissions structure of organizations applies to
-collaborators, just at a per-app level.
+collaborators, just at a per-app level. If you've been invited to an app, see
+[Accept an invitation](#accept-an-invitation).
 
 To add a collaborator, from your app's page:
 

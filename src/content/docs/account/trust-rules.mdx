@@ -73,9 +73,8 @@ sign-in is refused, so keep each workflow's rules on one service account.
 
 The Shorebird CLI exchanges the job's OIDC token for a Shorebird access token
 that lasts 15 minutes, and exchanges a new one before it expires, so long builds
-keep working. Each sign-in is recorded in the
-[audit log](https://docs.shorebird.dev/account/audit-logs/) as
-`service_account.sign_in`, with the run it came from.
+keep working. Each sign-in is recorded in the [audit log](/account/audit-logs/)
+as `service_account.sign_in`, with the run it came from.
 
 When `SHOREBIRD_TOKEN` is set, the CLI uses that key instead of signing in with
 OIDC. Once a workflow is signing in with a trust rule, remove its

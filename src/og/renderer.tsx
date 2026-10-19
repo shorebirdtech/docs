@@ -66,12 +66,19 @@ export async function renderer({
           height: 140,
         }}
       />
+      {/*
+       * Satori follows CSS paint order and box sizing: without `position`,
+       * this content is painted under the absolutely positioned background,
+       * and without `border-box` the padding pushes it below center.
+       */}
       <div
         style={{
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
+          position: 'relative',
+          boxSizing: 'border-box',
           width: '100%',
           height: '100%',
           padding: 80,

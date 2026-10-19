@@ -1,0 +1,122 @@
+---
+title: Firewalls, Proxies and Mirrors
+description:
+  The hosts Shorebird uses, and how to run the Shorebird CLI behind a firewall,
+  a proxy, or an internal mirror such as Artifactory.
+sidebar:
+  order: 4
+---
+
+This page lists every host Shorebird talks to, and how to point the Shorebird
+CLI at an internal mirror when your network can't reach some of them. To test
+which hosts your network can reach right now, use the
+[Endpoint Reachability](/system/endpoint-reachability/) checker.
+
+## Hosts Shorebird uses
+
+All traffic is HTTPS on port 443.
+
+### From your development machine or CI runner
+
+| Host                                     | Used for                                              |
+| ---------------------------------------- | ----------------------------------------------------- |
+| `api.shorebird.dev`                      | Every CLI command that talks to Shorebird             |
+| `auth.shorebird.dev`                     | `shorebird login`                                     |
+| `console.shorebird.dev`                  | The web console, in your browser                      |
+| `download.shorebird.dev`                 | Flutter and Shorebird engine artifacts                |
+| `storage.googleapis.com`                 | Uploading and downloading release and patch artifacts |
+| `github.com/shorebirdtech/flutter.git`   | Cloning Shorebird's fork of Flutter                   |
+| `github.com/google/bundletool/releases`  | bundletool, for Android releases and patches          |
+| `github.com/shorebirdtech/shorebird.git` | Installing and upgrading the CLI                      |
+
+`download.shorebird.dev`, the Flutter fork and bundletool can come from an
+internal mirror instead. See
+[Using an internal mirror](#using-an-internal-mirror).
+
+`download.shorebird.dev` answers some requests by redirecting to
+`storage.googleapis.com`, so a machine that downloads from it directly needs
+both. A mirror that follows redirects itself hides that from your machines.
+
+Your Flutter project's own dependencies (pub.dev, Maven Central, CocoaPods and
+so on) come from wherever they always do. Shorebird doesn't change them.
+
+### From your users' devices
+
+| Host                  | Used for             |
+| --------------------- | -------------------- |
+| `api.shorebird.dev`   | Checking for patches |
+| `cdn.shorebird.cloud` | Downloading patches  |
+
+## Behind a corporate proxy
+
+The CLI uses the standard `HTTPS_PROXY`, `HTTP_PROXY` and `NO_PROXY` environment
+variables. See
+[network/TLS errors behind a proxy](/code-push/troubleshooting/#shorebird-commands-fail-with-networktls-connection-errors-behind-a-proxy).
+
+## Using an internal mirror
+
+If your machines can reach `api.shorebird.dev`, `auth.shorebird.dev` and
+`storage.googleapis.com` but must download everything else from an internal
+mirror (Artifactory, Nexus, or your own server), point the CLI at the mirror
+with these environment variables. They need Shorebird CLI 1.6.131 or later.
+
+- `SHOREBIRD_DOWNLOAD_URL` replaces `https://download.shorebird.dev`.
+- `SHOREBIRD_FLUTTER_GIT_URL` replaces
+  `https://github.com/shorebirdtech/flutter.git`.
+- `SHOREBIRD_BUNDLETOOL_URL` replaces the URL of the bundletool jar on GitHub
+  releases.
+
+For example:
+
+```sh
+export SHOREBIRD_DOWNLOAD_URL=https://artifactory.example.com/artifactory/shorebird
+export SHOREBIRD_FLUTTER_GIT_URL=https://git.example.com/mirrors/flutter.git
+export SHOREBIRD_BUNDLETOOL_URL=https://artifactory.example.com/artifactory/tools/bundletool-all-1.18.3.jar
+```
+
+Set them everywhere the CLI runs, including CI runners, and before the first
+`shorebird` command on a fresh install: that first run clones Flutter and
+downloads its artifacts.
+
+### `SHOREBIRD_DOWNLOAD_URL`
+
+One host serves everything Shorebird's Flutter downloads: the Dart SDK,
+Flutter's engine artifacts, Shorebird's modified engine, the Maven repository
+Android builds use, and the tools the CLI uses to build patches. Mirror
+`https://download.shorebird.dev` as a single remote repository and set
+`SHOREBIRD_DOWNLOAD_URL` to its root, with no path after it.
+
+- Use `https`. Android builds fetch the engine from this URL through Gradle,
+  which refuses a plain `http` Maven repository.
+- The mirror must follow redirects, since `download.shorebird.dev` redirects
+  many requests to `storage.googleapis.com`. Artifactory and Nexus remote
+  repositories do by default.
+- Shorebird ignores your own `FLUTTER_STORAGE_BASE_URL`. That variable usually
+  names a mirror of Google's Flutter artifacts, such as
+  `https://storage.flutter-io.cn`, which doesn't have Shorebird's engine. The
+  CLI sets `FLUTTER_STORAGE_BASE_URL` to `SHOREBIRD_DOWNLOAD_URL` for the
+  Flutter it runs, and leaves your own Flutter installation alone.
+
+### `SHOREBIRD_FLUTTER_GIT_URL`
+
+Mirror `https://github.com/shorebirdtech/flutter.git` and keep the mirror up to
+date, since each Shorebird release pins a new commit of it.
+
+The variable is read when Flutter is cloned. A Flutter checkout the CLI cloned
+before you set it keeps fetching from GitHub. To switch, delete
+`~/.shorebird/bin/cache/flutter` and run any `shorebird` command.
+
+### `SHOREBIRD_BUNDLETOOL_URL`
+
+Set this to the full URL of the jar, not a directory. The CLI checks the jar's
+SHA-256, so the mirror must serve the exact jar from the
+[bundletool 1.18.3 release](https://github.com/google/bundletool/releases/tag/1.18.3).
+
+### What still needs GitHub
+
+Installing and upgrading the CLI itself clones
+`https://github.com/shorebirdtech/shorebird.git`, and there is no variable for
+that yet. If your machines can't reach GitHub, clone that repository's `stable`
+branch from a mirror to `~/.shorebird` and add `~/.shorebird/bin` to your
+`PATH`, as the [install script](https://github.com/shorebirdtech/install) does.
+`shorebird upgrade` fetches from that clone's `origin`.

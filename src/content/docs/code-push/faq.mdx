@@ -817,12 +817,14 @@ network.
 If all of those URLs are accessible from your country, then Shorebird should
 work.
 
-If your region requires use of
-[FLUTTER_STORAGE_BASE_URL](https://docs.flutter.dev/community/china) Shorebird
-may not work for you at this time since it also uses that environment variable
-as part of its implementation. There are plans to
-[remove this restriction](https://github.com/shorebirdtech/shorebird/issues/435)
-in the future.
+If your network can reach Shorebird's servers but must download Flutter from an
+internal mirror, see
+[Firewalls, proxies and mirrors](/system/firewalls-and-mirrors/). Shorebird
+ignores your own
+[FLUTTER_STORAGE_BASE_URL](https://docs.flutter.dev/community/china), since
+mirrors of Google's Flutter artifacts don't have Shorebird's engine. Use
+`SHOREBIRD_DOWNLOAD_URL` to point Shorebird at a mirror of
+`download.shorebird.dev` instead.
 
 ### Do you need to distribute your app through a store?
 

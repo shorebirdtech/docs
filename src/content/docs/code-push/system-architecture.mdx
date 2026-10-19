@@ -359,10 +359,10 @@ changing the version of the engine in the `flutter` tool, and second, by passing
 `FLUTTER_STORAGE_BASE_URL` set to `download.shorebird.dev` (instead of
 `download.flutter.io`) when calling its vended copy of the `flutter` tool.
 
-Currently this means `shorebird` will not work in an environment where the user
-needs to use `FLUTTER_STORAGE_BASE_URL` to download Flutter artifacts from a
-private mirror (e.g. a corporate network or China).
-https://github.com/shorebirdtech/shorebird/issues/237
+So `shorebird` ignores a user's own `FLUTTER_STORAGE_BASE_URL`, which usually
+names a mirror of Google's artifacts without Shorebird's engine. To download
+from a mirror of `download.shorebird.dev` instead, set `SHOREBIRD_DOWNLOAD_URL`.
+See [Firewalls, proxies and mirrors](/system/firewalls-and-mirrors/).
 
 #### Serving forked binaries
 

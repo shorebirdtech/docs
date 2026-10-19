@@ -10,7 +10,7 @@ docLink:
 ---
 
 Three new environment variables point the CLI at an internal mirror, such as
-Artifactory, for everything it downloads outside Shorebird's API.
+Artifactory, for Flutter, its engine artifacts and bundletool.
 
 - `SHOREBIRD_DOWNLOAD_URL` replaces `https://download.shorebird.dev` for
   Flutter's artifacts, Shorebird's engine, and the tools used to build patches.

@@ -798,13 +798,12 @@ The following URLs are used by Shorebird:
 - https://download.shorebird.dev -- used by the `shorebird` command line tool to
   download Flutter artifacts for building releases and patches.
 - https://storage.googleapis.com -- used by the `shorebird` command line tool to
-  upload and download release and patch artifacts, and by the Shorebird updater
-  on user's devices to download the patches.
+  upload and download release and patch artifacts.
 - https://cdn.shorebird.cloud/ -- used by the Shorebird updater when downloading
   patches to a user's device.
 
 Shorebird also uses Microsoft or Google OAuth login, which have their own
-required urls for login (e.g. login.microsoftonline.com or oauth.google.com).
+required urls for login (e.g. login.microsoftonline.com or accounts.google.com).
 
 All traffic to and from Shorebird servers travels over https (port 443) and is
 encrypted using standard Transport Security Layer / Secure Sockets Layer

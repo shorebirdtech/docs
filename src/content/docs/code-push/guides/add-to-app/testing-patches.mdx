@@ -211,6 +211,13 @@ xcrun devicectl device install app --device <device-id> \
 
 </CodeTabs>
 
+`installRelease` exists only when the `release` build type has a
+`signingConfig`. If your host app signs release builds only in CI, sign your
+local build with the debug key by adding `signingConfig signingConfigs.debug` to
+the `release` build type, and don't commit that change. On iOS, `devicectl`
+needs Xcode 15 or newer and a device on iOS 17 or newer. Run
+`xcrun devicectl list devices` to find the device ID.
+
 ## Publish the patch to your track and try it
 
 Make your change in the module, then publish it to your track:

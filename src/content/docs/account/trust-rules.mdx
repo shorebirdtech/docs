@@ -1,0 +1,121 @@
+---
+title: Trust Rules
+description:
+  Let a GitHub Actions workflow sign in as a service account without storing a
+  Shorebird key
+sidebar:
+  order: 4
+---
+
+A trust rule lets a GitHub Actions workflow sign in as a
+[service account](/account/service-accounts/) with the OIDC token GitHub issues
+to each job, instead of an API key stored as a secret. There is no Shorebird
+secret in GitHub to leak or rotate, and the job can do what the service
+account's role allows.
+
+Use a trust rule for workflows that run in GitHub Actions. For other CI systems
+and for scripts, use a
+[service account key](/account/service-accounts/#create-and-revoke-keys).
+
+Adding a trust rule needs:
+
+- A Business or Enterprise plan. If your organization moves to a plan without
+  trust rules, its existing rules keep working and can still be deleted, but new
+  ones can't be added.
+- The Admin or Owner role in the organization.
+- Shorebird 1.6.129 or newer in the workflow.
+
+## Add a trust rule
+
+On a service account in the console, under **GitHub Actions**, click **Add
+workflow** and enter the repository's owner and name, the workflow file, and
+optionally an environment and a ref pattern. The console then lists what the
+workflow needs: `permissions: id-token: write` on the job, the environment if
+the rule names one, `SHOREBIRD_PROJECT_ID` set to your project's ID, and no
+`SHOREBIRD_TOKEN`.
+
+For the full walkthrough, including the workflow file and the commands that add
+a rule from the command line, see
+[Sign in with OIDC instead of a stored key](/code-push/ci/github/#sign-in-with-oidc-instead-of-a-stored-key).
+
+## What a rule matches
+
+A job signs in only when everything the rule names matches it:
+
+- **Repository**: the owner and repository name. When you add the rule,
+  Shorebird looks up the owner's GitHub account and records its ID, so if the
+  name is later deleted and registered by someone else, their workflows don't
+  match. If you rename the GitHub user, organization, or repository, add the
+  rule again with the new name.
+- **Workflow file**: the file that defines the job, directly in
+  `.github/workflows/` and ending in `.yml` or `.yaml`, such as
+  `.github/workflows/release.yaml`. In the console, a bare file name like
+  `release.yaml` is taken to be in `.github/workflows/`. If the job is in a
+  reusable workflow in the same repository, name that file, not the workflow
+  that calls it. A reusable workflow from another repository can't sign in.
+- **Environment** (optional): the
+  [GitHub environment](https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/manage-environments)
+  the job runs in, ignoring letter case. Without one, the rule matches jobs in
+  any environment or none.
+- **Ref pattern** (optional): a full ref such as `refs/heads/main`, or a prefix
+  ending in a single `*`, such as `refs/tags/*` or `refs/heads/release/*`.
+  Without one, the rule matches any ref, including pull request refs.
+
+A rule doesn't limit which events can start the job. To keep a workflow from
+signing in from any branch or pull request, set an environment that has required
+reviewers or branch restrictions in GitHub, or a ref pattern.
+
+Only the rules in the project named by `SHOREBIRD_PROJECT_ID` are considered. If
+rules on two different service accounts in that project match the same job, the
+sign-in is refused, so keep each workflow's rules on one service account.
+
+## How a signed-in job works
+
+The Shorebird CLI exchanges the job's OIDC token for a Shorebird access token
+that lasts 15 minutes, and exchanges a new one before it expires, so long builds
+keep working. Each sign-in is recorded in the [audit log](/account/audit-logs/)
+as `service_account.sign_in`, with the run it came from.
+
+When `SHOREBIRD_TOKEN` is set, the CLI uses that key instead of signing in with
+OIDC. Once a workflow is signing in with a trust rule, remove its
+`SHOREBIRD_TOKEN` secret and revoke any service account keys nothing else uses.
+The console suggests this once one of the account's rules has been used.
+
+## See and delete trust rules
+
+Each rule is listed on its service account with its repository, workflow file,
+environment, ref pattern, and when it was last used. To stop a workflow from
+signing in, click **Remove** next to its rule and confirm. Jobs that already
+signed in keep their access token until it expires, within 15 minutes. To cut
+off access right away, delete the service account. A change to its role also
+applies from the next request.
+
+From the command line, signed in with `shorebird login` and with
+`SHOREBIRD_TOKEN` unset:
+
+```sh
+# List a service account's trust rules
+shorebird api organizations/<project id>/service-accounts/<service account id>/trust-rules
+
+# Delete one
+shorebird api -X DELETE organizations/<project id>/service-accounts/<service account id>/trust-rules/<rule id>
+```
+
+Deleting a service account deletes its trust rules too.
+
+## When a sign-in is refused
+
+The CLI prints the reason. The common ones:
+
+- `No trust rule matches this workflow`: check that the job's repository,
+  workflow file, environment, and ref match a rule, and that
+  `SHOREBIRD_PROJECT_ID` is the ID of the project the rule is in.
+- `Trust rules on more than one service account in this project match this workflow`:
+  delete the extra rules so only one service account's rules match.
+- `The job runs a workflow from another repository`: the job is defined in a
+  reusable workflow from another repository. Move the steps that run Shorebird
+  into a workflow in the repository itself.
+- `Signing in with GitHub Actions OIDC requires SHOREBIRD_PROJECT_ID`: set
+  `SHOREBIRD_PROJECT_ID` in the job's `env`.
+- `You must be logged in to run this command`, in GitHub Actions: the job has
+  neither `SHOREBIRD_TOKEN` nor `permissions: id-token: write`.

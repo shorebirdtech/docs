@@ -17,9 +17,8 @@ recorded as events of their own. Each event names the sign-in session or API key
 behind it instead.
 
 The audit log is available on the Enterprise plan. Owners and Admins of the
-organization can read it, as can a
-[service account](https://docs.shorebird.dev/account/service-accounts/) with the
-Auditor role. Other roles cannot.
+organization can read it, as can a [service account](/account/service-accounts/)
+with the Auditor role. Other roles cannot.
 
 Events are available through the API for at least 90 days.
 
@@ -39,12 +38,11 @@ and any event-specific details such as the patch number.
 To keep the audit log in your own security tooling, poll the audit log API in
 oldest-first order and forward each new event.
 
-1. Create a
-   [service account](https://docs.shorebird.dev/account/service-accounts/) and
-   change its role to **Auditor**. Auditor can read the audit log and nothing
-   else, so the key your SIEM holds cannot change anything in the organization.
-2. [Create a key](https://docs.shorebird.dev/account/service-accounts/#create-and-revoke-keys)
-   for it and send the key (`sb_api_...`) as a bearer token.
+1. Create a [service account](/account/service-accounts/) and change its role to
+   **Auditor**. Auditor can read the audit log and nothing else, so the key your
+   SIEM holds cannot change anything in the organization.
+2. [Create a key](/account/service-accounts/#create-and-revoke-keys) for it and
+   send the key (`sb_api_...`) as a bearer token.
 3. Call `GET /api/v1/organizations/{organizationId}/audit-logs?order=asc`. The
    organization ID is the number after `/orgs/` in the console's address bar.
 4. Forward the events in `data`, then save the response's `next_cursor`.
@@ -104,6 +102,11 @@ if [ -f cursor.txt ]; then
 fi
 shorebird api "${query[@]}" > page.json
 ```
+
+Don't add `--paginate` (Shorebird CLI 1.6.130 or later) to an `order=asc`
+request: oldest-first responses keep returning a `next_cursor`, so once
+`--paginate` reaches the newest event it sees the same cursor twice, exits with
+status 1, and prints no events.
 
 ### Filter the audit log
 
@@ -221,8 +224,7 @@ The fields most queries use:
   `org_member.add` for a person who joined the organization automatically when
   they signed in has `saml_sso`, `google_workspace`, or `microsoft_entra` as its
   `actor_source`, for the identity provider they signed in with. A request from
-  a CI job signed in with a
-  [trust rule](https://docs.shorebird.dev/account/trust-rules/) has `ci`, with
+  a CI job signed in with a [trust rule](/account/trust-rules/) has `ci`, with
   the `repository`, the `run_id` of the workflow run, and the `rule_id` of the
   trust rule.
 

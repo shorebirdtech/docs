@@ -17,7 +17,7 @@ const docIconBase64 = svgToBase64('src/og/assets/doc-icon.svg');
  * This function receives page metadata and returns a React element
  * that gets rendered to a 1200x630 PNG via Satori + resvg.
  *
- * Satori supports a subset of CSS (flexbox only, no grid).
+ * Satori supports a subset of CSS (flexbox, grid and block layout).
  * See: https://github.com/vercel/satori#css
  */
 export async function renderer({

@@ -19,10 +19,11 @@ A patch replaces the module's compiled Dart code as a whole, not one entrypoint
 at a time. Every entrypoint is part of the same release and the same patch, so a
 patch can change the code that any of them runs.
 
-Shorebird picks the patch to run when the app process starts, and checks for a
-new one once per process, not once per engine. A patch downloaded while the app
-is running is meant for the next time the app starts. To run it, fully quit the
-app and launch it again.
+Shorebird picks the patch to run when the app process starts. With `auto_update`
+on (the default), it also checks for a new one once per process, not once per
+engine (see [Checking for updates](#checking-for-updates)). A patch downloaded
+while the app is running is meant for the next time the app starts. To run it,
+fully quit the app and launch it again.
 
 Don't count on engines you create later in the same process running the same
 patch as the first one. On Android they do: Shorebird picks the patch once per

@@ -308,6 +308,7 @@ Developer & Agent Interfaces:
     // Redirects to preserve legacy URLs & resolve agent probes.
     '/developers': '/',
     '/developers/': '/',
+    '/account/audit-logs': '/enterprise/audit-logs/',
     '/architecture': '/code-push/system-architecture/',
     '/billing': '/account/billing/',
     '/code-push/overview': '/code-push/',

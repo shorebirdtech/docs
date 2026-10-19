@@ -217,8 +217,11 @@ The fields most queries use:
   app, `actor_source` names the kind of credential (`session`, `api_key`,
   `service_account`, `federated` for a CI job signed in with OIDC, `admin_api`
   for Shorebird staff, or `none`; absent on older events), and the rest are
-  details of the event, such as a patch number or a member's previous role. A
-  request from a CI job signed in with a
+  details of the event, such as a patch number or a member's previous role. An
+  `org_member.add` for a person who joined the organization automatically when
+  they signed in has `saml_sso`, `google_workspace`, or `microsoft_entra` as its
+  `actor_source`, for the identity provider they signed in with. A request from
+  a CI job signed in with a
   [trust rule](https://docs.shorebird.dev/account/trust-rules/) has `ci`, with
   the `repository`, the `run_id` of the workflow run, and the `rule_id` of the
   trust rule.

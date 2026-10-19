@@ -21,7 +21,7 @@ All traffic is HTTPS on port 443.
 | Host                                     | Used for                                               |
 | ---------------------------------------- | ------------------------------------------------------ |
 | `api.shorebird.dev`                      | Every CLI command that talks to Shorebird              |
-| `auth.shorebird.dev`                     | `shorebird login`                                      |
+| `auth.shorebird.dev`                     | Signing in, and refreshing or exchanging tokens        |
 | `console.shorebird.dev`                  | The web console, in your browser                       |
 | `download.shorebird.dev`                 | Flutter and Shorebird engine artifacts                 |
 | `storage.googleapis.com`                 | Uploading and downloading release and patch artifacts  |
@@ -143,9 +143,9 @@ checksum error after you upgrade.
 
 The CLI itself is a clone of `https://github.com/shorebirdtech/shorebird.git`,
 and there is no variable for that yet. Installing clones it, upgrading fetches
-it, and every command checks it for a newer version. If your machines can't
-reach GitHub, clone that repository's `stable` branch from a mirror to
-`~/.shorebird` and add `~/.shorebird/bin` to your `PATH`, as the
-[install script](https://github.com/shorebirdtech/install) does. The update
+it, and every other command run without `--json` checks it for a newer version.
+If your machines can't reach GitHub, clone that repository's `stable` branch
+from a mirror to `~/.shorebird` and add `~/.shorebird/bin` to your `PATH`, as
+the [install script](https://github.com/shorebirdtech/install) does. The update
 check and `shorebird upgrade` then use your mirror, since they fetch from the
 clone's `origin`.

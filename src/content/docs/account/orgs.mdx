@@ -118,15 +118,14 @@ same members page.
 
 ### Remove a member
 
-You can easily remove a member from an organization via the organization's
-settings page. Locate the member you wish to remove, click the Trash icon, and
-confirm the action.
+To remove a member, open the organization's settings and go to the "Members"
+section. Click the ⋮ menu next to the member, choose "Remove", and confirm.
 
 ### Accept an invitation
 
-When someone invites you to an organization or an app, Shorebird emails you a
-link to accept it. You can also see and answer your pending invitations from the
-command line:
+When someone invites you to an organization, Shorebird emails you a link to
+accept it. You can also see and answer your pending invitations from the command
+line:
 
 ```sh
 shorebird invitations list
@@ -156,7 +155,7 @@ to you are based on the plan that you have.
 
 |             | Free | Pro | Business | Enterprise |
 | ----------- | ---- | --- | -------- | ---------- |
-| Viewer      |      |     | ✅       | ✅         |
+| Viewer      |      | ✅  | ✅       | ✅         |
 | Developer   |      | ✅  | ✅       | ✅         |
 | App Manager |      |     |          | ✅         |
 | Admin       |      | ✅  | ✅       | ✅         |
@@ -205,21 +204,20 @@ To manage billing, the organization owner can visit the
 [billing settings](https://console.shorebird.dev/account) in the Shorebird
 console. See [Billing](/account/billing) for more details.
 
-## Managing per app collaborators
+## Per-app collaborators
 
-Per-app collaborators can also be added and managed via the Shorebird console.
-The same management and permissions structure of organizations applies to
-collaborators, just at a per-app level. If you've been invited to an app, see
-[Accept an invitation](#accept-an-invitation).
+Shorebird no longer adds new per-app collaborators. To give someone access to an
+app, [add them as a member](#add-a-member) of the organization that owns it. A
+member's role applies to every app the organization owns.
 
-To add a collaborator, from your app's page:
+- If the app is in your personal account, which can't have members,
+  [create an organization](#creating-an-organization),
+  [transfer](#transfer-an-app) the app into it, and invite people there.
+- To share some apps but not others, create a separate organization for them,
+  transfer those apps into it, and invite people there.
 
-1. Select the "Collaborators" tab.
-2. Click "Invite Collaborator".
-3. Enter the email address of the person you would like to add as a
-   collaborator. Note that the email address must be associated with an existing
-   Shorebird account.
-4. Click "Send Invitation".
-
-Existing collaborators can be removed by clicking the trash icon next to their
-email address.
+Existing collaborators keep their access for now. From the app's "Collaborators"
+tab you can still change a collaborator's role, remove them from the ⋮ menu next
+to their email address, and revoke invitations that haven't been accepted. If
+you were invited to an app before this change, you can still
+[accept the invitation](#accept-an-invitation).

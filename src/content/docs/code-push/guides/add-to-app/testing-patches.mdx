@@ -238,7 +238,8 @@ The track is created the first time you publish to it. Launch your local build
 so the module checks for the patch. If your app starts the Flutter engine only
 when a Flutter screen opens, open one. Then fully quit the app (force-stop it on
 Android) and launch it again to run the patch. In logcat or the Xcode console,
-the patch check names your track:
+the patch check names your track and your release version (`1.2.3+4` in the iOS
+example):
 
 ```
 [shorebird] Sending patch check request: ... channel: dev-alice, release_version: 1.2.3+1 ...
@@ -251,11 +252,19 @@ To try another change, publish another patch to the same track.
 When the patch works, move it to `stable` without rebuilding. Your users get the
 exact patch you tested. Run this from the module directory, with the patch
 number that `shorebird patch` printed (or find it with
-`shorebird patches list --release-version 1.2.3+1`):
+`shorebird patches list --release-version <version>`):
 
-```sh
+<CodeTabs>
+
+```sh title="Android"
 shorebird patches promote --release-version 1.2.3+1 --patch-number 3
 ```
+
+```sh title="iOS"
+shorebird patches promote --release-version 1.2.3+4 --patch-number 3
+```
+
+</CodeTabs>
 
 Promoting moves the patch from your track to `stable`.
 

@@ -15,9 +15,9 @@ const docIconBase64 = svgToBase64('src/og/assets/doc-icon.svg');
  * Custom OG image renderer for Shorebird docs.
  *
  * This function receives page metadata and returns a React element
- * that gets rendered to a 1200x630 PNG via Satori + sharp.
+ * that gets rendered to a 1200x630 PNG via Satori + resvg.
  *
- * Satori supports a subset of CSS (flexbox only, no grid).
+ * Satori supports a subset of CSS (flexbox, grid and block layout).
  * See: https://github.com/vercel/satori#css
  */
 export async function renderer({
@@ -66,12 +66,19 @@ export async function renderer({
           height: 140,
         }}
       />
+      {/*
+       * Satori follows CSS paint order and box sizing: without `position`,
+       * this content is painted under the absolutely positioned background,
+       * and without `border-box` the padding pushes it below center.
+       */}
       <div
         style={{
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
+          position: 'relative',
+          boxSizing: 'border-box',
           width: '100%',
           height: '100%',
           padding: 80,

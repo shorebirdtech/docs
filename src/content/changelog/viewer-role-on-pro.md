@@ -1,6 +1,6 @@
 ---
 title: Viewer role on the Pro plan
-date: 2026-10-16
+date: 2026-10-15
 area: Console
 type: Changed
 docLink:

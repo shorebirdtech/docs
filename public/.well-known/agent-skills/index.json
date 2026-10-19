@@ -42,6 +42,12 @@
       "type": "api-reference",
       "description": "Programmatic access to Shorebird apps, releases, artifacts, and channels via REST OpenAPI 3.1, or from the CLI with `shorebird api`.",
       "url": "https://docs.shorebird.dev/account/api.md"
+    },
+    {
+      "name": "audit-log-export",
+      "type": "api-reference",
+      "description": "Read an organization's audit log (Enterprise plan) and export it to a SIEM: poll with an Auditor service account key, order=asc and a saved cursor, and deduplicate OCSF events on metadata.uid.",
+      "url": "https://docs.shorebird.dev/account/audit-logs.md"
     }
   ]
 }

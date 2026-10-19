@@ -309,6 +309,8 @@ Developer & Agent Interfaces:
     '/developers': '/',
     '/developers/': '/',
     '/architecture': '/code-push/system-architecture/',
+    '/account/audit-logs': '/enterprise/audit-logs/',
+    '/account/audit-logs/': '/enterprise/audit-logs/',
     '/billing': '/account/billing/',
     '/code-push/overview': '/code-push/',
     '/code-push/continuous-integration/codemagic': '/code-push/ci/codemagic/',

@@ -47,7 +47,7 @@
       "name": "audit-log-export",
       "type": "api-reference",
       "description": "Read an organization's audit log (Enterprise plan) and export it to a SIEM: poll with an Auditor service account key, order=asc and a saved cursor, and deduplicate OCSF events on metadata.uid.",
-      "url": "https://docs.shorebird.dev/account/audit-logs.md"
+      "url": "https://docs.shorebird.dev/enterprise/audit-logs.md"
     }
   ]
 }

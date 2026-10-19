@@ -10,3 +10,6 @@ docLink:
 
 API keys limited to releases and patches are now available on every plan,
 including Free. They used to need a paid plan.
+
+- The console no longer disables the "Release and patch only" option on the Free
+  plan, for personal API keys or for service account keys.

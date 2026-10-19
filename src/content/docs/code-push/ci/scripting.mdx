@@ -56,10 +56,12 @@ These commands return structured JSON:
 
 | Group                                                                  | Commands                                                                                                             |
 | ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| [`shorebird account`](/account/cli#account-management-commands)        | `whoami`, `apps`, `orgs`                                                                                             |
+| [`shorebird account`](/account/cli#account-management-commands)        | `whoami`, `update`, `notifications`, `orgs`                                                                          |
+| [`shorebird auth`](/account/cli#check-which-credential-is-active)      | `status`, `token`                                                                                                    |
 | [`shorebird apps`](/account/cli#app-management-commands)               | `list`, `rename`, `delete`, `transfer`                                                                               |
+| [`shorebird invitations`](/account/orgs#accept-an-invitation)          | `list`, `accept`, `decline`                                                                                          |
 | [`shorebird channels`](/code-push/tracks#managing-tracks-from-the-cli) | `list`, `create`, `delete`                                                                                           |
-| [`shorebird patches`](/code-push/patch#manage-patches)                 | `list`, `info`, `set-track`, `rollback`, `rollforward`                                                               |
+| [`shorebird patches`](/code-push/patch#manage-patches)                 | `list`, `info`, `set-track`, `promote`, `rollback`, `rollforward`                                                    |
 | [`shorebird releases`](/code-push/release)                             | `list`, `info`, `delete`                                                                                             |
 | `shorebird metrics`                                                    | `active-hours`, `adoption`, `downloads`, `heatmap`, `installs`, `new-devices`, `users`, `versions`                   |
 | Other                                                                  | `shorebird release`, `shorebird patch`, `shorebird doctor`, `shorebird flutter versions list`, `shorebird --version` |

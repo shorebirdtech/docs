@@ -8,7 +8,7 @@ sidebar:
   order: 27
 ---
 
-{/* cspell:words gradlew Pshorebird */}
+{/* cspell:words devicectl gradlew iphoneos Pshorebird */}
 
 import { CodeTabs } from 'starlight-theme-nova/components';
 
@@ -61,7 +61,6 @@ you run `shorebird release aar` or `shorebird release ios-framework`.
    ```dart title="lib/main.dart"
    import 'dart:async';
 
-   import 'package:flutter/foundation.dart';
    import 'package:flutter/material.dart';
    import 'package:shorebird_code_push/shorebird_code_push.dart';
 
@@ -120,7 +119,6 @@ on iOS it holds the `.xcframework`s. Three things matter:
   `shorebird release` produced (from your CI, or from whoever ran it). If you
   rebuild the module with `flutter build`, the result doesn't match the release
   and patches won't apply to it.
-
 - **Use a release build.** Shorebird only patches release builds: the Android
   `release` build type, or the iOS `Release` configuration on a device (not a
   simulator).
@@ -192,17 +190,23 @@ If your Android app starts Flutter another way, pass the same list to
 `FlutterFragment.withNewEngine().dartEntrypointArgs(...)`, or
 `FlutterEngineGroup.Options.setDartEntrypointArgs(...)`.
 
-Build your local host app with the track set:
+Build and install your local host app with the track set:
 
 <CodeTabs>
 
 ```sh title="Android"
-./gradlew assembleRelease -PshorebirdTrack=dev-alice
+./gradlew installRelease -PshorebirdTrack=dev-alice
 ```
 
 ```sh title="iOS"
-# Or set SHOREBIRD_TRACK in the target's build settings, without committing it.
-xcodebuild -scheme MyApp -configuration Release SHOREBIRD_TRACK=dev-alice build
+# To run on a device from Xcode instead, set SHOREBIRD_TRACK in the target's
+# build settings (don't commit it) and run the scheme with the Release
+# configuration.
+xcodebuild -scheme MyApp -configuration Release \
+  -destination 'generic/platform=iOS' -derivedDataPath build \
+  SHOREBIRD_TRACK=dev-alice build
+xcrun devicectl device install app --device <device-id> \
+  build/Build/Products/Release-iphoneos/MyApp.app
 ```
 
 </CodeTabs>

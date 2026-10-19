@@ -136,7 +136,10 @@ It is also the number after `/orgs/` in the console's address bar, and
 #### Add a trust rule from the command line
 
 `shorebird api` can make the same changes. Create the service account, then add
-a trust rule to it with the `id` the first command prints:
+a trust rule to it with the `id` the first command prints. Run these commands
+signed in with `shorebird login` and with `SHOREBIRD_TOKEN` unset. API keys
+can't create, change, or delete service accounts, their keys, or their trust
+rules.
 
 ```sh
 shorebird api -X POST organizations/<project id>/service-accounts \

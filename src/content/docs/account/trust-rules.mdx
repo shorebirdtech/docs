@@ -31,7 +31,8 @@ On a service account in the console, under **GitHub Actions**, click **Add
 workflow** and enter the repository's owner and name, the workflow file, and
 optionally an environment and a ref pattern. The console then lists what the
 workflow needs: `permissions: id-token: write` on the job, the environment if
-the rule names one, and `SHOREBIRD_PROJECT_ID` set to your project's ID.
+the rule names one, `SHOREBIRD_PROJECT_ID` set to your project's ID, and no
+`SHOREBIRD_TOKEN`.
 
 For the full walkthrough, including the workflow file and the commands that add
 a rule from the command line, see
@@ -90,7 +91,8 @@ signed in keep their access token until it expires, within 15 minutes. To cut
 off access right away, delete the service account. A change to its role also
 applies from the next request.
 
-From the command line:
+From the command line, signed in with `shorebird login` and with
+`SHOREBIRD_TOKEN` unset:
 
 ```sh
 # List a service account's trust rules

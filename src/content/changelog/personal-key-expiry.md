@@ -9,10 +9,9 @@ docLink:
 ---
 
 A new personal API key now expires within a year. The Console no longer offers
-No expiration for one, and a key created through the API with no expiration set
-expires in 1 year.
+No expiration when you create or regenerate one.
 
 - Keys you already have are unchanged. A key created without an expiration keeps
   working until you revoke it.
-- For a key that never expires, or one that keeps working when you leave the
-  organization, use a service account.
+- For a key that never expires, or one that doesn't depend on any one person's
+  account, use a service account.

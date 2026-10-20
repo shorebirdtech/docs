@@ -22,5 +22,5 @@ or rotate.
   working after a downgrade.
 - When `SHOREBIRD_TOKEN` is set, the CLI uses it instead, so remove the secret
   once the workflow signs in with a trust rule.
-- Each sign-in is recorded in the audit log as `service_account.sign_in`, with
-  the run it came from.
+- On the Enterprise plan, each sign-in is recorded in the audit log as
+  `service_account.sign_in`, with the run it came from.

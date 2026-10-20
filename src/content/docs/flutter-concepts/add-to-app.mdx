@@ -199,8 +199,22 @@ resources are managed internally and do not affect isolation between engines.
 
 ### 1. Add the module as a Gradle dependency
 
-Add the Flutter module to your Android project as a source dependency. Both
-projects must sit on the same machine. Gradle locates the module at build time:
+Flutter offers two ways to add a module to an Android app: as a source
+dependency, or as a prebuilt Android Archive (AAR).
+
+:::caution
+
+Shorebird only supports the **prebuilt AAR** method for releases and patches.
+You can use a source dependency during development, but build the AAR you ship
+with `shorebird release aar` and patch it with `shorebird patch aar`. See the
+[Code Push for Android add-to-app](/code-push/guides/add-to-app/android/) guide.
+
+:::
+
+#### Source dependency (development only)
+
+Both projects must sit on the same machine. Gradle builds the module from source
+along with the host app:
 
 ```groovy
 // settings.gradle (host app)
@@ -217,6 +231,34 @@ evaluate(new File(
 // app/build.gradle
 dependencies {
     implementation project(':flutter')
+}
+```
+
+#### Prebuilt AAR (release and patch)
+
+Build the module into a local Maven repository, then depend on it like any other
+library. With Shorebird, `shorebird release aar` builds the AAR:
+
+```bash
+shorebird release aar --release-version 1.0.0+1
+```
+
+```groovy
+// settings.gradle (host app)
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url '../my_flutter_module/build/host/outputs/repo' }
+        maven { url 'https://download.shorebird.dev/download.flutter.io' }
+    }
+}
+```
+
+```groovy
+// app/build.gradle
+dependencies {
+    releaseImplementation 'com.example.my_flutter_module:flutter_release:1.0'
 }
 ```
 

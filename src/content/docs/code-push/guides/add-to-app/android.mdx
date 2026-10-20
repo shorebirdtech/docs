@@ -33,6 +33,20 @@ not, see the [Code Push guide](/code-push/initialize) for instructions.
 The reference code for this guide is available at
 https://github.com/shorebirdtech/samples/tree/main/add_to_app.
 
+:::note
+
+Shorebird only supports the prebuilt AAR method of adding Flutter to a native
+Android app (see "Depend on the Android Archive (AAR)" in the
+[official integration docs](https://docs.flutter.dev/add-to-app/android/project-setup)).
+Shorebird does not support depending on the module's source code (the
+`include_flutter.groovy` setup) for releases and patches. You can still use a
+source dependency during development, but build what you ship with
+`shorebird release aar` and patch it with `shorebird patch aar`. There is an
+open issue to support source dependencies
+([link](https://github.com/shorebirdtech/shorebird/issues/653)).
+
+:::
+
 ## Add Shorebird to your Flutter module
 
 First, run `shorebird init` in your Flutter module:

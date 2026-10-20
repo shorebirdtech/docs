@@ -56,9 +56,16 @@ API keys default to a 1-year expiration. During creation, you can choose from:
 - 30 days
 - 90 days
 - 1 year (default)
-- No expiration
 
-All expiration options are available on every plan.
+All expiration options are available on every plan. A key created through the
+API with no `expires_in_days` expires in 1 year, and at most 365 days can be
+requested.
+
+Keys created before October 20, 2026 without an expiration keep working until
+you revoke them.
+
+For a key that never expires, or one that keeps working when you leave the
+organization, use a [service account](/account/service-accounts/).
 
 ## Permissions
 

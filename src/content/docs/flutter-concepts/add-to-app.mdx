@@ -204,10 +204,12 @@ dependency, or as a prebuilt Android Archive (AAR).
 
 :::caution
 
-Shorebird only supports the **prebuilt AAR** method for releases and patches.
-You can use a source dependency during development, but build the AAR you ship
-with `shorebird release aar` and patch it with `shorebird patch aar`. See the
-[Code Push for Android add-to-app](/code-push/guides/add-to-app/android/) guide.
+Shorebird releases and patches only a **prebuilt AAR**. You can use a source
+dependency during development, but switch the host app to the AAR built by
+`shorebird release aar` before you release, and patch it with
+`shorebird patch aar`. The
+[Code Push for Android add-to-app](/code-push/guides/add-to-app/android/) guide
+walks through the setup.
 
 :::
 
@@ -236,31 +238,13 @@ dependencies {
 
 #### Prebuilt AAR (release and patch)
 
-Build the module into a local Maven repository, then depend on it like any other
-library. With Shorebird, `shorebird release aar` builds the AAR:
-
-```bash
-shorebird release aar --release-version 1.0.0+1
-```
-
-```groovy
-// settings.gradle (host app)
-dependencyResolutionManagement {
-    repositories {
-        google()
-        mavenCentral()
-        maven { url '../my_flutter_module/build/host/outputs/repo' }
-        maven { url 'https://download.shorebird.dev/download.flutter.io' }
-    }
-}
-```
-
-```groovy
-// app/build.gradle
-dependencies {
-    releaseImplementation 'com.example.my_flutter_module:flutter_release:1.0'
-}
-```
+Build the module into a local Maven repository (`flutter build aar`, or
+`shorebird release aar` with Shorebird), then add that repository to the host
+app and depend on the AAR like any other library. See Flutter's
+[Depend on the Android Archive (AAR)](https://docs.flutter.dev/add-to-app/android/project-setup)
+instructions, or the
+[Code Push for Android add-to-app](/code-push/guides/add-to-app/android/) guide
+for the Shorebird setup.
 
 ### 2. Choose a display mechanism
 
@@ -332,6 +316,15 @@ flutter build ios-framework --xcframework --output=../MyFlutterPackage
 
 Then add the local package in Xcode: **File > Add Package Dependencies > Add
 Local**, and point to the generated `MyFlutterPackage` directory.
+
+:::caution
+
+Shorebird releases and patches only a prebuilt iOS framework built by
+`shorebird release ios-framework`. See the
+[Code Push for iOS add-to-app](/code-push/guides/add-to-app/ios/) guide for the
+setup Shorebird supports.
+
+:::
 
 ### 2. Display Flutter content
 

@@ -1,3 +1,6 @@
 # .json is an alias for the canonical, no-extension RFC 9727 path — served
 # from the same file via a rewrite (200) rather than two hand-synced copies.
 /.well-known/api-catalog.json /.well-known/api-catalog 200
+
+# Audit Logs moved from Account to Enterprise; keep the Markdown route working.
+/account/audit-logs.md /enterprise/audit-logs.md 301

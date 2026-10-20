@@ -75,7 +75,7 @@ function scoreFor(entries: AcceptEntry[], target: string): number {
 // Link response headers for agent discovery (RFC 8288)
 const AGENT_LINK_HEADERS = [
   '</.well-known/api-catalog>; rel="api-catalog"',
-  '</.well-known/ai-catalog.json>; rel="service-desc"',
+  '</.well-known/ai-catalog.json>; rel="describedby"; type="application/json"',
   '</.well-known/agent-skills/index.json>; rel="agent-skills"',
   '</.well-known/agent-instructions.txt>; rel="agent-instructions"',
   '</.well-known/agent.json>; rel="agent"',

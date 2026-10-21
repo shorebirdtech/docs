@@ -10,7 +10,7 @@ docLink:
 ---
 
 `shorebird api` sends an authenticated request to the Shorebird API and prints
-the response. `--jq` filters the response before it's printed.
+the response. `--jq` filters a successful response before it's printed.
 
 - Endpoints are relative to `https://api.shorebird.dev/api/v1`, and `{appId}` is
   filled in from `shorebird.yaml`.

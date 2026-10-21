@@ -1,5 +1,5 @@
 ---
-title: Deleted tracks and releases stop serving patches
+title: Patch checks catch up with deletes and rollbacks
 date: 2026-10-15
 area: Code Push
 type: Fixed
@@ -9,7 +9,8 @@ docLink:
 ---
 
 Deleting a track now takes effect on the next patch check, and deleting a
-release can no longer leave its patches cached.
+release can no longer leave its patches cached. Running a rollback or roll
+forward again now clears the cache if the first run couldn't.
 
 - Devices on a deleted track could keep receiving its last patch. That cached
   answer is now cleared.

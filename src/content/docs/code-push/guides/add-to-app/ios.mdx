@@ -27,9 +27,9 @@ If your app is a pure Flutter app, follow the
 
 ## Prerequisites
 
-This guide assumes you have already have an iOS app and a Flutter module. The
-example iOS app will be named `IosCodePushDemo` and the example Flutter module
-will be named `my_flutter_module`.
+This guide assumes you already have an iOS app and a Flutter module. The example
+iOS app will be named `IosAddToAppDemo` and the example Flutter module will be
+named `my_flutter_module`.
 
 This guide also assumes that you have created a Shorebird account. If you have
 not created a Shorebird account, please see the
@@ -43,9 +43,10 @@ https://github.com/shorebirdtech/samples/tree/main/add_to_app.
 Shorebird only supports the iOS Framework embedding method of adding Flutter to
 a native iOS app (see "Link and Embed frameworks in Xcode" in Flutter's
 [legacy integration docs](https://docs.flutter.dev/add-to-app/ios/project-setup-legacy#method-b)).
-It doesn't support the Swift Package Manager integration that Flutter recommends
-since Flutter 3.44. There is an open issue to support embedding via CocoaPods
-([link](https://github.com/shorebirdtech/shorebird/issues/1198)), but given that
+It doesn't support the Swift Package Manager integration that Flutter has
+recommended since Flutter 3.44. There is an open issue to support embedding via
+CocoaPods ([link](https://github.com/shorebirdtech/shorebird/issues/1198)), but
+given that
 [Flutter plans to deprecate CocoaPods support](https://github.com/flutter/flutter/issues/168015),
 it is unlikely that this will be implemented.
 
@@ -65,7 +66,7 @@ First, package the Flutter module for release. This will produce an
 `.xcframework` that can be embedded in your iOS app and provides Shorebird with
 the information it needs to apply patches.
 
-To create a release, run the following the root directory of your Flutter
+To create a release, run the following in the root directory of your Flutter
 module:
 
 ```sh
@@ -109,8 +110,8 @@ official docs, defer to the official docs.
 
 :::note
 
-`ShorebirdFlutter.xcframework` is nearly identically to `Flutter.xcframework`
-from Google, but as part of compliance with Apple's signing requirements, the
+`ShorebirdFlutter.xcframework` is nearly identical to `Flutter.xcframework` from
+Google, but as part of compliance with Apple's signing requirements, the
 framework has been renamed when applying Shorebird's (legally Code Town, Inc's)
 digital signature.
 
@@ -131,10 +132,10 @@ In Xcode:
 
 <Image src={hybridIosFrameworkSearchPaths} alt="Xcode framework search paths" />
 
-### Embed App.xcframework and Flutter.xcframework in your app
+### Embed App.xcframework and ShorebirdFlutter.xcframework in your app
 
 In the "General" tab of your app target, add `App.xcframework` and
-`ShorebirdFlutter.xcframework` from to the "Frameworks, Libraries, and Embedded
+`ShorebirdFlutter.xcframework` to the "Frameworks, Libraries, and Embedded
 Content" section. Make sure to select "Embed & Sign" for both frameworks.
 
 <Image src={hybridIosEmbedFrameworks} alt="Xcode embed frameworks" />

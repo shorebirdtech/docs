@@ -306,8 +306,9 @@ different view. An engine can only render into one view at a time.
 
 ### 1. Add the module as a dependency
 
-Flutter offers two ways to add a module to an iOS app: as a Swift package, or as
-prebuilt XCFrameworks linked and embedded in Xcode.
+Flutter recommends adding a module to an iOS app as a Swift package. Its legacy
+docs also cover CocoaPods and prebuilt XCFrameworks linked and embedded in
+Xcode.
 
 :::caution
 
@@ -330,11 +331,11 @@ flutter build swift-package --platform ios
 ```
 
 It generates a `FlutterNativeIntegration` Swift package in
-`build/ios/SwiftPackages/`. Add that package to your Xcode project with **Add
-Files to "MyApp"...**, then add the build settings and Run Script steps from
-Flutter's
+`build/ios/SwiftPackages/`. To add it to your app, follow Flutter's
 [Integrate with Swift Package Manager](https://docs.flutter.dev/add-to-app/ios/project-setup#integrate-with-swiftpm)
-instructions.
+instructions: add the package to your Xcode project with **Add Files to
+"MyApp"...**, add it to your app target, then add the build settings and Run
+Script steps.
 
 #### Prebuilt XCFrameworks (release and patch)
 

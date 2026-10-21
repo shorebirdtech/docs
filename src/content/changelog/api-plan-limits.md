@@ -1,5 +1,5 @@
 ---
-title: The API enforces the Console's plan limits
+title: The API refuses what the Console refuses
 date: 2026-10-15
 area: API
 type: Changed

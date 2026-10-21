@@ -13,8 +13,8 @@ CLI 1.6.129 also fixes these issues.
 - AAR releases and patches skip architectures that have no `libapp.so`, as
   Android releases do, and warn when a patch covers only some of them.
 - iOS framework, Linux, and Windows patches check the release's minimum Flutter
-  version before downloading the release's artifacts. On every platform, the
-  message names the command that creates a new release.
+  version before downloading the release's artifacts. On every platform that has
+  a minimum, the message names the command that creates a new release.
 - Commands run at the same time from one login no longer refresh with a stale
   token. A refresh uses the newest credentials on disk.
 - Piping output into a command that exits early, such as `head -1`, exits with
@@ -23,5 +23,9 @@ CLI 1.6.129 also fixes these issues.
   before the command finishes.
 - The release picker shows one hint, and `shorebird patches promote --help`
   describes `--flavor` correctly.
-- An OAuth error from the auth service while refreshing a login always asks you
-  to run `shorebird login`.
+- When a login can't be refreshed, the CLI says why. An OAuth error from the
+  auth service asks you to run `shorebird login`. A network or server error
+  leaves your login as it was and exits with status 75 instead of 70.
+- iOS and iOS framework patches no longer read `SHOREBIRD_PATCH_DD_MAX_BYTES`.
+  Pass `--dd-max-bytes` to `shorebird patch` instead.
+- An `--org-id` that isn't a number lists your organizations and their ids.

@@ -4,8 +4,8 @@ date: 2026-10-15
 area: Code Push
 type: Fixed
 docLink:
-  label: What happens when a patch is rolled back
-  href: /code-push/rollback/#what-happens-when-a-patch-is-rolled-back
+  label: Delete a track
+  href: /code-push/tracks/#delete-a-track
 ---
 
 Deleting a track now takes effect on the next patch check, and deleting a

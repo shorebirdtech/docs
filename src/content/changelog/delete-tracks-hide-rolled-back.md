@@ -11,5 +11,5 @@ docLink:
 The Tracks page can delete tracks you added, and a release's patch list hides
 rolled-back and deactivated patches unless you ask to see them.
 
-- `stable`, `beta`, `staging`, and `deactivated` can't be deleted.
+- `stable`, `beta`, `staging`, and `deactivated` have no delete button.
 - A switch shows the hidden patches and how many there are.

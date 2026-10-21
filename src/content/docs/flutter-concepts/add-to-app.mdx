@@ -306,9 +306,9 @@ different view. An engine can only render into one view at a time.
 
 ### 1. Add the module as a dependency
 
-Flutter recommends adding a module to an iOS app as a Swift package. Its legacy
-docs also cover CocoaPods and prebuilt XCFrameworks linked and embedded in
-Xcode.
+Since Flutter 3.44, Flutter recommends adding a module to an iOS app as a Swift
+package with **Swift Package Manager (SPM)**. Its legacy docs also cover
+CocoaPods and prebuilt XCFrameworks linked and embedded in Xcode.
 
 :::caution
 
@@ -323,8 +323,7 @@ setup Shorebird supports.
 
 #### Swift package
 
-Since Flutter 3.44, Flutter recommends **Swift Package Manager (SPM)**. Run the
-following command in the Flutter module directory:
+Run the following command in the Flutter module directory:
 
 ```bash
 flutter build swift-package --platform ios

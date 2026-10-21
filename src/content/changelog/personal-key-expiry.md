@@ -1,7 +1,7 @@
 ---
 title: Personal API keys expire within a year
 date: 2026-10-20
-area: API
+area: Console
 type: Changed
 docLink:
   label: API key expiration
@@ -9,7 +9,7 @@ docLink:
 ---
 
 A new personal API key now expires within a year. The Console no longer offers
-No expiration when you create or regenerate one.
+Never as an expiration when you create or regenerate one.
 
 - Keys you already have are unchanged. A key created without an expiration keeps
   working until you revoke it.

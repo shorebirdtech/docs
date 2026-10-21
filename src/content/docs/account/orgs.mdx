@@ -7,8 +7,6 @@ sidebar:
 
 import { Image } from 'astro:assets';
 import ArcadeEmbed from '~/components/ArcadeEmbed.astro';
-import createOrg from '~/assets/create_org.png';
-import accessOrgSettings from '~/assets/access_org_settings.png';
 import addMemberToOrg from '~/assets/add_member_to_org.png';
 import completedAddMemberToOrg from '~/assets/completed_add_member_to_org.png';
 import transferAppToDifferentOrg from '~/assets/transfer_app_to_different_org.png';
@@ -29,23 +27,13 @@ contact@shorebird.dev for help.
 
 ## Creating an organization
 
-To create an organization, visit the Shorebird console and click on your email
-address in the bottom left corner. From there, click the "+" button next to
-"Organizations".
+To create an organization, open the Shorebird console and click the
+organization's name at the top of the sidebar. In the switcher that opens, click
+"New organization", enter a name, and click "Create organization". You can
+rename it later in the organization's settings.
 
-<Image
-  src={createOrg}
-  alt="Screenshot of where to start the creation of an organization in the Shorebird Console"
-/>
-
-This will automatically create a new organization called "My Organization". You
-can head over to the organization's settings to change its details, including
-the name.
-
-<Image
-  src={accessOrgSettings}
-  alt="Screenshot of how to get to Organization settings in the Shorebird Console"
-/>
+Creating an organization needs a paid plan of your own. On the Free plan, the
+switcher shows "Upgrade to create an organization" instead.
 
 ## Managing apps
 
@@ -150,13 +138,13 @@ can't answer invitations.
 ## Member roles
 
 Organization roles apply to all apps within the organization and can be managed
-via the organization settings page in the Shorebird console. The roles available
-to you are based on the plan that you have.
+via the organization settings page in the Shorebird console. The roles you can
+give members depend on the organization's plan, which is its owner's plan.
 
 |             | Free | Pro | Business | Enterprise |
 | ----------- | ---- | --- | -------- | ---------- |
 | Viewer      |      | ✅  | ✅       | ✅         |
-| Developer   |      | ✅  | ✅       | ✅         |
+| Developer   | ✅   | ✅  | ✅       | ✅         |
 | App Manager |      |     |          | ✅         |
 | Admin       |      | ✅  | ✅       | ✅         |
 | Owner       | ✅   | ✅  | ✅       | ✅         |

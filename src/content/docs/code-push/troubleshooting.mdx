@@ -263,6 +263,13 @@ If you are not sure whether your change is safe, you can
 [stage your patch](/code-push/guides/staging-patches) and test locally before
 deploying it to users.
 
+On Android, when Java or Kotlin code changed, the warning also names the
+classes, methods, and fields that each changed method's differing instructions
+reference, which usually points at the dependency that changed. It details up to
+10 methods per DEX file. To print every changed method and instruction in full,
+including string constants, pass `--show-dex-diff` to `shorebird patch`. This
+needs Shorebird 1.6.130 or newer.
+
 If you are sure the changes are safe, you can bypass this warning by passing the
 `--allow-native-diffs` flag to the `shorebird patch` command.
 

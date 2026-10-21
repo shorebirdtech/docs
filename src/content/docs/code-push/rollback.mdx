@@ -137,8 +137,9 @@ Imagine a release with two patches:
 When a user downloads this release from the store, Shorebird will see that patch
 2 is the latest available patch and download it.
 
-If a problem is discovered with patch 2, it can be rolled back. The Console will
-look like this after a rollback:
+If a problem is discovered with patch 2, it can be rolled back. The Console
+hides rolled back patches by default. With **Show rolled back and deactivated**
+turned on next to the Patches heading, it looks like this after a rollback:
 
 <Image
   src={rollbackPatch2RolledBack}
@@ -171,8 +172,10 @@ back a patch and then determine it was not the cause of the problem, or when you
 have confirmed the patch is safe after all.
 
 In the [Shorebird Console](https://console.shorebird.dev/), navigate to the
-release containing the rolled back patch. On the right side of the patch row,
-click the "more" icon (three vertical dots) and select "Roll Forward":
+release containing the rolled back patch. Rolled back patches are hidden by
+default, so turn on **Show rolled back and deactivated** next to the Patches
+heading. On the right side of the patch row, click the "more" icon (three
+vertical dots) and select "Roll Forward":
 
 <Image
   src={rollForwardButton}

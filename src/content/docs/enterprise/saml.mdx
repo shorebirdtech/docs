@@ -48,6 +48,10 @@ A few consequences of this design are worth knowing before you start:
   does not add them to your Shorebird organization. Membership and roles are
   still managed in organization settings, as described in
   [Organizations](/account/orgs/).
+- **An existing account moves onto SSO.** The first time someone with a
+  Shorebird account at your domain signs in with SSO, their Google or Microsoft
+  sign-in is replaced and their other sessions are signed out. Their
+  organizations, app access, and billing carry over.
 
 ## What to send Shorebird
 
@@ -171,11 +175,11 @@ signing with it.
 
 ## Troubleshooting
 
-| Message                                   | Likely cause                                                                                                                                                                                                                  |
-| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| "No SSO configured for this domain"       | The connection has not been created or enabled yet, or the address entered is at a different domain than the one that was registered.                                                                                         |
-| "SSO login failed"                        | The assertion was rejected. The most common causes are a signing certificate Shorebird has not seen, an asserted email address at a domain other than the connection's, or no email address anywhere Shorebird reads it from. |
-| Sign-in succeeds, but no apps are visible | Authentication worked, but the account is not a member of the organization yet. Invite the member from organization settings.                                                                                                 |
+| Message                                   | Likely cause                                                                                                                                                                                                                                                                                                                                                    |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| "No SSO configured for this domain"       | The connection has not been created or enabled yet, or the address entered is at a different domain than the one that was registered.                                                                                                                                                                                                                           |
+| "SSO login failed"                        | The assertion was rejected. The most common causes are a signing certificate Shorebird has not seen, an asserted email address at a domain other than the connection's, or no email address anywhere Shorebird reads it from. A response signed or digested with SHA-1 is also rejected, so configure your IdP to sign with RSA-SHA256 and digest with SHA-256. |
+| Sign-in succeeds, but no apps are visible | Authentication worked, but the account is not a member of the organization yet. Invite the member from organization settings.                                                                                                                                                                                                                                   |
 
 Assertions are accepted for up to one hour after they are issued, with a minute
 of tolerance for clock differences, and each one can be used only once. If

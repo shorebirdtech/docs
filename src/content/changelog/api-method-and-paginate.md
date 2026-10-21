@@ -10,7 +10,8 @@ docLink:
 ---
 
 `shorebird api` accepts the HTTP method before the endpoint, and `--paginate`
-reads a whole paged list in one call.
+reads a whole paged list in one call. `--jq` also takes slices, and the command
+now handles a repeated `/api/v1` and explains a 405 after fields made a POST.
 
 - The method can be GET, POST, PUT, PATCH, DELETE, or HEAD, in any case. If you
   also pass `-X`, it must name the same method.
@@ -18,6 +19,12 @@ reads a whole paged list in one call.
   with list fields joined. `--jq` runs on the joined result.
 - `--paginate` works only with GET. A failed page stops the command with exit
   status 1 instead of printing part of the list.
+- `--jq` supports array and string slices, such as `.[1:3]`, `.[2:]`, and
+  `.[:-1]`.
+- An endpoint that repeats `/api/v1` is treated as the route under it, with a
+  note on stderr.
+- When `-f` or `-F` turns a request into a POST and the server answers 405, the
+  CLI suggests adding `--method GET`.
 
 ```sh
 shorebird api GET /apps

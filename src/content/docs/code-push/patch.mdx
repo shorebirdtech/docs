@@ -99,7 +99,6 @@ $ shorebird patch android
 📺 Channel: stable
 🕹️  Platform: android [arm64 (166.20 KB), arm32 (161.78 KB), x86_64 (161.51 KB)]
 
-Would you like to continue? (y/N) Yes
 ✓ Creating patch (93ms)
 ✓ Uploading artifacts (1.5s)
 ✓ Fetching channels (86ms)
@@ -161,6 +160,7 @@ directly.
 | `--dry-run`            | `-n`         | Build and validate the patch but **do not upload** it. Ideal as a CI sanity check.                                                                   |
 | `--allow-asset-diffs`  |              | Publish even if asset differences are detected. **Not recommended.**                                                                                 |
 | `--allow-native-diffs` |              | Publish even if native code differences are detected. **Not recommended.**                                                                           |
+| `--show-dex-diff`      |              | On Android, print every changed method and instruction in full, including string constants, when native code differences are detected.               |
 
 ### iOS-specific options
 

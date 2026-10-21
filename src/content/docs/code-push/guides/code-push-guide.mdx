@@ -108,7 +108,7 @@ about 15 minutes.
 Install the Shorebird CLI on your development machine using this command:
 
 ```bash
-curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+curl -fsSL https://shorebird.dev/install.sh | bash
 ```
 
 Then authenticate with your Shorebird account:
@@ -364,7 +364,7 @@ and you have the audit trail most compliance frameworks require.
 The full path from a clean Flutter project to your first OTA patch:
 
 1. Install the CLI by running the
-   `curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash`
+   `curl -fsSL https://shorebird.dev/install.sh | bash`
    command.
 2. Run `shorebird login` and then `shorebird create my_app` inside your project
    directory.

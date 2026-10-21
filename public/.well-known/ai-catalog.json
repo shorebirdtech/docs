@@ -1,7 +1,6 @@
 {
-  "specVersion": "0.1.0",
+  "specVersion": "1.0",
   "host": {
-    "identifier": "did:web:shorebird.dev",
     "domain": "shorebird.dev",
     "displayName": "Shorebird",
     "description": "Code push and over-the-air update platform for Flutter applications across all supported platforms."

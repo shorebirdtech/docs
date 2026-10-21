@@ -23,6 +23,8 @@ CLI 1.6.129 also fixes these issues.
   before the command finishes.
 - The release picker shows one hint, and `shorebird patches promote --help`
   describes `--flavor` correctly.
+- `shorebird account orgs --help` lists every role, including `none` for an
+  organization where you only collaborate on apps.
 - When a login can't be refreshed, the CLI says why. An OAuth error from the
   auth service asks you to run `shorebird login`. A network or server error
   leaves your login as it was and exits with status 75 instead of 70.

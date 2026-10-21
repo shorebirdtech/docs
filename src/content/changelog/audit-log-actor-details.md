@@ -12,8 +12,7 @@ Audit log entries now name the API key or sign-in session behind each action,
 and say whether the sign-in used multi-factor authentication when the sign-in
 provider reports it.
 
-- Creating an app, editing a patch's notes, and a service account signing in
-  through a trust rule are now recorded.
+- Creating an app and editing a patch's notes are now recorded.
 - Changes Shorebird staff make to your organization appear in its audit log as
   `Shorebird staff`.
 - Reading the log oldest first leaves out the most recent minute, so a later

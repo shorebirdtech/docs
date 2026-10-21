@@ -306,27 +306,45 @@ different view. An engine can only render into one view at a time.
 
 ### 1. Add the module as a dependency
 
-Since Flutter 3.44, the recommended method is **Swift Package Manager (SPM)**.
-Run the following command in the Flutter module directory to generate an
-XCFramework:
-
-```bash
-flutter build ios-framework --xcframework --output=../MyFlutterPackage
-```
-
-Then add the local package in Xcode: **File > Add Package Dependencies > Add
-Local**, and point to the generated `MyFlutterPackage` directory.
+Flutter offers two ways to add a module to an iOS app: as a Swift package, or as
+prebuilt XCFrameworks linked and embedded in Xcode.
 
 :::caution
 
 Shorebird releases and patches only the XCFrameworks that
 `shorebird release ios-framework` builds (`App.xcframework` and
 `ShorebirdFlutter.xcframework`), embedded directly in your Xcode project. It
-does not release or patch the Swift package setup above. See the
+does not release or patch a Swift package integration. See the
 [Code Push for iOS add-to-app](/code-push/guides/add-to-app/ios/) guide for the
 setup Shorebird supports.
 
 :::
+
+#### Swift package
+
+Since Flutter 3.44, Flutter recommends **Swift Package Manager (SPM)**. Run the
+following command in the Flutter module directory:
+
+```bash
+flutter build swift-package --platform ios
+```
+
+It generates a `FlutterNativeIntegration` Swift package in
+`build/ios/SwiftPackages/`. Add that package to your Xcode project with **Add
+Files to "MyApp"...**, then add the build settings and Run Script steps from
+Flutter's
+[Integrate with Swift Package Manager](https://docs.flutter.dev/add-to-app/ios/project-setup#integrate-with-swiftpm)
+instructions.
+
+#### Prebuilt XCFrameworks (release and patch)
+
+Build the module into XCFrameworks (`flutter build ios-framework`, or
+`shorebird release ios-framework` with Shorebird), then link and embed them in
+your app target. See Flutter's
+[Link and Embed frameworks in Xcode](https://docs.flutter.dev/add-to-app/ios/project-setup-legacy#method-b)
+instructions, or the
+[Code Push for iOS add-to-app](/code-push/guides/add-to-app/ios/) guide for the
+Shorebird setup.
 
 ### 2. Display Flutter content
 

@@ -16,5 +16,6 @@ release can no longer leave its patches cached.
 - If clearing the cache fails during a rollback or roll forward, the request
   returns `patch_rollback_cache_error` or `patch_rollforward_cache_error`.
   Running it again clears the cache.
-- Deleting one platform of a release also deletes its patches' files for that
-  platform, so devices aren't offered patches that fail to download.
+- After you delete one platform of a release, devices on that platform are no
+  longer offered its patches. Before, they were, and the download failed because
+  the patch files had been deleted with the platform.

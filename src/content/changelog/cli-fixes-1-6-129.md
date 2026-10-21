@@ -28,4 +28,5 @@ CLI 1.6.129 also fixes these issues.
   leaves your login as it was and exits with status 75 instead of 70.
 - iOS and iOS framework patches no longer read `SHOREBIRD_PATCH_DD_MAX_BYTES`.
   Pass `--dd-max-bytes` to `shorebird patch` instead.
-- An `--org-id` that isn't a number lists your organizations and their ids.
+- The error for an `--org-id` that isn't a number lists your organizations and
+  their ids.

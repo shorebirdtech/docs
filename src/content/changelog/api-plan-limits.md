@@ -9,7 +9,7 @@ docLink:
 ---
 
 Some requests the Console refuses are now refused by the API too, so scripts and
-the CLI meet the same plan limits.
+the CLI meet the same rules.
 
 - Setting a spending limit other than 0 on the Free plan returns 403 with the
   code `shorebird_plan_insufficient_tier`.

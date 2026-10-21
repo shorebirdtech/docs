@@ -13,5 +13,5 @@ switcher with its plan, your role, its install usage, and your other
 organizations.
 
 - Your account links and Log out moved to a menu in the header.
-- On 2026-10-15, the theme toggle moved from the header to the Appearance
-  setting on your account page.
+- On 2026-10-15, the theme toggle left the header. Choose a theme under
+  Appearance on your account page.

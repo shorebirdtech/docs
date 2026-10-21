@@ -14,6 +14,7 @@ patch installs, downloads, adoption, and active devices.
 
 - The subcommands are `active-hours`, `adoption`, `downloads`, `heatmap`,
   `installs`, `new-devices`, `users`, and `versions`.
-- Pick the app with `--app-id` or `--flavor`, and narrow the results with
-  `--start`, `--end`, `--granularity`, `--group-by`, and `--release-version`.
+- Pick the app with `--app-id` or `--flavor`. Depending on the metric,
+  `--start`, `--end`, and `--release-version` narrow the results, and
+  `--granularity` and `--group-by` break them down.
 - With `--json`, `data` holds the API's response.

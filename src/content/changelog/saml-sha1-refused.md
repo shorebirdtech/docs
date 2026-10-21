@@ -11,4 +11,4 @@ docLink:
 SAML responses signed or digested with SHA-1 are now refused.
 
 - Sign-in fails with "SSO login failed". Configure your identity provider to
-  sign with RSA-SHA256.
+  sign with RSA-SHA256 and digest with SHA-256.

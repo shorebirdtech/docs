@@ -14,6 +14,7 @@ docLink:
 
 - Without `--platform`, it removes the release's artifacts for every platform
   and every patch of the release.
-- With `--platform`, the release and its other platforms stay.
+- With `--platform`, it removes that platform's release artifacts and the patch
+  files built for it. The release and its other platforms stay.
 - In a terminal it asks you to confirm. Without one, in CI, or with `--json`,
   pass `--yes`.

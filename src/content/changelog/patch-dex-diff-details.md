@@ -16,7 +16,8 @@ method's differing instructions reference, so you can tell which dependency
 changed.
 
 - By default it details up to 10 methods per DEX file and 4 instructions on each
-  side, with string literals replaced by their length.
+  side. String literals are replaced by their length, and switch tables and
+  array data are cut short.
 - `shorebird patch --show-dex-diff` prints every changed method and instruction
   in full, including string constants.
 - What the check accepts hasn't changed.

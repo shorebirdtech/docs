@@ -199,8 +199,24 @@ resources are managed internally and do not affect isolation between engines.
 
 ### 1. Add the module as a Gradle dependency
 
-Add the Flutter module to your Android project as a source dependency. Both
-projects must sit on the same machine. Gradle locates the module at build time:
+Flutter offers two ways to add a module to an Android app: as a source
+dependency, or as a prebuilt Android Archive (AAR).
+
+:::caution
+
+Shorebird releases and patches only a **prebuilt AAR**. You can use a source
+dependency during development, but switch the host app to the AAR built by
+`shorebird release aar` before you release, and patch it with
+`shorebird patch aar`. The
+[Code Push for Android add-to-app](/code-push/guides/add-to-app/android/) guide
+walks through the setup.
+
+:::
+
+#### Source dependency (development only)
+
+Both projects must sit on the same machine. Gradle builds the module from source
+along with the host app:
 
 ```groovy
 // settings.gradle (host app)
@@ -219,6 +235,16 @@ dependencies {
     implementation project(':flutter')
 }
 ```
+
+#### Prebuilt AAR (release and patch)
+
+Build the module into a local Maven repository (`flutter build aar`, or
+`shorebird release aar` with Shorebird), then add that repository to the host
+app and depend on the AAR like any other library. See Flutter's
+[Depend on the Android Archive (AAR)](https://docs.flutter.dev/add-to-app/android/project-setup#depend-on-the-android-archive-aar)
+instructions, or the
+[Code Push for Android add-to-app](/code-push/guides/add-to-app/android/) guide
+for the Shorebird setup.
 
 ### 2. Choose a display mechanism
 
@@ -290,6 +316,17 @@ flutter build ios-framework --xcframework --output=../MyFlutterPackage
 
 Then add the local package in Xcode: **File > Add Package Dependencies > Add
 Local**, and point to the generated `MyFlutterPackage` directory.
+
+:::caution
+
+Shorebird releases and patches only the XCFrameworks that
+`shorebird release ios-framework` builds (`App.xcframework` and
+`ShorebirdFlutter.xcframework`), embedded directly in your Xcode project. It
+does not release or patch the Swift package setup above. See the
+[Code Push for iOS add-to-app](/code-push/guides/add-to-app/ios/) guide for the
+setup Shorebird supports.
+
+:::
 
 ### 2. Display Flutter content
 

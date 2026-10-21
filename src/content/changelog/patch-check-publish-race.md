@@ -8,8 +8,8 @@ docLink:
   href: /account/orgs/#transfer-an-app
 ---
 
-A patch check that ran while a patch was being published could keep answering
-"no patch" until the next change. It now sees the new patch.
+A patch check that ran while a patch was being published could leave "no patch"
+cached until the next change. The next check now sees the new patch.
 
 - An app transferred to another organization follows the new organization's
   patch limit right away, instead of the old one's for up to an hour.

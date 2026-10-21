@@ -4,8 +4,8 @@ date: 2026-10-13
 area: Console
 type: Fixed
 docLink:
-  label: Overage billing
-  href: /account/billing/#overage-billing
+  label: Organizations & billing
+  href: /account/billing/#organizations--billing
 ---
 
 The usage shown on your plan page and in organization settings now counts

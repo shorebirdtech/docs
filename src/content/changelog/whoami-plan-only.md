@@ -1,5 +1,5 @@
 ---
-title: whoami shows your plan without a subscription line
+title: The whoami command no longer prints a subscription line
 date: 2026-10-16
 version: 1.6.129
 area: CLI
@@ -13,4 +13,4 @@ docLink:
 shows your plan level.
 
 - In `--json` output, `plan` is `free` on the free level, `paid` on any other
-  level, and `null` when you have no plan level.
+  level, and `null` when the server doesn't report a level.

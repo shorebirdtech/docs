@@ -8,8 +8,9 @@ docLink:
   href: /enterprise/audit-logs/
 ---
 
-Viewers, Developers, and App Managers can no longer open an organization's audit
-log. Before, every member could.
+Viewers, Developers, and App Managers can no longer read an Enterprise
+organization's audit log, in the Console or through the API. Before, every
+member could.
 
-- Owners and Admins keep access. The new Auditor role can read the audit log and
-  nothing else.
+- Owners and Admins keep access, as does a service account with the Auditor
+  role.

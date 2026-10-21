@@ -10,11 +10,12 @@ docLink:
 ---
 
 `shorebird channels delete` and `shorebird releases delete` ask you to confirm
-in a terminal, and `--yes` skips the question. Without a terminal, `--yes` is
-required.
+in a terminal, and `--yes` skips the question. Without a terminal, in CI, or
+with `--json`, `--yes` is required.
 
 - `--confirm-name` is deprecated for these two commands and prints a warning.
-- `shorebird apps delete` still needs the app's display name, typed at the
-  prompt or passed with `--confirm-name`. It has no `--yes`.
-- Declining a confirmation now exits with status 1 instead of 0. This covers the
-  delete commands and `shorebird patches set-track`.
+- `shorebird apps delete` now asks you to type the app's display name in a
+  terminal. Scripts still pass it with `--confirm-name`, and there's no `--yes`.
+- Declining a prompt now exits with status 1 instead of 0. This covers
+  `shorebird patches set-track`, the native and asset change prompts of
+  `shorebird patch`, and the new delete prompts.

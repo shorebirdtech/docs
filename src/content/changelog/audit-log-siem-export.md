@@ -15,6 +15,6 @@ forward each event to a SIEM, using a service account with the Auditor role.
   `operation`, such as `patch.rollback`.
 - `order=asc` returns the oldest events first. Pages use `per_page` (30 by
   default, at most 100), `cursor`, and `next_cursor`.
-- The endpoint's earlier, undocumented parameters `limit`, `nextCursor`,
-  `resourceType`, and `action` were replaced.
+- The endpoint's earlier, undocumented `limit`, `resourceType`, and `action`
+  parameters and its `nextCursor` field were replaced.
 - The Console's audit log shows and filters by event name.

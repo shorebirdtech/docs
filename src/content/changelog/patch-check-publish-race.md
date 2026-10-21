@@ -1,5 +1,5 @@
 ---
-title: Patch checks no longer miss a just-published patch
+title: Patch checks keep up with new patches and app transfers
 date: 2026-10-20
 area: Code Push
 type: Fixed

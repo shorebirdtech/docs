@@ -17,5 +17,3 @@ patch installs, downloads, adoption, and active devices.
 - Pick the app with `--app-id` or `--flavor`, and narrow the results with
   `--start`, `--end`, `--granularity`, `--group-by`, and `--release-version`.
 - With `--json`, `data` holds the API's response.
-- A metric your plan doesn't include fails with the `api_code`
-  `shorebird_plan_insufficient_tier`.

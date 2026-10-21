@@ -15,5 +15,5 @@ of apps, releases, and patches can be read a page at a time.
   them, they still return everything.
 - Lists of invitations and audit log events are always paged. An invalid
   `cursor` returns 400 with the code `invalid_cursor`.
-- A 401 or 403 response to a bearer token includes a `WWW-Authenticate` header
-  that says why.
+- A 401 response to a bearer token, or a 403 because the token's scope doesn't
+  allow the request, includes a `WWW-Authenticate` header that says why.

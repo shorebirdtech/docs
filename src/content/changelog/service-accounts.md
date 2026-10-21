@@ -12,8 +12,8 @@ Organizations can now create service accounts: accounts that belong to the
 organization instead of a person, with keys that keep working when the person
 who set them up leaves or changes roles. They're available on every plan.
 
-- Each service account holds one role, Viewer, Developer, App Manager, or
-  Auditor, and its keys do what that role allows. A service account can't be an
+- Each service account holds one role: Viewer, Developer, App Manager, or
+  Auditor. Its keys do what that role allows. A service account can't be an
   Admin or Owner.
 - Keys expire after 1 year by default, or choose 30 days, 90 days, or never.
 - The audit log shows a service account's actions as its name followed by

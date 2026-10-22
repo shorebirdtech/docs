@@ -327,14 +327,14 @@ version-matching headaches.
 **macOS / Linux:**
 
 ```bash
-curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+curl -fsSL https://shorebird.dev/install.sh | bash
 ```
 
 **Windows (PowerShell):**
 
 ```powershell
 Set-ExecutionPolicy RemoteSigned -scope CurrentUser
-iwr -UseBasicParsing 'https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1' | iex
+irm https://shorebird.dev/install.ps1 | iex
 ```
 
 Shorebird installs to `~/.shorebird/bin` and automatically adds itself to PATH.

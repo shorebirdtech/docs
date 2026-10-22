@@ -101,9 +101,9 @@ const markdownPath = unlistedPages.includes(entry.id)
               },
               execute: function (args) {
                 if (args && args.os === 'windows') {
-                  return 'powershell -executionpolicy bypass -command "irm https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1 | iex"';
+                  return 'powershell -executionpolicy bypass -command "irm https://shorebird.dev/install.ps1 | iex"';
                 }
-                return 'curl --proto "=https" --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | sh';
+                return 'curl -fsSL https://shorebird.dev/install.sh | bash';
               },
             },
             {

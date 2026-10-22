@@ -89,7 +89,7 @@ definitions:
       name: Install Shorebird
       script: |
         # Install Shorebird
-        curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+        curl -fsSL https://shorebird.dev/install.sh | bash
 
         # Add Shorebird to PATH
         echo PATH="$HOME/.shorebird/bin:$PATH" >> $CM_ENV
@@ -205,7 +205,7 @@ definitions:
       name: Install Shorebird
       script: |
         # Install Shorebird
-        curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+        curl -fsSL https://shorebird.dev/install.sh | bash
 
         # Add Shorebird to PATH
         echo PATH="$HOME/.shorebird/bin:$PATH" >> $CM_ENV
@@ -377,7 +377,7 @@ definitions:
       name: Install Shorebird
       script: |
         # Install Shorebird
-        curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+        curl -fsSL https://shorebird.dev/install.sh | bash
 
         # Add Shorebird to PATH
         echo PATH="$HOME/.shorebird/bin:$PATH" >> $CM_ENV

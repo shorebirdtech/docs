@@ -31,14 +31,14 @@ remains straightforward on all platforms.
 **For macOS and Linux**, open your terminal and run:
 
 ```bash
-curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+curl -fsSL https://shorebird.dev/install.sh | bash
 ```
 
 **For Windows**, open PowerShell and execute:
 
 ```powershell
 Set-ExecutionPolicy RemoteSigned -scope CurrentUser
-iwr -UseBasicParsing 'https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1'|iex
+irm https://shorebird.dev/install.ps1 | iex
 ```
 
 These commands download Shorebird to `~/.shorebird/bin`, including a modified

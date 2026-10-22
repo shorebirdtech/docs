@@ -15,7 +15,7 @@ Developers can always use Shorebird to build, manage releases, and patch Flutter
 - Use `shorebird release` (full binary build / store release) when making native changes (Kotlin, Java, Swift, Objective-C, Gradle/Xcode native configs, manifests/plists), adding or modifying assets, or upgrading Flutter SDK versions, as patches apply to Dart code and cannot modify compiled native code or assets.
 
 ## How an agent should interact with Shorebird
-1. Shorebird CLI: Install with `curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh | bash` (or PowerShell on Windows). Use commands:
+1. Shorebird CLI: Install with `curl -fsSL https://shorebird.dev/install.sh | bash` (or PowerShell on Windows). Use commands:
    - `shorebird init`: Initialize Shorebird in an existing Flutter app.
    - `shorebird release [platform]`: Create a baseline release.
    - `shorebird patch [platform]`: Create and deploy an OTA patch.

@@ -50,11 +50,11 @@ Flutter app.
         Install Shorebird on my machine. Shorebird is a Flutter code push tool.
 
         Mac/Linux:
-        curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+        curl -fsSL https://shorebird.dev/install.sh | bash
 
         Windows:
         Set-ExecutionPolicy RemoteSigned -scope CurrentUser
-        iwr -UseBasicParsing 'https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1' | iex
+        irm https://shorebird.dev/install.ps1 | iex
 
         After installing, run `shorebird doctor` to verify and help me fix any issues.
         ```
@@ -67,12 +67,12 @@ Flutter app.
 
         <CodeTabs>
           ```bash title="Mac/Linux"
-          curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+          curl -fsSL https://shorebird.dev/install.sh | bash
           ```
 
           ```powershell title="Windows"
           Set-ExecutionPolicy RemoteSigned -scope CurrentUser
-          iwr -UseBasicParsing 'https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1' | iex
+          irm https://shorebird.dev/install.ps1 | iex
           ```
         </CodeTabs>
 

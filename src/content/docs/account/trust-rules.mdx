@@ -61,9 +61,12 @@ A job signs in only when everything the rule names matches it:
   ending in a single `*`, such as `refs/tags/*` or `refs/heads/release/*`.
   Without one, the rule matches any ref, including pull request refs.
 
-A rule doesn't limit which events can start the job. To keep a workflow from
-signing in from any branch or pull request, set an environment that has required
-reviewers or branch restrictions in GitHub, or a ref pattern.
+Jobs started by `pull_request_target` can't sign in, whatever the rule says:
+such a run carries the base branch's ref but can be started by anyone who opens
+a pull request. A rule doesn't otherwise limit which events can start the job.
+To keep a workflow from signing in from any branch or pull request, set an
+environment that has required reviewers or branch restrictions in GitHub, or a
+ref pattern.
 
 Only the rules in the project named by `SHOREBIRD_PROJECT_ID` are considered. If
 rules on two different service accounts in that project match the same job, the

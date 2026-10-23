@@ -39,10 +39,11 @@ jobs:
           command: pages deploy dist --project-name shorebird-docs --branch main
 
   spell-check:
-    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/spell_check.yml@v1
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/spell_check.yml@v2
     with:
       config: .cspell.yaml
       modified_files_only: false
+      includes: '**'
 
   style-check:
     runs-on: ubuntu-latest

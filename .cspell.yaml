@@ -47,6 +47,7 @@ words:
   - cupertino
   - elif
   - emailaddress
+  - emnapi
   - eseidel
   - evenodd
   - externalagent
@@ -64,6 +65,7 @@ words:
   - idfv
   - jank
   - janky
+  - katex
   - lateinit
   - keyrings
   - linearapp
@@ -88,6 +90,7 @@ words:
   - mobileprovision
   - mozallowfullscreen
   - msix
+  - napi
   - notlike
   - nubank
   - ocsf
@@ -102,10 +105,12 @@ words:
   - podfile
   - podhelper
   - prefs
+  - prerender
   - pubin
   - pubout
   - previewable
   - recompiles
+  - resvg
   - riverpod
   - rollforward
   - rollouts

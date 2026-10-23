@@ -8,7 +8,7 @@ sidebar:
 
 import { LinkCard } from 'starlight-theme-nova/components';
 import { Image } from 'astro:assets';
-import ArcadeEmbed from '~/components/ArcadeEmbed.astro';
+import DemoVideo from '~/components/DemoVideo.astro';
 import rollbackButton from '~/assets/rollback_button.png';
 import rollbackPatch2Active from '~/assets/rollback_patch2_active.png';
 import rollbackPatch2RolledBack from '~/assets/rollback_patch2_rolled_back.png';
@@ -46,10 +46,7 @@ Roll back requires a minimum Flutter version of 3.27.4.
 
 :::
 
-<ArcadeEmbed
-  src="https://app.arcade.software/share/GlHfzbxcicw61ux4NCHx"
-  title="Roll Back a Patch"
-/>
+<DemoVideo name="rollback-patch" title="Roll Back a Patch" />
 
 ## Active and superseded patches
 

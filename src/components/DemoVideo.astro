@@ -1,0 +1,40 @@
+---
+interface Props {
+  /** File name (without extension) of the video in `public/videos/`. */
+  name: string;
+  title: string;
+}
+
+const { name, title } = Astro.props;
+const src = `/videos/${name}.mp4`;
+const poster = `/videos/${name}.jpg`;
+---
+
+<figure class="demo-video">
+  <video
+    controls
+    playsinline
+    preload="metadata"
+    poster={poster}
+    title={title}
+    aria-label={title}
+  >
+    <source src={src} type="video/mp4" />
+    <a href={src}>Watch the video: {title}</a>
+  </video>
+</figure>
+
+<style>
+  .demo-video {
+    margin-inline: 0;
+  }
+
+  .demo-video video {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    border: 1px solid var(--sl-color-gray-5);
+    background-color: var(--sl-color-black);
+  }
+</style>

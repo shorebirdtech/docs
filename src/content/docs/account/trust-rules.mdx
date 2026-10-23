@@ -62,11 +62,13 @@ A job signs in only when everything the rule names matches it:
   Without one, the rule matches any ref, including pull request refs.
 
 Jobs started by `pull_request_target` can't sign in, whatever the rule says:
-such a run carries the base branch's ref but can be started by anyone who opens
-a pull request. A rule doesn't otherwise limit which events can start the job.
-To keep a workflow from signing in from any branch or pull request, set an
-environment that has required reviewers or branch restrictions in GitHub, or a
-ref pattern.
+such a run carries the default branch's ref but can be started by anyone who
+opens a pull request. A rule doesn't otherwise limit which events can start the
+job, and a ref pattern limits which branch the job runs on, not who started it.
+Some other events, such as `issue_comment` and `workflow_run`, also run on the
+default branch and can be started by people outside your repository. To keep
+those from signing in, set an environment that has required reviewers in GitHub,
+or don't start the workflow from them.
 
 Only the rules in the project named by `SHOREBIRD_PROJECT_ID` are considered. If
 rules on two different service accounts in that project match the same job, the
@@ -119,6 +121,10 @@ The CLI prints the reason. The common ones:
 - `The job runs a workflow from another repository`: the job is defined in a
   reusable workflow from another repository. Move the steps that run Shorebird
   into a workflow in the repository itself.
+- `pull_request_target runs cannot exchange tokens`: the job was started by
+  `pull_request_target`. Run Shorebird from a workflow started by an event such
+  as `push`, `release`, or `workflow_dispatch`, or use a
+  [service account key](/account/service-accounts/).
 - `Signing in with GitHub Actions OIDC requires SHOREBIRD_PROJECT_ID`: set
   `SHOREBIRD_PROJECT_ID` in the job's `env`.
 - `You must be logged in to run this command`, in GitHub Actions: the job has

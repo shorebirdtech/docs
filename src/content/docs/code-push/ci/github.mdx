@@ -194,7 +194,9 @@ repository secret, then
 
 If the sign-in is refused, the CLI prints the reason, such as
 `No trust rule matches this workflow`. Check that the repository, workflow file,
-environment and ref of the job match the trust rule.
+environment and ref of the job match the trust rule. Jobs started by
+`pull_request_target` can't sign in; see
+[when a sign-in is refused](/account/trust-rules/#when-a-sign-in-is-refused).
 
 ## Android code signing
 

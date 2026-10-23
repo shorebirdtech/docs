@@ -1,4 +1,7 @@
 ---
+import path from 'node:path';
+import sharp from 'sharp';
+
 interface Props {
   /** File name (without extension) of the video in `public/videos/`. */
   name: string;
@@ -8,6 +11,12 @@ interface Props {
 const { name, title } = Astro.props;
 const src = `/videos/${name}.mp4`;
 const poster = `/videos/${name}.jpg`;
+
+// The poster is a frame of the video, so its size reserves the right box
+// before anything loads and the page doesn't jump.
+const { width, height } = await sharp(
+  path.join(process.cwd(), 'public', poster),
+).metadata();
 ---
 
 <figure class="demo-video">
@@ -16,12 +25,14 @@ const poster = `/videos/${name}.jpg`;
     playsinline
     preload="metadata"
     poster={poster}
-    title={title}
+    width={width}
+    height={height}
     aria-label={title}
+    data-mdast="ignore"
   >
     <source src={src} type="video/mp4" />
-    <a href={src}>Watch the video: {title}</a>
   </video>
+  <figcaption><a href={src}>Watch the video: {title}</a></figcaption>
 </figure>
 
 <style>
@@ -36,5 +47,10 @@ const poster = `/videos/${name}.jpg`;
     border-radius: 0.5rem;
     border: 1px solid var(--sl-color-gray-5);
     background-color: var(--sl-color-black);
+  }
+
+  .demo-video figcaption {
+    margin-top: 0.5rem;
+    font-size: var(--sl-text-sm);
   }
 </style>

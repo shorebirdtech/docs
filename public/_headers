@@ -66,3 +66,7 @@
 /humans.txt
   Content-Type: text/plain; charset=utf-8
   Access-Control-Allow-Origin: *
+
+# Demo videos and their posters. Cached for a week, so a re-export shows up within that.
+/videos/*
+  Cache-Control: public, max-age=604800

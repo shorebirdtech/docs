@@ -14,10 +14,12 @@ const { name, title } = Astro.props;
 const src = `/videos/${name}.mp4`;
 const poster = `/videos/${name}.jpg`;
 
+const fileIn = (file: string) => new URL(`.${file}`, publicDir);
+
 // Fail the build on a missing video or poster instead of shipping a player
 // that 404s.
 for (const file of [src, poster]) {
-  if (!existsSync(new URL(`.${file}`, publicDir))) {
+  if (!existsSync(fileIn(file))) {
     throw new Error(`DemoVideo: public${file} does not exist`);
   }
 }
@@ -25,7 +27,7 @@ for (const file of [src, poster]) {
 // The poster is a frame of the video, so its size reserves the right box
 // before anything loads and the page doesn't jump.
 const { width, height } = await sharp(
-  fileURLToPath(new URL(`.${poster}`, publicDir)),
+  fileURLToPath(fileIn(poster)),
 ).metadata();
 ---
 

@@ -27,7 +27,7 @@ interface Env {
 // since `negotiate()` only knows about text/markdown, text/html, and
 // application/json.
 const SKIP_PATTERN =
-  /\.(css|js|mjs|json|png|jpe?g|gif|svg|webp|avif|ico|woff2?|ttf|eot|pdf|xml|txt|map)$/i;
+  /\.(css|js|mjs|json|png|jpe?g|gif|svg|webp|avif|ico|woff2?|ttf|eot|pdf|xml|txt|map|mp4)$/i;
 
 interface AcceptEntry {
   type: string;

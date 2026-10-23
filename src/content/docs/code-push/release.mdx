@@ -9,7 +9,7 @@ sidebar:
 {/* cspell:words armeabi abiFilters v7a */}
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
-import ArcadeEmbed from '~/components/ArcadeEmbed.astro';
+import DemoVideo from '~/components/DemoVideo.astro';
 import { LinkCard } from 'starlight-theme-nova/components';
 import { Image } from 'astro:assets';
 import releaseDeleteDialog from '~/assets/release_delete_dialog.png';
@@ -17,10 +17,7 @@ import listReleases from '~/assets/list_releases.png';
 
 In order to start pushing updates, you will need to create a release.
 
-<ArcadeEmbed
-  src="https://app.arcade.software/share/h8ywz1NWeFq3dC2iRQBU"
-  title="Create a Release"
-/>
+<DemoVideo name="create-release" title="Create a release" />
 
 `shorebird release` is a drop-in replacement for `flutter build`. It builds your
 app and uploads the compiled Dart artifacts to Shorebird's servers as a baseline
@@ -488,9 +485,9 @@ you can manage your app's releases directly from the command line using the
 
 ### List releases
 
-<ArcadeEmbed
-  src="https://app.arcade.software/share/CtBj7r9AA5Xm0p0tIJYX"
-  title="Viewing releases from CLI and console"
+<DemoVideo
+  name="view-releases"
+  title="View releases from the CLI and console"
 />
 
 #### Via the Shorebird CLI
@@ -546,10 +543,7 @@ afterwards, use `--target-platform` as described in
 
 ### Delete releases
 
-<ArcadeEmbed
-  src="https://app.arcade.software/share/1eUps58NpU5sFkTxljGu"
-  title="Delete a Release"
-/>
+<DemoVideo name="delete-release" title="Delete a release" />
 
 :::caution[Deleting a release is permanent]
 

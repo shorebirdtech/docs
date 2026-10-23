@@ -1,0 +1,74 @@
+---
+import { existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { publicDir } from 'astro:config/server';
+import sharp from 'sharp';
+
+interface Props {
+  /** File name (without extension) of the video in `public/videos/`. */
+  name: string;
+  title: string;
+}
+
+const { name, title } = Astro.props;
+
+// Keep `name` URL-safe so the file checked below is the one that's served.
+if (!/^[a-z0-9-]+$/.test(name)) {
+  throw new Error(`DemoVideo: name "${name}" must be lowercase kebab-case`);
+}
+
+const src = `/videos/${name}.mp4`;
+const poster = `/videos/${name}.jpg`;
+
+const fileIn = (file: string) => new URL(`.${file}`, publicDir);
+
+// Fail the build on a missing video or poster instead of shipping a player
+// that 404s.
+for (const file of [src, poster]) {
+  if (!existsSync(fileIn(file))) {
+    throw new Error(`DemoVideo: public${file} does not exist`);
+  }
+}
+
+// The poster is a frame of the video, so its size reserves the right box
+// before anything loads and the page doesn't jump.
+const { width, height } = await sharp(
+  fileURLToPath(fileIn(poster)),
+).metadata();
+---
+
+<figure class="demo-video">
+  <video
+    controls
+    playsinline
+    preload="none"
+    poster={poster}
+    width={width}
+    height={height}
+    aria-label={title}
+    data-mdast="ignore"
+  >
+    <source src={src} type="video/mp4" />
+  </video>
+  <figcaption><a href={src}>Watch the video: {title}</a></figcaption>
+</figure>
+
+<style>
+  .demo-video {
+    margin-inline: 0;
+  }
+
+  .demo-video video {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    border: 1px solid var(--sl-color-gray-5);
+    background-color: var(--sl-color-black);
+  }
+
+  .demo-video figcaption {
+    margin-top: 0.5rem;
+    font-size: var(--sl-text-sm);
+  }
+</style>

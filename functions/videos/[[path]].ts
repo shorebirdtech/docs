@@ -16,7 +16,7 @@ function parseRange(
   header: string,
   size: number,
 ): { start: number; end: number } | 'unsatisfiable' | null {
-  const match = /^bytes=(\d*)-(\d*)$/.exec(header.trim());
+  const match = /^bytes\s*=\s*(\d*)-(\d*)$/i.exec(header.trim());
   if (!match) return null;
   const [, first, last] = match;
   if (first === '' && last === '') return null;
@@ -29,9 +29,12 @@ function parseRange(
     end = size - 1;
   } else {
     start = Number(first);
+    // A last-pos before first-pos makes the range invalid, so it's ignored
+    // rather than unsatisfiable (RFC 9110 section 14.1.1).
+    if (last !== '' && Number(last) < start) return null;
     end = last === '' ? size - 1 : Math.min(Number(last), size - 1);
   }
-  if (start >= size || start > end) return 'unsatisfiable';
+  if (start >= size) return 'unsatisfiable';
   return { start, end };
 }
 
@@ -40,15 +43,17 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   const range = request.headers.get('Range');
   if (
     (request.method !== 'GET' && request.method !== 'HEAD') ||
-    !new URL(request.url).pathname.endsWith('.mp4')
+    !/\.mp4$/i.test(new URL(request.url).pathname)
   ) {
     return context.next();
   }
 
+  // Slices are cut from the decoded bytes, so ask for an unencoded asset.
   const assetHeaders = new Headers(request.headers);
   assetHeaders.delete('Range');
+  assetHeaders.delete('Accept-Encoding');
   const asset = await context.env.ASSETS.fetch(
-    new Request(request.url, { method: 'GET', headers: assetHeaders }),
+    new Request(request.url, { method: request.method, headers: assetHeaders }),
   );
   if (asset.status !== 200) return asset;
   const headers = new Headers(asset.headers);
@@ -56,12 +61,16 @@ export const onRequest: PagesFunction<Env> = async (context) => {
 
   // Range only applies to GET (RFC 9110 section 14.2). A stale If-Range
   // means the client's partial copy is out of date, so it gets the whole new
-  // file instead of a slice of it.
-  const ifRange = request.headers.get('If-Range');
+  // file instead of a slice of it. If-Range holds either an entity tag
+  // (strong comparison, so a weak one never matches) or a date.
+  const ifRange = request.headers.get('If-Range')?.trim();
+  const validator = ifRange?.startsWith('"')
+    ? asset.headers.get('ETag')
+    : asset.headers.get('Last-Modified');
   const useRange =
     request.method === 'GET' &&
     range !== null &&
-    (!ifRange || ifRange === asset.headers.get('ETag'));
+    (!ifRange || ifRange === validator);
 
   if (!useRange) {
     return new Response(request.method === 'HEAD' ? null : asset.body, {

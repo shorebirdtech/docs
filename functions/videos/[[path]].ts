@@ -77,20 +77,24 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   // Range only applies to GET (RFC 9110 section 14.2). A stale If-Range
   // means the client's partial copy is out of date, so it gets the whole new
   // file. Pages assets have a strong ETag and no Last-Modified, so only an
-  // exact entity-tag match counts.
+  // exact match on a strong entity tag counts (RFC 9110 section 13.1.5).
   const range = request.headers.get('Range');
   const ifRange = request.headers.get('If-Range')?.trim();
+  const ifRangeMatches =
+    ifRange === undefined ||
+    (!ifRange.startsWith('W/') && ifRange === asset.headers.get('ETag'));
   if (
     request.method !== 'GET' ||
     range === null ||
-    (ifRange !== undefined && ifRange !== asset.headers.get('ETag')) ||
+    !ifRangeMatches ||
     !asset.body
   ) {
     return new Response(asset.body, { status: 200, headers });
   }
 
   // Stream the slice when the asset's size is known up front; otherwise read
-  // it once to learn the size.
+  // it once to learn the size. Pages caps a file at 25 MiB, which bounds the
+  // buffer.
   const declaredSize = Number(asset.headers.get('Content-Length'));
   const buffered = declaredSize > 0 ? null : await asset.arrayBuffer();
   const size = buffered ? buffered.byteLength : declaredSize;
@@ -99,12 +103,12 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   const parsed = parseRange(range, size);
   if (parsed === null) return new Response(whole, { status: 200, headers });
   if (parsed === 'unsatisfiable') {
-    await asset.body.cancel().catch(() => {});
+    if (!buffered) await asset.body.cancel();
     return new Response(null, {
       status: 416,
       headers: {
+        'Accept-Ranges': 'bytes',
         'Content-Range': `bytes */${size}`,
-        'Content-Type': 'text/plain; charset=utf-8',
         'Cache-Control': 'no-store',
       },
     });
@@ -114,20 +118,10 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   const length = end - start + 1;
   headers.set('Content-Range', `bytes ${start}-${end}/${size}`);
   headers.set('Content-Length', String(length));
-  if (buffered) {
-    return new Response(buffered.slice(start, end + 1), {
-      status: 206,
-      headers,
-    });
-  }
-  const { readable, writable } = new FixedLengthStream(length);
-  // terminate() in sliceStream cancels the rest of the asset stream, which
-  // rejects the pipe; that's the expected end, not an error.
-  context.waitUntil(
-    asset.body
-      .pipeThrough(sliceStream(start, end))
-      .pipeTo(writable)
-      .catch(() => {}),
-  );
-  return new Response(readable, { status: 206, headers });
+  const body = buffered
+    ? new Uint8Array(buffered, start, length)
+    : asset.body
+        .pipeThrough(sliceStream(start, end))
+        .pipeThrough(new FixedLengthStream(length));
+  return new Response(body, { status: 206, headers });
 };

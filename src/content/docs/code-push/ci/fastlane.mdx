@@ -21,7 +21,7 @@ Follow the setup instructions on the fastlane website to install fastlane
 
 This section assumes that you are using fastlane on CI to release your app. If
 you are running fastlane locally (on your development machine), you can skip to
-the [Using fastlane locally](#using-fastlane-locally).
+the [Using fastlane locally](#using-fastlane-locally) section.
 
 A working example of this setup can be found in the
 [fastlane_demo](https://github.com/shorebirdtech/samples/tree/main/fastlane_demo)
@@ -36,7 +36,7 @@ Notice that the demo app's
 [`Fastfile`](https://github.com/shorebirdtech/samples/blob/main/fastlane_demo/ios/fastlane/Fastfile)
 has a `release_shorebird` lane. It uses the `shorebird_release` action **in
 place of** the guide's `build_app` to build an ipa and create a Shorebird
-release, then submits it to the App Store/TestFlight with `upload_to_app_store`.
+release, then uploads it to TestFlight with `upload_to_testflight`.
 
 Note that this change from `build_app` to `shorebird_release` is the only change
 needed to add Shorebird to your fastlane workflow.
@@ -45,7 +45,7 @@ needed to add Shorebird to your fastlane workflow.
 
 To patch your app, you can use the `shorebird_patch` action. You can see an
 example of this in the `patch_shorebird` lane in the
-[`Fastfile`](https://github.com/shorebirdtech/samples/blob/main/fastlane_demo/ios/fastlane/Fastfile#L61-L73).
+[`Fastfile`](https://github.com/shorebirdtech/samples/blob/main/fastlane_demo/ios/fastlane/Fastfile#L145-L185).
 
 ## Using Fastlane locally
 

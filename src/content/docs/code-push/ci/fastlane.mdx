@@ -24,7 +24,8 @@ you are running fastlane locally (on your development machine), you can skip to
 the [Using fastlane locally](#using-fastlane-locally).
 
 A working example of this setup can be found in the
-[fastlane_demo](https://github.com/shorebirdtech/fastlane_demo) repository.
+[fastlane_demo](https://github.com/shorebirdtech/samples/tree/main/fastlane_demo)
+sample.
 
 To get started, follow
 [this guide](https://medium.com/revelo-tech/setting-up-automatic-ios-release-with-fastlane-and-match-on-ci-cd-server-16c3f1d79bc5)
@@ -32,11 +33,10 @@ to set up fastlane with certificate management, code signing, and submitting to
 the App Store/TestFlight.
 
 Notice that the demo app's
-[`Fastfile`](https://github.com/shorebirdtech/fastlane_demo/blob/main/ios/fastlane/Fastfile)
-has both `deploy` and `release_shorebird` lanes. The `deploy` lane comes from
-the guide linked to above. The `release_shorebird` lane is a custom lane that
-uses the `shorebird_release` action **in place of** `build_app` to build an ipa,
-create a Shorebird release, and submit it to the App Store/TestFlight.
+[`Fastfile`](https://github.com/shorebirdtech/samples/blob/main/fastlane_demo/ios/fastlane/Fastfile)
+has a `release_shorebird` lane. It uses the `shorebird_release` action **in
+place of** the guide's `build_app` to build an ipa, create a Shorebird release,
+and submit it to the App Store/TestFlight.
 
 Note that this change from `build_app` to `release_shorebird` is the only change
 needed to add Shorebird to your fastlane workflow.
@@ -45,7 +45,7 @@ needed to add Shorebird to your fastlane workflow.
 
 To patch your app, you can use the `shorebird_patch` action. You can see an
 example of this in the `patch_shorebird` lane in the
-[`Fastfile`](https://github.com/shorebirdtech/fastlane_demo/blob/main/ios/fastlane/Fastfile#L92-L98).
+[`Fastfile`](https://github.com/shorebirdtech/samples/blob/main/fastlane_demo/ios/fastlane/Fastfile#L62-L69).
 
 ## Using Fastlane locally
 

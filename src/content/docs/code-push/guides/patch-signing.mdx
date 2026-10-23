@@ -1,33 +1,136 @@
 ---
 title: Patch Signing
-description: How to sign patches
+description:
+  How patches are signed by default, and how to sign with your own key
 sidebar:
   order: 19
 ---
 
-In addition to Shorebird's default security measures, Shorebird also provides
-patch signing for additional security. This is optional at this time and needs
-to be set up during your build and patch process.
+Patch signing makes your app check that every patch it downloads carries a
+signature matching a public key built into your release, and refuse any patch
+that doesn't. Someone who can tamper with your users' network traffic can't
+produce that signature, so they can't push code to your app.
 
-Patch signing allows developers to cryptographically sign patch updates with
-their own keys. This ensures that no one (including Shorebird) can change the
-content of your patches without your private cryptographic keys.
+Starting with Shorebird CLI 1.6.132, every new release is signed by default,
+with a key Shorebird manages for your organization. There are three modes:
 
-Signing works in two parts. First, `shorebird release` commands can take an
-optional `--public-key-path` argument to embed a public key in your released
-application. The [Shorebird updater](https://github.com/shorebirdtech/updater)
-will enforce that only patches signed with a corresponding private key will be
-allowed to load for applications that include a public key.
+| Mode                                  | How you choose it                                                            | Who holds the private key            |
+| ------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------ |
+| [Managed](#managed-signing) (default) | `shorebird release` with no key flags                                        | Shorebird, in Google Cloud KMS       |
+| [Self-managed](#self-managed-signing) | `--public-key-path` or `--public-key-cmd` on release, a private key on patch | You                                  |
+| [Unsigned](#turn-signing-off)         | `--no-patch-signing` on release                                              | No one: patches aren't signed at all |
 
-Second, when you build your patch with `shorebird patch`, you can pass
-`--private-key-path` to have Shorebird sign your patch with your private key.
-This is required if you created your release with a public key included.
+The mode is fixed when you release, because the public key is built into the
+release. To change it, make a new release. There are no changes to your code in
+any mode.
 
-There are no required changes to your code, and you can add or remove this
-signing requirement at any time by simply making a new release of your
-application.
+Releases made with an older CLI, without a key, are unsigned. Patches to them
+stay unsigned and keep installing. To protect an app made that way, update the
+CLI and make a new release; you don't need to change your Flutter version.
 
-## Implementation
+## Managed signing
+
+Managed signing is the default. To turn it on for an app, update the Shorebird
+CLI and make a new release:
+
+```sh
+shorebird upgrade
+shorebird release android
+```
+
+The release summary shows which key the release uses:
+
+```
+🔏 Patch Signing: Shorebird-managed key
+```
+
+Patch as usual with `shorebird patch`. Shorebird signs each patch for you.
+
+### How it works
+
+- Each organization has one signing key, kept in
+  [Google Cloud KMS](https://cloud.google.com/kms/docs). It's created the first
+  time the organization makes a release with managed signing. The private key
+  never leaves KMS and can't be exported, by Shorebird or anyone else.
+- `shorebird release` fetches the organization's public key from Shorebird and
+  builds it into the release, the same way `--public-key-path` does.
+- `shorebird patch` builds the patch against that release's key. When the patch
+  is uploaded, Shorebird's servers sign it with the matching private key. A
+  patch to a managed release is never published unsigned: if it can't be signed,
+  the upload fails.
+- Each release keeps the key it was built with, and every patch to it is signed
+  with that key.
+- Your app verifies signatures exactly as it does for self-managed keys. See
+  [Test and verify signed patch](#test-and-verify-signed-patch).
+
+Patching a managed release takes no key flags. If you pass `--public-key-path`,
+`--public-key-cmd`, `--private-key-path`, or `--sign-cmd`, `shorebird patch`
+stops before building and names the flags to remove. A CLI older than 1.6.132
+can't patch a managed release; it tells you to run `shorebird upgrade`.
+
+If `shorebird release` can't get the signing key from Shorebird, the release
+fails rather than going out unsigned. Run it again, or, if you need to release
+before signing is available, [turn signing off](#turn-signing-off) for that
+release.
+
+### What managed signing protects against
+
+Managed signing protects against anyone between your users and Shorebird. It
+doesn't protect against someone who controls Shorebird itself. If you need that,
+use [self-managed signing](#self-managed-signing).
+
+| An attacker who...                                                                      | Managed       | Self-managed                                 | Unsigned      |
+| --------------------------------------------------------------------------------------- | ------------- | -------------------------------------------- | ------------- |
+| Controls your users' network, including with a fraudulent TLS certificate               | Protected     | Protected                                    | Not protected |
+| Can change patch files in storage or on the CDN, but not Shorebird's API                | Protected     | Protected                                    | Protected[^1] |
+| Compromises Shorebird's servers or signing service                                      | Not protected | Protected                                    | Not protected |
+| Compromises Google Cloud                                                                | Not protected | Protected                                    | Not protected |
+| Has your Shorebird credentials (an account, API key, or CI token) and publishes a patch | Not protected | Protected, unless they have your private key | Not protected |
+
+[^1]:
+    Your app already rejects a patch whose contents don't match the hash
+    Shorebird's API returned for it. Signing adds protection when the attacker
+    can also change what the API returns, as in the first row.
+
+In short, managed signing moves your app's trust from the network and every
+certificate authority your app trusts to Shorebird and Google. Self-managed
+signing removes Shorebird and Google from it too.
+
+### Switch to your own key
+
+To move an app from managed signing to your own key, make a new release with
+`--public-key-path` or `--public-key-cmd`, as in
+[Self-managed signing](#self-managed-signing). Releases you made with managed
+signing keep receiving signed patches. Managed keys can't be exported, so you
+can't take your existing managed key with you.
+
+### Turn signing off
+
+You can release without signing, though it leaves your app open to the attacks
+above:
+
+```sh
+shorebird release android --no-patch-signing
+```
+
+Patches to that release are unsigned, as before 1.6.132. You can't combine
+`--no-patch-signing` with `--public-key-path` or `--public-key-cmd`.
+
+## Self-managed signing
+
+With self-managed signing, you sign patches with your own key, so no one,
+including Shorebird, can change the content of your patches without your private
+key.
+
+Signing works in two parts. First, `shorebird release` takes a
+`--public-key-path` or `--public-key-cmd` argument to embed your public key in
+your released application. The
+[Shorebird updater](https://github.com/shorebirdtech/updater) only loads patches
+signed with the corresponding private key.
+
+Second, when you build your patch with `shorebird patch`, you pass
+`--private-key-path` or `--sign-cmd` to sign your patch with your private key.
+This is required for a release created with your public key.
 
 You will need an RSA key pair. Shorebird supports RSA keys in PEM format, both
 PKCS#1 and PKCS#8.
@@ -60,13 +163,14 @@ Shorebird credentials), it should not be checked into public source control.
 
 ### Key storage
 
-Shorebird does not provide a Key Storage solution at this time. If you are using
-this feature, using a cloud key management service instead of just storing keys
-on disk is highly recommended. **If for any reason you were to lose your private
-key, there is no way to create a patch for an application containing the
-corresponding public key.** Even Shorebird is not able to create a patch for
-your application without your private key. In such a case, you would need to
-make and distribute a new release of your application to send patches to it.
+If you don't want to store keys yourself, use
+[managed signing](#managed-signing). If you are using self-managed keys, using a
+cloud key management service instead of just storing keys on disk is highly
+recommended. **If for any reason you were to lose your private key, there is no
+way to create a patch for an application containing the corresponding public
+key.** Even Shorebird is not able to create a patch for your application without
+your private key. In such a case, you would need to make and distribute a new
+release of your application to send patches to it.
 
 Shorebird does support command-based signing for integration with cloud key
 management services (HashiCorp Vault, GCP Cloud KMS, AWS KMS, Azure Key Vault),
@@ -121,10 +225,11 @@ shorebird patch android --public-key-path /path/to/public.pem \
 
 This tells Shorebird to sign the patch with the key pair you provided.
 
-### Test and verify signed patch
+## Test and verify signed patch
 
-You can verify that the patch is properly signed using `shorebird preview`. On
-the first launch, you should see something like the following in your app logs:
+This works the same for managed and self-managed signing. You can verify that
+the patch is properly signed using `shorebird preview`. On the first launch, you
+should see something like the following in your app logs:
 
 ```
 05-22 23:47:51.645  6963  6994 I flutter : updater::updater: [shorebird] Patch 1 successfully downloaded. It will be launched when the app next restarts.
@@ -158,12 +263,13 @@ crash.
 
 ## Trade-offs
 
-Signature verification does add a small overhead at app launch. During testing
-this has been observed to be under 50ms with a medium-sized app on a 5-year-old
-Android phone. This overhead increases with application size. For very large
-apps, if this overhead shows up on your benchmarks, you can set
-`patch_verification: install_only` in `shorebird.yaml` to verify signatures only
-when patches are installed rather than on every launch.
+Signature verification, managed or self-managed, adds a small overhead at app
+launch. During testing this has been observed to be under 50ms with a
+medium-sized app on a 5-year-old Android phone. This overhead increases with
+application size. For very large apps, if this overhead shows up on your
+benchmarks, you can set `patch_verification: install_only` in `shorebird.yaml`
+to verify signatures only when patches are installed rather than on every
+launch.
 
 ## Cloud KMS examples
 

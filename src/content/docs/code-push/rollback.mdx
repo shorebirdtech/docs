@@ -228,13 +228,14 @@ rollback of a patch.
 separately from the patch and checked every time your patch is installed, or
 booted from on the user's device.
 
-Customers are also encouraged to use Shorebird's
-[patch-signing feature](/code-push/guides/patch-signing) to cryptographically
-sign patch files. This uses the same cryptographic algorithms used in the Google
-and Apple app stores. When enabled, your
-[public key](https://en.wikipedia.org/wiki/Public-key_cryptography) is included
-in your app bundle and a patch's signature is checked on every install and boot
-to ensure your app can never accept a patch file not signed by your secret key.
+Shorebird also [signs patches](/code-push/guides/patch-signing): releases made
+with Shorebird CLI 1.6.132 or later are signed by default with a key Shorebird
+manages for your organization, or you can sign with your own key. This uses the
+same cryptographic algorithms used in the Google and Apple app stores. A signed
+release includes a
+[public key](https://en.wikipedia.org/wiki/Public-key_cryptography) in your app
+bundle, and a patch's signature is checked before it's used, so your app never
+accepts a patch file that wasn't signed with the matching private key.
 
 Finally Shorebird's [updater](https://github.com/shorebirdtech/updater) includes
 automatic on-device rollback. If for any reason a patch's hash or signature does

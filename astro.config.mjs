@@ -280,7 +280,11 @@ Developer & Agent Interfaces:
           pageSeparator: llmsPageSeparator,
           // Strip heading anchor links from llms-full.txt and llms-small.txt
           // (see src/utils/heading-anchor.ts).
-          customSelectors: { all: [HEADING_ANCHOR_LINK_SELECTOR] },
+          customSelectors: {
+            all: [HEADING_ANCHOR_LINK_SELECTOR],
+            // Video links are no use in the minified bundle.
+            small: ['.demo-video'],
+          },
           // `exclude` only affects `llms-small.txt`, and `demote` lines
           // unlisted pages up for `stripUnlistedFromLlmsFull`.
           exclude: [...unlistedPages],

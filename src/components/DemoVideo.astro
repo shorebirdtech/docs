@@ -1,6 +1,7 @@
 ---
 import { existsSync } from 'node:fs';
-import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { publicDir } from 'astro:config/server';
 import sharp from 'sharp';
 
 interface Props {
@@ -13,15 +14,18 @@ const { name, title } = Astro.props;
 const src = `/videos/${name}.mp4`;
 const poster = `/videos/${name}.jpg`;
 
-// Fail the build on a misnamed video instead of shipping a player that 404s.
-if (!existsSync(path.join(process.cwd(), 'public', src))) {
-  throw new Error(`DemoVideo: public${src} does not exist`);
+// Fail the build on a missing video or poster instead of shipping a player
+// that 404s.
+for (const file of [src, poster]) {
+  if (!existsSync(new URL(`.${file}`, publicDir))) {
+    throw new Error(`DemoVideo: public${file} does not exist`);
+  }
 }
 
 // The poster is a frame of the video, so its size reserves the right box
 // before anything loads and the page doesn't jump.
 const { width, height } = await sharp(
-  path.join(process.cwd(), 'public', poster),
+  fileURLToPath(new URL(`.${poster}`, publicDir)),
 ).metadata();
 ---
 

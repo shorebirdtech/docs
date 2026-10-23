@@ -43,6 +43,7 @@ jobs:
     with:
       config: .cspell.yaml
       modified_files_only: false
+      includes: '**'
 
   style-check:
     runs-on: ubuntu-latest

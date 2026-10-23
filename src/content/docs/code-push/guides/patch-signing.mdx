@@ -20,9 +20,9 @@ with a key Shorebird manages for your organization. There are three modes:
 | [Self-managed](#self-managed-signing) | `--public-key-path` or `--public-key-cmd` on release, a private key on patch | You                                  |
 | [Unsigned](#turn-signing-off)         | `--no-patch-signing` on release                                              | No one: patches aren't signed at all |
 
-The mode is fixed when you release, because the public key is built into the
-release. To change it, make a new release. There are no changes to your code in
-any mode.
+The mode is fixed when you release each platform, because the public key is
+built into the release. To change it, make a new release. There are no changes
+to your code in any mode.
 
 Releases made with an older CLI, without a key, are unsigned. Patches to them
 stay unsigned and keep installing. To protect an app made that way, update the
@@ -48,16 +48,16 @@ Patch as usual with `shorebird patch`. Shorebird signs each patch for you.
 
 ### How it works
 
-- Each organization has one signing key, kept in
-  [Google Cloud KMS](https://cloud.google.com/kms/docs). It's created the first
-  time the organization makes a release with managed signing. The private key
-  never leaves KMS and can't be exported, by Shorebird or anyone else.
+- Shorebird creates a signing key for your organization in
+  [Google Cloud KMS](https://cloud.google.com/kms/docs) the first time
+  `shorebird release` needs one. The private key never leaves KMS: Cloud KMS
+  doesn't let anyone export it, including Shorebird.
 - `shorebird release` fetches the organization's public key from Shorebird and
   builds it into the release, the same way `--public-key-path` does.
-- `shorebird patch` builds the patch against that release's key. When the patch
-  is uploaded, Shorebird's servers sign it with the matching private key. A
-  patch to a managed release is never published unsigned: if it can't be signed,
-  the upload fails.
+- `shorebird patch` builds the patch with the same public key, so it matches the
+  release. When the patch is uploaded, Shorebird's servers sign it with the
+  matching private key. A patch to a managed release is never published
+  unsigned: if it can't be signed, the upload fails.
 - Each release keeps the key it was built with, and every patch to it is signed
   with that key.
 - Your app verifies signatures exactly as it does for self-managed keys. See
@@ -65,13 +65,14 @@ Patch as usual with `shorebird patch`. Shorebird signs each patch for you.
 
 Patching a managed release takes no key flags. If you pass `--public-key-path`,
 `--public-key-cmd`, `--private-key-path`, or `--sign-cmd`, `shorebird patch`
-stops before building and names the flags to remove. A CLI older than 1.6.132
+stops before uploading and names the flags to remove. A CLI older than 1.6.132
 can't patch a managed release; it tells you to run `shorebird upgrade`.
 
 If `shorebird release` can't get the signing key from Shorebird, the release
-fails rather than going out unsigned. Run it again, or, if you need to release
-before signing is available, [turn signing off](#turn-signing-off) for that
-release.
+fails rather than going out unsigned. Run it again. If you can't wait, you can
+[turn signing off](#turn-signing-off) for that release, but it stays unsigned
+for good: every patch to it is unsigned, and only a new release turns signing
+back on.
 
 ### What managed signing protects against
 
@@ -79,18 +80,18 @@ Managed signing protects against anyone between your users and Shorebird. It
 doesn't protect against someone who controls Shorebird itself. If you need that,
 use [self-managed signing](#self-managed-signing).
 
-| An attacker who...                                                                      | Managed       | Self-managed                                 | Unsigned      |
-| --------------------------------------------------------------------------------------- | ------------- | -------------------------------------------- | ------------- |
-| Controls your users' network, including with a fraudulent TLS certificate               | Protected     | Protected                                    | Not protected |
-| Can change patch files in storage or on the CDN, but not Shorebird's API                | Protected     | Protected                                    | Protected[^1] |
-| Compromises Shorebird's servers or signing service                                      | Not protected | Protected                                    | Not protected |
-| Compromises Google Cloud                                                                | Not protected | Protected                                    | Not protected |
-| Has your Shorebird credentials (an account, API key, or CI token) and publishes a patch | Not protected | Protected, unless they have your private key | Not protected |
+| An attacker who...                                                                      | Managed       | Self-managed                                  | Unsigned      |
+| --------------------------------------------------------------------------------------- | ------------- | --------------------------------------------- | ------------- |
+| Controls your users' network, including with a fraudulent TLS certificate               | Protected     | Protected                                     | Not protected |
+| Can change patch files in storage or on the CDN, but not Shorebird's API                | Protected     | Protected                                     | Protected     |
+| Compromises Shorebird's servers or signing service                                      | Not protected | Protected                                     | Not protected |
+| Compromises Google Cloud                                                                | Not protected | Protected, unless your key is in Google Cloud | Not protected |
+| Has your Shorebird credentials (an account, API key, or CI token) and publishes a patch | Not protected | Protected, unless they have your private key  | Not protected |
 
-[^1]:
-    Your app already rejects a patch whose contents don't match the hash
-    Shorebird's API returned for it. Signing adds protection when the attacker
-    can also change what the API returns, as in the first row.
+Unsigned apps are protected in the second row because your app already rejects a
+patch whose contents don't match the hash Shorebird's API returned for it.
+Signing adds protection when the attacker can also change what the API returns,
+as in the first row.
 
 In short, managed signing moves your app's trust from the network and every
 certificate authority your app trusts to Shorebird and Google. Self-managed
@@ -249,7 +250,8 @@ reason, Shorebird will not load it, and will instead use any previously
 installed and verifiable patch (if there is one) or the unpatched release
 version of your app.
 
-If you'd like to test the missing signature behavior, you can create a patch
+With self-managed signing, you can also test the missing signature behavior
+(managed releases refuse these patches before they're published). Create a patch
 without a private key and notice that `shorebird preview` rejects it. Similarly,
 you can create a patch with a different private key to do the same.
 

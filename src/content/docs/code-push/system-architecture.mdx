@@ -185,9 +185,9 @@ The hash is not meant to be a security feature, but rather a way to detect
 errors in the patch diff. A common error is developers running
 `shorebird release` with one source and then actually building and releasing a
 different binary, resulting in invalid patches. This hash helps detect such
-errors. For added security, there's also a way for you to
-[sign your patches](/code-push/guides/patch-signing/) if needed as per your
-security requirements.
+errors. For security, Shorebird
+[signs your patches](/code-push/guides/patch-signing/) by default, or you can
+sign them with your own key.
 
 The modified Flutter engine also reports patch events back to Shorebird's
 servers: when a patch finishes downloading, when it first launches successfully,

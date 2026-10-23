@@ -301,28 +301,25 @@ track configuration in full.
 
 ### Patch signing
 
-Patch signing ensures that only code you explicitly authorize can run on your
-users’ devices. Each patch is signed with a private key that you generate and
-control. The Shorebird runtime verifies this signature on-device before applying
-an update. If the signature doesn’t match, the patch is rejected.
+Patch signing ensures that only signed code can run on your users’ devices. The
+Shorebird runtime verifies each patch's signature on-device before applying it.
+If the signature doesn’t match, the patch is rejected.
 
-This follows the same model used by app stores, where code must be signed by a
-trusted key before it is allowed to run. In this case, you control that key.
-Shorebird never has access to it, and neither does any infrastructure involved
-in delivering the patch.
-
-Because verification happens on the device, a patch cannot be applied unless it
-was signed by your key. Even in unlikely scenarios, like a compromised CDN,
-upstream provider, or delivery network, an attacker still wouldn’t be able to
-ship a valid patch without your signing key.
+New releases are signed by default with a key Shorebird manages for your
+organization in Google Cloud KMS, so an attacker on the network or the delivery
+path can't ship a valid patch. You can instead sign with a private key that you
+generate and control, so that Shorebird never has access to it. This follows the
+same model used by app stores, where code must be signed by a trusted key before
+it is allowed to run. The
+[patch signing guide](/code-push/guides/patch-signing/#what-managed-signing-protects-against)
+compares what each protects against.
 
 Transport security like TLS protects how patches are delivered. Patch signing
 protects what is delivered. Together, they ensure that patches arrive securely
 and haven’t been tampered with.
 
 For teams in fintech, healthcare, or any regulated industry where code changes
-require an audit trail, patch signing is the recommended baseline configuration,
-not an optional extra.
+require an audit trail, signing with your own key is the recommended baseline.
 
 ## App Store and Play Store compliance
 

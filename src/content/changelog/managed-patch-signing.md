@@ -1,5 +1,5 @@
 ---
-title: Patches are signed by default
+title: New releases are signed by default
 date: 2026-10-26
 version: 1.6.132
 area: Code Push
@@ -21,7 +21,8 @@ your app. Update the CLI and make a new release to turn it on.
   Shorebird out of your trust base, sign with your own key instead, with
   `--public-key-path` or `--public-key-cmd`.
 - `--no-patch-signing` releases without signing, which isn't recommended.
-- Releases made before this stay unsigned, and patches to them keep installing.
+- Releases made before this without your own key stay unsigned, and patches to
+  them keep installing.
 - A CLI older than 1.6.132 can't patch a release signed this way; run
   `shorebird upgrade`.
 

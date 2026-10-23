@@ -14,6 +14,11 @@ const { name, title } = Astro.props;
 const src = `/videos/${name}.mp4`;
 const poster = `/videos/${name}.jpg`;
 
+// Keep `name` URL-safe so the file checked below is the one that's served.
+if (!/^[a-z0-9-]+$/.test(name)) {
+  throw new Error(`DemoVideo: name "${name}" must be lowercase kebab-case`);
+}
+
 const fileIn = (file: string) => new URL(`.${file}`, publicDir);
 
 // Fail the build on a missing video or poster instead of shipping a player

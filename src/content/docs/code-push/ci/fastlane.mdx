@@ -35,10 +35,10 @@ the App Store/TestFlight.
 Notice that the demo app's
 [`Fastfile`](https://github.com/shorebirdtech/samples/blob/main/fastlane_demo/ios/fastlane/Fastfile)
 has a `release_shorebird` lane. It uses the `shorebird_release` action **in
-place of** the guide's `build_app` to build an ipa, create a Shorebird release,
-and submit it to the App Store/TestFlight.
+place of** the guide's `build_app` to build an ipa and create a Shorebird
+release, then submits it to the App Store/TestFlight with `upload_to_app_store`.
 
-Note that this change from `build_app` to `release_shorebird` is the only change
+Note that this change from `build_app` to `shorebird_release` is the only change
 needed to add Shorebird to your fastlane workflow.
 
 ### Patching
